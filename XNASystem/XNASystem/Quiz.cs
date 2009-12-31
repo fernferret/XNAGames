@@ -15,5 +15,17 @@ namespace XNASystem
 {
     class Quiz
     {
+        // The listing of the currently loaded questions
+        List<Question> QList;
+
+        public void loadQuestions()
+        {
+            //TODO: Load the questions from the current booklet into the quiz.
+        }
+
+        public void showQuestion()
+        {
+            //TODO: Display the current question to the user
+        }
     }
 }
