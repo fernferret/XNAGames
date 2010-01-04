@@ -9,9 +9,9 @@ namespace XNASystem
         /// </summary>
         static void Main(string[] args)
         {
-            using (SystemMenu menu = new SystemMenu())
+            using (SystemInstance instance = new SystemInstance())
             {
-                menu.Run();
+                instance.Run();
             }
         }
     }

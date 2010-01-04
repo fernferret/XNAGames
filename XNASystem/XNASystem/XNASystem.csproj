@@ -72,10 +72,8 @@
     <Compile Include="Quiz.cs" />
     <Compile Include="QuizGameLoop.cs" />
     <Compile Include="Score.cs" />
-    <Compile Include="ScoreViewer.cs" />
+    <Compile Include="SystemInstance.cs" />
     <Compile Include="SystemMain.cs" />
-    <Compile Include="SystemMenu.cs" />
-    <Compile Include="SystemOptions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="GameThumbnail.png" />

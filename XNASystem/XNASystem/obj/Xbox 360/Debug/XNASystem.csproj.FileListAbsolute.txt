@@ -1,0 +1,6 @@
+C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNAGames\XNASystem\XNASystem\bin\Xbox 360\Debug\XNASystem.exe
+C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNAGames\XNASystem\XNASystem\bin\Xbox 360\Debug\XNASystem.pdb
+C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNAGames\XNASystem\XNASystem\obj\Xbox 360\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNAGames\XNASystem\XNASystem\obj\Xbox 360\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNAGames\XNASystem\XNASystem\obj\Xbox 360\Debug\XNASystem.exe
+C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNAGames\XNASystem\XNASystem\obj\Xbox 360\Debug\XNASystem.pdb

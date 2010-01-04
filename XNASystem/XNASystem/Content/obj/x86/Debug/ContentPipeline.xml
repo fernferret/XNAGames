@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
+  <Asset Type="Pipeline:BuildItemCollection">
+    <BuildSuccessful>true</BuildSuccessful>
+    <Settings>
+      <TargetPlatform>Windows</TargetPlatform>
+      <BuildConfiguration>Debug</BuildConfiguration>
+      <CompressContent>false</CompressContent>
+      <RootDirectory>C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNAGames\XNASystem\XNASystem\Content\</RootDirectory>
+      <LoggerRootDirectory>C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNAGames\XNASystem\XNASystem\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNAGames\XNASystem\XNASystem\Content\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNAGames\XNASystem\XNASystem\bin\x86\Debug\Content\</OutputDirectory>
+    </Settings>
+    <Assemblies>
+      <Assembly>
+        <Key>C:\WINDOWS\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\3.1.0.0__6d5c3888ef60e27d\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2009-12-31T03:58:15.6875-05:00</Value>
+      </Assembly>
+    </Assemblies>
+  </Asset>
+</XnaContent>
