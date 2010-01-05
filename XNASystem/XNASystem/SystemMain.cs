@@ -16,7 +16,8 @@ enum MenuAction
     ShowOptions,
     ShowQuiz,
     ShowGame,
-    ShowScores
+    ShowScores,
+    Return
 }
 namespace XNASystem
 {
@@ -47,9 +48,9 @@ namespace XNASystem
             _graphics = new GraphicsDeviceManager(this);
             _menuList.Add(new Menu("Welcome to the XNA Game System", new List<MenuItem>
                                                                          {
-                                                                             new MenuItem("Take Quiz", MenuAction.ShowMain),
+                                                                             new MenuItem("Take Quiz", MenuAction.ShowQuiz),
                                                                               new MenuItem("Change Options", MenuAction.ShowOptions),
-                                                                              new MenuItem("View Scores", MenuAction.ShowMain)
+                                                                              new MenuItem("View Scores", MenuAction.ShowScores)
                                                                          }));
 
             Content.RootDirectory = "Content";
@@ -130,6 +131,9 @@ namespace XNASystem
                         RemoveAllButMain();
                         break;
                     case MenuAction.ShowGame:
+                        _menuList.Add(new Menu("Boom...Game! (NYI)", new List<MenuItem>{
+                                                                             new MenuItem("Return", MenuAction.Return)
+                                                                         }));
                         break;
                     case MenuAction.ShowOptions:
                         _menuList.Add(new Menu("Options Screen (NYI)", new List<MenuItem>
@@ -141,8 +145,17 @@ namespace XNASystem
                                                                          }));
                         break;
                     case MenuAction.ShowQuiz:
+                        _menuList.Add(new Menu("YeeHaa...Quiz! (NYI)", new List<MenuItem>(){
+                                                                             new MenuItem("Return", MenuAction.Return)
+                                                                         }));
                         break;
                     case MenuAction.ShowScores:
+                        _menuList.Add(new Menu("BooYaa...Scores! (NYI)", new List<MenuItem>(){
+                                                                             new MenuItem("Return", MenuAction.Return)
+                                                                         }));
+                        break;
+                    case MenuAction.Return:
+                        PopMenu();
                         break;
                     default:
                         break;
@@ -162,6 +175,11 @@ namespace XNASystem
             }
             _menuList.Last().SetSelectedItem(_choice);
             base.Update(gameTime);
+        }
+
+        private void PopMenu()
+        {
+            _menuList.RemoveAt(_menuList.Count - 1);
         }
 
         private void RemoveAllButMain()
