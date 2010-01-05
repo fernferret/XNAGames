@@ -149,6 +149,7 @@ namespace XNASystem
                                                                          }));
                         break;
                     case MenuAction.ShowQuiz:
+                        _menuList.Add(_qLoad.SelectBooklet());
                         break;
                     case MenuAction.ShowScores:
                         break;

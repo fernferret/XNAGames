@@ -25,5 +25,10 @@ namespace XNASystem
         {
             return _booklet;
         }
+
+        internal Menu SelectBooklet()
+        {
+            //return new Menu("Select Booklet",new List<MenuItem>{new MenuItem()});
+        }
     }
 }
