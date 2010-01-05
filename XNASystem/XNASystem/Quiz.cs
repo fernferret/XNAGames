@@ -1,31 +1,35 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Net;
-using Microsoft.Xna.Framework.Storage;
 
 namespace XNASystem
 {
     class Quiz
     {
         // The listing of the currently loaded questions
-        List<Question> QList;
-
-        public void loadQuestions()
+        List<Question> _qList;
+        private String _title;
+        private int _currentQuestion;
+        public Quiz(String title)
         {
-            //TODO: Load the questions from the current booklet into the quiz.
+            _title = title;
+            _currentQuestion = 0;
+            _qList = new List<Question>();
+        }
+        public Quiz(String title, List<Question> qlist)
+        {
+            _title = title;
+            _qList = qlist;
         }
 
-        public void showQuestion()
+        public Question ShowQuestion()
         {
-            //TODO: Display the current question to the user
+            var q = _qList[_currentQuestion];
+            _currentQuestion++;
+            return q;
+        }
+        public void RestartQuiz()
+        {
+            _currentQuestion = 0;
         }
     }
 }

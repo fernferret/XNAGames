@@ -41,6 +41,7 @@ namespace XNASystem
         int _down = 1;
         int _choice = 0;
         private int _enter = 1;
+        private QuestionLoader _qLoad;
 
         public SystemMain()
         {
@@ -53,6 +54,13 @@ namespace XNASystem
                                                                          }));
 
             Content.RootDirectory = "Content";
+            _qLoad = new QuestionLoader(new Booklet("Test Questions", new List<Quiz>
+                                                         {
+                                                             new Quiz("Test", new List<Question>
+                                                                                  {
+                                                                                      new Question("Test",new List<string>{"Wrong","Correct","Wrong","Wrong"},1 )
+                                                                                  })
+                                                         }));
         }
 
         /// <summary>
