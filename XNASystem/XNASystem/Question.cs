@@ -6,19 +6,21 @@ namespace XNASystem
     public class Question
     {
         private readonly List<Answer> _answers = new List<Answer>();
-        public Question(String q, List<String> a)
+        public Question(String q, List<String> a, int correct)
         {
             Question1 = q;
+            var i = 0;
             foreach (var o in a)
             {
-                if (o.Contains("*Answer*"))
+                if (i == correct)
                 {
-                    _answers.Add(new Answer(o.Remove(0, 8), true));
+                    _answers.Add(new Answer(o, true));
                 }
                 else
                 {
                     _answers.Add(new Answer(o, false));
                 }
+                i++;
             }
         }
 
