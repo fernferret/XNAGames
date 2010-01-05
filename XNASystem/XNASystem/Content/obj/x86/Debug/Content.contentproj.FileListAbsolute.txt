@@ -1,1 +1,2 @@
 C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNAGames\XNASystem\XNASystem\Content\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNASystem\XNASystem\Content\obj\x86\Debug\ResolveAssemblyReference.cache

@@ -7,8 +7,8 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNAGames\XNASystem\XNASystem\bin\x86\Debug\Content\Fonts\Arial.xnb</Output>
-      <Time>2010-01-04T21:13:47.8465883-05:00</Time>
+      <Output>C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNASystem\XNASystem\bin\x86\Debug\Content\Fonts\Arial.xnb</Output>
+      <Time>2010-01-05T00:28:33.0333785-05:00</Time>
     </Item>
     <Item>
       <Source>Sprites\box.PNG</Source>
@@ -16,18 +16,18 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNAGames\XNASystem\XNASystem\bin\x86\Debug\Content\Sprites\box.xnb</Output>
-      <Time>2010-01-04T21:13:55.5171376-05:00</Time>
+      <Output>C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNASystem\XNASystem\bin\x86\Debug\Content\Sprites\box.xnb</Output>
+      <Time>2010-01-05T00:28:33.0333785-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNAGames\XNASystem\XNASystem\Content\</RootDirectory>
-      <LoggerRootDirectory>C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNAGames\XNASystem\XNASystem\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNAGames\XNASystem\XNASystem\Content\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNAGames\XNASystem\XNASystem\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNASystem\XNASystem\Content\</RootDirectory>
+      <LoggerRootDirectory>C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNASystem\XNASystem\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNASystem\XNASystem\Content\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNASystem\XNASystem\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
