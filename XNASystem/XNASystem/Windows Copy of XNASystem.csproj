@@ -57,28 +57,30 @@
   <ItemGroup>
     <Compile Include="Answer.cs" />
     <Compile Include="Booklet.cs" />
+    <Compile Include="Menu.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MenuItem.cs" />
+    <Compile Include="SystemMain.cs" />
+    <Compile Include="gameState.cs" />
+    <Compile Include="MainMenu.cs" />
+    <Compile Include="OptionsMenu.cs" />
     <Compile Include="PowerUp.cs" />
     <Compile Include="PowerUpManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Question.cs" />
     <Compile Include="Quiz.cs" />
-    <Compile Include="QuizGameLoop.cs" />
     <Compile Include="Score.cs" />
-    <Compile Include="SystemMain.cs" />
-    <Compile Include="SystemInstance.cs" />
+    <Compile Include="EntryPoint.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="GameThumbnail.png" />
-    <Content Include="Sprites\box.PNG" />
   </ItemGroup>
   <ItemGroup>
     <NestedContentProject Include="Content\Content.contentproj">
       <Project>3bc53bee-4382-46d5-af3f-5b0aa545d458</Project>
       <Visible>False</Visible>
     </NestedContentProject>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Fonts\Arial.spritefont" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xna.Framework, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=x86">

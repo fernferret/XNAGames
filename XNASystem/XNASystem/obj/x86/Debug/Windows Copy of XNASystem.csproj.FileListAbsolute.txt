@@ -4,3 +4,5 @@ C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNAGames\XNASystem\XNASys
 C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNAGames\XNASystem\XNASystem\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNAGames\XNASystem\XNASystem\obj\x86\Debug\XNASystem.exe
 C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNAGames\XNASystem\XNASystem\obj\x86\Debug\XNASystem.pdb
+C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNAGames\XNASystem\XNASystem\bin\x86\Debug\Content\Fonts\Arial.xnb
+C:\Documents and Settings\kruthar\Desktop\Git\XNAGames\XNAGames\XNASystem\XNASystem\bin\x86\Debug\Content\Sprites\box.xnb
