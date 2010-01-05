@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XNASystem", "XNASystem\XNASystem.csproj", "{DC3A71E1-E462-4C63-937F-B25BDB915237}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Windows Copy (5) of XNASystem", "XNASystem\Windows Copy (5) of XNASystem.csproj", "{24EDC2DD-DB2B-47D3-BD22-6F0FF6E753B1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -35,16 +33,6 @@ Global
 		{3BC53BEE-4382-46D5-AF3F-5B0AA545D458}.Release|Mixed Platforms.ActiveCfg = Release|Xbox 360
 		{3BC53BEE-4382-46D5-AF3F-5B0AA545D458}.Release|x86.ActiveCfg = Release|Xbox 360
 		{3BC53BEE-4382-46D5-AF3F-5B0AA545D458}.Release|Xbox 360.ActiveCfg = Release|Xbox 360
-		{24EDC2DD-DB2B-47D3-BD22-6F0FF6E753B1}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{24EDC2DD-DB2B-47D3-BD22-6F0FF6E753B1}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{24EDC2DD-DB2B-47D3-BD22-6F0FF6E753B1}.Debug|x86.ActiveCfg = Debug|x86
-		{24EDC2DD-DB2B-47D3-BD22-6F0FF6E753B1}.Debug|x86.Build.0 = Debug|x86
-		{24EDC2DD-DB2B-47D3-BD22-6F0FF6E753B1}.Debug|Xbox 360.ActiveCfg = Debug|x86
-		{24EDC2DD-DB2B-47D3-BD22-6F0FF6E753B1}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{24EDC2DD-DB2B-47D3-BD22-6F0FF6E753B1}.Release|Mixed Platforms.Build.0 = Release|x86
-		{24EDC2DD-DB2B-47D3-BD22-6F0FF6E753B1}.Release|x86.ActiveCfg = Release|x86
-		{24EDC2DD-DB2B-47D3-BD22-6F0FF6E753B1}.Release|x86.Build.0 = Release|x86
-		{24EDC2DD-DB2B-47D3-BD22-6F0FF6E753B1}.Release|Xbox 360.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
