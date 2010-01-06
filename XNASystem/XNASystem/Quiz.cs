@@ -72,6 +72,7 @@ namespace XNASystem
 
         public Status GetStatus()
         {
+            CheckStatus();
             return _status;
         }
 
@@ -82,12 +83,17 @@ namespace XNASystem
 
         public bool Reset()
         {
-            if (_status == Status.InProgress)
-            {
+            //if (_status == Status.InProgress)
+            //{
                 _openItem = _questionList[0];
-                return true;
+            foreach (var question in _questionList)
+            {
+                question.Reset();
             }
-            return false;
+            _status = Status.NotStarted;
+                return true;
+            //}
+            //return false;
         }
 
         internal Menu MenuOf(bool advance)

@@ -143,6 +143,7 @@ namespace XNASystem
                             AddOptionsMenu();
                             break;
                         case MenuAction.ShowQuiz:
+                            _booklet.Reset();
                             _menuList.Add(_booklet.AdvanceQuestion());
                             break;
                         case MenuAction.ShowScores:
@@ -154,9 +155,28 @@ namespace XNASystem
                 else if(item.GetType() == typeof(QuestionItem))
                 {
                     ((QuestionItem)item).AnswerQuestion();
-                    _menuList.Add(_booklet.AdvanceQuestion());
+                    if (!_booklet.DoneWithQuiz())
+                    {
+                        _menuList.Add(_booklet.AdvanceQuestion());
+                        _menuList.RemoveAt(_menuList.Count - 2);
+                    }
+                    else
+                    {
+                        if(_booklet.AdvanceQuiz())
+                        {
+                            _menuList.Add(_booklet.AdvanceQuestion());
+                            _booklet.ResetQuizAdvance();
+                            _menuList.RemoveAt(_menuList.Count - 2);
+                        }
+                        else
+                        {
+                            // Special case for leaving main menu in
+                            _menuList.RemoveAt(_menuList.Count - 1);
+                        }
+
+                    }
                     // Remove the prior Question
-                    _menuList.RemoveAt(_menuList.Count-2);
+                    
                     //_booklet.AdvanceQuestion();
                 }
                 

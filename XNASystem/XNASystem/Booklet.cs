@@ -10,7 +10,7 @@ namespace XNASystem
         private readonly String _title;
         private Quiz _openItem;
         private Status _status = Status.NotStarted;
-
+        private bool _didAdvance;
         public Booklet(String title)
         {
             _title = title;
@@ -31,12 +31,13 @@ namespace XNASystem
                 return _quizList[_quizList.IndexOf(_openItem)];
             }
             // Else return the next one
+            _didAdvance = true;
             return _quizList[_quizList.IndexOf(_openItem)+1];
         }
 
         private bool CheckStatus()
         {
-            if (_quizList.IndexOf(_openItem) < GetItemCount())
+            if (_quizList.IndexOf(_openItem) < GetItemCount()-1)
             {
                 return true;
             }
@@ -81,21 +82,43 @@ namespace XNASystem
 
         public bool Reset()
         {
-            if (_status == Status.InProgress)
-            {
+            // For now, only allow reset if we're completed
+            //if (_status == Status.Completed)
+            //{
                 _openItem = _quizList[0];
-                return true;
+            foreach (var quiz in _quizList)
+            {
+                quiz.Reset();
             }
-            return false;
+            _status = Status.NotStarted;
+                return true;
+            //}
+            //return false;
         }
 
         internal Menu AdvanceQuestion()
         {
             return GetOpenItem(false).MenuOf(true);
         }
-        internal void AdvanceQuiz()
+        internal bool AdvanceQuiz()
         {
+            _status = Status.Completed;
             GetOpenItem(true);
+            return _didAdvance;
+        }
+
+        internal bool DoneWithQuiz()
+        {
+            if(GetOpenItem(false).GetStatus() == Status.Completed)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        internal void ResetQuizAdvance()
+        {
+            _didAdvance = false;
         }
     }
 }

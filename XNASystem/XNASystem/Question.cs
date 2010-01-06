@@ -55,5 +55,10 @@ namespace XNASystem
             }
             return false;
         }
+
+        internal void Reset()
+        {
+            _hasAnswer = false;
+        }
     }
 }
