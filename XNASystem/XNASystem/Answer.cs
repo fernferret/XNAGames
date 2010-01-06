@@ -17,5 +17,10 @@ namespace XNASystem
         {
             return _correct;
         }
+
+        public new String ToString()
+        {
+            return TheAnswer;
+        }
     }
 }
