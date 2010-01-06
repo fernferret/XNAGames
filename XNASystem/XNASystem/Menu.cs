@@ -8,10 +8,10 @@ namespace XNASystem
     class Menu
     {
         private readonly String _title;
-        private readonly List<MenuItem> _items;
-        private MenuItem _selected;
+        private readonly List<IMenuItem> _items;
+        private IMenuItem _selected;
 
-        public Menu(string title, List<MenuItem> items)
+        public Menu(string title, List<IMenuItem> items)
         {
             _title = title;
             _items = items;
@@ -28,12 +28,12 @@ namespace XNASystem
             return _title;
         }
 
-        internal IEnumerable<MenuItem> GetItems()
+        internal IEnumerable<IMenuItem> GetItems()
         {
             return _items;
         }
 
-        internal MenuItem GetSelectedItem()
+        internal IMenuItem GetSelectedItem()
         {
             return _selected;
         }

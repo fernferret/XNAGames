@@ -1,15 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Net;
-using Microsoft.Xna.Framework.Storage;
 enum MenuAction
 {
     ShowMain,
@@ -18,6 +11,13 @@ enum MenuAction
     ShowGame,
     ShowScores,
     Return
+}
+enum Status
+{
+    NotStarted,
+    InProgress,
+    Completed,
+    Error
 }
 namespace XNASystem
 {
@@ -42,15 +42,19 @@ namespace XNASystem
         int _down = 1;
         int _choice = 0;
         private int _enter = 1;
+        private QuestionLoader _qLoad;
+        private Booklet _booklet;
 
         public SystemMain()
         {
             _graphics = new GraphicsDeviceManager(this);
-            _menuList.Add(new Menu("Welcome to the XNA Game System", new List<MenuItem>
+            _qLoad = new QuestionLoader();
+            _booklet = _qLoad.PopulateSystem();
+            _menuList.Add(new Menu("Welcome to the XNA Game System", new List<IMenuItem>
                                                                          {
-                                                                             new MenuItem("Take Quiz", MenuAction.ShowQuiz),
-                                                                              new MenuItem("Change Options", MenuAction.ShowOptions),
-                                                                              new MenuItem("View Scores", MenuAction.ShowScores)
+                                                                             new NavItem("Take Quiz", MenuAction.ShowQuiz),
+                                                                             new NavItem("Change Options", MenuAction.ShowOptions),
+                                                                             new NavItem("View Scores", MenuAction.ShowMain)
                                                                          }));
 
             Content.RootDirectory = "Content";
@@ -124,42 +128,71 @@ namespace XNASystem
             {
                 _enter = 1;
                 _choice = 0;
-                var action = _menuList.Last().GetSelectedItem().Action;
-                switch (action)
+                var item = _menuList.Last().GetSelectedItem();
+                
+                if(item.GetType() == typeof(NavItem))
                 {
-                    case MenuAction.ShowMain:
-                        RemoveAllButMain();
-                        break;
-                    case MenuAction.ShowGame:
-                        _menuList.Add(new Menu("Boom...Game! (NYI)", new List<MenuItem>{
-                                                                             new MenuItem("Return", MenuAction.Return)
-                                                                         }));
-                        break;
-                    case MenuAction.ShowOptions:
-                        _menuList.Add(new Menu("Options Screen (NYI)", new List<MenuItem>
-                                                                         {
-                                                                             new MenuItem("Some Sweet Option", MenuAction.ShowMain),
-                                                                              new MenuItem("Color Jazz", MenuAction.ShowMain),
-                                                                              new MenuItem("The Greatest Option in the World", MenuAction.ShowMain),
-                                                                              new MenuItem("Return Home", MenuAction.ShowMain)
-                                                                         }));
-                        break;
-                    case MenuAction.ShowQuiz:
-                        _menuList.Add(new Menu("YeeHaa...Quiz! (NYI)", new List<MenuItem>(){
-                                                                             new MenuItem("Return", MenuAction.Return)
-                                                                         }));
-                        break;
-                    case MenuAction.ShowScores:
-                        _menuList.Add(new Menu("BooYaa...Scores! (NYI)", new List<MenuItem>(){
-                                                                             new MenuItem("Return", MenuAction.Return)
-                                                                         }));
-                        break;
-                    case MenuAction.Return:
-                        PopMenu();
-                        break;
-                    default:
-                        break;
+                    var action = ((NavItem)item).GetAction();
+                    switch (action)
+                    {
+                        case MenuAction.ShowMain:
+                            RemoveAllButMain();
+                            break;
+                        case MenuAction.ShowGame:
+                            _menuList.Add(new Menu("Boom...Game! (NYI)", new List<IMenuItem>
+                                                                             {
+                                                                                 new NavItem("Return", MenuAction.Return)
+                                                                             }));
+                            break;
+                        case MenuAction.ShowOptions:
+                            ShowOptionsMenu();
+                            break;
+                        case MenuAction.ShowQuiz:
+                            _booklet.Reset();
+                            _menuList.Add(_booklet.AdvanceQuestion());
+                            break;
+                        case MenuAction.ShowScores:
+                            _menuList.Add(new Menu("BooYaa...Scores! (NYI)", new List<IMenuItem>()
+                                                                                 {
+                                                                                     new NavItem("Return",
+                                                                                                 MenuAction.Return)
+                                                                                 }));
+                            break;
+                        case MenuAction.Return:
+                            PopMenu();
+                            break;
+                        default:
+                            break;
+                    }
                 }
+                else if(item.GetType() == typeof(QuestionItem))
+                {
+                    ((QuestionItem)item).AnswerQuestion();
+                    if (!_booklet.DoneWithQuiz())
+                    {
+                        _menuList.Add(_booklet.AdvanceQuestion());
+                        _menuList.RemoveAt(_menuList.Count - 2);
+                    }
+                    else
+                    {
+                        if(_booklet.AdvanceQuiz())
+                        {
+                            _menuList.Add(_booklet.AdvanceQuestion());
+                            _booklet.ResetQuizAdvance();
+                            _menuList.RemoveAt(_menuList.Count - 2);
+                        }
+                        else
+                        {
+                            // Special case for leaving main menu in
+                            PopMenu();
+                        }
+
+                    }
+                    // Remove the prior Question
+                    
+                    //_booklet.AdvanceQuestion();
+                }
+                
             }
             if (state.IsKeyUp(Keys.Enter))
             {
@@ -177,9 +210,22 @@ namespace XNASystem
             base.Update(gameTime);
         }
 
+
         private void PopMenu()
         {
             _menuList.RemoveAt(_menuList.Count - 1);
+        }
+
+        private void ShowOptionsMenu()
+        {
+            _menuList.Add(new Menu("Options Screen (NYI)", new List<IMenuItem>
+                                                               {
+                                                                   new NavItem("Some Sweet Option", MenuAction.ShowMain),
+                                                                   new NavItem("Color Jazz", MenuAction.ShowMain),
+                                                                   new NavItem("The Greatest Option in the World", MenuAction.ShowMain),
+                                                                   new NavItem("Return Home", MenuAction.ShowMain)
+                                                               }));
+
         }
 
         private void RemoveAllButMain()

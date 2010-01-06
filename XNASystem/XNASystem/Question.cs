@@ -6,23 +6,14 @@ namespace XNASystem
     public class Question
     {
         private readonly List<Answer> _answers = new List<Answer>();
-        public Question(String q, List<String> a)
+        private bool _hasAnswer;
+        public Question(String q, List<Answer> a)
         {
-            Question1 = q;
-            foreach (var o in a)
-            {
-                if (o.Contains("*Answer*"))
-                {
-                    _answers.Add(new Answer(o.Remove(0, 8), true));
-                }
-                else
-                {
-                    _answers.Add(new Answer(o, false));
-                }
-            }
+            Title = q;
+            _answers = a;
         }
 
-        public string Question1 { get; private set; }
+        public string Title { get; private set; }
 
         public Answer GetCorrectAnswer()
         {
@@ -35,9 +26,39 @@ namespace XNASystem
             }
             return null;
         }
+
         public List<Answer> GetAllAnswers()
         {
             return _answers;
+        }
+
+        internal Menu GetAsMenu()
+        {
+            var questionItems = new List<IMenuItem>
+                                    {
+                                        new QuestionItem(_answers[0]),
+                                        new QuestionItem(_answers[1]),
+                                        new QuestionItem(_answers[2]),
+                                        new QuestionItem(_answers[3])
+                                    };
+            return new Menu(Title,questionItems);
+        }
+
+        public bool HasAnswer()
+        {
+            foreach (var answer in _answers)
+            {
+                if(answer.HasBeenAnswered())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        internal void Reset()
+        {
+            _hasAnswer = false;
         }
     }
 }
