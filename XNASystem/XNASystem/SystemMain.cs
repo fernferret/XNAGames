@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+// Enumeration that specifies various Menu Actions
 enum MenuAction
 {
     ShowMain,
@@ -12,6 +13,7 @@ enum MenuAction
     ShowScores,
     Return
 }
+// Enumeration that specifies the status of a quiz/booklet
 enum Status
 {
     NotStarted,
@@ -24,7 +26,7 @@ namespace XNASystem
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class SystemMain : Microsoft.Xna.Framework.Game
+    public class SystemMain : Game
     {
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
@@ -36,15 +38,26 @@ namespace XNASystem
         Texture2D _box;
 
         // stack of menus being drawn
-        List<Menu> _menuList = new List<Menu>();
+        readonly List<Menu> _menuList = new List<Menu>();
 
-        int _up = 1;
-        int _down = 1;
-        int _choice = 0;
+        // Set of variables to initialize button debounce
+        // these are required so when a user preses enter
+        // only one menu choice gets pressed
+        private int _up = 1;
+        private int _down = 1;
         private int _enter = 1;
-        private QuestionLoader _qLoad;
-        private Booklet _booklet;
 
+        // Current Choice in a menu, gets cached for users
+        private int _choice;
+
+        // Question loader that will preload all quizzes in
+        // a booklet
+        private readonly QuestionLoader _qLoad;
+
+        // The target booklet to dump data into
+        private readonly Booklet _booklet;
+
+        // System Constructor, performs initialization
         public SystemMain()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -58,17 +71,6 @@ namespace XNASystem
                                                                          }));
 
             Content.RootDirectory = "Content";
-        }
-
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
-        protected override void Initialize()
-        {
-            base.Initialize();
         }
 
         /// <summary>
@@ -104,7 +106,7 @@ namespace XNASystem
         protected override void Update(GameTime gameTime)
         {
             var items = _menuList.Last().GetNum();
-            KeyboardState state = Keyboard.GetState();
+            var state = Keyboard.GetState();
             
             if(state.IsKeyDown(Keys.Up) && _up != 1)
             {
@@ -127,6 +129,8 @@ namespace XNASystem
             if (state.IsKeyDown(Keys.Enter) && _enter != 1)
             {
                 _enter = 1;
+
+                // Reinitialize choice upon menu change
                 _choice = 0;
                 var item = _menuList.Last().GetSelectedItem();
                 
@@ -139,10 +143,7 @@ namespace XNASystem
                             RemoveAllButMain();
                             break;
                         case MenuAction.ShowGame:
-                            _menuList.Add(new Menu("Boom...Game! (NYI)", new List<IMenuItem>
-                                                                             {
-                                                                                 new NavItem("Return", MenuAction.Return)
-                                                                             }));
+                            ShowGameMenu();
                             break;
                         case MenuAction.ShowOptions:
                             ShowOptionsMenu();
@@ -152,11 +153,7 @@ namespace XNASystem
                             _menuList.Add(_booklet.AdvanceQuestion());
                             break;
                         case MenuAction.ShowScores:
-                            _menuList.Add(new Menu("BooYaa...Scores! (NYI)", new List<IMenuItem>()
-                                                                                 {
-                                                                                     new NavItem("Return",
-                                                                                                 MenuAction.Return)
-                                                                                 }));
+                            ShowScoreMenu();
                             break;
                         case MenuAction.Return:
                             PopMenu();
@@ -179,20 +176,16 @@ namespace XNASystem
                         {
                             _menuList.Add(_booklet.AdvanceQuestion());
                             _booklet.ResetQuizAdvance();
+                            // Remove the prior Question
                             _menuList.RemoveAt(_menuList.Count - 2);
                         }
                         else
                         {
-                            // Special case for leaving main menu in
+                            // Special case for leaving only main menu in
                             PopMenu();
                         }
-
                     }
-                    // Remove the prior Question
-                    
-                    //_booklet.AdvanceQuestion();
                 }
-                
             }
             if (state.IsKeyUp(Keys.Enter))
             {
@@ -210,6 +203,22 @@ namespace XNASystem
             base.Update(gameTime);
         }
 
+        private void ShowGameMenu()
+        {
+            _menuList.Add(new Menu("Boom...Game! (NYI)", new List<IMenuItem>
+                                                             {
+                                                                 new NavItem("Return", MenuAction.Return)
+                                                             }));
+        }
+
+        private void ShowScoreMenu()
+        {
+            _menuList.Add(new Menu("BooYaa...Scores! (NYI)", new List<IMenuItem>
+                                                                 {
+                                                                     new NavItem("Return",
+                                                                                 MenuAction.Return)
+                                                                 }));
+        }
 
         private void PopMenu()
         {
@@ -225,7 +234,6 @@ namespace XNASystem
                                                                    new NavItem("The Greatest Option in the World", MenuAction.ShowMain),
                                                                    new NavItem("Return Home", MenuAction.ShowMain)
                                                                }));
-
         }
 
         private void RemoveAllButMain()

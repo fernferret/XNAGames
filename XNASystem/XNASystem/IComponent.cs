@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace XNASystem
 {
+    // Interface that defines Quiz and Booklet
     interface IComponent<T>
     {
         int GetItemCount();
