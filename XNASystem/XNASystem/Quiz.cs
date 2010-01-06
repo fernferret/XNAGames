@@ -6,7 +6,7 @@ namespace XNASystem
     class Quiz: IComponent<Question>
     {
         // The listing of the currently loaded questions
-        private readonly List<Question> _questionList;
+        private List<Question> _questionList;
         private readonly String _title;
         private Question _openItem;
         private Status _status = Status.NotStarted;
@@ -25,12 +25,18 @@ namespace XNASystem
 
         private Question AdvanceItem()
         {
+            // If we're in progress, return the same.
+            //if (_openItem == _questionList[0] && S)
+            //{
+            //    return _questionList[_questionList.IndexOf(_openItem)];
+            //}
+            // Else return the next one
             return _questionList[_questionList.IndexOf(_openItem) + 1];
         }
 
         private bool CheckStatus()
         {
-            if (_questionList.IndexOf(_openItem) < GetItemCount())
+            if (_questionList.IndexOf(_openItem) < GetItemCount()-1)
             {
                 return true;
             }
@@ -48,16 +54,20 @@ namespace XNASystem
             return _title;
         }
 
-        public Question GetOpenItem()
+        public Question GetOpenItem(bool advance)
         {
             if (_status == Status.NotStarted)
             {
-                return _openItem = _questionList[0];
+                _status = Status.InProgress;
+                _openItem = _questionList[0];
             }
-            var currentItem = _openItem;
-            // Set the _openItem to the next item in the quiz
-            _openItem = CheckStatus() ? AdvanceItem() : null;
-            return currentItem;
+            else if(advance)
+            {
+                // Set the _openItem to the next item in the quiz
+                _openItem = CheckStatus() ? AdvanceItem() : null;
+            }
+            
+            return _openItem;
         }
 
         public Status GetStatus()
@@ -80,9 +90,9 @@ namespace XNASystem
             return false;
         }
 
-        internal Menu MenuOf()
+        internal Menu MenuOf(bool advance)
         {
-            return GetOpenItem().GetAsMenu();
+            return GetOpenItem(advance).GetAsMenu();
         }
     }
 }

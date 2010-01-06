@@ -18,7 +18,7 @@ namespace XNASystem
 
         internal void AnswerQuestion()
         {
-            throw new NotImplementedException();
+            _answer.Choose();
         }
     }
 }

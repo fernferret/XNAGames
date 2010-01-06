@@ -5,6 +5,7 @@ namespace XNASystem
     public class Answer
     {
         private readonly Boolean _correct;
+        private bool _questionAnswered;
         public Answer(String a, Boolean c)
         {
             TheAnswer = a;
@@ -21,6 +22,16 @@ namespace XNASystem
         public new String ToString()
         {
             return TheAnswer;
+        }
+
+        public void Choose()
+        {
+            _questionAnswered = true;
+        }
+
+        public bool HasBeenAnswered()
+        {
+            return _questionAnswered;
         }
     }
 }

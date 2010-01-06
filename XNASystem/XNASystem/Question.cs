@@ -6,7 +6,7 @@ namespace XNASystem
     public class Question
     {
         private readonly List<Answer> _answers = new List<Answer>();
-
+        private bool _hasAnswer;
         public Question(String q, List<Answer> a)
         {
             Title = q;
@@ -42,6 +42,18 @@ namespace XNASystem
                                         new QuestionItem(_answers[3])
                                     };
             return new Menu(Title,questionItems);
+        }
+
+        public bool HasAnswer()
+        {
+            foreach (var answer in _answers)
+            {
+                if(answer.HasBeenAnswered())
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

@@ -25,7 +25,13 @@ namespace XNASystem
 
         private Quiz AdvanceItem()
         {
-            return _quizList[_quizList.IndexOf(_openItem) + 1];
+            // If we're in progress, return the same.
+            if(_status == Status.InProgress)
+            {
+                return _quizList[_quizList.IndexOf(_openItem)];
+            }
+            // Else return the next one
+            return _quizList[_quizList.IndexOf(_openItem)+1];
         }
 
         private bool CheckStatus()
@@ -48,16 +54,19 @@ namespace XNASystem
             return _title;
         }
 
-        public Quiz GetOpenItem()
+        public Quiz GetOpenItem(bool advance)
         {
             if (_status == Status.NotStarted)
             {
-                return _openItem = _quizList[0];
+                _status = Status.InProgress;
+                _openItem = _quizList[0];
             }
-            var currentItem = _openItem;
-            // Set the _openItem to the next item in the booklet
-            _openItem = CheckStatus() ? AdvanceItem() : null;
-            return currentItem;
+            else if(advance)
+            {
+                // Set the _openItem to the next item in the booklet
+                _openItem = CheckStatus() ? AdvanceItem() : null;
+            }
+            return _openItem;
         }
 
         public Status GetStatus()
@@ -82,7 +91,11 @@ namespace XNASystem
 
         internal Menu AdvanceQuestion()
         {
-            return GetOpenItem().MenuOf();
+            return GetOpenItem(false).MenuOf(true);
+        }
+        internal void AdvanceQuiz()
+        {
+            GetOpenItem(true);
         }
     }
 }

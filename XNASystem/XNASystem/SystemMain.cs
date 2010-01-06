@@ -1,16 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Net;
-using Microsoft.Xna.Framework.Storage;
-enum MenuAction: int
+enum MenuAction
 {
     ShowMain,
     ShowOptions,
@@ -18,7 +11,7 @@ enum MenuAction: int
     ShowGame,
     ShowScores
 }
-enum Status: int
+enum Status
 {
     NotStarted,
     InProgress,
@@ -58,7 +51,7 @@ namespace XNASystem
             _booklet = _qLoad.PopulateSystem();
             _menuList.Add(new Menu("Welcome to the XNA Game System", new List<IMenuItem>
                                                                          {
-                                                                             new NavItem("Take Quiz", MenuAction.ShowMain),
+                                                                             new NavItem("Take Quiz", MenuAction.ShowQuiz),
                                                                              new NavItem("Change Options", MenuAction.ShowOptions),
                                                                              new NavItem("View Scores", MenuAction.ShowMain)
                                                                          }));
@@ -164,7 +157,7 @@ namespace XNASystem
                     _menuList.Add(_booklet.AdvanceQuestion());
                     // Remove the prior Question
                     _menuList.RemoveAt(_menuList.Count-2);
-                    _booklet.AdvanceQuestion();
+                    //_booklet.AdvanceQuestion();
                 }
                 
             }

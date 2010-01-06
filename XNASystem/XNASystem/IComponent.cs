@@ -7,7 +7,7 @@ namespace XNASystem
     {
         int GetItemCount();
         String GetTitle();
-        T GetOpenItem();
+        T GetOpenItem(bool advance);
         void AddItem(T item);
         bool Reset();
         Status GetStatus();
