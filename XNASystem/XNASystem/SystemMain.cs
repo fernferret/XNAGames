@@ -11,7 +11,10 @@ enum MenuAction
     ShowQuiz,
     ShowGame,
     ShowScores,
-    Return
+    Return,
+    ShowEditor,
+    DoNothing,
+    ShowEditorMain
 }
 // Enumeration that specifies the status of a quiz/booklet
 enum Status
@@ -28,6 +31,7 @@ namespace XNASystem
     /// </summary>
     public class SystemMain : Game
     {
+        #region variable creation
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
 
@@ -57,22 +61,32 @@ namespace XNASystem
         // The target booklet to dump data into
         private readonly Booklet _booklet;
 
+        #endregion
+
+        #region main
         // System Constructor, performs initialization
         public SystemMain()
         {
             _graphics = new GraphicsDeviceManager(this);
             _qLoad = new QuestionLoader();
+
+            //populate a booklet from xml files
             _booklet = _qLoad.PopulateSystem();
+
+            //create the static main menu
             _menuList.Add(new Menu("Welcome to the XNA Game System", new List<IMenuItem>
                                                                          {
                                                                              new NavItem("Take Quiz", MenuAction.ShowQuiz),
                                                                              new NavItem("Change Options", MenuAction.ShowOptions),
-                                                                             new NavItem("View Scores", MenuAction.ShowMain)
+                                                                             new NavItem("View Scores", MenuAction.ShowMain),
+                                                                             new NavItem("Edit Questions", MenuAction.ShowEditorMain)
                                                                          }));
 
             Content.RootDirectory = "Content";
         }
+        #endregion
 
+        #region Load and Unload
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
@@ -98,6 +112,9 @@ namespace XNASystem
             // TODO: Unload any non ContentManager content here
         }
 
+        #endregion
+
+        #region update
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -158,6 +175,14 @@ namespace XNASystem
                         case MenuAction.Return:
                             PopMenu();
                             break;
+                        case MenuAction.ShowEditorMain:
+                            ShowEditorMenu();
+                            break;
+                        case MenuAction.ShowEditor:
+
+                            break;
+                        case MenuAction.DoNothing:
+                            break;
                         default:
                             break;
                     }
@@ -202,7 +227,9 @@ namespace XNASystem
             _menuList.Last().SetSelectedItem(_choice);
             base.Update(gameTime);
         }
+        #endregion
 
+        #region menu administration
         private void ShowGameMenu()
         {
             _menuList.Add(new Menu("Boom...Game! (NYI)", new List<IMenuItem>
@@ -218,6 +245,16 @@ namespace XNASystem
                                                                      new NavItem("Return",
                                                                                  MenuAction.Return)
                                                                  }));
+        }
+
+        private void ShowEditorMenu()
+        {
+            _menuList.Add((new Menu("Question Editor", new List<IMenuItem>
+                                                           {
+                                                               new NavItem("Change Booklet (NYI)", MenuAction.DoNothing),
+                                                               new NavItem("Change Quiz (NYI)", MenuAction.DoNothing),
+                                                               new NavItem("Write new Question", MenuAction.ShowEditor)
+                                                           })));
         }
 
         private void PopMenu()
@@ -240,7 +277,9 @@ namespace XNASystem
         {
             _menuList.RemoveRange(1,_menuList.Count - 1);
         }
+        #endregion
 
+        #region draw
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -271,5 +310,6 @@ namespace XNASystem
             _spriteBatch.End();
             base.Draw(gameTime);
         }
+        #endregion
     }
 }
