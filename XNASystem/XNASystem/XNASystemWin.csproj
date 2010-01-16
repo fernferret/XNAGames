@@ -57,11 +57,15 @@
   <ItemGroup>
     <Compile Include="Answer.cs" />
     <Compile Include="Booklet.cs" />
+    <Compile Include="EditorMainMenu.cs" />
+    <Compile Include="MainMenu.cs" />
     <Compile Include="IComponent.cs" />
     <Compile Include="EntryPoint.cs" />
+    <Compile Include="IMenu.cs" />
     <Compile Include="MenuItem.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="NavItem.cs" />
+    <Compile Include="OptionsMenu.cs" />
     <Compile Include="PowerUp.cs" />
     <Compile Include="PowerUpManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -70,6 +74,7 @@
     <Compile Include="QuestionLoader.cs" />
     <Compile Include="Quiz.cs" />
     <Compile Include="Score.cs" />
+    <Compile Include="ScoresMenu.cs" />
     <Compile Include="SystemMain.cs" />
   </ItemGroup>
   <ItemGroup>

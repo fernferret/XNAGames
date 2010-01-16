@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -41,7 +42,7 @@ namespace XNASystem
         // initilize a texture for the selection _box
         Texture2D _box;
 
-        // stack of menus being drawn
+/*        // stack of menus being drawn
         readonly List<Menu> _menuList = new List<Menu>();
 
         // Set of variables to initialize button debounce
@@ -60,7 +61,7 @@ namespace XNASystem
 
         // The target booklet to dump data into
         private readonly Booklet _booklet;
-
+*/
         #endregion
 
         #region main
@@ -93,7 +94,7 @@ namespace XNASystem
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
+            // Create a new SpriteBatch, which can be used to Draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             //load _font with the _font arial
@@ -122,27 +123,38 @@ namespace XNASystem
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            // number of choices on this menu
             var items = _menuList.Last().GetNum();
+
+            // the state the keyboard is in right now
             var state = Keyboard.GetState();
-            
+
+            #region arrow controls
+            // up arrow control
             if(state.IsKeyDown(Keys.Up) && _up != 1)
             {
                 _up = 1;
                 _choice--;
             }
+            if (state.IsKeyUp(Keys.Up))
+            {
+                _up = 0;
+            }
+
+            //down arrow control
             if (state.IsKeyDown(Keys.Down) && _down != 1)
             {
                 _down = 1;
                 _choice++;
             }
-            if (state.IsKeyUp(Keys.Up))
-            {
-                _up = 0;
-            }
             if (state.IsKeyUp(Keys.Down))
             {
                 _down = 0;
             }
+            #endregion
+
+            #region enter actions
+            //enter key controls
             if (state.IsKeyDown(Keys.Enter) && _enter != 1)
             {
                 _enter = 1;
@@ -176,10 +188,10 @@ namespace XNASystem
                             PopMenu();
                             break;
                         case MenuAction.ShowEditorMain:
-                            ShowEditorMenu();
+                            ShowEditorMainMenu();
                             break;
                         case MenuAction.ShowEditor:
-
+                            ShowEditorMenu();
                             break;
                         case MenuAction.DoNothing:
                             break;
@@ -216,6 +228,11 @@ namespace XNASystem
             {
                 _enter = 0;
             }
+
+            #endregion
+
+            #region set choice
+            // make sure that choice is always on an actually menu choice
             if(_choice == -1)
             {
                 _choice = items - 1;
@@ -225,11 +242,16 @@ namespace XNASystem
                 _choice = 0;
             }
             _menuList.Last().SetSelectedItem(_choice);
+
+            #endregion
+
             base.Update(gameTime);
         }
         #endregion
 
         #region menu administration
+
+        // this is the ation the kiks off a game after the quiz
         private void ShowGameMenu()
         {
             _menuList.Add(new Menu("Boom...Game! (NYI)", new List<IMenuItem>
@@ -238,6 +260,7 @@ namespace XNASystem
                                                              }));
         }
 
+        //this adds a menu to the stack which shows scores for particular users
         private void ShowScoreMenu()
         {
             _menuList.Add(new Menu("BooYaa...Scores! (NYI)", new List<IMenuItem>
@@ -247,21 +270,25 @@ namespace XNASystem
                                                                  }));
         }
 
-        private void ShowEditorMenu()
+        //this adds a menu to the stack which kicks of the question editor menu sequence
+        private void ShowEditorMainMenu()
         {
-            _menuList.Add((new Menu("Question Editor", new List<IMenuItem>
+            _menuList.Add(new Menu("Question Editor", new List<IMenuItem>
                                                            {
                                                                new NavItem("Change Booklet (NYI)", MenuAction.DoNothing),
                                                                new NavItem("Change Quiz (NYI)", MenuAction.DoNothing),
                                                                new NavItem("Write new Question", MenuAction.ShowEditor)
-                                                           })));
+                                                           }));
         }
-
-        private void PopMenu()
+        private void ShowEditorMenu()
         {
-            _menuList.RemoveAt(_menuList.Count - 1);
+            _menuList.Add(new Menu("New Question", new List<IMenuItem>
+                                                       {
+                                                           new NavItem("Type your")
+                                                       }));
         }
 
+        // this adds a menu to the stack that shows the option and allows them to be changed
         private void ShowOptionsMenu()
         {
             _menuList.Add(new Menu("Options Screen (NYI)", new List<IMenuItem>
@@ -273,15 +300,25 @@ namespace XNASystem
                                                                }));
         }
 
+        #region menu removal
+        // this removes a menu from the menu stack
+        private void PopMenu()
+        {
+            _menuList.RemoveAt(_menuList.Count - 1);
+        }
+
+        //this removes all the menus except for he main menu from the stack
         private void RemoveAllButMain()
         {
             _menuList.RemoveRange(1,_menuList.Count - 1);
         }
         #endregion
 
-        #region draw
+        #endregion
+
+        #region Draw
         /// <summary>
-        /// This is called when the game should draw itself.
+        /// This is called when the game should Draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
