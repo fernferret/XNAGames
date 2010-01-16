@@ -1,6 +1,6 @@
 ﻿namespace XNASystem
 {
-    class NavItem: IMenuItem
+    class NavItem : IMenuItem
     {
         private readonly string _title;
         private readonly MenuAction _action;

@@ -1,5 +1,5 @@
 README:
-TODO: Write the README
+TODO: Write the README (what needs to go in the README?)
 
 Authors:
 Aaron Blankenbaker
