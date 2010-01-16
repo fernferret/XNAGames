@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 namespace XNASystem
 {
-    class ScoresMenu : IMenu
+    class ScoresMenu : IScreen
     {
         #region variables
 
@@ -12,13 +12,13 @@ namespace XNASystem
         protected int _down;
         protected int _enter;
         protected int _choice;
-        protected Stack<IMenu> _menuStack;
+        protected Stack<IScreen> _menuStack;
         protected SystemMain _systemMain;
 
         #endregion
 
         #region constructor
-        public ScoresMenu(Stack<IMenu> stack, SystemMain main)
+        public ScoresMenu(Stack<IScreen> stack, SystemMain main)
         {
             _up = 1;
             _down = 1;

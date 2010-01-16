@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace XNASystem
 {
-    public interface IMenu
+    public interface IScreen
     {
         void Update(KeyboardState state);
 

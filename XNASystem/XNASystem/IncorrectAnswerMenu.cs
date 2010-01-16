@@ -5,93 +5,93 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 namespace XNASystem
 {
-    class EditorMenu : IScreen
-    {
-        #region variables
+	class IncorrectAnswerMenu : IScreen
+	{
+		#region variables
 
-        protected int _up;
-        protected int _down;
-        protected int _enter;
-        protected int _choice;
-        protected int _back;
-        protected Stack<IScreen> _menuStack;
-        protected SystemMain _systemMain;
-        protected string _question;
-        protected List<Answer> _answers;
-        protected int _a,
-                      _b,
-                      _c,
-                      _d,
-                      _e,
-                      _f,
-                      _g,
-                      _h,
-                      _i,
-                      _j,
-                      _k,
-                      _l,
-                      _m,
-                      _n,
-                      _o,
-                      _p,
-                      _q,
-                      _r,
-                      _s,
-                      _t,
-                      _u,
-                      _v,
-                      _w,
-                      _x,
-                      _y,
-                      _z,
-                      _space;
+		protected int _up;
+		protected int _down;
+		protected int _enter;
+		protected int _choice;
+		protected int _back;
+		protected Stack<IScreen> _menuStack;
+		protected SystemMain _systemMain;
+		protected string _answer;
+		protected EditorMenu _question;
+		protected int _a,
+					  _b,
+					  _c,
+					  _d,
+					  _e,
+					  _f,
+					  _g,
+					  _h,
+					  _i,
+					  _j,
+					  _k,
+					  _l,
+					  _m,
+					  _n,
+					  _o,
+					  _p,
+					  _q,
+					  _r,
+					  _s,
+					  _t,
+					  _u,
+					  _v,
+					  _w,
+					  _x,
+					  _y,
+					  _z,
+					  _space;
 
-        #endregion
+		#endregion
 
-        #region constructor
-        public EditorMenu(Stack<IScreen> stack, SystemMain main)
-        {
-            _up = 1;
-            _down = 1;
-            _enter = 1;
-            _back = 1;
-            _choice = 0;
-            _menuStack = stack;
-            _systemMain = main;
-            _answers = new List<Answer>(4);
-            _question = "Enter Question Here";
-            _a = 1;
-            _b = 1;
-            _c = 1;
-            _d = 1;
-            _e = 1;
-            _f = 1;
-            _g = 1;
-            _h = 1;
-            _i = 1;
-            _j = 1;
-            _k = 1;
-            _l = 1;
-            _m = 1;
-            _n = 1;
-            _o = 1;
-            _p = 1;
-            _q = 1;
-            _r = 1;
-            _s = 1;
-            _t = 1;
-            _u = 1;
-            _v = 1;
-            _w = 1;
-            _x = 1;
-            _y = 1;
-            _z = 1;
-            _space = 1;
-        }
-        #endregion
+		#region constructor
+		public IncorrectAnswerMenu(Stack<IScreen> stack, SystemMain main, EditorMenu question)
+		{
+			_up = 1;
+			_down = 1;
+			_enter = 1;
+			_back = 1;
+			_choice = 0;
+			_menuStack = stack;
+			_systemMain = main;
+			_question = question;
+			_answer = "Enter Question Here";
+			_a = 1;
+			_b = 1;
+			_c = 1;
+			_d = 1;
+			_e = 1;
+			_f = 1;
+			_g = 1;
+			_h = 1;
+			_i = 1;
+			_j = 1;
+			_k = 1;
+			_l = 1;
+			_m = 1;
+			_n = 1;
+			_o = 1;
+			_p = 1;
+			_q = 1;
+			_r = 1;
+			_s = 1;
+			_t = 1;
+			_u = 1;
+			_v = 1;
+			_w = 1;
+			_x = 1;
+			_y = 1;
+			_z = 1;
+			_space = 1;
+		}
+		#endregion
 
-        #region update
-        public void Update(KeyboardState state)
+		#region update
+		public void Update(KeyboardState state)
         {
             #region arrow controls
             // up arrow control
@@ -127,30 +127,14 @@ namespace XNASystem
                 // case system to perform appropriate action of the chosen menu item
                 switch (_choice)
                 {
-                    //add correct answer
+                    //submit answer
                     case 1:
-                        if (_answers.Count != 4)
-                        {
-                            _menuStack.Push(new CorrectAnswerMenu(_menuStack, _systemMain, this));
-                            _systemMain.SetStack(_menuStack);
-                        }
+                        _question.AddAnswer(new Answer(_answer, false));
+						_menuStack.Pop();
+						_systemMain.SetStack(_menuStack);
                         break;
-                    //add incorrect answer
+                    //back
                     case 2:
-                        if (_answers.Count != 4)
-                        {
-                            _menuStack.Push(new IncorrectAnswerMenu(_menuStack, _systemMain, this));
-                            _systemMain.SetStack(_menuStack);
-                        }
-                        break;
-                    //submit question
-                    case 3:
-                        _systemMain.AddQuestion(new Question(_question, _answers));
-                        _menuStack.Pop();
-                        _systemMain.SetStack(_menuStack);
-                        break;
-                    // back
-                    case 4:
                         _menuStack.Pop();
                         _systemMain.SetStack(_menuStack);
                         break;
@@ -171,12 +155,12 @@ namespace XNASystem
             if (state.IsKeyDown(Keys.Back) && _back != 1)
             {
                 _back = 1;
-                switch(_choice)
+                switch (_choice)
                 {
                     case 0:
-                        if (_question.Length != 0)
+                        if (_answer.Length != 0)
                         {
-                            _question = _question.Remove(_question.Length - 1);
+                            _answer = _answer.Remove(_answer.Length - 1);
                         }
                         break;
                     default:
@@ -196,9 +180,9 @@ namespace XNASystem
             {
                 _space = 1;
                 switch (_choice)
-                {   
+                {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, " ") : " ";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, " ") : " ";
                         break;
                     default:
                         break;
@@ -219,7 +203,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "a") : "a";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "a") : "a";
                         break;
                     default:
                         break;
@@ -235,7 +219,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "b") : "b";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "b") : "b";
                         break;
                     default:
                         break;
@@ -251,7 +235,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "c") : "c";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "c") : "c";
                         break;
                     default:
                         break;
@@ -267,7 +251,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "d") : "d";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "d") : "d";
                         break;
                     default:
                         break;
@@ -283,7 +267,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "e") : "e";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "e") : "e";
                         break;
                     default:
                         break;
@@ -299,7 +283,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "f") : "f";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "f") : "f";
                         break;
                     default:
                         break;
@@ -315,7 +299,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "g") : "g";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "g") : "g";
                         break;
                     default:
                         break;
@@ -331,7 +315,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "h") : "h";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "h") : "h";
                         break;
                     default:
                         break;
@@ -347,7 +331,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "i") : "i";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "i") : "i";
                         break;
                     default:
                         break;
@@ -363,7 +347,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "j") : "j";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "j") : "j";
                         break;
                     default:
                         break;
@@ -379,7 +363,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "k") : "k";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "k") : "k";
                         break;
                     default:
                         break;
@@ -395,7 +379,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "l") : "l";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "l") : "l";
                         break;
                     default:
                         break;
@@ -411,7 +395,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "m") : "m";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "m") : "m";
                         break;
                     default:
                         break;
@@ -427,7 +411,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "n") : "n";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "n") : "n";
                         break;
                     default:
                         break;
@@ -443,7 +427,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "o") : "o";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "o") : "o";
                         break;
                     default:
                         break;
@@ -459,7 +443,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "p") : "p";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "p") : "p";
                         break;
                     default:
                         break;
@@ -475,7 +459,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "q") : "q";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "q") : "q";
                         break;
                     default:
                         break;
@@ -491,7 +475,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "r") : "r";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "r") : "r";
                         break;
                     default:
                         break;
@@ -507,7 +491,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "s") : "s";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "s") : "s";
                         break;
                     default:
                         break;
@@ -523,7 +507,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "t") : "t";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "t") : "t";
                         break;
                     default:
                         break;
@@ -539,7 +523,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "u") : "u";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "u") : "u";
                         break;
                     default:
                         break;
@@ -555,7 +539,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "v") : "v";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "v") : "v";
                         break;
                     default:
                         break;
@@ -571,7 +555,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "w") : "w";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "w") : "w";
                         break;
                     default:
                         break;
@@ -587,7 +571,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "x") : "x";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "x") : "x";
                         break;
                     default:
                         break;
@@ -603,7 +587,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "w") : "w";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "w") : "w";
                         break;
                     default:
                         break;
@@ -619,7 +603,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "x") : "x";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "x") : "x";
                         break;
                     default:
                         break;
@@ -635,7 +619,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "y") : "y";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "y") : "y";
                         break;
                     default:
                         break;
@@ -651,7 +635,7 @@ namespace XNASystem
                 switch (_choice)
                 {
                     case 0:
-                        _question = _question.Length != 0 ? _question.Insert(_question.Length, "z") : "z";
+                        _answer = _answer.Length != 0 ? _answer.Insert(_answer.Length, "z") : "z";
                         break;
                     default:
                         break;
@@ -668,50 +652,41 @@ namespace XNASystem
             // make sure that choice is always on an actually menu choice
             if (_choice == -1)
             {
-                _choice = 5;
+                _choice = 4;
             }
-            if (_choice == 5)
+            if (_choice == 4)
             {
                 _choice = 0;
             }
 
             #endregion
         }
-        #endregion
+		#endregion
 
-        #region draw
-        public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
-        {
-            spriteBatch.Begin();
+		#region draw
+		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
+		{
+			spriteBatch.Begin();
 
-            //draw the background
-            spriteBatch.Draw(textures[1], new Rectangle(0, 0, 800, 600), Color.White);
+			//draw the background
+			spriteBatch.Draw(textures[1], new Rectangle(0, 0, 800, 600), Color.White);
 
-            // draw the selection box
-            spriteBatch.Draw(textures[0], new Rectangle(50, 185 + (75 * _choice), 700, 55), Color.White);
+			// draw the selection box
+			spriteBatch.Draw(textures[0], new Rectangle(50, 185 + (150 * _choice), 700, 55), Color.White);
 
-            //draw the title
-            spriteBatch.DrawString(fonts[0], "Question Editor Menu", new Vector2(250, 100), Color.Black);
+			//draw the title
+			spriteBatch.DrawString(fonts[0], "Incorrect Answer Editor Menu", new Vector2(250, 100), Color.Black);
 
-            //draw the text boxes
-            spriteBatch.Draw(textures[2], new Rectangle(55, 190, 695, 45), Color.White);
+			//draw the text boxes
+			spriteBatch.Draw(textures[2], new Rectangle(55, 190, 695, 45), Color.White);
 
-            //draw menu items
-            spriteBatch.DrawString(fonts[0], _question, new Vector2(60, 200), Color.White);
-            spriteBatch.DrawString(fonts[0], "Add a correct Answer", new Vector2(60, 275), Color.Black);
-            spriteBatch.DrawString(fonts[0], "Add an incorrect Answer", new Vector2(60, 350), Color.Black);
-            spriteBatch.DrawString(fonts[0], "Submit Question", new Vector2(60, 425), Color.Black);
-            spriteBatch.DrawString(fonts[0], "Back", new Vector2(60, 500), Color.Black);
+			//draw menu items
+			spriteBatch.DrawString(fonts[0], _answer, new Vector2(60, 200), Color.White);
+			spriteBatch.DrawString(fonts[0], "Submit Answer", new Vector2(60, 350), Color.Black);
+			spriteBatch.DrawString(fonts[0], "Back", new Vector2(60, 500), Color.Black);
 
-            spriteBatch.End();
-        }
-        #endregion
-
-        #region add an asnwer
-        public void AddAnswer(Answer answer)
-        {
-            _answers.Add(answer);
-        }
-        #endregion
-    }
+			spriteBatch.End();
+		}
+		#endregion
+	}
 }

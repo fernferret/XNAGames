@@ -51,7 +51,10 @@ namespace XNASystem
         private List<Texture2D> _texturePackage;
 
         // initialize the menustack
-        private Stack<IMenu> _menuStack;
+        private Stack<IScreen> _menuStack;
+
+		// initialie a new list of questions
+		private List<Question> _newQuestions;
 
         #region old possibly unneed variables
         /*        // stack of menus being drawn
@@ -78,7 +81,7 @@ namespace XNASystem
 
         #endregion
 
-        #region main
+        #region constructor
         // System Constructor, performs initialization
         public SystemMain()
         {
@@ -93,7 +96,10 @@ namespace XNASystem
             _texturePackage = new List<Texture2D>();
 
             // create the stack
-            _menuStack = new Stack<IMenu>();
+            _menuStack = new Stack<IScreen>();
+
+			// create a list of question for the editor
+			_newQuestions = new List<Question>();
 
 /*            _qLoad = new QuestionLoader();
 
@@ -387,9 +393,14 @@ namespace XNASystem
         }
         #endregion
 
-        public void SetStack(Stack<IMenu> stack)
+        public void SetStack(Stack<IScreen> stack)
         {
             _menuStack = stack;
         }
+
+		public void AddQuestion(Question question)
+		{
+			_newQuestions.Add(question);
+		}
     }
 }

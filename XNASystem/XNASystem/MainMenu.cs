@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace XNASystem
 {
-    class MainMenu : IMenu
+    class MainMenu : IScreen
     {
         #region variables
 
@@ -13,14 +13,14 @@ namespace XNASystem
         protected int _down;
         protected int _enter;
         protected int _choice;
-        protected Stack<IMenu> _menuStack;
+        protected Stack<IScreen> _menuStack;
         protected SystemMain _systemMain;
 
         #endregion
 
         #region constructor
 
-        public MainMenu(Stack<IMenu> stack, SystemMain main)
+        public MainMenu(Stack<IScreen> stack, SystemMain main)
         {
             _up = 1;
             _down = 1;
