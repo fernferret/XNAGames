@@ -6,12 +6,18 @@ using Microsoft.Xna.Framework.Input;
 // Enumeration that specifies various Menu Actions
 enum MenuAction
 {
-    ShowMain,
-    ShowOptions,
-    ShowQuiz,
-    ShowGame,
-    ShowScores,
-    Return
+	ShowMain,
+	ShowOptions,
+	ShowQuiz,
+	ShowGame,
+	ShowScores,
+	Return
+}
+// Enumeration that specifies various Menu Actions
+enum ActivityType
+{
+	Game,
+	Quiz
 }
 // Enumeration that specifies the status of a quiz/booklet
 enum Status
