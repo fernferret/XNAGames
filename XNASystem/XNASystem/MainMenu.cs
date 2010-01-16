@@ -118,25 +118,25 @@ namespace XNASystem
         #endregion
 
         #region draw
-        public void Draw(SpriteBatch spriteBatch, SpriteFont font, Texture2D box, Texture2D background)
+        public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
         {
             spriteBatch.Begin();
 
             // draw the background
-            spriteBatch.Draw(background, new Rectangle(0, 0, 800, 600), Color.White);
+            spriteBatch.Draw(textures[1], new Rectangle(0, 0, 800, 600), Color.White);
 
             // draw the box whereever it may be
-            spriteBatch.Draw(box, new Vector2(75, 175 + (75 * _choice)), Color.White);
+            spriteBatch.Draw(textures[0], new Vector2(75, 175 + (75 * _choice)), Color.White);
 
             // draw the menu title
-            spriteBatch.DrawString(font, "Welcome to the XNA Game System", new Vector2(250, 100), Color.Black);
+            spriteBatch.DrawString(fonts[0], "Welcome to the XNA Game System", new Vector2(250, 100), Color.Black);
 
             //draw the menu options
-            spriteBatch.DrawString(font, "Start Quiz (NYI)", new Vector2(100, 200), Color.Black);
-            spriteBatch.DrawString(font, "Options", new Vector2(100, 275), Color.Black);
-            spriteBatch.DrawString(font, "View Scores", new Vector2(100, 350), Color.Black);
-            spriteBatch.DrawString(font, "Write Questions", new Vector2(100, 425), Color.Black);
-            spriteBatch.DrawString(font, "Exit", new Vector2(100, 500), Color.Black);
+            spriteBatch.DrawString(fonts[0], "Start Quiz (NYI)", new Vector2(100, 200), Color.Black);
+            spriteBatch.DrawString(fonts[0], "Options", new Vector2(100, 275), Color.Black);
+            spriteBatch.DrawString(fonts[0], "View Scores", new Vector2(100, 350), Color.Black);
+            spriteBatch.DrawString(fonts[0], "Write Questions", new Vector2(100, 425), Color.Black);
+            spriteBatch.DrawString(fonts[0], "Exit", new Vector2(100, 500), Color.Black);
 
             spriteBatch.End();
         }

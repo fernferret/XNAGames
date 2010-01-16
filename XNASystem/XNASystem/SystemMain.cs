@@ -4,6 +4,9 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+
+#region unneed enums
+
 // Enumeration that specifies various Menu Actions
 enum MenuAction
 {
@@ -25,6 +28,9 @@ enum Status
     Completed,
     Error
 }
+
+#endregion
+
 namespace XNASystem
 {
     /// <summary>
@@ -33,22 +39,22 @@ namespace XNASystem
     public class SystemMain : Game
     {
         #region variable creation
+
+        // graphics variables
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        // initialize a _font to be used for text
-        private SpriteFont _font;
+        // initialize a list of fonts
+        private List<SpriteFont> _fontPackage;
 
-        // initilize a texture for the selection _box
-        private Texture2D _box;
-
-        // initialie the background
-        private Texture2D _background;
+        // initilize a list of textures
+        private List<Texture2D> _texturePackage;
 
         // initialize the menustack
         private Stack<IMenu> _menuStack;
 
-/*        // stack of menus being drawn
+        #region old possibly unneed variables
+        /*        // stack of menus being drawn
         readonly List<Menu> _menuList = new List<Menu>();
 
         // Set of variables to initialize button debounce
@@ -70,12 +76,25 @@ namespace XNASystem
 */
         #endregion
 
+        #endregion
+
         #region main
         // System Constructor, performs initialization
         public SystemMain()
         {
+            // graphics initializer
             _graphics = new GraphicsDeviceManager(this);
+
+            //content location
             Content.RootDirectory = "Content";
+
+            // initialize font package and texture package
+            _fontPackage = new List<SpriteFont>();
+            _texturePackage = new List<Texture2D>();
+
+            // create the stack
+            _menuStack = new Stack<IMenu>();
+
 /*            _qLoad = new QuestionLoader();
 
             //populate a booklet from xml files
@@ -103,17 +122,15 @@ namespace XNASystem
             // Create a new SpriteBatch, which can be used to Draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //load _font with the _font arial
-            _font = Content.Load<SpriteFont>("Fonts//Arial");
+            // load the fonts
+            _fontPackage.Add(Content.Load<SpriteFont>("Fonts//Arial"));
 
-            //load _box with the _box texture
-            _box = Content.Load<Texture2D>("Sprites//box");
+            //load texture package
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//box"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//XNA"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//grey box"));
 
-            //load _background with the _box texture
-            _background = Content.Load<Texture2D>("Sprites//XNA");
-
-            // create the stack and give it the main menu
-            _menuStack = new Stack<IMenu>();
+            // give the stack the main menu
             _menuStack.Push(new MainMenu(_menuStack, this));
         }
 
@@ -342,7 +359,7 @@ namespace XNASystem
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _menuStack.Peek().Draw(_spriteBatch, _font, _box, _background);
+            _menuStack.Peek().Draw(_spriteBatch, _fontPackage, _texturePackage);
 /*
             var items = 300 / _menuList.Last().GetNum();
             var counter = 0;
