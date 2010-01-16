@@ -57,6 +57,10 @@
   <ItemGroup>
     <Compile Include="Answer.cs" />
     <Compile Include="Booklet.cs" />
+    <Compile Include="BreakOut\BreakOut.cs" />
+    <Compile Include="BreakOut\BreakOutBlock.cs" />
+    <Compile Include="BreakOut\BreakOutLevel.cs" />
+    <Compile Include="IGame.cs" />
     <Compile Include="CorrectAnswerMenu.cs" />
     <Compile Include="IComponent.cs" />
     <Compile Include="EditorMainMenu.cs" />
