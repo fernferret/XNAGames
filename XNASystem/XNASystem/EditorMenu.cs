@@ -2,10 +2,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
 namespace XNASystem
 {
-    class MainMenu : IMenu
+    class EditorMenu : IMenu
     {
         #region variables
 
@@ -19,8 +18,7 @@ namespace XNASystem
         #endregion
 
         #region constructor
-
-        public MainMenu(Stack<IMenu> stack, SystemMain main)
+        public EditorMenu(Stack<IMenu> stack, SystemMain main)
         {
             _up = 1;
             _down = 1;
@@ -29,7 +27,6 @@ namespace XNASystem
             _menuStack = stack;
             _systemMain = main;
         }
-
         #endregion
 
         #region update
@@ -69,27 +66,21 @@ namespace XNASystem
                 // case system to perform appropriate action of the chosen menu item
                 switch (_choice)
                 {
-                    // take quiz
+                    //change booklet
                     case 0:
                         break;
-                    // change options
+                    // change quiz
                     case 1:
-                        _menuStack.Push(new OptionsMenu(_menuStack, _systemMain));
-                        _systemMain.SetStack(_menuStack);
                         break;
-                    // view scores
+                    //write question
                     case 2:
-                        _menuStack.Push(new ScoresMenu(_menuStack, _systemMain));
+                        _menuStack.Push(new EditorMenu(_menuStack, _systemMain));
                         _systemMain.SetStack(_menuStack);
                         break;
-                    // write questions
+                    // back
                     case 3:
-                        _menuStack.Push(new EditorMainMenu(_menuStack, _systemMain));
+                        _menuStack.Pop();
                         _systemMain.SetStack(_menuStack);
-                        break;
-                    // exit
-                    case 4:
-                        _systemMain.Exit();
                         break;
                     default:
                         break;
@@ -106,9 +97,9 @@ namespace XNASystem
             // make sure that choice is always on an actually menu choice
             if (_choice == -1)
             {
-                _choice = 5;
+                _choice = 4;
             }
-            if (_choice == 5)
+            if (_choice == 4)
             {
                 _choice = 0;
             }
@@ -122,21 +113,20 @@ namespace XNASystem
         {
             spriteBatch.Begin();
 
-            // draw the background
+            //draw the background
             spriteBatch.Draw(background, new Rectangle(0, 0, 800, 600), Color.White);
 
-            // draw the box whereever it may be
-            spriteBatch.Draw(box, new Vector2(75, 175 + (75 * _choice)), Color.White);
+            // draw the selection box
+            spriteBatch.Draw(box, new Vector2(75, 175 + (100 * _choice)), Color.White);
 
-            // draw the menu title
-            spriteBatch.DrawString(font, "Welcome to the XNA Game System", new Vector2(250, 100), Color.Black);
+            //draw the title
+            spriteBatch.DrawString(font, "Question Editor Menu", new Vector2(250, 100), Color.Black);
 
-            //draw the menu options
-            spriteBatch.DrawString(font, "Start Quiz (NYI)", new Vector2(100, 200), Color.Black);
-            spriteBatch.DrawString(font, "Options", new Vector2(100, 275), Color.Black);
-            spriteBatch.DrawString(font, "View Scores", new Vector2(100, 350), Color.Black);
-            spriteBatch.DrawString(font, "Write Questions", new Vector2(100, 425), Color.Black);
-            spriteBatch.DrawString(font, "Exit", new Vector2(100, 500), Color.Black);
+            //draw the menu items
+            spriteBatch.DrawString(font, "Select Booklet (NYI)", new Vector2(100, 200), Color.Black);
+            spriteBatch.DrawString(font, "Select Quiz (NYI)", new Vector2(100, 300), Color.Black);
+            spriteBatch.DrawString(font, "Write New Question Here", new Vector2(100, 400), Color.Black);
+            spriteBatch.DrawString(font, "Back", new Vector2(100, 500), Color.Black);
 
             spriteBatch.End();
         }

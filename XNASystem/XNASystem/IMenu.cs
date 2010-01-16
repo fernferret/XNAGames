@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace XNASystem
 {
-    interface IMenu
+    public interface IMenu
     {
         void Update(KeyboardState state);
 

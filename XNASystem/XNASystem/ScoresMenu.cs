@@ -1,24 +1,31 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 namespace XNASystem
 {
-    class MainMenu : IMenu
+    class ScoresMenu : IMenu
     {
         #region variables
+
         protected int _up;
         protected int _down;
         protected int _enter;
         protected int _choice;
+        protected Stack<IMenu> _menuStack;
+        protected SystemMain _systemMain;
+
         #endregion
 
         #region constructor
-        public MainMenu()
+        public ScoresMenu(Stack<IMenu> stack, SystemMain main)
         {
             _up = 1;
             _down = 1;
             _enter = 1;
             _choice = 0;
+            _menuStack = stack;
+            _systemMain = main;
         }
         #endregion
 
@@ -59,13 +66,16 @@ namespace XNASystem
                 // case system to perform appropriate action of the chosen menu item
                 switch (_choice)
                 {
+                        // quiz scores
                     case 0:
                         break;
+                        // game scores
                     case 1:
                         break;
+                        // back
                     case 2:
-                        break;
-                    case 3:
+                        _menuStack.Pop();
+                        _systemMain.SetStack(_menuStack);
                         break;
                     default:
                         break;
@@ -82,9 +92,9 @@ namespace XNASystem
             // make sure that choice is always on an actually menu choice
             if (_choice == -1)
             {
-                _choice = 2;
+                _choice = 3;
             }
-            if (_choice == 2)
+            if (_choice == 3)
             {
                 _choice = 0;
             }
@@ -98,13 +108,19 @@ namespace XNASystem
         {
             spriteBatch.Begin();
 
-            spriteBatch.Draw(background, new Vector2(0, 0), Color.White);
+            //draw the background
+            spriteBatch.Draw(background, new Rectangle(0, 0, 800, 600), Color.White);
+
+            //draw te selection box
+            spriteBatch.Draw(box, new Vector2(75, 175 + (150 * _choice)), Color.White);
+
+            //draw the title
             spriteBatch.DrawString(font, "Score Viewer", new Vector2(250, 100), Color.Black);
+
+            //draw the menu items
             spriteBatch.DrawString(font, "View Quiz Scores (NYI)", new Vector2(100, 200), Color.Black);
             spriteBatch.DrawString(font, "View Game Scores (NYI)", new Vector2(100, 350), Color.Black);
-            spriteBatch.DrawString(font, "Back (NYI)", new Vector2(100, 500), Color.Black);
-
-            spriteBatch.Draw(box, new Vector2(75, 175 + (150 * _choice)), Color.White);
+            spriteBatch.DrawString(font, "Back", new Vector2(100, 500), Color.Black);
 
             spriteBatch.End();
         }

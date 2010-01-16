@@ -33,14 +33,20 @@ namespace XNASystem
     public class SystemMain : Game
     {
         #region variable creation
-        GraphicsDeviceManager _graphics;
-        SpriteBatch _spriteBatch;
+        private GraphicsDeviceManager _graphics;
+        private SpriteBatch _spriteBatch;
 
         // initialize a _font to be used for text
-        SpriteFont _font;
+        private SpriteFont _font;
 
         // initilize a texture for the selection _box
-        Texture2D _box;
+        private Texture2D _box;
+
+        // initialie the background
+        private Texture2D _background;
+
+        // initialize the menustack
+        private Stack<IMenu> _menuStack;
 
 /*        // stack of menus being drawn
         readonly List<Menu> _menuList = new List<Menu>();
@@ -69,7 +75,8 @@ namespace XNASystem
         public SystemMain()
         {
             _graphics = new GraphicsDeviceManager(this);
-            _qLoad = new QuestionLoader();
+            Content.RootDirectory = "Content";
+/*            _qLoad = new QuestionLoader();
 
             //populate a booklet from xml files
             _booklet = _qLoad.PopulateSystem();
@@ -82,8 +89,7 @@ namespace XNASystem
                                                                              new NavItem("View Scores", MenuAction.ShowMain),
                                                                              new NavItem("Edit Questions", MenuAction.ShowEditorMain)
                                                                          }));
-
-            Content.RootDirectory = "Content";
+*/     
         }
         #endregion
 
@@ -102,6 +108,13 @@ namespace XNASystem
 
             //load _box with the _box texture
             _box = Content.Load<Texture2D>("Sprites//box");
+
+            //load _background with the _box texture
+            _background = Content.Load<Texture2D>("Sprites//XNA");
+
+            // create the stack and give it the main menu
+            _menuStack = new Stack<IMenu>();
+            _menuStack.Push(new MainMenu(_menuStack, this));
         }
 
         /// <summary>
@@ -123,11 +136,14 @@ namespace XNASystem
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // number of choices on this menu
-            var items = _menuList.Last().GetNum();
-
             // the state the keyboard is in right now
             var state = Keyboard.GetState();
+
+            // use the update method from the current menu
+            _menuStack.Peek().Update(state);
+
+/*            // number of choices on this menu
+            var items = _menuList.Last().GetNum();
 
             #region arrow controls
             // up arrow control
@@ -246,11 +262,12 @@ namespace XNASystem
             #endregion
 
             base.Update(gameTime);
+ */
         }
         #endregion
 
         #region menu administration
-
+/*
         // this is the ation the kiks off a game after the quiz
         private void ShowGameMenu()
         {
@@ -313,7 +330,7 @@ namespace XNASystem
             _menuList.RemoveRange(1,_menuList.Count - 1);
         }
         #endregion
-
+*/
         #endregion
 
         #region Draw
@@ -324,6 +341,9 @@ namespace XNASystem
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            _menuStack.Peek().Draw(_spriteBatch, _font, _box, _background);
+/*
             var items = 300 / _menuList.Last().GetNum();
             var counter = 0;
 
@@ -345,8 +365,14 @@ namespace XNASystem
             }
 
             _spriteBatch.End();
+ */
             base.Draw(gameTime);
         }
         #endregion
+
+        public void SetStack(Stack<IMenu> stack)
+        {
+            _menuStack = stack;
+        }
     }
 }

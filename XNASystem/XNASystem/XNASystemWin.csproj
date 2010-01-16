@@ -58,6 +58,7 @@
     <Compile Include="Answer.cs" />
     <Compile Include="Booklet.cs" />
     <Compile Include="EditorMainMenu.cs" />
+    <Compile Include="EditorMenu.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="IComponent.cs" />
     <Compile Include="EntryPoint.cs" />
