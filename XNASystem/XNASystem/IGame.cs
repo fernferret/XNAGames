@@ -10,7 +10,6 @@ namespace XNASystem
 		void AdvanceLevel();
 		void ResetGame();
 		List<PowerUp> GetPowerUps();
-		void Draw();
 		void FinishGame();
 		void StartGame();
 		int GetLevelScore();
