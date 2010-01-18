@@ -135,7 +135,7 @@ namespace XNASystem
             spriteBatch.DrawString(fonts[0], "Start Quiz (NYI)", new Vector2(100, 200), Color.Black);
             spriteBatch.DrawString(fonts[0], "Options", new Vector2(100, 275), Color.Black);
             spriteBatch.DrawString(fonts[0], "View Scores", new Vector2(100, 350), Color.Black);
-            spriteBatch.DrawString(fonts[0], "Write Questions", new Vector2(100, 425), Color.Black);
+            spriteBatch.DrawString(fonts[0], "Edit Material", new Vector2(100, 425), Color.Black);
             spriteBatch.DrawString(fonts[0], "Exit", new Vector2(100, 500), Color.Black);
 
             spriteBatch.End();

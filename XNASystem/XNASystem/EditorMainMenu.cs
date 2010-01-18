@@ -12,6 +12,8 @@ namespace XNASystem
         protected int _down;
         protected int _enter;
         protected int _choice;
+    	protected int _currentBooklet;
+    	protected int _currentQuiz;
         protected Stack<IScreen> _menuStack;
         protected SystemMain _systemMain;
 
@@ -26,6 +28,8 @@ namespace XNASystem
             _choice = 0;
             _menuStack = stack;
             _systemMain = main;
+        	_currentBooklet = _systemMain.GetCurrentBooklet();
+        	_currentQuiz = _systemMain.GetCurrentQuiz();
         }
         #endregion
 
@@ -68,13 +72,17 @@ namespace XNASystem
                 {
                         //change booklet
                     case 0:
+						_menuStack.Push(new SelectBookletMenu(_menuStack, _systemMain, this));
+						_systemMain.SetStack(_menuStack);
                         break;
                         // change quiz
                     case 1:
+						_menuStack.Push(new SelectQuizMenu(_menuStack, _systemMain, this));
+						_systemMain.SetStack(_menuStack);
                         break;
                         //write question
                     case 2:
-                        _menuStack.Push(new EditorMenu(_menuStack, _systemMain));
+                        _menuStack.Push(new EditorMenu(_menuStack, _systemMain, this));
                         _systemMain.SetStack(_menuStack);
                         break;
                         // back
@@ -123,13 +131,48 @@ namespace XNASystem
             spriteBatch.DrawString(fonts[0], "Question Editor Menu", new Vector2(250, 100), Color.Black);
 
             //draw the menu items
-            spriteBatch.DrawString(fonts[0], "Select Booklet (NYI)", new Vector2(100, 200), Color.Black);
-            spriteBatch.DrawString(fonts[0], "Select Quiz (NYI)", new Vector2(100, 300), Color.Black);
-            spriteBatch.DrawString(fonts[0], "Write New Question Here", new Vector2(100, 400), Color.Black);
+            spriteBatch.DrawString(fonts[0], "Select Booklet", new Vector2(100, 200), Color.Black);
+			spriteBatch.DrawString(fonts[0], _systemMain.GetBookletList()[_currentBooklet].GetTitle(), new Vector2(400, 200), Color.Black);
+
+            spriteBatch.DrawString(fonts[0], "Select Quiz", new Vector2(100, 300), Color.Black);
+
+			// if there are no quizzes in the current booklet than say so
+			if (_systemMain.GetBookletList()[_systemMain.GetCurrentBooklet()].GetQuizList() == null)
+			{
+				spriteBatch.DrawString(fonts[0], "No Quizzes here", new Vector2(400, 300), Color.Red);
+			}
+			else
+			{
+				spriteBatch.DrawString(fonts[0], _systemMain.GetBookletList()[_systemMain.GetCurrentBooklet()].GetQuizList()[_currentQuiz].GetTitle(), new Vector2(400, 300), Color.Black);
+			}
+
+        	spriteBatch.DrawString(fonts[0], "Write New Question Here", new Vector2(100, 400), Color.Black);
             spriteBatch.DrawString(fonts[0], "Back", new Vector2(100, 500), Color.Black);
+			
 
             spriteBatch.End();
         }
         #endregion
+
+    	public void SetCurrentBooklet(int index)
+    	{
+    		_currentBooklet = index;
+    		_currentQuiz = 0;
+    	}
+
+		public void SetCurrentQuiz(int index)
+		{
+			_currentQuiz = index;
+		}
+
+    	public int GetCurrentQuiz()
+    	{
+    		return _currentQuiz;
+    	}
+
+		public int GetCurrentBooklet()
+		{
+			return _currentBooklet;
+		}
     }
 }

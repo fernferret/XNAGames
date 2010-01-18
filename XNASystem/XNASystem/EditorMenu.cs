@@ -18,6 +18,7 @@ namespace XNASystem
         protected SystemMain _systemMain;
         protected string _question;
         protected List<Answer> _answers;
+    	protected EditorMainMenu _editor;
         protected int _a,
                       _b,
                       _c,
@@ -49,7 +50,7 @@ namespace XNASystem
         #endregion
 
         #region constructor
-        public EditorMenu(Stack<IScreen> stack, SystemMain main)
+        public EditorMenu(Stack<IScreen> stack, SystemMain main, EditorMainMenu editor)
         {
             _up = 1;
             _down = 1;
@@ -59,6 +60,7 @@ namespace XNASystem
             _menuStack = stack;
             _systemMain = main;
             _answers = new List<Answer>(4);
+        	_editor = editor;
             _question = "Enter Question Here";
             _a = 1;
             _b = 1;
@@ -145,7 +147,7 @@ namespace XNASystem
                         break;
                     //submit question
                     case 3:
-                        _systemMain.AddQuestion(new Question(_question, _answers));
+                        _systemMain.CreateQuestion(_editor.GetCurrentBooklet(), _editor.GetCurrentQuiz(), _question, _answers);
                         _menuStack.Pop();
                         _systemMain.SetStack(_menuStack);
                         break;

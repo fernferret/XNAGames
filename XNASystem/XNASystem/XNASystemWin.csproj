@@ -57,7 +57,11 @@
   <ItemGroup>
     <Compile Include="Answer.cs" />
     <Compile Include="Booklet.cs" />
+    <Compile Include="CreateBookletMenu.cs" />
+    <Compile Include="CreateQuizMenu.cs" />
+    <Compile Include="SelectQuizMenu.cs" />
     <Compile Include="CorrectAnswerMenu.cs" />
+    <Compile Include="GameScreen.cs" />
     <Compile Include="IComponent.cs" />
     <Compile Include="EditorMainMenu.cs" />
     <Compile Include="EditorMenu.cs" />
@@ -76,8 +80,10 @@
     <Compile Include="QuestionItem.cs" />
     <Compile Include="QuestionLoader.cs" />
     <Compile Include="Quiz.cs" />
+    <Compile Include="QuizScreen.cs" />
     <Compile Include="Score.cs" />
     <Compile Include="ScoresMenu.cs" />
+    <Compile Include="SelectBookletMenu.cs" />
     <Compile Include="SystemMain.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -107,6 +113,8 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>

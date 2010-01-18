@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace XNASystem
 {
-    class Quiz: IComponent<Question>
+	public class Quiz: IComponent<Question>
     {
         // The listing of the currently loaded questions
         private List<Question> _questionList;
