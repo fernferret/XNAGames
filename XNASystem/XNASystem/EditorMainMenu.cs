@@ -4,6 +4,20 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 namespace XNASystem
 {
+	/// <summary>
+	/// EditorMainMenu
+	/// 
+	/// This screen is the starting point for enter new material to the system. it displays the currently selected 
+	/// booklet and quiz. it allows the user to create a new booklet, new quiz or new quesiton. it allso allows the 
+	/// user to select the booklet and quiz like a directory for adding new questions.
+	/// 
+	/// Constructor: MainMenu(Stack<IScreen> stack, SystemMain main)
+	/// - stack is the list of menus that have stacked up so far
+	/// - main is the instance of our main class that created this menu 
+	/// 
+	/// Created by: Andy Kruth
+	/// Modified by: 
+	/// </summary>
     class EditorMainMenu : IScreen
     {
         #region variables
@@ -34,6 +48,14 @@ namespace XNASystem
         #endregion
 
         #region update
+
+		/// <summary>
+		/// Update
+		/// 
+		/// This method is called in our system mains update which is called extremely frequently. This method is responsible for checking
+		/// the keyboard state and performing the appropriate actions when keys are pressed and released.
+		/// </summary>
+		/// <param name="state"> the current keys that are pressed</param>
         public void Update(KeyboardState state)
         {
             #region arrow controls
@@ -117,6 +139,15 @@ namespace XNASystem
         #endregion
 
         #region draw
+
+		/// <summary>
+		/// Draw
+		/// 
+		/// This method is called in the main systems draw method. This method draws to the screen everything that makes up this screen.
+		/// </summary>
+		/// <param name="spriteBatch"> the object needed to draw things in XNA</param>
+		/// <param name="fonts"> a list of fonts that cn be used in this screen</param>
+		/// <param name="textures"> a list of textures that can be used to draw this screens</param>
         public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
         {
             spriteBatch.Begin();
@@ -137,7 +168,7 @@ namespace XNASystem
             spriteBatch.DrawString(fonts[0], "Select Quiz", new Vector2(100, 300), Color.Black);
 
 			// if there are no quizzes in the current booklet than say so
-			if (_systemMain.GetBookletList()[_systemMain.GetCurrentBooklet()].GetQuizList() == null)
+			if (_systemMain.GetBookletList()[_systemMain.GetCurrentBooklet()].GetQuizList().Count == 0)
 			{
 				spriteBatch.DrawString(fonts[0], "No Quizzes here", new Vector2(400, 300), Color.Red);
 			}

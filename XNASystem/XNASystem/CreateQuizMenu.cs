@@ -129,7 +129,7 @@ namespace XNASystem
 				{
 					//submit quiz
 					case 1:
-						_systemMain.CreateBooklet(_name);
+						_systemMain.CreateQuiz(_editor.GetCurrentBooklet(), _name);
 						_menuStack.Pop();
 						_systemMain.SetStack(_menuStack);
 						break;

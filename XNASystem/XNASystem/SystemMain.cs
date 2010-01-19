@@ -51,7 +51,7 @@ namespace XNASystem
         // initialize the menustack
         private Stack<IScreen> _menuStack;
 
-		// initialie a new list of questions
+		// initialie a new list of questions//////////////probably delete
 		private List<Question> _newQuestions;
 
 		//initialize a new list of booklets

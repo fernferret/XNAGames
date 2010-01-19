@@ -70,7 +70,7 @@ namespace XNASystem
 					_editor.SetCurrentQuiz(_choice);
 					_systemMain.SetCurrentQuiz(_choice);
 				}
-				if (_choice == _systemMain.GetQuizList().Count + 1)
+				if (_choice == _systemMain.GetQuizList().Count)
 				{
 					_menuStack.Push(new CreateQuizMenu(_menuStack, _systemMain, _editor));
 				}
