@@ -51,9 +51,6 @@ namespace XNASystem
         // initialize the menustack
         private Stack<IScreen> _menuStack;
 
-		// initialie a new list of questions//////////////probably delete
-		private List<Question> _newQuestions;
-
 		//initialize a new list of booklets
     	private List<Booklet> _booklets;
 
@@ -102,9 +99,6 @@ namespace XNASystem
 
             // create the stack
             _menuStack = new Stack<IScreen>();
-
-			// create a list of question for the editor
-			_newQuestions = new List<Question>();
 
 			// create a list of booklets the system can run off of
 			_booklets = new List<Booklet>();
@@ -427,11 +421,6 @@ namespace XNASystem
         {
             _menuStack = stack;
         }
-
-		public void AddQuestion(Question question)
-		{
-			_newQuestions.Add(question);
-		}
 
 		public List<Booklet> GetBookletList()
 		{
