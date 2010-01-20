@@ -5,7 +5,8 @@ using System.Text;
 
 namespace XNASystem
 {
-	interface IGameObject
+	public interface IGameObject
 	{
+		void Draw();
 	}
 }

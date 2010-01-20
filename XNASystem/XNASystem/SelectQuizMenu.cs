@@ -118,8 +118,8 @@ namespace XNASystem
 			{
 				spriteBatch.DrawString(fonts[0], _systemMain.GetQuizList()[counter].GetTitle(), new Vector2(100, 200 + ((300 / (_systemMain.GetQuizList().Count + 1)) * counter)), Color.Black);
 			}
-			spriteBatch.DrawString(fonts[0], "Create New Quiz (NYI)", new Vector2(100, 200 + ((300 / (_systemMain.GetQuizList().Count + 1)) * counter)), Color.Red);
-			spriteBatch.DrawString(fonts[0], "Back", new Vector2(100, 500), Color.Red);
+			spriteBatch.DrawString(fonts[0], "Create New Quiz", new Vector2(100, 200 + ((300 / (_systemMain.GetQuizList().Count + 1)) * counter)), Color.Black);
+			spriteBatch.DrawString(fonts[0], "Back", new Vector2(100, 500), Color.Black);
 
 			spriteBatch.End();
 		}
