@@ -33,7 +33,7 @@ namespace XNASystem
 		#endregion
 
 		/// <summary>
-		/// 
+		/// Creates a score for a game level or quiz
 		/// </summary>
 		/// <param name="p">The Player Name</param>
 		/// <param name="t">The Activity Type</param>

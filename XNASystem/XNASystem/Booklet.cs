@@ -5,7 +5,6 @@ namespace XNASystem
 {
     class Booklet: IComponent<Quiz>
     {
-        //
         private readonly List<Quiz> _quizList;
         private readonly String _title;
         private Quiz _openItem;
@@ -100,7 +99,8 @@ namespace XNASystem
         {
             return GetOpenItem(false).MenuOf(true);
         }
-        internal bool AdvanceQuiz()
+        
+		internal bool AdvanceQuiz()
         {
             _status = Status.Completed;
             GetOpenItem(true);

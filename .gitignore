@@ -1,0 +1,9 @@
+*.suo
+bin
+obj
+_ReSharper*
+*cache*
+*.testrunconfig
+*.vsmdi
+*.user
+TestResults

@@ -5,8 +5,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-#region unneed enums
-
 // Enumeration that specifies various Menu Actions
 enum MenuAction
 {
@@ -24,43 +22,41 @@ enum ActivityType
 	Quiz
 }
 // Enumeration that specifies the status of a quiz/booklet
-enum Status
+public enum Status
 {
-    NotStarted,
-    InProgress,
-    Completed,
-    Error
+	NotStarted,
+	InProgress,
+	Completed,
+	Error
 }
-
-#endregion
 
 namespace XNASystem
 {
-    /// <summary>
-    /// This is the main type for your game
-    /// </summary>
-    public class SystemMain : Game
-    {
-        #region variable creation
+	/// <summary>
+	/// This is the main type for your game
+	/// </summary>
+	public class SystemMain : Game
+	{
+		#region variable creation
 
-        // graphics variables
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+		// graphics variables
+		private GraphicsDeviceManager _graphics;
+		private SpriteBatch _spriteBatch;
 
-        // initialize a list of fonts
-        private List<SpriteFont> _fontPackage;
+		// initialize a list of fonts
+		private List<SpriteFont> _fontPackage;
 
-        // initilize a list of textures
-        private List<Texture2D> _texturePackage;
+		// initilize a list of textures
+		private List<Texture2D> _texturePackage;
 
-        // initialize the menustack
-        private Stack<IScreen> _menuStack;
+		// initialize the menustack
+		private Stack<IScreen> _menuStack;
 
 		// initialie a new list of questions
 		private List<Question> _newQuestions;
 
-        #region old possibly unneed variables
-        /*        // stack of menus being drawn
+		#region old possibly unneed variables
+		/*        // stack of menus being drawn
         readonly List<Menu> _menuList = new List<Menu>();
 
         // Set of variables to initialize button debounce
@@ -72,338 +68,123 @@ namespace XNASystem
 
         // Current Choice in a menu, gets cached for users
         private int _choice;
-
+*/
         // Question loader that will preload all quizzes in
         // a booklet
-        private readonly QuestionLoader _qLoad;
+        private QuestionLoader _qLoad;
 
         // The target booklet to dump data into
-        private readonly Booklet _booklet;
-*/
-        #endregion
+        private Booklet _booklet;
 
-        #endregion
+		#endregion
 
-        #region constructor
-        // System Constructor, performs initialization
-        public SystemMain()
-        {
-            // graphics initializer
-            _graphics = new GraphicsDeviceManager(this);
+		#endregion
 
-            //content location
-            Content.RootDirectory = "Content";
+		#region constructor
+		// System Constructor, performs initialization
+		public SystemMain()
+		{
+			// graphics initializer
+			_graphics = new GraphicsDeviceManager(this);
 
-            // initialize font package and texture package
-            _fontPackage = new List<SpriteFont>();
-            _texturePackage = new List<Texture2D>();
+			//content location
+			Content.RootDirectory = "Content";
 
-            // create the stack
-            _menuStack = new Stack<IScreen>();
+			// initialize font package and texture package
+			_fontPackage = new List<SpriteFont>();
+			_texturePackage = new List<Texture2D>();
+
+			// create the stack
+			_menuStack = new Stack<IScreen>();
 
 			// create a list of question for the editor
 			_newQuestions = new List<Question>();
 
-/*            _qLoad = new QuestionLoader();
+			/*            
+						//create the static main menu
+						_menuList.Add(new Menu("Welcome to the XNA Game System", new List<IMenuItem>
+																					 {
+																						 new NavItem("Take Quiz", MenuAction.ShowQuiz),
+																						 new NavItem("Change Options", MenuAction.ShowOptions),
+																						 new NavItem("View Scores", MenuAction.ShowMain),
+																						 new NavItem("Edit Questions", MenuAction.ShowEditorMain)
+																					 }));
+			*/
+		}
+		#endregion
 
-            //populate a booklet from xml files
-            _booklet = _qLoad.PopulateSystem();
+		#region Load and Unload
+		/// <summary>
+		/// LoadContent will be called once per game and is the place to load
+		/// all of your content.
+		/// </summary>
+		protected override void LoadContent()
+		{
+			// Create a new SpriteBatch, which can be used to Draw textures.
+			_spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //create the static main menu
-            _menuList.Add(new Menu("Welcome to the XNA Game System", new List<IMenuItem>
-                                                                         {
-                                                                             new NavItem("Take Quiz", MenuAction.ShowQuiz),
-                                                                             new NavItem("Change Options", MenuAction.ShowOptions),
-                                                                             new NavItem("View Scores", MenuAction.ShowMain),
-                                                                             new NavItem("Edit Questions", MenuAction.ShowEditorMain)
-                                                                         }));
-*/     
-        }
-        #endregion
+			// load the fonts
+			_fontPackage.Add(Content.Load<SpriteFont>("Fonts//Arial"));
 
-        #region Load and Unload
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
-        protected override void LoadContent()
-        {
-            // Create a new SpriteBatch, which can be used to Draw textures.
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+			//load texture package
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//box"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//XNA"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//grey box"));
 
-            // load the fonts
-            _fontPackage.Add(Content.Load<SpriteFont>("Fonts//Arial"));
+			// give the stack the main menu
+			_menuStack.Push(new MainMenu(_menuStack, this));
+		}
 
-            //load texture package
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//box"));
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//XNA"));
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//grey box"));
+		/// <summary>
+		/// UnloadContent will be called once per game and is the place to unload
+		/// all content.
+		/// </summary>
+		protected override void UnloadContent()
+		{
+			// TODO: Unload any non ContentManager content here
+		}
 
-            // give the stack the main menu
-            _menuStack.Push(new MainMenu(_menuStack, this));
-        }
+		#endregion
 
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// all content.
-        /// </summary>
-        protected override void UnloadContent()
-        {
-            // TODO: Unload any non ContentManager content here
-        }
+		#region update
+		/// <summary>
+		/// Allows the game to run logic such as updating the world,
+		/// checking for collisions, gathering input, and playing audio.
+		/// </summary>
+		/// <param name="gameTime">Provides a snapshot of timing values.</param>
+		protected override void Update(GameTime gameTime)
+		{
+			// the state the keyboard is in right now
+			var state = Keyboard.GetState();
 
-        #endregion
+			// use the update method from the current menu
+			_menuStack.Peek().Update(state);
+		}
+		#endregion
 
-        #region update
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Update(GameTime gameTime)
-        {
-            // the state the keyboard is in right now
-            var state = Keyboard.GetState();
+		#region Draw
+		/// <summary>
+		/// This is called when the game should Draw itself.
+		/// </summary>
+		/// <param name="gameTime">Provides a snapshot of timing values.</param>
+		protected override void Draw(GameTime gameTime)
+		{
+			GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // use the update method from the current menu
-            _menuStack.Peek().Update(state);
+			_menuStack.Peek().Draw(_spriteBatch, _fontPackage, _texturePackage);
 
-/*            // number of choices on this menu
-            var items = _menuList.Last().GetNum();
+			base.Draw(gameTime);
+		}
+		#endregion
 
-            #region arrow controls
-            // up arrow control
-            if(state.IsKeyDown(Keys.Up) && _up != 1)
-            {
-                _up = 1;
-                _choice--;
-            }
-            if (state.IsKeyUp(Keys.Up))
-            {
-                _up = 0;
-            }
-
-            //down arrow control
-            if (state.IsKeyDown(Keys.Down) && _down != 1)
-            {
-                _down = 1;
-                _choice++;
-            }
-            if (state.IsKeyUp(Keys.Down))
-            {
-                _down = 0;
-            }
-            #endregion
-
-            #region enter actions
-            //enter key controls
-            if (state.IsKeyDown(Keys.Enter) && _enter != 1)
-            {
-                _enter = 1;
-
-                // Reinitialize choice upon menu change
-                _choice = 0;
-                var item = _menuList.Last().GetSelectedItem();
-                
-                if(item.GetType() == typeof(NavItem))
-                {
-                    var action = ((NavItem)item).GetAction();
-                    switch (action)
-                    {
-                        case MenuAction.ShowMain:
-                            RemoveAllButMain();
-                            break;
-                        case MenuAction.ShowGame:
-                            ShowGameMenu();
-                            break;
-                        case MenuAction.ShowOptions:
-                            ShowOptionsMenu();
-                            break;
-                        case MenuAction.ShowQuiz:
-                            _booklet.Reset();
-                            _menuList.Add(_booklet.AdvanceQuestion());
-                            break;
-                        case MenuAction.ShowScores:
-                            ShowScoreMenu();
-                            break;
-                        case MenuAction.Return:
-                            PopMenu();
-                            break;
-                        case MenuAction.ShowEditorMain:
-                            ShowEditorMainMenu();
-                            break;
-                        case MenuAction.ShowEditor:
-                            ShowEditorMenu();
-                            break;
-                        case MenuAction.DoNothing:
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                else if(item.GetType() == typeof(QuestionItem))
-                {
-                    ((QuestionItem)item).AnswerQuestion();
-                    if (!_booklet.DoneWithQuiz())
-                    {
-                        _menuList.Add(_booklet.AdvanceQuestion());
-                        _menuList.RemoveAt(_menuList.Count - 2);
-                    }
-                    else
-                    {
-                        if(_booklet.AdvanceQuiz())
-                        {
-                            _menuList.Add(_booklet.AdvanceQuestion());
-                            _booklet.ResetQuizAdvance();
-                            // Remove the prior Question
-                            _menuList.RemoveAt(_menuList.Count - 2);
-                        }
-                        else
-                        {
-                            // Special case for leaving only main menu in
-                            PopMenu();
-                        }
-                    }
-                }
-            }
-            if (state.IsKeyUp(Keys.Enter))
-            {
-                _enter = 0;
-            }
-
-            #endregion
-
-            #region set choice
-            // make sure that choice is always on an actually menu choice
-            if(_choice == -1)
-            {
-                _choice = items - 1;
-            }
-            if(_choice == items)
-            {
-                _choice = 0;
-            }
-            _menuList.Last().SetSelectedItem(_choice);
-
-            #endregion
-
-            base.Update(gameTime);
- */
-        }
-        #endregion
-
-        #region menu administration
-/*
-        // this is the ation the kiks off a game after the quiz
-        private void ShowGameMenu()
-        {
-            _menuList.Add(new Menu("Boom...Game! (NYI)", new List<IMenuItem>
-                                                             {
-                                                                 new NavItem("Return", MenuAction.Return)
-                                                             }));
-        }
-
-        //this adds a menu to the stack which shows scores for particular users
-        private void ShowScoreMenu()
-        {
-            _menuList.Add(new Menu("BooYaa...Scores! (NYI)", new List<IMenuItem>
-                                                                 {
-                                                                     new NavItem("Return",
-                                                                                 MenuAction.Return)
-                                                                 }));
-        }
-
-        //this adds a menu to the stack which kicks of the question editor menu sequence
-        private void ShowEditorMainMenu()
-        {
-            _menuList.Add(new Menu("Question Editor", new List<IMenuItem>
-                                                           {
-                                                               new NavItem("Change Booklet (NYI)", MenuAction.DoNothing),
-                                                               new NavItem("Change Quiz (NYI)", MenuAction.DoNothing),
-                                                               new NavItem("Write new Question", MenuAction.ShowEditor)
-                                                           }));
-        }
-        private void ShowEditorMenu()
-        {
-            _menuList.Add(new Menu("New Question", new List<IMenuItem>
-                                                       {
-                                                           new NavItem("Type your")
-                                                       }));
-        }
-
-        // this adds a menu to the stack that shows the option and allows them to be changed
-        private void ShowOptionsMenu()
-        {
-            _menuList.Add(new Menu("Options Screen (NYI)", new List<IMenuItem>
-                                                               {
-                                                                   new NavItem("Some Sweet Option", MenuAction.ShowMain),
-                                                                   new NavItem("Color Jazz", MenuAction.ShowMain),
-                                                                   new NavItem("The Greatest Option in the World", MenuAction.ShowMain),
-                                                                   new NavItem("Return Home", MenuAction.ShowMain)
-                                                               }));
-        }
-
-        #region menu removal
-        // this removes a menu from the menu stack
-        private void PopMenu()
-        {
-            _menuList.RemoveAt(_menuList.Count - 1);
-        }
-
-        //this removes all the menus except for he main menu from the stack
-        private void RemoveAllButMain()
-        {
-            _menuList.RemoveRange(1,_menuList.Count - 1);
-        }
-        #endregion
-*/
-        #endregion
-
-        #region Draw
-        /// <summary>
-        /// This is called when the game should Draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            _menuStack.Peek().Draw(_spriteBatch, _fontPackage, _texturePackage);
-/*
-            var items = 300 / _menuList.Last().GetNum();
-            var counter = 0;
-
-            _spriteBatch.Begin();
-
-            _spriteBatch.DrawString(_font, _menuList.Last().GetTitle(), new Vector2(250, 100), Color.Black);
-
-            foreach (var item in _menuList.Last().GetItems())
-            {
-                if (item == _menuList.Last().GetSelectedItem())
-                {
-                    _spriteBatch.DrawString(_font, item.GetTitle(), new Vector2(100, 200 + items*counter), Color.White);
-                }
-                else
-                {
-                    _spriteBatch.DrawString(_font, item.GetTitle(), new Vector2(100, 200 + items * counter), Color.Black);
-                }
-                counter++;
-            }
-
-            _spriteBatch.End();
- */
-            base.Draw(gameTime);
-        }
-        #endregion
-
-        public void SetStack(Stack<IScreen> stack)
-        {
-            _menuStack = stack;
-        }
+		public void SetStack(Stack<IScreen> stack)
+		{
+			_menuStack = stack;
+		}
 
 		public void AddQuestion(Question question)
 		{
 			_newQuestions.Add(question);
 		}
-    }
+	}
 }

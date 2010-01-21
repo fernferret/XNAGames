@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -71,7 +72,9 @@ namespace XNASystem
                 {
                     // take quiz
                     case 0:
-                        break;
+                        _menuStack.Push(new SystemDisplay(_menuStack, _systemMain));
+						_systemMain.SetStack(_menuStack);
+                		break;
                     // change options
                     case 1:
                         _menuStack.Push(new OptionsMenu(_menuStack, _systemMain));

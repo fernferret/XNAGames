@@ -23,10 +23,14 @@ namespace XNASystem
 			// Need Calls to Kenny's XML Loader to do this
 			return null;
 		}
-		
+
 		public void AddScore()
 		{
 			//_scores.Add());
+		}
+		public void AddScore(Score s)
+		{
+			_scores.Add(s);
 		}
     }
 }

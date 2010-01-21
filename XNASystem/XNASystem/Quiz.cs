@@ -3,14 +3,17 @@ using System.Collections.Generic;
 
 namespace XNASystem
 {
-	class Quiz : IComponent<Question>
+	public class Quiz : IComponent<Question>
 	{
+		#region Variables
 		// The listing of the currently loaded questions
 		private readonly List<Question> _questionList;
 		private readonly String _title;
 		private Question _openItem;
 		private Status _status = Status.NotStarted;
+		#endregion
 
+		#region Constructors
 		/// <summary>
 		/// Create a quiz with no questions, but initialize a new question list
 		/// </summary>
@@ -28,7 +31,9 @@ namespace XNASystem
 			_title = title;
 			_questionList = questions;
 		}
+		#endregion 
 
+		#region Getters
 		/// <summary>
 		/// Advances the quiz to the next item (basically question)
 		/// </summary>
@@ -92,6 +97,17 @@ namespace XNASystem
 		}
 
 		/// <summary>
+		/// Get the current item as a menu (in this case, just passes down to question)
+		/// </summary>
+		internal Menu MenuOf(bool advance)
+		{
+			return GetOpenItem(advance).GetAsMenu();
+		}
+
+		#endregion
+
+		#region Setters
+		/// <summary>
 		/// Advances the quiz to the next item (basically question)
 		/// </summary>
 		public void AddItem(Question item)
@@ -112,13 +128,6 @@ namespace XNASystem
 			_status = Status.NotStarted;
 			return true;
 		}
-
-		/// <summary>
-		/// Get the current item as a menu (in this case, just passes down to question)
-		/// </summary>
-		internal Menu MenuOf(bool advance)
-		{
-			return GetOpenItem(advance).GetAsMenu();
-		}
+		#endregion
 	}
 }
