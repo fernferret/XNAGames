@@ -21,7 +21,7 @@ namespace XNASystem.BreakOut
 {
 	#region
 
-	class BreakOutBlock
+	class BreakOutBlock : IGameObject
 	{
 		private readonly int _xPosition;
 		private readonly int _yPosition;
@@ -47,6 +47,11 @@ namespace XNASystem.BreakOut
 		public int XPosition
 		{
 			get { return _xPosition; }
+		}
+
+		public void Draw()
+		{
+			throw new NotImplementedException();
 		}
 	}
 

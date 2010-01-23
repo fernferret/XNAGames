@@ -5,11 +5,15 @@ using System.Text;
 
 namespace XNASystem.BreakOut
 {
-	class BreakOutPaddle
+	class BreakOutPaddle : IGameObject
 	{
 		private int _xPosition;
 		private int _yPosition;
 
 		get
+		public void Draw()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

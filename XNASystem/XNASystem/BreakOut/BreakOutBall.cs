@@ -5,7 +5,7 @@ using System.Text;
 
 namespace XNASystem.BreakOut
 {
-	class BreakOutBall
+	class BreakOutBall : IGameObject
 	{
 		private int _xPosition;
 		private int _yPosition;
@@ -42,6 +42,11 @@ namespace XNASystem.BreakOut
 		{
 			_xPosition = (int)(_xVelocity*time + Effectiveness*2*_spin*time);
 			_yPosition = (int)(_yVelocity*time - Effectiveness*_spin*(time ^ 2));
+		}
+
+		public void Draw()
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

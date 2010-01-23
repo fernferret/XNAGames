@@ -7,5 +7,6 @@ namespace XNASystem
 {
 	interface IGameObject
 	{
+		void Draw();
 	}
 }

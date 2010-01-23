@@ -58,11 +58,14 @@
     <Compile Include="Answer.cs" />
     <Compile Include="Booklet.cs" />
     <Compile Include="BreakOut\BreakOut.cs" />
+    <Compile Include="BreakOut\BreakOutBall.cs" />
     <Compile Include="BreakOut\BreakOutBlock.cs" />
     <Compile Include="BreakOut\BreakOutLevel.cs" />
+    <Compile Include="BreakOut\BreakOutPaddle.cs" />
     <Compile Include="IGame.cs" />
     <Compile Include="CreateBookletMenu.cs" />
     <Compile Include="CreateQuizMenu.cs" />
+    <Compile Include="IGameObject.cs" />
     <Compile Include="SelectQuizMenu.cs" />
     <Compile Include="CorrectAnswerMenu.cs" />
     <Compile Include="GameScreen.cs" />

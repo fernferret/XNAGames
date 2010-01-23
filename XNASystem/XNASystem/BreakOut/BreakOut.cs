@@ -9,9 +9,14 @@ namespace XNASystem.BreakOut
 {
 	class BreakOut : IGame , IScreen
 	{
+		private BreakOutPaddle paddle;
+
 		public BreakOut()
 		{
+			//here is where we can take in things like level
+			paddle = new BreakOutPaddle();
 		}
+
 		public void AdvanceLevel()
 		{
 			throw new NotImplementedException();
@@ -23,11 +28,6 @@ namespace XNASystem.BreakOut
 		}
 
 		public List<PowerUp> GetPowerUps()
-		{
-			throw new NotImplementedException();
-		}
-
-		public void Draw()
 		{
 			throw new NotImplementedException();
 		}
@@ -59,7 +59,10 @@ namespace XNASystem.BreakOut
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
-			throw new NotImplementedException();
+			spriteBatch.Begin();
+
+			//draw the paddle
+			
 		}
 	}
 }
