@@ -32,7 +32,7 @@ namespace XNASystem
             return _answers;
         }
 
-        internal Menu GetAsMenu()
+        /*internal Menu GetAsMenu()
         {
             var questionItems = new List<IMenuItem>
                                     {
@@ -42,7 +42,7 @@ namespace XNASystem
                                         new QuestionItem(_answers[3])
                                     };
             return new Menu(Title,questionItems);
-        }
+        }*/
 
         public bool HasAnswer()
         {

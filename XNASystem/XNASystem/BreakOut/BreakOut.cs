@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace XNASystem.BreakOut
 {
-	class BreakOut : IGame
+	class BreakOut : IGame , IScreen
 	{
+		public BreakOut()
+		{
+		}
 		public void AdvanceLevel()
 		{
 			throw new NotImplementedException();
@@ -43,6 +48,16 @@ namespace XNASystem.BreakOut
 		}
 
 		public void ResetScore()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Update(KeyboardState state)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
 			throw new NotImplementedException();
 		}

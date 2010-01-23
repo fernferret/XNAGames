@@ -114,9 +114,13 @@ namespace XNASystem
                 {
                     // take quiz - run the quiz-game loop
                     case 0:
+					// play game - only for debugging will be deleted later
+					case 1:
+						_menuStack.Push(new BreakOut.BreakOut());
+						_systemMain.SetStack(_menuStack);
                         break;
                     // change options
-                    case 1:
+                    case 2:
 						// create an options menu than push it onto the _menuStack
                         _menuStack.Push(new OptionsMenu(_menuStack, _systemMain));
 
@@ -125,7 +129,7 @@ namespace XNASystem
 
                         break;
                     // view scores
-                    case 2:
+                    case 3:
 						// create a scores menu and add it to the stack
                         _menuStack.Push(new ScoresMenu(_menuStack, _systemMain));
 
@@ -134,7 +138,7 @@ namespace XNASystem
 
                         break;
                     // write questions
-                    case 3:
+                    case 4:
 						//create a editormainmenu menu and add it to the stack
                         _menuStack.Push(new EditorMainMenu(_menuStack, _systemMain));
 
@@ -143,7 +147,7 @@ namespace XNASystem
 
                         break;
                     // exit
-                    case 4:
+                    case 5:
 						// tell main to close the program
                         _systemMain.Exit();
 
@@ -166,11 +170,11 @@ namespace XNASystem
             // if choice has gone up too far than force it to the bottom most option
             if (_choice == -1)
             {
-                _choice = 5;
+                _choice = 6;
             }
 
 			// if choice has gon down too far than force it to the upper most option
-            if (_choice == 5)
+            if (_choice == 6)
             {
                 _choice = 0;
             }
@@ -196,16 +200,17 @@ namespace XNASystem
             spriteBatch.Draw(textures[1], new Rectangle(0, 0, 800, 600), Color.White);
 
             // draw the box whereever it may be
-            spriteBatch.Draw(textures[0], new Vector2(75, 175 + (75 * _choice)), Color.White);
+            spriteBatch.Draw(textures[0], new Vector2(75, 175 + (66 * _choice)), Color.White);
 
             // draw the menu title
             spriteBatch.DrawString(fonts[0], "Welcome to the XNA Game System", new Vector2(250, 100), Color.Black);
 
             //draw the menu options
             spriteBatch.DrawString(fonts[0], "Start Quiz (NYI)", new Vector2(100, 200), Color.Black);
-            spriteBatch.DrawString(fonts[0], "Options", new Vector2(100, 275), Color.Black);
-            spriteBatch.DrawString(fonts[0], "View Scores", new Vector2(100, 350), Color.Black);
-            spriteBatch.DrawString(fonts[0], "Edit Material", new Vector2(100, 425), Color.Black);
+			spriteBatch.DrawString(fonts[0], "Debug Game", new Vector2(100, 266), Color.Black);
+            spriteBatch.DrawString(fonts[0], "Options", new Vector2(100, 333), Color.Black);
+            spriteBatch.DrawString(fonts[0], "View Scores", new Vector2(100, 400), Color.Black);
+            spriteBatch.DrawString(fonts[0], "Edit Material", new Vector2(100, 466), Color.Black);
             spriteBatch.DrawString(fonts[0], "Exit", new Vector2(100, 500), Color.Black);
 
             spriteBatch.End();

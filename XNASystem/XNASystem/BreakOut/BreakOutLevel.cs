@@ -25,7 +25,7 @@ namespace XNASystem.BreakOut
 			if (block != null)
 			{
 				//removes any blocks occupying the same location as the block being added
-				foreach(b in _blocks)
+				foreach(var b in _blocks)
 				{
 					if(block.XPosition == b.XPosition)
 					{

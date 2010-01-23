@@ -96,7 +96,7 @@ namespace XNASystem
             //return false;
         }
 
-        internal Menu AdvanceQuestion()
+       /* internal Menu AdvanceQuestion()
         {
             return GetOpenItem(false).MenuOf(true);
         }
@@ -105,7 +105,7 @@ namespace XNASystem
             _status = Status.Completed;
             GetOpenItem(true);
             return _didAdvance;
-        }
+        }*/
 
         internal bool DoneWithQuiz()
         {
