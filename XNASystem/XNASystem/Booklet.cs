@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace XNASystem
 {
+    [Serializable]
     class Booklet: IComponent<Quiz>
     {
         //

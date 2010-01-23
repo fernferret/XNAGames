@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Answer.cs" />
     <Compile Include="Booklet.cs" />
+    <Compile Include="DataManager.cs" />
     <Compile Include="IComponent.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="MenuItem.cs" />

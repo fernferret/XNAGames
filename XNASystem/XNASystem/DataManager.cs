@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Linq;
 using System.Text;
-using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Storage;
@@ -16,9 +17,15 @@ namespace XNASystem
         Save,
     }
 
+    [Serializable]
     public class NameWrapper
     {
         public List<string> BookletNames;
+
+        public NameWrapper()
+        {
+            BookletNames = new List<string>();
+        }
     }
 
     /* The DataManager class is responsible for the loading and saving of data required to persist through sessions */
@@ -43,6 +50,11 @@ namespace XNASystem
             FindNameCabinet(0, CabinetMode.Open, "name_file.sys");
         }
 
+        public void Close()
+        {
+            FindNameCabinet(0, CabinetMode.Save, "name_file.sys");
+        }
+
 		public Booklet[] LoadBooklets(PlayerIndex playerIndex)
 		{
 		    List<Booklet> booklets = new List<Booklet>();
@@ -63,6 +75,10 @@ namespace XNASystem
 			try
 			{
 			    _currentBooklet = booklet;
+                if(!_nameWrapper.BookletNames.Contains(booklet.GetTitle()))
+                {
+                    _nameWrapper.BookletNames.Add(booklet.GetTitle());
+                }
 			    FindCabinet(playerIndex, CabinetMode.Save, booklet.GetTitle());
 			    return true;
 			}
@@ -150,8 +166,8 @@ namespace XNASystem
             FileStream fileStream = File.Create(filenamePath);
             try
             {
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(Booklet));
-                xmlSerializer.Serialize(fileStream, booklet);
+                BinaryFormatter myBF = new BinaryFormatter();
+                myBF.Serialize(fileStream, booklet);
             }
             finally
             {
@@ -169,8 +185,8 @@ namespace XNASystem
             FileStream fileStream = File.Create(filenamePath);
             try
             {
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(NameWrapper));
-                xmlSerializer.Serialize(fileStream, nameWrapper);
+                BinaryFormatter myBF = new BinaryFormatter();
+                myBF.Serialize(fileStream, nameWrapper);
             }
             finally
             {
@@ -188,8 +204,8 @@ namespace XNASystem
             FileStream fileStream = File.OpenRead(filenamePath);
             try
             {
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(Booklet));
-                _currentBooklet = (Booklet)xmlSerializer.Deserialize(fileStream);
+                BinaryFormatter myBF = new BinaryFormatter();
+                _currentBooklet = (Booklet)myBF.Deserialize(fileStream);
             }
             finally
             {
@@ -207,8 +223,12 @@ namespace XNASystem
             FileStream fileStream = File.OpenRead(filenamePath);
             try
             {
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(Booklet));
-                _nameWrapper = (NameWrapper)xmlSerializer.Deserialize(fileStream);
+                BinaryFormatter myBF = new BinaryFormatter();
+                _nameWrapper = (NameWrapper)myBF.Deserialize(fileStream);
+            }
+            catch(Exception e)
+            {
+                _nameWrapper = new NameWrapper();
             }
             finally
             {
