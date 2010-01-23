@@ -4,6 +4,19 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 namespace XNASystem
 {
+	/// <summary>
+	/// ScoresMenu
+	/// 
+	/// This screen displays scores accordng to user. users will have the chance to select which game and which qui 
+	/// they want to look at and their scores will be given to them.
+	/// 
+	/// Constructor: MainMenu(Stack<IScreen> stack, SystemMain main)
+	/// - stack is the list of menus that have stacked up so far
+	/// - main is the instance of our main class that created this menu 
+	/// 
+	/// Created by: Andy Kruth
+	/// Modified by: 
+	/// </summary>
     class ScoresMenu : IScreen
     {
         #region variables
@@ -30,6 +43,14 @@ namespace XNASystem
         #endregion
 
         #region update
+
+		/// <summary>
+		/// Update
+		/// 
+		/// This method is called in our system mains update which is called extremely frequently. This method is responsible for checking
+		/// the keyboard state and performing the appropriate actions when keys are pressed and released.
+		/// </summary>
+		/// <param name="state"> the current keys that are pressed</param>
         public void Update(KeyboardState state)
         {
             #region arrow controls
@@ -74,6 +95,7 @@ namespace XNASystem
                         break;
                         // back
                     case 2:
+						// remove this menu than return the list to main
                         _menuStack.Pop();
                         _systemMain.SetStack(_menuStack);
                         break;
@@ -104,6 +126,15 @@ namespace XNASystem
         #endregion
 
         #region draw
+
+		/// <summary>
+		/// Draw
+		/// 
+		/// This method is called in the main systems draw method. This method draws to the screen everything that makes up this screen.
+		/// </summary>
+		/// <param name="spriteBatch"> the object needed to draw things in XNA</param>
+		/// <param name="fonts"> a list of fonts that cn be used in this screen</param>
+		/// <param name="textures"> a list of textures that can be used to draw this screens</param>
         public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
         {
             spriteBatch.Begin();

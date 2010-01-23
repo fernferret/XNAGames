@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -21,7 +19,7 @@ enum MenuAction
     ShowEditorMain
 }
 // Enumeration that specifies the status of a quiz/booklet
-enum Status
+public enum Status
 {
     NotStarted,
     InProgress,
@@ -53,8 +51,12 @@ namespace XNASystem
         // initialize the menustack
         private Stack<IScreen> _menuStack;
 
-		// initialie a new list of questions
-		private List<Question> _newQuestions;
+		//initialize a new list of booklets
+    	private List<Booklet> _booklets;
+
+		//initializes holders for the current booklets and quizzes
+    	private Booklet _currentBooklet;
+    	private Quiz _currentQuiz;
 
         #region old possibly unneed variables
         /*        // stack of menus being drawn
@@ -98,8 +100,30 @@ namespace XNASystem
             // create the stack
             _menuStack = new Stack<IScreen>();
 
-			// create a list of question for the editor
-			_newQuestions = new List<Question>();
+			// create a list of booklets the system can run off of
+			_booklets = new List<Booklet>();
+
+			////////////////////////////////////////////////delete all this once xml works///////////////////////////////////////////////////////////////////////////
+        	Booklet defaultb = new Booklet("defualt Booklet");
+        	Booklet second = new Booklet("second Booklet");
+
+			Quiz test1 = new Quiz("Test Quiz 1 default");
+			Quiz test2 = new Quiz("Test Quiz 2 defualt");
+			Quiz test3 = new Quiz("Test Quiz 1 second");
+			Quiz test4 = new Quiz("Test Quiz 2 second");
+
+			defaultb.AddItem(test1);
+			defaultb.AddItem(test2);
+			second.AddItem(test3);
+			second.AddItem(test4);
+
+			_booklets.Add(defaultb);
+			_booklets.Add(second);
+			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        	// initialize the currents to jsut the first boklet and the first quiz in that booklet
+        	_currentBooklet = _booklets[0];
+        	_currentQuiz = _booklets[0].GetQuizList()[0];
 
 /*            _qLoad = new QuestionLoader();
 
@@ -398,9 +422,58 @@ namespace XNASystem
             _menuStack = stack;
         }
 
-		public void AddQuestion(Question question)
+		public List<Booklet> GetBookletList()
 		{
-			_newQuestions.Add(question);
+			return _booklets;
+		}
+
+		public List<Quiz> GetQuizList()
+		{
+			return _currentBooklet.GetQuizList();
+		}
+
+		public int GetCurrentBooklet()
+		{
+			return _booklets.IndexOf(_currentBooklet);
+		}
+
+		public int GetCurrentQuiz()
+		{
+			return _currentBooklet.GetQuizList().IndexOf(_currentQuiz);
+		}
+
+		public void SetCurrentBooklet(int index)
+		{
+			_currentBooklet = _booklets[index];
+			if (_currentBooklet.GetQuizList().Count == 0)
+			{
+				_currentQuiz = null;
+			}
+			else
+			{
+				_currentQuiz = _currentBooklet.GetQuizList()[0];
+
+			}
+		}
+
+		public void SetCurrentQuiz(int index)
+		{
+			_currentQuiz = _currentBooklet.GetQuizList()[index];
+		}
+
+		public void CreateBooklet(string name)
+		{
+			_booklets.Add(new Booklet(name));
+		}
+
+		public void CreateQuiz(int bookletIndex, string name)
+		{
+			_booklets[bookletIndex].AddItem(new Quiz(name));
+		}
+
+		public void CreateQuestion(int bookletIndex, int quizIndex, string question, List<Answer> answers)
+		{
+			_booklets[bookletIndex].AddQuestionToQuiz(quizIndex, new Question(question, answers));
 		}
     }
 }

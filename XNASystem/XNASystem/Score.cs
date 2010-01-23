@@ -1,5 +1,4 @@
 
-
 namespace XNASystem
 {
     class Score
