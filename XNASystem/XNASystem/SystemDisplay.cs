@@ -5,6 +5,8 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using XNASystem.Displays;
+
 ///
 namespace XNASystem
 {
@@ -18,6 +20,9 @@ namespace XNASystem
 		private Stack<IScreen> _menuStack;
 		private SystemMain _systemMain;
 		private KeyChecker _kc;
+		private int _currentState;
+		private GameDisplay _gd;
+		private QuizDisplay _qd;
 		public SystemDisplay(Stack<IScreen> screens, SystemMain main)
 		{
 			_kc = new KeyChecker();
@@ -45,6 +50,20 @@ namespace XNASystem
 				}
 				_scoreManager.AddScore(PlayGame());
 			}
+		}
+
+		private void SwitchApplication()
+		{
+			var current = _menuStack.Pop();
+			if (current.GetType() == typeof(GameDisplay))
+			{
+				_menuStack.Push(new QuizDisplay());
+			}
+			if (current.GetType() == typeof(QuizDisplay))
+			{
+				_menuStack.Push(new GameDisplay());
+			}
+			
 		}
 
 		public Score TakeQuiz()
