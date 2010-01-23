@@ -2,7 +2,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-namespace XNASystem
+using XNASystem.Interfaces;
+
+namespace XNASystem.MaterialEditor
 {
 	class SelectQuizMenu : IScreen
 	{
@@ -32,27 +34,27 @@ namespace XNASystem
 		#endregion
 
 		#region update
-		public void Update(KeyboardState state)
+		public void Update(KeyboardState keyState, GamePadState padState)
 		{
 			#region arrow controls
 			// up arrow control
-			if (state.IsKeyDown(Keys.Up) && _up != 1)
+			if (keyState.IsKeyDown(Keys.Up) && _up != 1)
 			{
 				_up = 1;
 				_choice--;
 			}
-			if (state.IsKeyUp(Keys.Up))
+			if (keyState.IsKeyUp(Keys.Up))
 			{
 				_up = 0;
 			}
 
 			//down arrow control
-			if (state.IsKeyDown(Keys.Down) && _down != 1)
+			if (keyState.IsKeyDown(Keys.Down) && _down != 1)
 			{
 				_down = 1;
 				_choice++;
 			}
-			if (state.IsKeyUp(Keys.Down))
+			if (keyState.IsKeyUp(Keys.Down))
 			{
 				_down = 0;
 			}
@@ -61,7 +63,7 @@ namespace XNASystem
 			#region enter controls
 
 			//enter key controls
-			if (state.IsKeyDown(Keys.Enter) && _enter != 1)
+			if (keyState.IsKeyDown(Keys.Enter) && _enter != 1)
 			{
 				_enter = 1;
 				_menuStack.Pop();
@@ -76,7 +78,7 @@ namespace XNASystem
 				}
 				_systemMain.SetStack(_menuStack);
 			}
-			if (state.IsKeyUp(Keys.Enter))
+			if (keyState.IsKeyUp(Keys.Enter))
 			{
 				_enter = 0;
 			}

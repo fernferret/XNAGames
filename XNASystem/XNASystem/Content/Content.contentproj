@@ -66,6 +66,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Sprites\paddle.bmp">
+      <Name>paddle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="XML\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

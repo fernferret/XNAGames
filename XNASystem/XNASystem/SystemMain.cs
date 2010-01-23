@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using XNASystem.Interfaces;
+using XNASystem.SystemMenus;
 
 #region unneed enums
 
@@ -43,16 +45,16 @@ namespace XNASystem
         private SpriteBatch _spriteBatch;
 
         // initialize a list of fonts
-        private List<SpriteFont> _fontPackage;
+        private readonly List<SpriteFont> _fontPackage;
 
         // initilize a list of textures
-        private List<Texture2D> _texturePackage;
+        private readonly List<Texture2D> _texturePackage;
 
         // initialize the menustack
         private Stack<IScreen> _menuStack;
 
 		//initialize a new list of booklets
-    	private List<Booklet> _booklets;
+    	private readonly List<Booklet> _booklets;
 
 		//initializes holders for the current booklets and quizzes
     	private Booklet _currentBooklet;
@@ -159,6 +161,7 @@ namespace XNASystem
             _texturePackage.Add(Content.Load<Texture2D>("Sprites//box"));
             _texturePackage.Add(Content.Load<Texture2D>("Sprites//XNA"));
             _texturePackage.Add(Content.Load<Texture2D>("Sprites//grey box"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//paddle"));
 
             // give the stack the main menu
             _menuStack.Push(new MainMenu(_menuStack, this));
@@ -183,133 +186,11 @@ namespace XNASystem
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // the state the keyboard is in right now
-            var state = Keyboard.GetState();
-
+            // the keyState the keyboard is in right now
+            var keyState = Keyboard.GetState();
+        	var padState = GamePad.GetState(PlayerIndex.One);
             // use the update method from the current menu
-            _menuStack.Peek().Update(state);
-
-/*            // number of choices on this menu
-            var items = _menuList.Last().GetNum();
-
-            #region arrow controls
-            // up arrow control
-            if(state.IsKeyDown(Keys.Up) && _up != 1)
-            {
-                _up = 1;
-                _choice--;
-            }
-            if (state.IsKeyUp(Keys.Up))
-            {
-                _up = 0;
-            }
-
-            //down arrow control
-            if (state.IsKeyDown(Keys.Down) && _down != 1)
-            {
-                _down = 1;
-                _choice++;
-            }
-            if (state.IsKeyUp(Keys.Down))
-            {
-                _down = 0;
-            }
-            #endregion
-
-            #region enter actions
-            //enter key controls
-            if (state.IsKeyDown(Keys.Enter) && _enter != 1)
-            {
-                _enter = 1;
-
-                // Reinitialize choice upon menu change
-                _choice = 0;
-                var item = _menuList.Last().GetSelectedItem();
-                
-                if(item.GetType() == typeof(NavItem))
-                {
-                    var action = ((NavItem)item).GetAction();
-                    switch (action)
-                    {
-                        case MenuAction.ShowMain:
-                            RemoveAllButMain();
-                            break;
-                        case MenuAction.ShowGame:
-                            ShowGameMenu();
-                            break;
-                        case MenuAction.ShowOptions:
-                            ShowOptionsMenu();
-                            break;
-                        case MenuAction.ShowQuiz:
-                            _booklet.Reset();
-                            _menuList.Add(_booklet.AdvanceQuestion());
-                            break;
-                        case MenuAction.ShowScores:
-                            ShowScoreMenu();
-                            break;
-                        case MenuAction.Return:
-                            PopMenu();
-                            break;
-                        case MenuAction.ShowEditorMain:
-                            ShowEditorMainMenu();
-                            break;
-                        case MenuAction.ShowEditor:
-                            ShowEditorMenu();
-                            break;
-                        case MenuAction.DoNothing:
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                else if(item.GetType() == typeof(QuestionItem))
-                {
-                    ((QuestionItem)item).AnswerQuestion();
-                    if (!_booklet.DoneWithQuiz())
-                    {
-                        _menuList.Add(_booklet.AdvanceQuestion());
-                        _menuList.RemoveAt(_menuList.Count - 2);
-                    }
-                    else
-                    {
-                        if(_booklet.AdvanceQuiz())
-                        {
-                            _menuList.Add(_booklet.AdvanceQuestion());
-                            _booklet.ResetQuizAdvance();
-                            // Remove the prior Question
-                            _menuList.RemoveAt(_menuList.Count - 2);
-                        }
-                        else
-                        {
-                            // Special case for leaving only main menu in
-                            PopMenu();
-                        }
-                    }
-                }
-            }
-            if (state.IsKeyUp(Keys.Enter))
-            {
-                _enter = 0;
-            }
-
-            #endregion
-
-            #region set choice
-            // make sure that choice is always on an actually menu choice
-            if(_choice == -1)
-            {
-                _choice = items - 1;
-            }
-            if(_choice == items)
-            {
-                _choice = 0;
-            }
-            _menuList.Last().SetSelectedItem(_choice);
-
-            #endregion
-
-            base.Update(gameTime);
- */
+            _menuStack.Peek().Update(keyState, padState);
         }
         #endregion
 

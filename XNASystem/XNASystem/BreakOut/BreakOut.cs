@@ -4,17 +4,18 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using XNASystem.Interfaces;
 
 namespace XNASystem.BreakOut
 {
 	class BreakOut : IGame , IScreen
 	{
-		private BreakOutPaddle paddle;
+		private readonly BreakOutPaddle _paddle;
 
 		public BreakOut()
 		{
 			//here is where we can take in things like level
-			paddle = new BreakOutPaddle();
+			_paddle = new BreakOutPaddle(100, 100);
 		}
 
 		public void AdvanceLevel()
@@ -52,16 +53,18 @@ namespace XNASystem.BreakOut
 			throw new NotImplementedException();
 		}
 
-		public void Update(KeyboardState state)
+		public void Update(KeyboardState keyState, GamePadState padState)
 		{
-			throw new NotImplementedException();
+			
 		}
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
 			spriteBatch.Begin();
 
-			//draw the paddle
+			_paddle.Draw(spriteBatch, fonts, textures);
+
+			spriteBatch.End();
 			
 		}
 	}

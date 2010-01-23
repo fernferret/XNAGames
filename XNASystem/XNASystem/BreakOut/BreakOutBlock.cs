@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using Microsoft.Xna.Framework.Graphics;
+using XNASystem.Interfaces;
 
 #region
 
@@ -50,6 +52,16 @@ namespace XNASystem.BreakOut
 		}
 
 		public void Draw()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void UpdatePostiion(int x, int y)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
 			throw new NotImplementedException();
 		}
