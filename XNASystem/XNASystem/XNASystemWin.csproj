@@ -1,4 +1,4 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectGuid>{D545ECE8-5958-4409-ADD1-F8835B4BCE66}</ProjectGuid>
     <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -58,11 +58,21 @@
     <Compile Include="Answer.cs" />
     <Compile Include="Booklet.cs" />
     <Compile Include="DataManager.cs" />
+    <Compile Include="CreateBookletMenu.cs" />
+    <Compile Include="CreateQuizMenu.cs" />
+    <Compile Include="IGameObject.cs" />
+    <Compile Include="SelectQuizMenu.cs" />
+    <Compile Include="CorrectAnswerMenu.cs" />
+    <Compile Include="GameScreen.cs" />
     <Compile Include="IComponent.cs" />
+    <Compile Include="EditorMainMenu.cs" />
+    <Compile Include="EditorMenu.cs" />
+    <Compile Include="IncorrectAnswerMenu.cs" />
+    <Compile Include="MainMenu.cs" />
     <Compile Include="EntryPoint.cs" />
+    <Compile Include="IScreen.cs" />
     <Compile Include="MenuItem.cs" />
-    <Compile Include="Menu.cs" />
-    <Compile Include="NavItem.cs" />
+    <Compile Include="OptionsMenu.cs" />
     <Compile Include="PowerUp.cs" />
     <Compile Include="PowerUpManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -70,7 +80,10 @@
     <Compile Include="QuestionItem.cs" />
     <Compile Include="QuestionLoader.cs" />
     <Compile Include="Quiz.cs" />
+    <Compile Include="QuizScreen.cs" />
     <Compile Include="Score.cs" />
+    <Compile Include="ScoresMenu.cs" />
+    <Compile Include="SelectBookletMenu.cs" />
     <Compile Include="SystemMain.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +113,8 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace XNASystem
 {
     [Serializable]
-    class Booklet: IComponent<Quiz>
+	public class Booklet: IComponent<Quiz>
     {
         //
         private readonly List<Quiz> _quizList;
@@ -121,5 +121,15 @@ namespace XNASystem
         {
             _didAdvance = false;
         }
+
+		public List<Quiz> GetQuizList()
+		{
+			return _quizList;
+		}
+
+		public void AddQuestionToQuiz(int index, Question question)
+		{
+			_quizList[index].AddItem(question);
+		}
     }
 }
