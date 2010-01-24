@@ -27,5 +27,15 @@ namespace XNASystem.BreakOut
 		{
 			spriteBatch.Draw(textures[3], new Vector2(_xPosition, _yPosition), Color.White);
 		}
+
+		public float GetX()
+		{
+			return _xPosition;
+		}
+
+		public float GetY()
+		{
+			return _yPosition;
+		}
 	}
 }

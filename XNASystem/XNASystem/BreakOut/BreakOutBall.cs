@@ -12,12 +12,12 @@ namespace XNASystem.BreakOut
 	{
 		private float _xPosition;
 		private float _yPosition;
-		private int _xVelocity;
-		private int _yVelocity;
+		private float _xVelocity;
+		private float _yVelocity;
 		private int _spin;
 		private const double Effectiveness = 0.075;
 
-		public BreakOutBall(float xPosition, float yPosition, int xVelocity, int yVelocity)
+		public BreakOutBall(float xPosition, float yPosition, float xVelocity, float yVelocity)
 		{
 			_xPosition = xPosition;
 			_yPosition = yPosition;
@@ -49,13 +49,43 @@ namespace XNASystem.BreakOut
 
 		public void UpdatePostiion(float x, float y)
 		{
-			_xPosition += x;
-			_yPosition += y;
+			_xPosition += _xVelocity;
+			_yPosition += _yVelocity;
 		}
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
 			spriteBatch.Draw(textures[6], new Vector2(_xPosition, _yPosition), Color.White);
+		}
+
+		public float GetX()
+		{
+			return _xPosition;
+		}
+
+		public float GetY()
+		{
+			return _yPosition;
+		}
+
+		public float GetVx()
+		{
+			return _xVelocity;
+		}
+
+		public float GetVy()
+		{
+			return _yVelocity;
+		}
+
+		public void SwitchY()
+		{
+			_yVelocity *= -1;
+		}
+
+		public void SwitchX()
+		{
+			_xVelocity *= -1;
 		}
 	}
 }

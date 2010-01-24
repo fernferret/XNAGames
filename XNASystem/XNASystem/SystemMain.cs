@@ -165,6 +165,7 @@ namespace XNASystem
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//wall"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//block"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ball"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ceiling"));
 
             // give the stack the main menu
             _menuStack.Push(new MainMenu(_menuStack, this));

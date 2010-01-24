@@ -8,13 +8,10 @@ using System;
 
 namespace XNASystem.BreakOut
 {
-	class BreakOutWall : IGameObject
+	class BreakOutCeiling : IGameObject
 	{
-		private readonly int _side;
-
-		public BreakOutWall(int side)
+		public BreakOutCeiling()
 		{
-			_side = side;
 		}
 
 		public void UpdatePostiion(float x, float y)
@@ -24,12 +21,12 @@ namespace XNASystem.BreakOut
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
-			spriteBatch.Draw(textures[4], new Vector2(_side * 790, 0), Color.White);
+			spriteBatch.Draw(textures[7], new Vector2(0, 0), Color.White);
 		}
 
 		public float GetX()
 		{
-			return _side * 790;
+			return 0;
 		}
 
 		public float GetY()

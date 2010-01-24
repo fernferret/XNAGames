@@ -60,6 +60,7 @@
     <Compile Include="BreakOut\BreakOut.cs" />
     <Compile Include="BreakOut\BreakOutBall.cs" />
     <Compile Include="BreakOut\BreakOutBlock.cs" />
+    <Compile Include="BreakOut\BreakOutCeiling.cs" />
     <Compile Include="BreakOut\BreakOutLevel.cs" />
     <Compile Include="BreakOut\BreakOutPaddle.cs" />
     <Compile Include="BreakOut\BreakOutWall.cs" />

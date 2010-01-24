@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework;
 using XNASystem.Interfaces;
 
 #region
@@ -26,8 +27,11 @@ namespace XNASystem.BreakOut
 		private readonly BreakOutPaddle _paddle;
 		private readonly BreakOutWall _leftWall;
 		private readonly BreakOutWall _rightWall;
+		private readonly BreakOutCeiling _ceiling;
 		private readonly List<List<BreakOutBlock>> _blockList;
 		private readonly List<BreakOutBall> _ballList;
+		private Rectangle _ballRect;
+		private Rectangle _objectRect;
 
 		public BreakOut()
 		{
@@ -35,6 +39,7 @@ namespace XNASystem.BreakOut
 			_paddle = new BreakOutPaddle();
 			_leftWall = new BreakOutWall(0);
 			_rightWall = new BreakOutWall(1);
+			_ceiling = new BreakOutCeiling();
 			_blockList = new List<List<BreakOutBlock>>{new List<BreakOutBlock>{new BreakOutBlock(0,0,Blocktype.Standard, Color.Red), 
 																				new BreakOutBlock(0,1,Blocktype.Standard, Color.Violet),
 																				new BreakOutBlock(0,2,Blocktype.Standard, Color.Thistle),
@@ -99,7 +104,32 @@ namespace XNASystem.BreakOut
 			int i;
 			for(i = 0; i < _ballList.Count; i++)
 			{
-				_ballList[i].UpdatePostiion(1,1);
+				_ballRect = new Rectangle((int) _ballList[i].GetX(), (int) _ballList[i].GetY(), 15, 15);
+				
+				_objectRect = new Rectangle((int) _paddle.GetX(),(int) _paddle.GetY(), 199, 17);
+				if(_ballRect.Intersects(_objectRect))
+				{
+					_ballList[i].SwitchY();
+				}
+
+				_objectRect = new Rectangle((int)_leftWall.GetX(), (int)_leftWall.GetY(), 10, 600);
+				if (_ballRect.Intersects(_objectRect))
+				{
+					_ballList[i].SwitchX();
+				}
+
+				_objectRect = new Rectangle((int)_rightWall.GetX(), (int)_rightWall.GetY(), 10, 600);
+				if (_ballRect.Intersects(_objectRect))
+				{
+					_ballList[i].SwitchX();
+				}
+
+				_objectRect = new Rectangle((int)_ceiling.GetX(), (int)_ceiling.GetY(), 800, 10);
+				if (_ballRect.Intersects(_objectRect))
+				{
+					_ballList[i].SwitchY();
+				}
+				_ballList[i].UpdatePostiion(_ballList[i].GetVx(), _ballList[i].GetVy());
 			}
 		}
 
@@ -110,6 +140,7 @@ namespace XNASystem.BreakOut
 			_paddle.Draw(spriteBatch, fonts, textures);
 			_leftWall.Draw(spriteBatch, fonts, textures);
 			_rightWall.Draw(spriteBatch, fonts, textures);
+			_ceiling.Draw(spriteBatch, fonts, textures);
 			int i, j;
 			for (i = 0; i < 1; i++)
 			{
