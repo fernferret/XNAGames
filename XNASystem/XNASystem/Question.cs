@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace XNASystem
 {
+    [Serializable]
     public class Question
     {
         private readonly List<Answer> _answers = new List<Answer>();

@@ -52,10 +52,14 @@ namespace XNASystem
 
         public void Close()
         {
+            while (_operationPending)
+            {
+                ;
+            }
             FindNameCabinet(0, CabinetMode.Save, "name_file.sys");
         }
 
-		public Booklet[] LoadBooklets(PlayerIndex playerIndex)
+		public List<Booklet> LoadBooklets(PlayerIndex playerIndex)
 		{
 		    List<Booklet> booklets = new List<Booklet>();
 		    foreach (string bookletName in _nameWrapper.BookletNames)
@@ -67,7 +71,7 @@ namespace XNASystem
 		        }
 		        booklets.Add(_currentBooklet);
 		    }
-		    return booklets.ToArray();
+		    return booklets;
 		}
 
 		public bool SaveBooklet(PlayerIndex playerIndex, Booklet booklet)
@@ -80,6 +84,7 @@ namespace XNASystem
                     _nameWrapper.BookletNames.Add(booklet.GetTitle());
                 }
 			    FindCabinet(playerIndex, CabinetMode.Save, booklet.GetTitle());
+                this.Close();
 			    return true;
 			}
 			catch (Exception)
@@ -205,6 +210,7 @@ namespace XNASystem
             try
             {
                 BinaryFormatter myBF = new BinaryFormatter();
+                fileStream.Position = 0;
                 _currentBooklet = (Booklet)myBF.Deserialize(fileStream);
             }
             finally
@@ -220,21 +226,29 @@ namespace XNASystem
             StorageContainer storageContainer = storageDevice.OpenContainer("Content");
             string filenamePath = Path.Combine(StorageContainer.TitleLocation, filename);
 
-            FileStream fileStream = File.OpenRead(filenamePath);
             try
             {
-                BinaryFormatter myBF = new BinaryFormatter();
-                _nameWrapper = (NameWrapper)myBF.Deserialize(fileStream);
+                FileStream fileStream = File.OpenRead(filenamePath);
+                try
+                {
+                    BinaryFormatter myBF = new BinaryFormatter();
+                    _nameWrapper = (NameWrapper)myBF.Deserialize(fileStream);
+                }
+                catch (Exception e)
+                {
+                    _nameWrapper = new NameWrapper();
+                }
+                finally
+                {
+                    fileStream.Close();
+                    _operationPending = false;
+                    storageContainer.Dispose();
+                }
             }
             catch(Exception e)
             {
                 _nameWrapper = new NameWrapper();
-            }
-            finally
-            {
-                fileStream.Close();
                 _operationPending = false;
-                storageContainer.Dispose();
             }
         }
         #endregion

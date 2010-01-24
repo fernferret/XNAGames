@@ -146,7 +146,7 @@ namespace XNASystem
                     case 4:
 						// tell main to close the program
                         _systemMain.Exit();
-
+                        _systemMain.Closing();
                         break;
                     default:
                         break;

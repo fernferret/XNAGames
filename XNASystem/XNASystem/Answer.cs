@@ -2,6 +2,7 @@ using System;
 
 namespace XNASystem
 {
+    [Serializable]
     public class Answer
     {
         private readonly Boolean _correct;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace XNASystem
 {
+    [Serializable]
 	public class Quiz: IComponent<Question>
     {
         // The listing of the currently loaded questions

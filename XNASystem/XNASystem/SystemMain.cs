@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -51,6 +52,9 @@ namespace XNASystem
         // initialize the menustack
         private Stack<IScreen> _menuStack;
 
+        // initialize the DataManager
+        private DataManager _dataManager;
+
 		//initialize a new list of booklets
     	private List<Booklet> _booklets;
 
@@ -93,6 +97,8 @@ namespace XNASystem
             //content location
             Content.RootDirectory = "Content";
 
+            GamerServicesDispatcher.Initialize(this.Services);
+
             // initialize font package and texture package
             _fontPackage = new List<SpriteFont>();
             _texturePackage = new List<Texture2D>();
@@ -100,8 +106,11 @@ namespace XNASystem
             // create the stack
             _menuStack = new Stack<IScreen>();
 
+            // create the DataManager and load name list
+            _dataManager = new DataManager();
+
 			// create a list of booklets the system can run off of
-			_booklets = new List<Booklet>();
+            _booklets = _dataManager.LoadBooklets(0);
 
 			////////////////////////////////////////////////delete all this once xml works///////////////////////////////////////////////////////////////////////////
         	Booklet defaultb = new Booklet("defualt Booklet");
@@ -475,5 +484,13 @@ namespace XNASystem
 		{
 			_booklets[bookletIndex].AddQuestionToQuiz(quizIndex, new Question(question, answers));
 		}
+
+        public void Closing()
+        {
+            foreach (Booklet booklet in _booklets)
+            {
+                _dataManager.SaveBooklet(0, booklet);
+            }
+        }
     }
 }
