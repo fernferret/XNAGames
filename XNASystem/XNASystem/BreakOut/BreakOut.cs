@@ -11,11 +11,17 @@ namespace XNASystem.BreakOut
 	class BreakOut : IGame , IScreen
 	{
 		private readonly BreakOutPaddle _paddle;
+		private readonly BreakOutWall _leftWall;
+		private readonly BreakOutWall _rightWall;
+		private readonly List<List<BreakOutBlock>> _breakList;
 
 		public BreakOut()
 		{
 			//here is where we can take in things like level
 			_paddle = new BreakOutPaddle();
+			_leftWall = new BreakOutWall(0);
+			_rightWall = new BreakOutWall(1);
+			_breakList = new List<List<BreakOutBlock>>();
 		}
 
 		public void AdvanceLevel()
@@ -63,6 +69,8 @@ namespace XNASystem.BreakOut
 			spriteBatch.Begin();
 
 			_paddle.Draw(spriteBatch, fonts, textures);
+			_leftWall.Draw(spriteBatch, fonts, textures);
+			_rightWall.Draw(spriteBatch, fonts, textures);
 
 			spriteBatch.End();
 			

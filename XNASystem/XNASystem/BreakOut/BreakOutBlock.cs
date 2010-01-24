@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using XNASystem.Interfaces;
 
@@ -28,12 +29,14 @@ namespace XNASystem.BreakOut
 		private readonly int _xPosition;
 		private readonly int _yPosition;
 		private readonly Blocktype _type;
+		private readonly Color _color;
 
-		public BreakOutBlock(int xPosition, int yPosition, Blocktype type)
+		public BreakOutBlock(int xPosition, int yPosition, Blocktype type, Color color)
 		{
 			_xPosition = xPosition;
 			_yPosition = yPosition;
 			_type = type;
+			_color = color;
 		}
 
 		public Blocktype Type
@@ -51,19 +54,16 @@ namespace XNASystem.BreakOut
 			get { return _xPosition; }
 		}
 
-		public void Draw()
-		{
-			throw new NotImplementedException();
-		}
-
 		public void UpdatePostiion(float x, float y)
 		{
-			throw new NotImplementedException();
+			//do nothing
 		}
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
-			throw new NotImplementedException();
+			spriteBatch.Begin();
+			spriteBatch.Draw(textures[5], new Vector2(_xPosition, _yPosition), _color);
+			spriteBatch.End();
 		}
 	}
 

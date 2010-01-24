@@ -62,6 +62,7 @@
     <Compile Include="BreakOut\BreakOutBlock.cs" />
     <Compile Include="BreakOut\BreakOutLevel.cs" />
     <Compile Include="BreakOut\BreakOutPaddle.cs" />
+    <Compile Include="BreakOut\BreakOutWall.cs" />
     <Compile Include="Interfaces\IGame.cs" />
     <Compile Include="MaterialEditor\CreateBookletMenu.cs" />
     <Compile Include="MaterialEditor\CreateQuizMenu.cs" />
