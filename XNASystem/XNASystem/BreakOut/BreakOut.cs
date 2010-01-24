@@ -27,6 +27,7 @@ namespace XNASystem.BreakOut
 		private readonly BreakOutWall _leftWall;
 		private readonly BreakOutWall _rightWall;
 		private readonly List<List<BreakOutBlock>> _blockList;
+		private readonly List<BreakOutBall> _ballList;
 
 		public BreakOut()
 		{
@@ -53,6 +54,7 @@ namespace XNASystem.BreakOut
 														new List<BreakOutBlock>(10),
 														new List<BreakOutBlock>(10),
 														new List<BreakOutBlock>(10)};
+			_ballList = new List<BreakOutBall>{new BreakOutBall(200, 400, 1, 1)};
 
 		}
 
@@ -94,6 +96,11 @@ namespace XNASystem.BreakOut
 		public void Update(KeyboardState keyState, GamePadState padState)
 		{
 			_paddle.UpdatePostiion(padState.ThumbSticks.Left.X, 0);
+			int i;
+			for(i = 0; i < _ballList.Count; i++)
+			{
+				_ballList[i].UpdatePostiion(1,1);
+			}
 		}
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
@@ -111,6 +118,11 @@ namespace XNASystem.BreakOut
 					if(_blockList[i][j] != null)
 					_blockList[i][j].Draw(spriteBatch, fonts, textures);
 				}
+			}
+			int k;
+			for (k = 0; k < _ballList.Count; k++)
+			{
+				_ballList[k].Draw(spriteBatch, fonts, textures);
 			}
 				spriteBatch.End();
 			

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using XNASystem.Interfaces;
 
@@ -9,14 +10,14 @@ namespace XNASystem.BreakOut
 {
 	class BreakOutBall : IGameObject
 	{
-		private int _xPosition;
-		private int _yPosition;
+		private float _xPosition;
+		private float _yPosition;
 		private int _xVelocity;
 		private int _yVelocity;
 		private int _spin;
 		private const double Effectiveness = 0.075;
 
-		public BreakOutBall(int xPosition, int yPosition, int xVelocity, int yVelocity)
+		public BreakOutBall(float xPosition, float yPosition, int xVelocity, int yVelocity)
 		{
 			_xPosition = xPosition;
 			_yPosition = yPosition;
@@ -24,7 +25,7 @@ namespace XNASystem.BreakOut
 			_yVelocity = yVelocity;
 		}
 
-		public void SetSpin(int spin)
+		/*public void SetSpin(int spin)
 		{
 			_spin = spin;
 		}
@@ -44,21 +45,17 @@ namespace XNASystem.BreakOut
 		{
 			_xPosition = (int)(_xVelocity*time + Effectiveness*2*_spin*time);
 			_yPosition = (int)(_yVelocity*time - Effectiveness*_spin*(time ^ 2));
-		}
-
-		public void Draw()
-		{
-			throw new NotImplementedException();
-		}
+		}*/
 
 		public void UpdatePostiion(float x, float y)
 		{
-			throw new NotImplementedException();
+			_xPosition += x;
+			_yPosition += y;
 		}
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
-			throw new NotImplementedException();
+			spriteBatch.Draw(textures[6], new Vector2(_xPosition, _yPosition), Color.White);
 		}
 	}
 }
