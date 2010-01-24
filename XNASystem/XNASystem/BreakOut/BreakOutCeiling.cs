@@ -10,19 +10,25 @@ namespace XNASystem.BreakOut
 {
 	class BreakOutCeiling : IGameObject
 	{
-		public BreakOutCeiling()
-		{
-		}
+		#region update
 
 		public void UpdatePostiion(float x, float y)
 		{
 			//do nothing, they dont move
 		}
 
+		#endregion
+
+		#region draw
+
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
 			spriteBatch.Draw(textures[7], new Vector2(0, 0), Color.White);
 		}
+
+		#endregion
+
+		#region get methods
 
 		public float GetX()
 		{
@@ -33,5 +39,7 @@ namespace XNASystem.BreakOut
 		{
 			return 0;
 		}
+
+		#endregion
 	}
 }

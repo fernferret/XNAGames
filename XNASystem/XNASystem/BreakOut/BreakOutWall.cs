@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using XNASystem.Interfaces;
-using XNASystem.SystemMenus;
-using System;
 
 namespace XNASystem.BreakOut
 {
@@ -12,20 +9,34 @@ namespace XNASystem.BreakOut
 	{
 		private readonly int _side;
 
+		#region constructor
+
 		public BreakOutWall(int side)
 		{
 			_side = side;
 		}
+
+		#endregion
+
+		#region update
 
 		public void UpdatePostiion(float x, float y)
 		{
 			//do nothing, they dont move
 		}
 
+		#endregion
+
+		#region draw
+
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
 			spriteBatch.Draw(textures[4], new Vector2(_side * 790, 0), Color.White);
 		}
+
+		#endregion
+
+		#region get methods
 
 		public float GetX()
 		{
@@ -36,5 +47,7 @@ namespace XNASystem.BreakOut
 		{
 			return 0;
 		}
+
+		#endregion
 	}
 }

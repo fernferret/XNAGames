@@ -10,23 +10,41 @@ namespace XNASystem.BreakOut
 {
 	class BreakOutPaddle : IGameObject
 	{
+		#region variables
+
 		private float _xPosition;
-		private const float _yPosition = 550;
+		private const float YPosition = 550;
+
+		#endregion
+
+		#region constructor
 
 		public BreakOutPaddle()
 		{
 			_xPosition = 300;
 		}
 
+		#endregion
+
+		#region update
+
 		public void UpdatePostiion(float x, float y)
 		{
 			_xPosition += 20 * x;
 		}
 
+		#endregion
+
+		#region draw
+
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
-			spriteBatch.Draw(textures[3], new Vector2(_xPosition, _yPosition), Color.White);
+			spriteBatch.Draw(textures[3], new Vector2(_xPosition, YPosition), Color.White);
 		}
+
+		#endregion
+
+		#region get methods
 
 		public float GetX()
 		{
@@ -35,7 +53,9 @@ namespace XNASystem.BreakOut
 
 		public float GetY()
 		{
-			return _yPosition;
+			return YPosition;
 		}
+
+		#endregion
 	}
 }

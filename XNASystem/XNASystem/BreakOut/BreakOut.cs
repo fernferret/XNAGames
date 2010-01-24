@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using XNASystem.Interfaces;
 
-#region
+#region block types
 
 enum Blocktype
 {
@@ -24,6 +24,8 @@ namespace XNASystem.BreakOut
 {
 	class BreakOut : IGame , IScreen
 	{
+		#region variables
+
 		private readonly BreakOutPaddle _paddle;
 		private readonly BreakOutWall _leftWall;
 		private readonly BreakOutWall _rightWall;
@@ -32,6 +34,10 @@ namespace XNASystem.BreakOut
 		private readonly List<BreakOutBall> _ballList;
 		private Rectangle _ballRect;
 		private Rectangle _objectRect;
+
+		#endregion
+
+		#region constructor
 
 		public BreakOut()
 		{
@@ -59,9 +65,13 @@ namespace XNASystem.BreakOut
 														new List<BreakOutBlock>(10),
 														new List<BreakOutBlock>(10),
 														new List<BreakOutBlock>(10)};
-			_ballList = new List<BreakOutBall>{new BreakOutBall(200, 400, 1, 1)};
+			_ballList = new List<BreakOutBall>{new BreakOutBall(200, 400, 5, 5)};
 
 		}
+
+		#endregion
+
+		#region unimplemented methods
 
 		public void AdvanceLevel()
 		{
@@ -98,40 +108,90 @@ namespace XNASystem.BreakOut
 			throw new NotImplementedException();
 		}
 
+		#endregion
+
+		#region update
+
 		public void Update(KeyboardState keyState, GamePadState padState)
 		{
+			// update the paddles position by adding or subtracing according to the thumb stick
 			_paddle.UpdatePostiion(padState.ThumbSticks.Left.X, 0);
+
+			#region  collision testing and movement
+
+			// check for collisions between the ball and any other objects
 			int i;
 			for(i = 0; i < _ballList.Count; i++)
 			{
+				// create a rectangle around the balls current position
 				_ballRect = new Rectangle((int) _ballList[i].GetX(), (int) _ballList[i].GetY(), 15, 15);
-				
+
+				#region paddle
+
+				// create a rectangle around the paddle and check for intersections
 				_objectRect = new Rectangle((int) _paddle.GetX(),(int) _paddle.GetY(), 199, 17);
 				if(_ballRect.Intersects(_objectRect))
 				{
+					//simply switch the y velocity 
 					_ballList[i].SwitchY();
 				}
 
+				#endregion
+
+				#region walls and ceiling
+
+				// create a rectangle around the lef twall and check for intersections
 				_objectRect = new Rectangle((int)_leftWall.GetX(), (int)_leftWall.GetY(), 10, 600);
 				if (_ballRect.Intersects(_objectRect))
 				{
+					//simply change the x velocity
 					_ballList[i].SwitchX();
 				}
 
+				// create a rectangle aroun the right wall and check for intersections
 				_objectRect = new Rectangle((int)_rightWall.GetX(), (int)_rightWall.GetY(), 10, 600);
 				if (_ballRect.Intersects(_objectRect))
 				{
+					//simple change the x velocty
 					_ballList[i].SwitchX();
 				}
 
+				//create a rectangle around the ceiling and check for intersections
 				_objectRect = new Rectangle((int)_ceiling.GetX(), (int)_ceiling.GetY(), 800, 10);
 				if (_ballRect.Intersects(_objectRect))
 				{
+					//simpley change the y velocity
 					_ballList[i].SwitchY();
 				}
+
+				#endregion
+
+				#region blocks
+
+				int j, k;
+				for(j = 0; j < 1; j++)
+				{
+					for(k = 0; k < 10; k++)
+					{
+						_objectRect = new Rectangle((int) _blockList[j][k].GetX() * 78, (int) _blockList[j][k].GetY() * 36, 78, 36);
+						if(_ballRect.Intersects(_objectRect))
+						{
+							_ballList[i].SwitchX();
+						}
+					}
+				}
+
+				#endregion
+
 				_ballList[i].UpdatePostiion(_ballList[i].GetVx(), _ballList[i].GetVy());
 			}
+
+			#endregion
 		}
+
+		#endregion
+
+		#region draw
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
@@ -156,7 +216,9 @@ namespace XNASystem.BreakOut
 				_ballList[k].Draw(spriteBatch, fonts, textures);
 			}
 				spriteBatch.End();
-			
+
 		}
+
+		#endregion
 	}
 }
