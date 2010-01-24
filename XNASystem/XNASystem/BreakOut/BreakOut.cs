@@ -15,7 +15,7 @@ namespace XNASystem.BreakOut
 		public BreakOut()
 		{
 			//here is where we can take in things like level
-			_paddle = new BreakOutPaddle(100, 100);
+			_paddle = new BreakOutPaddle();
 		}
 
 		public void AdvanceLevel()
@@ -55,7 +55,7 @@ namespace XNASystem.BreakOut
 
 		public void Update(KeyboardState keyState, GamePadState padState)
 		{
-			
+			_paddle.UpdatePostiion(padState.ThumbSticks.Left.X, 0);
 		}
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)

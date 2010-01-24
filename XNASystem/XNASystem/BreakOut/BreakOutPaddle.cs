@@ -10,22 +10,22 @@ namespace XNASystem.BreakOut
 {
 	class BreakOutPaddle : IGameObject
 	{
-		private int _xPosition;
-		private int _yPosition;
-		public BreakOutPaddle(int x, int y)
+		private float _xPosition;
+		private const float _yPosition = 550;
+
+		public BreakOutPaddle()
 		{
-			_xPosition = x;
+			_xPosition = 300;
 		}
 
-		public void UpdatePostiion(int x, int y)
+		public void UpdatePostiion(float x, float y)
 		{
-			_xPosition = x;
-			_yPosition = y;
+			_xPosition += 20 * x;
 		}
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
-			spriteBatch.Draw(textures[3], new Vector2(_xPosition, 550), Color.White);
+			spriteBatch.Draw(textures[3], new Vector2(_xPosition, _yPosition), Color.White);
 		}
 	}
 }

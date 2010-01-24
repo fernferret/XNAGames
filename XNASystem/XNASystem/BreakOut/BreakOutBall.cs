@@ -51,7 +51,7 @@ namespace XNASystem.BreakOut
 			throw new NotImplementedException();
 		}
 
-		public void UpdatePostiion(int x, int y)
+		public void UpdatePostiion(float x, float y)
 		{
 			throw new NotImplementedException();
 		}
