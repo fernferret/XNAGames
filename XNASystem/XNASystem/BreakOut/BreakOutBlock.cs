@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using XNASystem.Interfaces;
 
-#region
+/*#region
 
 enum Blocktype
 {
@@ -18,7 +18,7 @@ enum Blocktype
 	Dead  //No longer affects the ball in any way and not displayed on the screen
 }
 
-#endregion
+#endregion*/
 
 namespace XNASystem.BreakOut
 {
@@ -61,9 +61,7 @@ namespace XNASystem.BreakOut
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
-			spriteBatch.Begin();
-			spriteBatch.Draw(textures[5], new Vector2(_xPosition, _yPosition), _color);
-			spriteBatch.End();
+			spriteBatch.Draw(textures[5], new Vector2(10 + (_xPosition * 76), _yPosition * 36), _color);
 		}
 	}
 
