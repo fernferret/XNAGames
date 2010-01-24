@@ -176,7 +176,28 @@ namespace XNASystem.BreakOut
 						_objectRect = new Rectangle((int) _blockList[j][k].GetX() * 78, (int) _blockList[j][k].GetY() * 36, 78, 36);
 						if(_ballRect.Intersects(_objectRect))
 						{
-							_ballList[i].SwitchX();
+							if (_blockList[j][k].GetType() == Blocktype.Standard)
+							{
+								switch (_blockList[j][k].GetSide(_ballRect))
+								{
+									case 1:
+										_ballList[i].SwitchX();
+										break;
+									case 2:
+										_ballList[i].SwitchY();
+										break;
+									case 3:
+										_ballList[i].SwitchX();
+										break;
+									case 4:
+										_ballList[i].SwitchY();
+										break;
+									default:
+										break;
+								}
+							}
+
+							_blockList[j][k].SetType(Blocktype.Dead);
 						}
 					}
 				}
@@ -206,7 +227,7 @@ namespace XNASystem.BreakOut
 			{
 				for(j = 0; j < 10; j++)
 				{
-					if(_blockList[i][j] != null)
+					if(_blockList[i][j].GetType() == Blocktype.Standard)
 					_blockList[i][j].Draw(spriteBatch, fonts, textures);
 				}
 			}

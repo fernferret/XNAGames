@@ -12,7 +12,7 @@ namespace XNASystem.BreakOut
 
 		private readonly int _xPosition;
 		private readonly int _yPosition;
-		private readonly Blocktype _type;
+		private Blocktype _type;
 		private readonly Color _color;
 		private readonly List<Rectangle> _rectList;
 
@@ -26,10 +26,10 @@ namespace XNASystem.BreakOut
 			_yPosition = yPosition;
 			_type = type;
 			_color = color;
-			_rectList = new List<Rectangle> { new Rectangle(xPosition, yPosition, 78, 1), 
-												new Rectangle(xPosition, yPosition, 1, 36), 
-												new Rectangle(xPosition, yPosition + 35, 78, 1), 
-												new Rectangle(xPosition + 77, yPosition, 1, 36)};
+			_rectList = new List<Rectangle> { new Rectangle(xPosition * 78, yPosition * 36, 78, 1),
+												new Rectangle((xPosition * 78) + 77, yPosition* 36, 1, 36),
+												new Rectangle(xPosition * 78, (yPosition* 36) + 35, 78, 1),
+												new Rectangle(xPosition * 78, yPosition* 36, 1, 36)};
 		}
 
 		#endregion
@@ -52,7 +52,7 @@ namespace XNASystem.BreakOut
 
 		#endregion
 
-		#region get methods
+		#region get/set methods
 
 		public float GetX()
 		{
@@ -74,6 +74,24 @@ namespace XNASystem.BreakOut
 			return _rectList;
 		}
 
+		public int GetSide(Rectangle ball)
+		{
+			int i;
+			for(i = 0; i < 4; i++)
+			{
+				if(ball.Intersects(_rectList[i]))
+				{
+					return i;
+				}
+			}
+
+			return 0;
+		}
+
+		public void SetType(Blocktype type)
+		{
+			_type = type;
+		}
 		#endregion
 	}
 }
