@@ -55,7 +55,7 @@ namespace XNASystem.BreakOut
 																				new BreakOutBlock(0,6,Blocktype.Standard, Color.Bisque),
 																				new BreakOutBlock(0,7,Blocktype.Standard, Color.BlanchedAlmond),
 																				new BreakOutBlock(0,8,Blocktype.Standard, Color.CadetBlue),
-																				new BreakOutBlock(0,9,Blocktype.Standard, Color.Chartreuse)},
+																				new BreakOutBlock(0,9,Blocktype.Strong3, Color.Red)},
 														new List<BreakOutBlock>(10),
 														new List<BreakOutBlock>(10),
 														new List<BreakOutBlock>(10),
@@ -117,6 +117,8 @@ namespace XNASystem.BreakOut
 			// update the paddles position by adding or subtracing according to the thumb stick
 			_objectRect = new Rectangle((int)_paddle.GetX(), (int)_paddle.GetY(), 199, 17);
 
+			#region paddle with wall collision
+
 			if (_paddle.GetX() == 10)
 			{
 				if(padState.ThumbSticks.Left.X > 0)
@@ -147,7 +149,9 @@ namespace XNASystem.BreakOut
 				_paddle.UpdatePostiion(padState.ThumbSticks.Left.X, 0);
 			}
 
-			#region  collision testing and movement
+			#endregion
+
+			#region  wall collision testing and movement
 
 			// check for collisions between the ball and any other objects
 			int i;
@@ -203,10 +207,12 @@ namespace XNASystem.BreakOut
 				{
 					for(k = 0; k < 10; k++)
 					{
+						//make a rectangle aroundt he current block
 						_objectRect = new Rectangle((int) _blockList[j][k].GetX() * 78, (int) _blockList[j][k].GetY() * 36, 78, 36);
+
 						if(_ballRect.Intersects(_objectRect))
 						{
-							if (_blockList[j][k].GetType() == Blocktype.Standard)
+							if (_blockList[j][k].GetType() != Blocktype.Dead)
 							{
 								switch (_blockList[j][k].GetSide(_ballRect))
 								{
@@ -227,7 +233,8 @@ namespace XNASystem.BreakOut
 								}
 							}
 
-							_blockList[j][k].SetType(Blocktype.Dead);
+							// change the block type with this method.
+							DecrementType(_blockList[j][k]);
 						}
 					}
 				}
@@ -240,6 +247,26 @@ namespace XNASystem.BreakOut
 			#endregion
 		}
 
+		private static void DecrementType(BreakOutBlock block)
+		{
+			switch(block.GetType())
+			{
+				case Blocktype.Strong3:
+					block.SetType(Blocktype.Strong2);
+					block.SetColor(Color.Salmon);
+					break;
+				case Blocktype.Strong2:
+					block.SetType(Blocktype.Standard);
+					block.SetColor(Color.White);
+					break;
+				case Blocktype.Standard:
+					block.SetType(Blocktype.Dead);
+					break;
+				default:
+					break;
+			}
+		}
+
 		#endregion
 
 		#region draw
@@ -248,19 +275,25 @@ namespace XNASystem.BreakOut
 		{
 			spriteBatch.Begin();
 
+			//draw the paddle wlls and ceiling
 			_paddle.Draw(spriteBatch, fonts, textures);
 			_leftWall.Draw(spriteBatch, fonts, textures);
 			_rightWall.Draw(spriteBatch, fonts, textures);
 			_ceiling.Draw(spriteBatch, fonts, textures);
+
+			//draw the blocks
 			int i, j;
 			for (i = 0; i < 1; i++)
 			{
 				for(j = 0; j < 10; j++)
 				{
-					if(_blockList[i][j].GetType() == Blocktype.Standard)
+					// only draw the current block if it is not dead
+					if(_blockList[i][j].GetType() != Blocktype.Dead)
 					_blockList[i][j].Draw(spriteBatch, fonts, textures);
 				}
 			}
+
+			//draw the balls
 			int k;
 			for (k = 0; k < _ballList.Count; k++)
 			{

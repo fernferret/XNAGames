@@ -13,7 +13,7 @@ namespace XNASystem.BreakOut
 		private readonly int _xPosition;
 		private readonly int _yPosition;
 		private Blocktype _type;
-		private readonly Color _color;
+		private Color _color;
 		private readonly List<Rectangle> _rectList;
 
 		#endregion
@@ -91,6 +91,11 @@ namespace XNASystem.BreakOut
 		public void SetType(Blocktype type)
 		{
 			_type = type;
+		}
+
+		public void SetColor(Color color)
+		{
+			_color = color;
 		}
 		#endregion
 	}
