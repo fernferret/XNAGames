@@ -115,7 +115,37 @@ namespace XNASystem.BreakOut
 		public void Update(KeyboardState keyState, GamePadState padState)
 		{
 			// update the paddles position by adding or subtracing according to the thumb stick
-			_paddle.UpdatePostiion(padState.ThumbSticks.Left.X, 0);
+			_objectRect = new Rectangle((int)_paddle.GetX(), (int)_paddle.GetY(), 199, 17);
+
+			if (_paddle.GetX() == 10)
+			{
+				if(padState.ThumbSticks.Left.X > 0)
+				{
+					_paddle.UpdatePostiion(padState.ThumbSticks.Left.X, 0);
+				}
+
+			}
+			else if ( _paddle.GetX() == 790 - 199)
+			{
+				if(padState.ThumbSticks.Left.X < 0)
+				{
+					_paddle.UpdatePostiion(padState.ThumbSticks.Left.X, 0);
+				}
+			}
+			else if(_objectRect.Intersects(new Rectangle((int) _leftWall.GetX(), (int) _leftWall.GetY(), 10, 600)))
+			{
+				_paddle.SetX(10);
+			}
+
+			else if (_objectRect.Intersects(new Rectangle((int)_rightWall.GetX(), (int)_rightWall.GetY(), 10, 600)))
+			{
+				_paddle.SetX(790- 199);
+			}
+
+			else
+			{
+				_paddle.UpdatePostiion(padState.ThumbSticks.Left.X, 0);
+			}
 
 			#region  collision testing and movement
 

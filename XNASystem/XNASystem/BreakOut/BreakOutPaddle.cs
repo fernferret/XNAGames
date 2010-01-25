@@ -44,7 +44,7 @@ namespace XNASystem.BreakOut
 
 		#endregion
 
-		#region get methods
+		#region get/set methods
 
 		public float GetX()
 		{
@@ -54,6 +54,11 @@ namespace XNASystem.BreakOut
 		public float GetY()
 		{
 			return YPosition;
+		}
+
+		public void SetX(float i)
+		{
+			_xPosition = i;
 		}
 
 		#endregion
