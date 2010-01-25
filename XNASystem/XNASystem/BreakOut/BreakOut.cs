@@ -34,6 +34,7 @@ namespace XNASystem.BreakOut
 		private readonly List<BreakOutBall> _ballList;
 		private Rectangle _ballRect;
 		private Rectangle _objectRect;
+		private int _a;
 
 		#endregion
 
@@ -46,25 +47,155 @@ namespace XNASystem.BreakOut
 			_leftWall = new BreakOutWall(0);
 			_rightWall = new BreakOutWall(1);
 			_ceiling = new BreakOutCeiling();
-			_blockList = new List<List<BreakOutBlock>>{new List<BreakOutBlock>{new BreakOutBlock(0,0,Blocktype.Standard, Color.Red), 
-																				new BreakOutBlock(0,1,Blocktype.Standard, Color.Violet),
-																				new BreakOutBlock(0,2,Blocktype.Standard, Color.Thistle),
-																				new BreakOutBlock(0,3,Blocktype.Standard, Color.Yellow),
-																				new BreakOutBlock(0,4,Blocktype.Standard, Color.AliceBlue),
-																				new BreakOutBlock(0,5,Blocktype.Standard, Color.Beige),
-																				new BreakOutBlock(0,6,Blocktype.Standard, Color.Bisque),
-																				new BreakOutBlock(0,7,Blocktype.Standard, Color.BlanchedAlmond),
-																				new BreakOutBlock(0,8,Blocktype.Standard, Color.CadetBlue),
-																				new BreakOutBlock(0,9,Blocktype.Strong3, Color.Red)},
-														new List<BreakOutBlock>(10),
-														new List<BreakOutBlock>(10),
-														new List<BreakOutBlock>(10),
-														new List<BreakOutBlock>(10),
-														new List<BreakOutBlock>(10),
-														new List<BreakOutBlock>(10),
-														new List<BreakOutBlock>(10),
-														new List<BreakOutBlock>(10),
-														new List<BreakOutBlock>(10)};
+
+			_a = 0;
+
+			#region sample level - delete when xml works
+			_blockList = new List<List<BreakOutBlock>>
+			             	{
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(0, 0, Blocktype.Dead, Color.Red),
+			             				new BreakOutBlock(0, 1, Blocktype.Dead, Color.Violet),
+			             				new BreakOutBlock(0, 2, Blocktype.Dead, Color.Thistle),
+			             				new BreakOutBlock(0, 3, Blocktype.Strong3, Color.Red),
+			             				new BreakOutBlock(0, 4, Blocktype.Strong2, Color.Salmon),
+			             				new BreakOutBlock(0, 5, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(0, 6, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(0, 7, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(0, 8, Blocktype.Dead, Color.CadetBlue),
+			             				new BreakOutBlock(0, 9, Blocktype.Dead, Color.Red)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(1, 0, Blocktype.Dead, Color.Red),
+			             				new BreakOutBlock(1, 1, Blocktype.Dead, Color.Violet),
+			             				new BreakOutBlock(1, 2, Blocktype.Invincible, Color.Gray),
+			             				new BreakOutBlock(1, 3, Blocktype.Strong3, Color.Red),
+			             				new BreakOutBlock(1, 4, Blocktype.Strong2, Color.Salmon),
+			             				new BreakOutBlock(1, 5, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(1, 6, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(1, 7, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(1, 8, Blocktype.Dead, Color.CadetBlue),
+			             				new BreakOutBlock(1, 9, Blocktype.Dead, Color.Red)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(2, 0, Blocktype.Dead, Color.Red),
+			             				new BreakOutBlock(2, 1, Blocktype.Dead, Color.Violet),
+			             				new BreakOutBlock(2, 2, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(2, 3, Blocktype.Invincible, Color.Gray),
+			             				new BreakOutBlock(2, 4, Blocktype.Strong2, Color.Salmon),
+			             				new BreakOutBlock(2, 5, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(2, 6, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(2, 7, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(2, 8, Blocktype.Dead, Color.CadetBlue),
+			             				new BreakOutBlock(2, 9, Blocktype.Dead, Color.Red)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(3, 0, Blocktype.Dead, Color.Red),
+			             				new BreakOutBlock(3, 1, Blocktype.Dead, Color.Violet),
+			             				new BreakOutBlock(3, 2, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(3, 3, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(3, 4, Blocktype.Invincible, Color.Gray),
+			             				new BreakOutBlock(3, 5, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(3, 6, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(3, 7, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(3, 8, Blocktype.Dead, Color.CadetBlue),
+			             				new BreakOutBlock(3, 9, Blocktype.Dead, Color.Red)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(4, 0, Blocktype.Dead, Color.Red),
+			             				new BreakOutBlock(4, 1, Blocktype.Dead, Color.Violet),
+			             				new BreakOutBlock(4, 2, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(4, 3, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(4, 4, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(4, 5, Blocktype.Invincible, Color.Gray),
+			             				new BreakOutBlock(4, 6, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(4, 7, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(4, 8, Blocktype.Dead, Color.CadetBlue),
+			             				new BreakOutBlock(4, 9, Blocktype.Dead, Color.Red)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(5, 0, Blocktype.Dead, Color.Red),
+			             				new BreakOutBlock(5, 1, Blocktype.Dead, Color.Violet),
+			             				new BreakOutBlock(5, 2, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(5, 3, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(5, 4, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(5, 5, Blocktype.Invincible, Color.Gray),
+			             				new BreakOutBlock(5, 6, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(5, 7, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(5, 8, Blocktype.Dead, Color.CadetBlue),
+			             				new BreakOutBlock(5, 9, Blocktype.Dead, Color.Red)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(6, 0, Blocktype.Dead, Color.Red),
+			             				new BreakOutBlock(6, 1, Blocktype.Dead, Color.Violet),
+			             				new BreakOutBlock(6, 2, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(6, 3, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(6, 4, Blocktype.Invincible, Color.Gray),
+			             				new BreakOutBlock(6, 5, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(6, 6, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(6, 7, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(6, 8, Blocktype.Dead, Color.CadetBlue),
+			             				new BreakOutBlock(6, 9, Blocktype.Dead, Color.Red)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(7, 0, Blocktype.Dead, Color.Red),
+			             				new BreakOutBlock(7, 1, Blocktype.Dead, Color.Violet),
+			             				new BreakOutBlock(7, 2, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(7, 3, Blocktype.Invincible, Color.Gray),
+			             				new BreakOutBlock(7, 4, Blocktype.Strong2, Color.Salmon),
+			             				new BreakOutBlock(7, 5, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(7, 6, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(7, 7, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(7, 8, Blocktype.Dead, Color.CadetBlue),
+			             				new BreakOutBlock(7, 9, Blocktype.Dead, Color.Red)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(8, 0, Blocktype.Dead, Color.Red),
+			             				new BreakOutBlock(8, 1, Blocktype.Dead, Color.Violet),
+			             				new BreakOutBlock(8, 2, Blocktype.Invincible, Color.Gray),
+			             				new BreakOutBlock(8, 3, Blocktype.Strong3, Color.Red),
+			             				new BreakOutBlock(8, 4, Blocktype.Strong2, Color.Salmon),
+			             				new BreakOutBlock(8, 5, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(8, 6, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(8, 7, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(8, 8, Blocktype.Dead, Color.CadetBlue),
+			             				new BreakOutBlock(8, 9, Blocktype.Dead, Color.Red)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(9, 0, Blocktype.Dead, Color.Red),
+			             				new BreakOutBlock(9, 1, Blocktype.Dead, Color.Violet),
+			             				new BreakOutBlock(9, 2, Blocktype.Dead, Color.Thistle),
+			             				new BreakOutBlock(9, 3, Blocktype.Strong3, Color.Red),
+			             				new BreakOutBlock(9, 4, Blocktype.Strong2, Color.Salmon),
+			             				new BreakOutBlock(9, 5, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(9, 6, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(9, 7, Blocktype.Standard, Color.Beige),
+			             				new BreakOutBlock(9, 8, Blocktype.Dead, Color.CadetBlue),
+			             				new BreakOutBlock(9, 9, Blocktype.Dead, Color.Red)
+			             			}
+			             	};
+
+			#endregion
+
 			_ballList = new List<BreakOutBall>{new BreakOutBall(200, 400, 5, 5)};
 
 		}
@@ -168,6 +299,7 @@ namespace XNASystem.BreakOut
 				{
 					//simply switch the y velocity 
 					_ballList[i].SwitchY();
+					_ballList[i].IncrementX(padState.ThumbSticks.Left.X);
 				}
 
 				#endregion
@@ -203,18 +335,18 @@ namespace XNASystem.BreakOut
 				#region blocks
 
 				int j, k;
-				for(j = 0; j < 1; j++)
+				for(j = 0; j < 10; j++)
 				{
 					for(k = 0; k < 10; k++)
 					{
 						//make a rectangle aroundt he current block
 						_objectRect = new Rectangle((int) _blockList[j][k].GetX() * 78, (int) _blockList[j][k].GetY() * 36, 78, 36);
 
-						if(_ballRect.Intersects(_objectRect))
+						if(_ballRect.Intersects(_objectRect)) //if a ball intersects with the block...
 						{
-							if (_blockList[j][k].GetType() != Blocktype.Dead)
+							if (_blockList[j][k].GetType() != Blocktype.Dead)//...and the block is not dead...
 							{
-								switch (_blockList[j][k].GetSide(_ballRect))
+								switch (_blockList[j][k].GetSide(_ballRect))//..than find out which side it hit and act accordingly.
 								{
 									case 1:
 										_ballList[i].SwitchX();
@@ -245,6 +377,16 @@ namespace XNASystem.BreakOut
 			}
 
 			#endregion
+
+			if(padState.Buttons.A == ButtonState.Pressed && _a == 0)
+			{
+				_ballList.Add(new BreakOutBall(400, 550, -5, -5));
+				_a = 1;
+			}
+			if(padState.Buttons.A == ButtonState.Released)
+			{
+				_a = 0;
+			}
 		}
 
 		private static void DecrementType(BreakOutBlock block)
@@ -283,7 +425,7 @@ namespace XNASystem.BreakOut
 
 			//draw the blocks
 			int i, j;
-			for (i = 0; i < 1; i++)
+			for (i = 0; i < 10; i++)
 			{
 				for(j = 0; j < 10; j++)
 				{

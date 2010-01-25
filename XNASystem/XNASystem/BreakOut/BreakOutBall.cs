@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using XNASystem.Interfaces;
@@ -107,5 +108,18 @@ namespace XNASystem.BreakOut
 		}
 
 		#endregion
+
+		public void IncrementX(float f)
+		{
+			_xVelocity += f * 5;
+			if(_xVelocity > 10)
+			{
+				_xVelocity = 10;
+			}
+			if(_xVelocity < -10)
+			{
+				_xVelocity = -10;
+			}
+		}
 	}
 }

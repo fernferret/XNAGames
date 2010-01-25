@@ -47,7 +47,7 @@ namespace XNASystem.BreakOut
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
-			spriteBatch.Draw(textures[5], new Vector2(10 + (_xPosition * 76), 10 + (_yPosition * 36)), _color);
+			spriteBatch.Draw(textures[5], new Vector2(10 + (_xPosition * 78), 10 + (_yPosition * 36)), _color);
 		}
 
 		#endregion
