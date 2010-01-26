@@ -2,9 +2,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-namespace XNASystem
+using XNASystem.Interfaces;
+
+namespace XNASystem.MaterialEditor
 {
-	class SelectQuizMenu : IScreen
+	class SelectBookletMenu : IScreen
 	{
 		#region variables
 
@@ -19,7 +21,7 @@ namespace XNASystem
 		#endregion
 
 		#region constructor
-		public SelectQuizMenu(Stack<IScreen> stack, SystemMain main, EditorMainMenu editor)
+		public SelectBookletMenu(Stack<IScreen> stack, SystemMain main, EditorMainMenu editor)
 		{
 			_up = 1;
 			_down = 1;
@@ -32,27 +34,27 @@ namespace XNASystem
 		#endregion
 
 		#region update
-		public void Update(KeyboardState state)
+		public void Update(KeyboardState keyState, GamePadState padState)
 		{
 			#region arrow controls
 			// up arrow control
-			if (state.IsKeyDown(Keys.Up) && _up != 1)
+			if (keyState.IsKeyDown(Keys.Up) && _up != 1)
 			{
 				_up = 1;
 				_choice--;
 			}
-			if (state.IsKeyUp(Keys.Up))
+			if (keyState.IsKeyUp(Keys.Up))
 			{
 				_up = 0;
 			}
 
 			//down arrow control
-			if (state.IsKeyDown(Keys.Down) && _down != 1)
+			if (keyState.IsKeyDown(Keys.Down) && _down != 1)
 			{
 				_down = 1;
 				_choice++;
 			}
-			if (state.IsKeyUp(Keys.Down))
+			if (keyState.IsKeyUp(Keys.Down))
 			{
 				_down = 0;
 			}
@@ -61,22 +63,24 @@ namespace XNASystem
 			#region enter controls
 
 			//enter key controls
-			if (state.IsKeyDown(Keys.Enter) && _enter != 1)
+			if (keyState.IsKeyDown(Keys.Enter) && _enter != 1)
 			{
 				_enter = 1;
 				_menuStack.Pop();
-				if (_choice < _systemMain.GetQuizList().Count)
+				// for all the booklet choices
+				if (_choice < _systemMain.GetBookletList().Count)
 				{
-					_editor.SetCurrentQuiz(_choice);
-					_systemMain.SetCurrentQuiz(_choice);
+					_editor.SetCurrentBooklet(_choice);
+					_systemMain.SetCurrentBooklet(_choice);
 				}
-				if (_choice == _systemMain.GetQuizList().Count)
+				//for the craete a new booklet choice
+				if (_choice == _systemMain.GetBookletList().Count)
 				{
-					_menuStack.Push(new CreateQuizMenu(_menuStack, _systemMain, _editor));
+					_menuStack.Push(new CreateBookletMenu(_menuStack,_systemMain, _editor));
 				}
 				_systemMain.SetStack(_menuStack);
 			}
-			if (state.IsKeyUp(Keys.Enter))
+			if (keyState.IsKeyUp(Keys.Enter))
 			{
 				_enter = 0;
 			}
@@ -87,9 +91,9 @@ namespace XNASystem
 			// make sure that choice is always on an actually menu choice
 			if (_choice == -1)
 			{
-				_choice = _systemMain.GetQuizList().Count + 2;
+				_choice = _systemMain.GetBookletList().Count + 2;
 			}
-			if (_choice == _systemMain.GetQuizList().Count + 2)
+			if (_choice == _systemMain.GetBookletList().Count + 2)
 			{
 				_choice = 0;
 			}
@@ -107,18 +111,18 @@ namespace XNASystem
 			spriteBatch.Draw(textures[1], new Rectangle(0, 0, 800, 600), Color.White);
 
 			// draw the selection box
-			spriteBatch.Draw(textures[0], new Vector2(75, 175 + ((300 / (_systemMain.GetQuizList().Count + 1)) * _choice)), Color.White);
+			spriteBatch.Draw(textures[0], new Vector2(75, 175 + ((300 / (_systemMain.GetBookletList().Count + 1)) * _choice)), Color.White);
 
 			//draw the title
-			spriteBatch.DrawString(fonts[0], "Choose a Quiz", new Vector2(250, 100), Color.Black);
+			spriteBatch.DrawString(fonts[0], "Choose a booklet", new Vector2(250, 100), Color.Black);
 
 			//draw the menu items
 			int counter;
-			for (counter = 0; counter < _systemMain.GetQuizList().Count; counter++)
+			for (counter = 0; counter < _systemMain.GetBookletList().Count; counter++)
 			{
-				spriteBatch.DrawString(fonts[0], _systemMain.GetQuizList()[counter].GetTitle(), new Vector2(100, 200 + ((300 / (_systemMain.GetQuizList().Count + 1)) * counter)), Color.Black);
+				spriteBatch.DrawString(fonts[0], _systemMain.GetBookletList()[counter].GetTitle(), new Vector2(100, 200 + ((300 / (_systemMain.GetBookletList().Count + 1)) * counter)), Color.Black);
 			}
-			spriteBatch.DrawString(fonts[0], "Create New Quiz", new Vector2(100, 200 + ((300 / (_systemMain.GetQuizList().Count + 1)) * counter)), Color.Black);
+			spriteBatch.DrawString(fonts[0], "Create New Booklet", new Vector2(100, 200 + ((300 / (_systemMain.GetBookletList().Count + 1)) * counter)), Color.Black);
 			spriteBatch.DrawString(fonts[0], "Back", new Vector2(100, 500), Color.Black);
 
 			spriteBatch.End();

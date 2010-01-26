@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using XNASystem.Interfaces;
 
 namespace XNASystem
 {
@@ -19,7 +20,7 @@ namespace XNASystem
 		#endregion
 
 		#region update
-		public void Update(KeyboardState state)
+		public void Update(KeyboardState keyState, GamePadState padState)
 		{
 			throw new NotImplementedException();
 		}

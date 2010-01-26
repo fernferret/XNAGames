@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using XNASystem.Interfaces;
 
 namespace XNASystem
 {
@@ -96,9 +97,9 @@ namespace XNASystem
             //return false;
         }
 
-        internal Menu MenuOf(bool advance)
+       /* internal Menu MenuOf(bool advance)
         {
             return GetOpenItem(advance).GetAsMenu();
-        }
+        }*/
     }
 }
