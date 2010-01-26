@@ -71,6 +71,26 @@ namespace XNASystem
 		        }
 		        booklets.Add(_currentBooklet);
 		    }
+
+            //Hack for initialization with no booklets
+            if(booklets.Count == 0)
+            {
+                Booklet defaultb = new Booklet("defualt Booklet");
+                Booklet second = new Booklet("second Booklet");
+
+                Quiz test1 = new Quiz("Test Quiz 1 default");
+                Quiz test2 = new Quiz("Test Quiz 2 defualt");
+                Quiz test3 = new Quiz("Test Quiz 1 second");
+                Quiz test4 = new Quiz("Test Quiz 2 second");
+
+                defaultb.AddItem(test1);
+                defaultb.AddItem(test2);
+                second.AddItem(test3);
+                second.AddItem(test4);
+
+                booklets.Add(defaultb);
+                booklets.Add(second);
+            }
 		    return booklets;
 		}
 
