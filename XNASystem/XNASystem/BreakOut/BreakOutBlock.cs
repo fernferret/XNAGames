@@ -36,7 +36,7 @@ namespace XNASystem.BreakOut
 
 		#region useless update
 
-		public void UpdatePostiion(float x, float y)
+		public void UpdatePostion(float x, float y)
 		{
 			//do nothing
 		}

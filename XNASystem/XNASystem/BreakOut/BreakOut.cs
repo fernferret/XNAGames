@@ -266,7 +266,11 @@ namespace XNASystem.BreakOut
 				{
 					if (padState.ThumbSticks.Left.X > 0)
 					{
-						_paddle.UpdatePostiion(padState.ThumbSticks.Left.X, 0);
+						_paddle.UpdatePostion(padState.ThumbSticks.Left.X, 0);
+					}
+					if (keyState.IsKeyDown(Keys.Right))
+					{
+						_paddle.UpdatePostion(1, 0);
 					}
 
 				}
@@ -274,7 +278,11 @@ namespace XNASystem.BreakOut
 				{
 					if (padState.ThumbSticks.Left.X < 0)
 					{
-						_paddle.UpdatePostiion(padState.ThumbSticks.Left.X, 0);
+						_paddle.UpdatePostion(padState.ThumbSticks.Left.X, 0);
+					}
+					if (keyState.IsKeyDown(Keys.Left))
+					{
+						_paddle.UpdatePostion(-1, 0);
 					}
 				}
 				else if (_objectRect.Intersects(new Rectangle((int) _leftWall.GetX(), (int) _leftWall.GetY(), 10, 600)))
@@ -289,7 +297,7 @@ namespace XNASystem.BreakOut
 
 				else
 				{
-					_paddle.UpdatePostiion(padState.ThumbSticks.Left.X, 0);
+					_paddle.UpdatePostion(padState.ThumbSticks.Left.X, 0);
 				}
 
 				#endregion
@@ -404,13 +412,13 @@ namespace XNASystem.BreakOut
 
 						#endregion
 
-						_ballList[i].UpdatePostiion(_ballList[i].GetVx(), _ballList[i].GetVy());
+						_ballList[i].UpdatePostion(_ballList[i].GetVx(), _ballList[i].GetVy());
 					}
 				}
 
 				#endregion
 
-				if (padState.Buttons.A == ButtonState.Pressed && _a == 0)
+				if ((padState.Buttons.A == ButtonState.Pressed && _a == 0) || (keyState.IsKeyDown(Keys.Space) && _a == 0))
 				{
 					if (_lives > 0 && !_mainBallIsAlive)
 					{
@@ -418,7 +426,7 @@ namespace XNASystem.BreakOut
 					}
 					_a = 1;
 				}
-				if (padState.Buttons.A == ButtonState.Released)
+				if (padState.Buttons.A == ButtonState.Released || keyState.IsKeyUp(Keys.Space))
 				{
 					_a = 0;
 				}

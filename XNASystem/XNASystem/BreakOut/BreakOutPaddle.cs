@@ -28,7 +28,7 @@ namespace XNASystem.BreakOut
 
 		#region update
 
-		public void UpdatePostiion(float x, float y)
+		public void UpdatePostion(float x, float y)
 		{
 			_xPosition += 2* x;
 		}

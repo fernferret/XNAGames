@@ -5,7 +5,7 @@ namespace XNASystem.Interfaces
 {
 	interface IGameObject
 	{
-		void UpdatePostiion(float x, float y);
+		void UpdatePostion(float x, float y);
 
 		void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures);
 

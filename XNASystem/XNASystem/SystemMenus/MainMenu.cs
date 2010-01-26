@@ -213,11 +213,11 @@ namespace XNASystem.SystemMenus
 			spriteBatch.DrawString(fonts[0], "Welcome to the XNA Game System", new Vector2(250, 100), Color.Black);
 
 			//draw the menu options
-			spriteBatch.DrawString(fonts[0], "Start Quiz (NYI)", new Vector2(100, 200), Color.Black);
-			spriteBatch.DrawString(fonts[0], "Debug Game", new Vector2(100, 266), Color.Black);
-			spriteBatch.DrawString(fonts[0], "Options", new Vector2(100, 333), Color.Black);
-			spriteBatch.DrawString(fonts[0], "View Scores", new Vector2(100, 400), Color.Black);
-			spriteBatch.DrawString(fonts[0], "Edit Material", new Vector2(100, 466), Color.Black);
+			spriteBatch.DrawString(fonts[0], "Start Quiz", new Vector2(100, 200), Color.Black);
+			spriteBatch.DrawString(fonts[0], "Debug Game (Disabled)", new Vector2(100, 266), Color.Black);
+			spriteBatch.DrawString(fonts[0], "Options (Disabled)", new Vector2(100, 333), Color.Black);
+			spriteBatch.DrawString(fonts[0], "View Scores (Disabled)", new Vector2(100, 400), Color.Black);
+			spriteBatch.DrawString(fonts[0], "Edit Material (Disabled)", new Vector2(100, 466), Color.Black);
 			spriteBatch.DrawString(fonts[0], "Exit", new Vector2(100, 500), Color.Black);
 
 			spriteBatch.End();
