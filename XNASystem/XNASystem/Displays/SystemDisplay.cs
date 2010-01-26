@@ -45,10 +45,30 @@ namespace XNASystem.Displays
 		}
 		
 		#region update
-		public InputHandler Update2(InputHandler handler)
+		public void Update(InputHandler handler)
 		{
 			_choice = handler.HandleMenuMovement(2, _choice);
-			return handler;
+			if (handler.IfEnterPressed())
+			{
+				// case system to perform appropriate action of the chosen menu item
+				switch (_choice)
+				{
+					// take quiz
+					case 0:
+						_menuStack.Push(new QuizDisplay(_booklet.GetNextQuiz(), this));
+						_systemMain.SetStack(_menuStack);
+
+						break;
+					// change options
+					case 1:
+						_menuStack.Pop();
+						_systemMain.SetStack(_menuStack);
+						break;
+					default:
+						break;
+				}
+			}
+
 		}
 		public void Update(KeyboardState state, GamePadState padkeyState)
 		{

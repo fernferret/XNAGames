@@ -1,9 +1,11 @@
 /* DUMMY CLASS PUT IN PLACE FOR TESTING! */
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using XNASystem.Interfaces;
+using XNASystem.Utils;
 
 namespace XNASystem.Displays
 {
@@ -84,6 +86,12 @@ namespace XNASystem.Displays
 
 			#endregion
 		}
+
+		public void Update(InputHandler handler)
+		{
+			_choice = handler.HandleMenuMovement(1, _choice);
+		}
+
 		#endregion
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)

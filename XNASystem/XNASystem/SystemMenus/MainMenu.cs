@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Input;
 using XNASystem.Displays;
 using XNASystem.Interfaces;
 using XNASystem.MaterialEditor;
+using XNASystem.Utils;
 
 namespace XNASystem.SystemMenus
 {
@@ -188,6 +189,53 @@ namespace XNASystem.SystemMenus
 
 			#endregion
 		}
+
+		public void Update(InputHandler handler)
+		{
+			_choice = handler.HandleMenuMovement(5, _choice);
+
+			if (handler.IfEnterPressed())
+			{
+				// case system to perform appropriate action of the chosen menu item based on _choice
+				switch (_choice)
+				{
+					// take quiz - run the quiz-game loop
+					case 0:
+						_menuStack.Push(new SystemDisplay(_menuStack, _systemMain));
+						_systemMain.SetStack(_menuStack);
+						break;
+					// change options
+					case 1:
+						// create an options menu than push it onto the _menuStack
+						_menuStack.Push(new OptionsMenu(_menuStack, _systemMain));
+						// return the new _menuStack to main
+						_systemMain.SetStack(_menuStack);
+						break;
+					// view scores
+					case 2:
+						// create a scores menu and add it to the stack
+						_menuStack.Push(new ScoresMenu(_menuStack, _systemMain));
+						//return the new stack to main
+						_systemMain.SetStack(_menuStack);
+						break;
+					// write questions
+					case 3:
+						//create a editormainmenu menu and add it to the stack
+						_menuStack.Push(new EditorMainMenu(_menuStack, _systemMain));
+						//retrn the new stack to main
+						_systemMain.SetStack(_menuStack);
+						break;
+					// exit
+					case 4:
+						// tell main to close the program
+						_systemMain.Exit();
+						break;
+					default:
+						break;
+				}
+			}
+		}
+
 		#endregion
 
 		/// <summary>
@@ -207,18 +255,18 @@ namespace XNASystem.SystemMenus
 			spriteBatch.Draw(textures[1], new Rectangle(0, 0, 800, 600), Color.White);
 
 			// draw the box whereever it may be
-			spriteBatch.Draw(textures[0], new Vector2(75, 175 + (66 * _choice)), Color.White);
+			spriteBatch.Draw(textures[0], new Vector2(75, 175 + (80 * _choice)), Color.White);
 
 			// draw the menu title
 			spriteBatch.DrawString(fonts[0], "Welcome to the XNA Game System", new Vector2(250, 100), Color.Black);
 
 			//draw the menu options
+			
 			spriteBatch.DrawString(fonts[0], "Start Quiz", new Vector2(100, 200), Color.Black);
-			spriteBatch.DrawString(fonts[0], "Debug Game (Disabled)", new Vector2(100, 266), Color.Black);
-			spriteBatch.DrawString(fonts[0], "Options (Disabled)", new Vector2(100, 333), Color.Black);
-			spriteBatch.DrawString(fonts[0], "View Scores (Disabled)", new Vector2(100, 400), Color.Black);
-			spriteBatch.DrawString(fonts[0], "Edit Material (Disabled)", new Vector2(100, 466), Color.Black);
-			spriteBatch.DrawString(fonts[0], "Exit", new Vector2(100, 500), Color.Black);
+			spriteBatch.DrawString(fonts[0], "Options (Disabled)", new Vector2(100, 280), Color.Black);
+			spriteBatch.DrawString(fonts[0], "View Scores (Disabled)", new Vector2(100, 360), Color.Black);
+			spriteBatch.DrawString(fonts[0], "Edit Material (Disabled)", new Vector2(100, 440), Color.Black);
+			spriteBatch.DrawString(fonts[0], "Exit", new Vector2(100, 520), Color.Black);
 
 			spriteBatch.End();
 		}

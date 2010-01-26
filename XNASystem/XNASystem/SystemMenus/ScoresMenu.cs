@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using XNASystem.Interfaces;
+using XNASystem.Utils;
 
 namespace XNASystem.SystemMenus
 {
@@ -125,6 +127,12 @@ namespace XNASystem.SystemMenus
 
 			#endregion
 		}
+
+		public void Update(InputHandler handler)
+		{
+			throw new NotImplementedException();
+		}
+
 		#endregion
 
 		#region draw

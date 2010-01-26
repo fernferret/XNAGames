@@ -63,9 +63,8 @@ namespace XNASystem
     	private Booklet _currentBooklet;
     	private Quiz _currentQuiz;
 
-		private SystemDisplay _sysDis;
-
-		private InputHandler _handler;
+		private static InputHandler _handler;
+		//public static List<ButtonAlias> PressedButtons = new List<ButtonAlias>();
 		#region old possibly unneed variables
 		/*        // stack of menus being drawn
         readonly List<Menu> _menuList = new List<Menu>();
@@ -202,8 +201,9 @@ namespace XNASystem
         	var padState = GamePad.GetState(PlayerIndex.One);
         	_handler.SetInputs(keyState, padState);
             // use the update method from the current menu
-			_menuStack.Peek().Update(keyState, padState);
-			//_handler = _sysDis.Update2(_handler);
+			//_menuStack.Peek().Update(keyState, padState);
+			_menuStack.Peek().Update(_handler);
+			//_sysDis.Update2(_handler);
             
         }
         #endregion

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using XNASystem.Interfaces;
+using XNASystem.Utils;
 
 namespace XNASystem.Displays
 {
@@ -64,7 +65,7 @@ namespace XNASystem.Displays
 				switch (_choice)
 				{
 						// take quiz
-					case 4:
+					case 0:
 						_display.EndQuizScoreReview();
 						break;
 					default:
@@ -80,13 +81,31 @@ namespace XNASystem.Displays
 
 			#region set choice
 			// Force user to accept choice 5
-			if (_choice != 4)
+			if (_choice != 0)
 			{
-				_choice = 4;
+				_choice = 0;
 			}
 
 			#endregion
 		}
+
+		public void Update(InputHandler handler)
+		{
+			_choice = handler.HandleMenuMovement(1, _choice, 4);
+			if(handler.IfEnterPressed())
+			{
+				switch (_choice)
+				{
+					// take quiz
+					case 4:
+						_display.EndQuizScoreReview();
+						break;
+					default:
+						break;
+				}
+			}
+		}
+
 		#endregion
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)

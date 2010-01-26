@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using XNASystem.Interfaces;
 using XNASystem.QuizArch;
+using XNASystem.Utils;
 
 namespace XNASystem.Displays
 {
@@ -94,6 +95,15 @@ namespace XNASystem.Displays
 			}
 
 			#endregion
+		}
+
+		public void Update(InputHandler handler)
+		{
+			_choice = handler.HandleMenuMovement(_currentQuestionAnswers.Count, _choice);
+			if(handler.IfEnterPressed())
+			{
+				AnswerTheQuestion(_currentQuestionAnswers[_choice]);
+			}
 		}
 
 		private void AnswerTheQuestion(Answer answer)

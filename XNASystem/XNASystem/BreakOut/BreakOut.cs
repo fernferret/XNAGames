@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using XNASystem.Displays;
 using XNASystem.Interfaces;
+using XNASystem.Utils;
 
 #region block types
 
@@ -252,8 +251,16 @@ namespace XNASystem.BreakOut
 
 		#region update
 
-		public void Update(KeyboardState keyState, GamePadState padState)
+		public void Update(KeyboardState keykeyState, GamePadState padkeyState)
 		{
+			// No longer needed.
+		}
+
+		public void Update(InputHandler handler)
+		{
+			// TODO: Need to update to use the new handler class!
+			var padState = handler.GetPadState();
+			var keyState = handler.GetKeyState();
 			int x;
 			for (x = 0; x < 10; x++)
 			{
@@ -404,9 +411,9 @@ namespace XNASystem.BreakOut
 							_lives--;
 							_mainBallIsAlive = false;
 							_ballList[i].Kill();
-							if(_lives == 0)
+							if (_lives == 0)
 							{
-								_main.EndGame(new Score("Name",ActivityType.Game,_score,"Breakout"));
+								_main.EndGame(new Score("Name", ActivityType.Game, _score, "Breakout"));
 							}
 						}
 
@@ -415,9 +422,7 @@ namespace XNASystem.BreakOut
 						_ballList[i].UpdatePostion(_ballList[i].GetVx(), _ballList[i].GetVy());
 					}
 				}
-
 				#endregion
-
 				if ((padState.Buttons.A == ButtonState.Pressed && _a == 0) || (keyState.IsKeyDown(Keys.Space) && _a == 0))
 				{
 					if (_lives > 0 && !_mainBallIsAlive)

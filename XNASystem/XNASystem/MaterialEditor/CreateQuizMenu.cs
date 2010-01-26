@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using XNASystem.Interfaces;
+using XNASystem.Utils;
 
 namespace XNASystem.MaterialEditor
 {
@@ -663,6 +664,31 @@ namespace XNASystem.MaterialEditor
 
 			#endregion
 		}
+
+		public void Update(InputHandler handler)
+		{
+			_choice = handler.HandleMenuMovement(2, _choice);
+			if(handler.IfEnterPressed())
+			{
+				switch (_choice)
+				{
+					//submit quiz
+					case 0:
+						//_systemMain.CreateQuiz(_editor.GetCurrentBooklet(), _name);
+						_menuStack.Pop();
+						_systemMain.SetStack(_menuStack);
+						break;
+					//back
+					case 1:
+						_menuStack.Pop();
+						_systemMain.SetStack(_menuStack);
+						break;
+					default:
+						break;
+				}
+			}
+		}
+
 		#endregion
 
 		#region draw

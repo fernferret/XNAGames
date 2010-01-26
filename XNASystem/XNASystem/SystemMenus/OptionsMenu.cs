@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using XNASystem.Interfaces;
+using XNASystem.Utils;
 
 namespace XNASystem.SystemMenus
 {
@@ -157,6 +159,39 @@ namespace XNASystem.SystemMenus
 
 			#endregion
 		}
+
+		public void Update(InputHandler handler)
+		{
+			_choice = handler.HandleMenuMovement(4, _choice);
+			if(handler.IfEnterPressed())
+			{
+				// case system to perform appropriate action of the chosen menu item based on _choice
+				switch (_choice)
+				{
+					// color option
+					case 0:
+						break;
+					// booklet option
+					case 1:
+						break;
+					// game option
+					case 2:
+						break;
+					// back
+					case 3:
+						//take this menu off the stack
+						_menuStack.Pop();
+
+						// return the new stack to main
+						_systemMain.SetStack(_menuStack);
+
+						break;
+					default:
+						break;
+				}
+			}
+		}
+
 		#endregion
 
 		#region draw

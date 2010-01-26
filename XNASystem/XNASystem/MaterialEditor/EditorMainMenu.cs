@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using XNASystem.Interfaces;
+using XNASystem.Utils;
 
 namespace XNASystem.MaterialEditor
 {
@@ -138,6 +140,41 @@ namespace XNASystem.MaterialEditor
 
 			#endregion
 		}
+
+		public void Update(InputHandler handler)
+		{
+			_choice = handler.HandleMenuMovement(4, _choice);
+			if(handler.IfEnterPressed())
+			{
+				// case system to perform appropriate action of the chosen menu item
+				switch (_choice)
+				{
+					//change booklet
+					case 0:
+						_menuStack.Push(new SelectBookletMenu(_menuStack, _systemMain, this));
+						_systemMain.SetStack(_menuStack);
+						break;
+					// change quiz
+					case 1:
+						_menuStack.Push(new SelectQuizMenu(_menuStack, _systemMain, this));
+						_systemMain.SetStack(_menuStack);
+						break;
+					//write question
+					case 2:
+						_menuStack.Push(new EditorMenu(_menuStack, _systemMain, this));
+						_systemMain.SetStack(_menuStack);
+						break;
+					// back
+					case 3:
+						_menuStack.Pop();
+						_systemMain.SetStack(_menuStack);
+						break;
+					default:
+						break;
+				}
+			}
+		}
+
 		#endregion
 
 		#region draw

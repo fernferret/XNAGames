@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using XNASystem.Interfaces;
+using XNASystem.Utils;
 
 namespace XNASystem.MaterialEditor
 {
@@ -99,6 +101,16 @@ namespace XNASystem.MaterialEditor
 
 			#endregion
 		}
+
+		public void Update(InputHandler handler)
+		{
+			_choice = handler.HandleMenuMovement(1, _choice);
+			if(handler.IfEnterPressed())
+			{
+				
+			}
+		}
+
 		#endregion
 
 		#region draw

@@ -1,20 +1,24 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Input;
 
+public enum PressType
+{
+	None, XboxController, Key
+}
 namespace XNASystem.Utils
 {
-	class ButtonAlias
+	public class ButtonAlias
 	{
 		private Buttons _button;
 		private Keys _key;
 		private String _name;
-		public bool Pressed;
+		public PressType Pressed;
 		public ButtonAlias(String n, Buttons b, Keys k)
 		{
 			_name = n;
 			_button = b;
 			_key = k;
-			Pressed = false;
+			Pressed = PressType.None;
 		}
 		public String GetName()
 		{
