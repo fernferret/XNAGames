@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -41,62 +40,6 @@ namespace XNASystem.Displays
 
 
 		#region update
-		public void Update(KeyboardState state, GamePadState padkeyState)
-		{
-			#region arrow controls
-			// up arrow control
-			if (state.IsKeyDown(Keys.Up) && _up != 1)
-			{
-				_up = 1;
-				_choice--;
-			}
-			if (state.IsKeyUp(Keys.Up))
-			{
-				_up = 0;
-			}
-
-			//down arrow control
-			if (state.IsKeyDown(Keys.Down) && _down != 1)
-			{
-				_down = 1;
-				_choice++;
-			}
-			if (state.IsKeyUp(Keys.Down))
-			{
-				_down = 0;
-			}
-			#endregion
-
-			#region enter controls
-
-			//enter key controls
-			if (state.IsKeyDown(Keys.Enter) && _enter != 1)
-			{
-				_enter = 1;
-				AnswerTheQuestion(_currentQuestionAnswers[_choice]);
-				
-			}
-			if (state.IsKeyUp(Keys.Enter))
-			{
-				_enter = 0;
-			}
-
-			#endregion
-
-			#region set choice
-			// make sure that choice is always on an actually menu choice
-			if (_choice == -1)
-			{
-				_choice = _currentQuestionAnswers.Count;
-			}
-			if (_choice == _currentQuestionAnswers.Count)
-			{
-				_choice = 0;
-			}
-
-			#endregion
-		}
-
 		public void Update(InputHandler handler)
 		{
 			_choice = handler.HandleMenuMovement(_currentQuestionAnswers.Count, _choice);

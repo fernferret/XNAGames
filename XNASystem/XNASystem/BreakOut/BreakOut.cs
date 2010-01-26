@@ -251,11 +251,6 @@ namespace XNASystem.BreakOut
 
 		#region update
 
-		public void Update(KeyboardState keykeyState, GamePadState padkeyState)
-		{
-			// No longer needed.
-		}
-
 		public void Update(InputHandler handler)
 		{
 			// TODO: Need to update to use the new handler class!

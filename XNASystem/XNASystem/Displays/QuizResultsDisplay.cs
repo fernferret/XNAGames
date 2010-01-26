@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -28,67 +27,6 @@ namespace XNASystem.Displays
 		}
 
 		#region update
-		public void Update(KeyboardState state, GamePadState padkeyState)
-		{
-			#region arrow controls
-			// up arrow control
-			if (state.IsKeyDown(Keys.Up) && _up != 1)
-			{
-				_up = 1;
-				_choice--;
-			}
-			if (state.IsKeyUp(Keys.Up))
-			{
-				_up = 0;
-			}
-
-			//down arrow control
-			if (state.IsKeyDown(Keys.Down) && _down != 1)
-			{
-				_down = 1;
-				_choice++;
-			}
-			if (state.IsKeyUp(Keys.Down))
-			{
-				_down = 0;
-			}
-			#endregion
-
-			#region enter controls
-
-			//enter key controls
-			if (state.IsKeyDown(Keys.Enter) && _enter != 1)
-			{
-				_enter = 1;
-
-				// case system to perform appropriate action of the chosen menu item
-				switch (_choice)
-				{
-						// take quiz
-					case 0:
-						_display.EndQuizScoreReview();
-						break;
-					default:
-						break;
-				}
-			}
-			if (state.IsKeyUp(Keys.Enter))
-			{
-				_enter = 0;
-			}
-
-			#endregion
-
-			#region set choice
-			// Force user to accept choice 5
-			if (_choice != 0)
-			{
-				_choice = 0;
-			}
-
-			#endregion
-		}
-
 		public void Update(InputHandler handler)
 		{
 			_choice = handler.HandleMenuMovement(1, _choice, 4);
@@ -105,7 +43,6 @@ namespace XNASystem.Displays
 				}
 			}
 		}
-
 		#endregion
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
