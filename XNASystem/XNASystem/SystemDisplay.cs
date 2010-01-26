@@ -5,9 +5,8 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using XNASystem.Displays;
 
-///
+
 namespace XNASystem
 {
 	class SystemDisplay : IScreen
@@ -57,7 +56,7 @@ namespace XNASystem
 			var current = _menuStack.Pop();
 			if (current.GetType() == typeof(GameDisplay))
 			{
-				_menuStack.Push(new QuizDisplay());
+				//_menuStack.Push(new QuizDisplay());
 			}
 			if (current.GetType() == typeof(QuizDisplay))
 			{

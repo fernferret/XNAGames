@@ -94,11 +94,11 @@ namespace XNASystem
             //}
             //return false;
         }
-
-        internal Menu AdvanceQuestion()
+/*DEPRECIATED*/
+        /*internal Menu AdvanceQuestion()
         {
             return GetOpenItem(false).MenuOf(true);
-        }
+        }*/
         
 		internal bool AdvanceQuiz()
         {

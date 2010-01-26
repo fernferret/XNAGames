@@ -7,6 +7,7 @@ namespace XNASystem
     {
         private readonly List<Answer> _answers = new List<Answer>();
         private bool _hasAnswer;
+		bool _isCorrect;
         public Question(String q, List<Answer> a)
         {
             Title = q;
@@ -31,18 +32,22 @@ namespace XNASystem
         {
             return _answers;
         }
+		public List<Answer> GetRandomAnswers()
+		{
+			var r = new Random();
+			
+			var oAnswer = new List<Answer>(_answers);
+			var rAnswer = new List<Answer>();
 
-        internal Menu GetAsMenu()
-        {
-            var questionItems = new List<IMenuItem>
-                                    {
-                                        new QuestionItem(_answers[0]),
-                                        new QuestionItem(_answers[1]),
-                                        new QuestionItem(_answers[2]),
-                                        new QuestionItem(_answers[3])
-                                    };
-            return new Menu(Title,questionItems);
-        }
+			int i;
+			while(oAnswer.Count > 0)
+			{
+				i = r.Next(oAnswer.Count);
+				rAnswer.Add(oAnswer[i]);
+				oAnswer.RemoveAt(i);
+			}
+			return rAnswer;
+		}
 
         public bool HasAnswer()
         {
@@ -55,10 +60,40 @@ namespace XNASystem
             }
             return false;
         }
-
+		public bool AnsweredCorrectly()
+		{
+			foreach (var answer in _answers)
+			{
+				if(answer.HasBeenAnswered() && answer.IsCorrect())
+				{
+					return true;
+				}
+			}
+			return false;
+		}
         internal void Reset()
         {
             _hasAnswer = false;
         }
-    }
+
+		internal bool AnswerQuestion(Answer a)
+		{
+			a.Choose();
+			_hasAnswer = true;
+
+
+			if(a.IsCorrect())
+			{
+				_isCorrect = true;
+				return true;
+			}
+			_isCorrect = false;
+			return false;
+		}
+
+		internal String GetTitle()
+		{
+			return Title;
+		}
+	}
 }

@@ -16,7 +16,7 @@ enum MenuAction
 	Return
 }
 
-enum ActivityType
+public enum ActivityType
 {
 	Game,
 	Quiz

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace XNASystem
 {
-	class Score
+	public class Score
 	{
 		#region Variables
 		/// <summary>

@@ -57,6 +57,8 @@
   <ItemGroup>
     <Compile Include="Answer.cs" />
     <Compile Include="Booklet.cs" />
+    <Compile Include="QuizDisplay.cs" />
+    <Compile Include="GameDisplay.cs" />
     <Compile Include="CorrectAnswerMenu.cs" />
     <Compile Include="KeyChecker.cs" />
     <Compile Include="EditorMainMenu.cs" />

@@ -12,12 +12,12 @@ namespace XNASystem
         }
         public Booklet PopulateSystem()
         {
-            var questionList = new List<Question>();
-            var questionList2 = new List<Question>();
+            var questionList = new Stack<Question>();
+            var questionList2 = new Stack<Question>();
             var quizList = new List<Quiz>();
             
             // Add the First Question
-            questionList.Add(new Question("What is 1 + 1", new List<Answer>
+            questionList.Push(new Question("What is 1 + 1", new List<Answer>
                                                                {
                                                                   new Answer("0", false),
                                                                   new Answer("1", false),
@@ -26,7 +26,7 @@ namespace XNASystem
                                                                }));
 
             // Add the Second Question
-            questionList.Add(new Question("What is 4 * 3", new List<Answer>
+			questionList.Push(new Question("What is 4 * 3", new List<Answer>
                                                                {
                                                                   new Answer("|-12|", true),
                                                                   new Answer("12", true),
@@ -38,7 +38,7 @@ namespace XNASystem
             quizList.Add(new Quiz("Math 1", questionList));
 
             // Add the First Question
-            questionList2.Add(new Question("Where is the Bay of Pigs?", new List<Answer>
+			questionList2.Push(new Question("Where is the Bay of Pigs?", new List<Answer>
                                                                {
                                                                   new Answer("Germany", false),
                                                                   new Answer("Cuba", true),
@@ -47,7 +47,7 @@ namespace XNASystem
                                                                }));
 
             // Add the Second Question
-            questionList2.Add(new Question("When was M. P. T. Acharya born?", new List<Answer>
+			questionList2.Push(new Question("When was M. P. T. Acharya born?", new List<Answer>
                                                                {
                                                                   new Answer("1987", false),
                                                                   new Answer("1851", false),

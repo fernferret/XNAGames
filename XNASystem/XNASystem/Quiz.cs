@@ -1,16 +1,23 @@
 using System;
 using System.Collections.Generic;
-
+/*
+ 
+ * This class is currently undergoing an overhaul from List based, to Stack based question management
+ 
+ */
 namespace XNASystem
 {
 	public class Quiz : IComponent<Question>
 	{
 		#region Variables
 		// The listing of the currently loaded questions
-		private readonly List<Question> _questionList;
+		//private readonly List<Question> _questionList;
 		private readonly String _title;
 		private Question _openItem;
 		private Status _status = Status.NotStarted;
+		private Stack<Question> _questionStack;
+		private Stack<Question> _answeredQuestionStack;
+		private Score _score;
 		#endregion
 
 		#region Constructors
@@ -20,16 +27,21 @@ namespace XNASystem
 		public Quiz(String title)
 		{
 			_title = title;
-			_questionList = new List<Question>();
+			//_questionList = new List<Question>();
+			_questionStack = new Stack<Question>();
+			_answeredQuestionStack = new Stack<Question>();
+			_status = Status.NotStarted;
+			_score = new Score("Eric",ActivityType.Quiz,0,_title);
 		}
 
 		/// <summary>
 		/// Create a quiz with a pre-defined list of questions
 		/// </summary>
-		public Quiz(String title, List<Question> questions)
+		public Quiz(String title, Stack<Question> questions)
 		{
 			_title = title;
-			_questionList = questions;
+			//_questionList = questions;
+			_questionStack = questions;
 		}
 		#endregion 
 
@@ -39,25 +51,42 @@ namespace XNASystem
 		/// </summary>
 		private Question AdvanceItem()
 		{
-			return _questionList[_questionList.IndexOf(_openItem) + 1];
+			//return _questionList[_questionList.IndexOf(_openItem) + 1];
+			return _questionStack.Pop();
 		}
 
-		private bool CheckStatus()
+		private bool HasQuizBeenCompleted()
 		{
-			if (_questionList.IndexOf(_openItem) < GetItemCount() - 1)
+			if(_questionStack.Count != 0)
 			{
-				return true;
+				return false;
 			}
 			_status = Status.Completed;
-			return false;
+			return true;
 		}
 
 		/// <summary>
-		/// Advances the quiz to the next item (basically question)
+		/// Returns the number of items left in the quiz
 		/// </summary>
-		public int GetItemCount()
+		public int GetQuestionsLeft()
 		{
-			return _questionList.Count;
+			return _questionStack.Count;
+		}
+
+		public void AnswerQuestion(Answer a)
+		{
+			 if(GetOpenQuestion().AnswerQuestion(a))
+			{
+				_score.Value += 1;
+			}
+		}
+
+		/// <summary>
+		/// Returns the number of items in the quiz
+		/// </summary>
+		public int GetTotalQuestionCount()
+		{
+			return _questionStack.Count+_answeredQuestionStack.Count;
 		}
 
 		/// <summary>
@@ -71,20 +100,32 @@ namespace XNASystem
 		/// <summary>
 		/// Advances the quiz to the next item (basically question)
 		/// </summary>
-		public Question GetOpenItem(bool advance)
+		public Question GetOpenQuestion()
 		{
-			if (_status == Status.NotStarted)
+			if (_questionStack.Count == 0)
 			{
-				_status = Status.InProgress;
-				_openItem = _questionList[0];
+				_status = Status.Completed;
+				return null;
 			}
-			else if (advance)
-			{
-				// Set the _openItem to the next item in the quiz
-				_openItem = CheckStatus() ? AdvanceItem() : null;
-			}
+			_status = Status.InProgress;
+			
+			return _questionStack.Peek();
+		}
 
-			return _openItem;
+		public float GetPercentDone()
+		{
+			return (1 - (GetQuestionsLeft()/GetTotalQuestionCount()));
+		}
+
+		public Question GetNextQuestion()
+		{
+			if (_questionStack.Count == 0)
+			{
+				_status = Status.Completed;
+				return null;
+			}
+			_status = Status.InProgress;
+			return _questionStack.Pop();
 		}
 
 		/// <summary>
@@ -92,16 +133,8 @@ namespace XNASystem
 		/// </summary>
 		public Status GetStatus()
 		{
-			CheckStatus();
+			HasQuizBeenCompleted();
 			return _status;
-		}
-
-		/// <summary>
-		/// Get the current item as a menu (in this case, just passes down to question)
-		/// </summary>
-		internal Menu MenuOf(bool advance)
-		{
-			return GetOpenItem(advance).GetAsMenu();
 		}
 
 		#endregion
@@ -112,7 +145,8 @@ namespace XNASystem
 		/// </summary>
 		public void AddItem(Question item)
 		{
-			_questionList.Add(item);
+			_questionStack.Push(item);
+			//_questionList.Add(item);
 		}
 
 		/// <summary>
@@ -120,11 +154,13 @@ namespace XNASystem
 		/// </summary>
 		public bool Reset()
 		{
-			_openItem = _questionList[0];
-			foreach (var question in _questionList)
+			//_openItem = _questionList[0];
+			foreach (var question in _answeredQuestionStack)
 			{
 				question.Reset();
+				_questionStack.Push(question);
 			}
+			_openItem = _questionStack.Pop();
 			_status = Status.NotStarted;
 			return true;
 		}
