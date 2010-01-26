@@ -165,90 +165,107 @@ namespace XNASystem
 
 		void SaveBookletData(string filename, StorageDevice storageDevice, Booklet booklet)
         {
-            StorageContainer storageContainer = storageDevice.OpenContainer("Content");
-            string filenamePath = Path.Combine(StorageContainer.TitleLocation, filename);
-            
-            FileStream fileStream = File.Create(filenamePath);
-            try
+            using (StorageContainer storageContainer = storageDevice.OpenContainer("Content"))
             {
-                BinaryFormatter myBF = new BinaryFormatter();
-                myBF.Serialize(fileStream, booklet);
-            }
-            finally
-            {
-                fileStream.Close();
-                _operationPending = false;
-                storageContainer.Dispose();
+                string filenamePath = Path.Combine(storageContainer.Path, filename);
+
+                using (FileStream fileStream = File.Create(filenamePath))
+                {
+                    try
+                    {
+                        BinaryFormatter myBf = new BinaryFormatter();
+                        myBf.Serialize(fileStream, booklet);
+                    }
+                    finally
+                    {
+                        fileStream.Close();
+                        _operationPending = false;
+                        storageContainer.Dispose();
+                    }
+                }
             }
         }
 
         void SaveNameData(string filename, StorageDevice storageDevice, NameWrapper nameWrapper)
         {
-            StorageContainer storageContainer = storageDevice.OpenContainer("Content");
-            string filenamePath = Path.Combine(StorageContainer.TitleLocation, filename);
+            using (StorageContainer storageContainer = storageDevice.OpenContainer("Content"))
+            {
+                string filenamePath = Path.Combine(storageContainer.Path, filename);
 
-            FileStream fileStream = File.Create(filenamePath);
-            try
-            {
-                BinaryFormatter myBF = new BinaryFormatter();
-                myBF.Serialize(fileStream, nameWrapper);
-            }
-            finally
-            {
-                fileStream.Close();
-                _operationPending = false;
-                storageContainer.Dispose();
+                using (FileStream fileStream = File.Create(filenamePath))
+                {
+                    try
+                    {
+                        BinaryFormatter myBf = new BinaryFormatter();
+                        myBf.Serialize(fileStream, nameWrapper);
+                    }
+                    finally
+                    {
+                        fileStream.Close();
+                        _operationPending = false;
+                        storageContainer.Dispose();
+                    }
+                }
             }
         }
 
 		void LoadBookletData(string filename, StorageDevice storageDevice)
         {
-            StorageContainer storageContainer = storageDevice.OpenContainer("Content");
-            string filenamePath = Path.Combine(StorageContainer.TitleLocation, filename);
+            using (StorageContainer storageContainer = storageDevice.OpenContainer("Content"))
+            {
+                string filenamePath = Path.Combine(storageContainer.Path, filename);
 
-            FileStream fileStream = File.OpenRead(filenamePath);
-            try
-            {
-                BinaryFormatter myBF = new BinaryFormatter();
-                fileStream.Position = 0;
-                _currentBooklet = (Booklet)myBF.Deserialize(fileStream);
-            }
-            finally
-            {
-                fileStream.Close();
-                _operationPending = false;
-                storageContainer.Dispose();
+                using (FileStream fileStream = File.OpenRead(filenamePath))
+                {
+                    try
+                    {
+                        BinaryFormatter myBf = new BinaryFormatter();
+                        fileStream.Position = 0;
+                        _currentBooklet = (Booklet) myBf.Deserialize(fileStream);
+                    }
+                    finally
+                    {
+                        fileStream.Close();
+                        _operationPending = false;
+                        storageContainer.Dispose();
+                    }
+                }
             }
         }
 
         void LoadNameData(string filename, StorageDevice storageDevice)
         {
-            StorageContainer storageContainer = storageDevice.OpenContainer("Content");
-            string filenamePath = Path.Combine(StorageContainer.TitleLocation, filename);
-
-            try
+            using (StorageContainer storageContainer = storageDevice.OpenContainer("Content"))
             {
-                FileStream fileStream = File.OpenRead(filenamePath);
+                string filenamePath = Path.Combine(storageContainer.Path, filename);
+
                 try
                 {
-                    BinaryFormatter myBF = new BinaryFormatter();
-                    _nameWrapper = (NameWrapper)myBF.Deserialize(fileStream);
+                    using (FileStream fileStream = File.OpenRead(filenamePath))
+                    {
+                        try
+                        {
+                            BinaryFormatter myBf = new BinaryFormatter();
+                            fileStream.Position = 0;
+                            _nameWrapper = (NameWrapper) myBf.Deserialize(fileStream);
+                        }
+                        catch (Exception e)
+                        {
+                            _nameWrapper = new NameWrapper();
+                        }
+                        finally
+                        {
+                            fileStream.Close();
+                            _operationPending = false;
+                            storageContainer.Dispose();
+                        }
+                    }
                 }
                 catch (Exception e)
                 {
                     _nameWrapper = new NameWrapper();
-                }
-                finally
-                {
-                    fileStream.Close();
                     _operationPending = false;
-                    storageContainer.Dispose();
                 }
-            }
-            catch(Exception e)
-            {
-                _nameWrapper = new NameWrapper();
-                _operationPending = false;
             }
         }
         #endregion
