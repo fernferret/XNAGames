@@ -87,7 +87,6 @@ namespace XNASystem
 			a.Choose();
 			_hasAnswer = true;
 
-
 			if(a.IsCorrect())
 			{
 				_isCorrect = true;

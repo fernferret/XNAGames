@@ -70,7 +70,8 @@ namespace XNASystem
 			if (state.IsKeyDown(Keys.Enter) && _enter != 1)
 			{
 				_enter = 1;
-				_currentQuestion.AnswerQuestion(_currentQuestionAnswers[_choice]);
+				AnswerTheQuestion(_currentQuestionAnswers[_choice]);
+				
 			}
 			if (state.IsKeyUp(Keys.Enter))
 			{
@@ -92,7 +93,31 @@ namespace XNASystem
 
 			#endregion
 		}
-		#endregion
+
+    	private void AnswerTheQuestion(Answer answer)
+    	{
+    		if(_currentQuestion.AnswerQuestion(answer))
+			{
+				_currentQuizScore.Value += 1;
+			}
+    		AdvanceQuestion();
+    	}
+
+    	private void AdvanceQuestion()
+    	{
+    		_currentQuestion = _currentQuiz.GetNextQuestion();
+			if(_currentQuestion == null)
+			{
+				_display.EndQuiz(_currentQuizScore);
+			}
+			else
+			{
+				_currentQuestionAnswers = _currentQuestion.GetRandomAnswers();
+			}
+    		
+    	}
+
+    	#endregion
 
     	public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
     	{
@@ -108,6 +133,10 @@ namespace XNASystem
 			//draw the menu options
 			spriteBatch.DrawString(fonts[0], _currentQuiz.GetTitle(), new Vector2(50, 50), Color.Black);
 			spriteBatch.DrawString(fonts[0], _currentQuestion.GetTitle(), new Vector2(250, 100), Color.Black);
+			spriteBatch.DrawString(fonts[0], "% Done: " + _currentQuiz.GetPercentDone(), new Vector2(400, 400), Color.Black);
+			spriteBatch.DrawString(fonts[0], "Questions Left: " + _currentQuiz.GetQuestionsLeft(), new Vector2(400, 450), Color.Black);
+			spriteBatch.DrawString(fonts[0], "Total Questions: " + _currentQuiz.GetTotalQuestionCount(), new Vector2(400, 500), Color.Black);
+			spriteBatch.DrawString(fonts[0], "Current Score: " + 100*((double)_currentQuizScore.Value/_currentQuiz.GetTotalQuestionCount()), new Vector2(400, 550), Color.Black);
 			var i = 200;
 			foreach (var q in _currentQuestion.GetAllAnswers())
 			{

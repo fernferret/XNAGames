@@ -113,9 +113,9 @@ namespace XNASystem
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		public float GetPercentDone()
+		public double GetPercentDone()
 		{
-			return (1 - (GetQuestionsLeft()/GetTotalQuestionCount()));
+			return 100*(1.0 - ((GetQuestionsLeft()+1.0)/GetTotalQuestionCount()));
 		}
 
 		/// <summary>

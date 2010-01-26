@@ -15,7 +15,29 @@ namespace XNASystem
             var questionList = new Stack<Question>();
             var questionList2 = new Stack<Question>();
             var quizList = new Stack<Quiz>();
-            
+			// Add the First Question
+			questionList2.Push(new Question("When was M. P. T. Acharya born?", new List<Answer>
+                                                               {
+                                                                  new Answer("1987", false),
+                                                                  new Answer("1851", false),
+                                                                  new Answer("1887", true),
+                                                                  new Answer("1890", false)
+                                                               }));
+			// Add the Second Question
+			questionList2.Push(new Question("Where is the Bay of Pigs?", new List<Answer>
+                                                               {
+                                                                  new Answer("Germany", false),
+                                                                  new Answer("Cuba", true),
+                                                                  new Answer("Japan", false),
+                                                                  new Answer("Hawaii", false)
+                                                               }));
+
+
+
+
+			// Add The Second Quiz
+			quizList.Push(new Quiz("History 1", questionList2));
+
             // Add the First Question
             questionList.Push(new Question("What is 1 + 1", new List<Answer>
                                                                {
@@ -37,26 +59,7 @@ namespace XNASystem
             // Add The First Quiz
             quizList.Push(new Quiz("Math 1", questionList));
 
-            // Add the First Question
-			questionList2.Push(new Question("Where is the Bay of Pigs?", new List<Answer>
-                                                               {
-                                                                  new Answer("Germany", false),
-                                                                  new Answer("Cuba", true),
-                                                                  new Answer("Japan", false),
-                                                                  new Answer("Hawaii", false)
-                                                               }));
 
-            // Add the Second Question
-			questionList2.Push(new Question("When was M. P. T. Acharya born?", new List<Answer>
-                                                               {
-                                                                  new Answer("1987", false),
-                                                                  new Answer("1851", false),
-                                                                  new Answer("1887", true),
-                                                                  new Answer("1890", false)
-                                                               }));
-
-            // Add The Second Quiz
-            quizList.Push(new Quiz("History 1", questionList2));
             var b = new Booklet("Easy Questions",quizList);
             return b;
         }
