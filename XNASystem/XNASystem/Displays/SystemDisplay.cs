@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using XNASystem.Interfaces;
 
 
-namespace XNASystem
+namespace XNASystem.Displays
 {
 	public class SystemDisplay : IScreen
 	{
@@ -28,9 +28,9 @@ namespace XNASystem
 		public SystemDisplay(Stack<IScreen> screens, SystemMain main)
 		{
 			_up = 1;
-            _down = 1;
-            _enter = 1;
-            _choice = 0;
+			_down = 1;
+			_enter = 1;
+			_choice = 0;
 			_menuStack = screens;
 			_systemMain = main;
 			_qLoad = new QuestionLoader();
@@ -78,13 +78,13 @@ namespace XNASystem
 				// case system to perform appropriate action of the chosen menu item
 				switch (_choice)
 				{
-					// take quiz
+						// take quiz
 					case 0:
 						_menuStack.Push(new QuizDisplay(_booklet.GetNextQuiz(), this));
 						_systemMain.SetStack(_menuStack);
 						
 						break;
-					// change options
+						// change options
 					case 1:
 						_menuStack.Pop();
 						_systemMain.SetStack(_menuStack);
@@ -143,11 +143,12 @@ namespace XNASystem
 		internal void EndQuizScoreReview()
 		{
 			_menuStack.Pop();
-			_menuStack.Push(new GameDisplay(this));
+			_menuStack.Push(new BreakOut.BreakOut(this));
 			_systemMain.SetStack(_menuStack);
 		}
-		public void EndGame(int score)
+		public void EndGame(Score score)
 		{
+			_scoreManager.AddScore(score);
 			_menuStack.Pop();
 			if (_booklet.GetStatus() == Status.InProgress)
 			{

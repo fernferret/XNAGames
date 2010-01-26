@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
+using XNASystem.Displays;
 using XNASystem.Interfaces;
 
 #region block types
@@ -38,13 +39,13 @@ namespace XNASystem.BreakOut
 		private int _score;
 		private int _lives;
 		private Boolean _mainBallIsAlive;
-		private SystemMenus.MainMenu _main;
+		private SystemDisplay _main;
 
 		#endregion
 
 		#region constructor
 
-		public BreakOut(SystemMenus.MainMenu main)
+		public BreakOut(SystemDisplay main)
 		{
 			//here is where we can take in things like level
 			_paddle = new BreakOutPaddle();
@@ -397,7 +398,7 @@ namespace XNASystem.BreakOut
 							_ballList[i].Kill();
 							if(_lives == 0)
 							{
-								_main.EndGame(_score);
+								_main.EndGame(new Score("Name",ActivityType.Game,_score,"Breakout"));
 							}
 						}
 

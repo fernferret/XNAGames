@@ -5,17 +5,17 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using XNASystem.Interfaces;
 
-namespace XNASystem
+namespace XNASystem.Displays
 {
-    public class QuizResultsDisplay:IScreen
-    {
+	public class QuizResultsDisplay:IScreen
+	{
 
 		protected int _up;
 		protected int _down;
 		protected int _enter;
 		protected int _choice;
-    	private Score _score;
-    	private SystemDisplay _display;
+		private Score _score;
+		private SystemDisplay _display;
 		public QuizResultsDisplay(SystemDisplay display, Score s)
 		{
 			_up = 1;
@@ -63,7 +63,7 @@ namespace XNASystem
 				// case system to perform appropriate action of the chosen menu item
 				switch (_choice)
 				{
-					// take quiz
+						// take quiz
 					case 4:
 						_display.EndQuizScoreReview();
 						break;
@@ -89,8 +89,8 @@ namespace XNASystem
 		}
 		#endregion
 
-    	public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
-    	{
+		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
+		{
 			spriteBatch.Begin();
 
 			// draw the background
@@ -108,6 +108,6 @@ namespace XNASystem
 			spriteBatch.DrawString(fonts[0], "Start Game!", new Vector2(100, 500), Color.Black);
 
 			spriteBatch.End();
-    	}
-    }
+		}
+	}
 }

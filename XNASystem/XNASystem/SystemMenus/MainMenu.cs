@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using XNASystem.Displays;
 using XNASystem.Interfaces;
 using XNASystem.MaterialEditor;
 
@@ -123,8 +124,7 @@ namespace XNASystem.SystemMenus
 						break;
 						// play game - only for debugging will be deleted later
 					case 1:	
-						_menuStack.Push(new BreakOut.BreakOut(this));
-						_systemMain.SetStack(_menuStack);
+						// Removed as it is no longer valid here.
 						break;
 						// change options
 					case 2:
@@ -223,13 +223,5 @@ namespace XNASystem.SystemMenus
 			spriteBatch.End();
 		}
 		#endregion
-
-		public void EndGame(int score)
-		{
-			_currentGameScore = score;
-			_menuStack.Pop();
-			_systemMain.SetStack(_menuStack);
-
-		}
 	}
 }
