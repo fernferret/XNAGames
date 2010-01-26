@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using XNASystem.Interfaces;
 using XNASystem.QuizArch;
+using XNASystem.Utils;
 
 
 namespace XNASystem.Displays
@@ -40,9 +41,15 @@ namespace XNASystem.Displays
 			_booklet = _qLoad.PopulateSystem();
 			_player = "Eric";
 			_scoreManager = new ScoreManager(_player);
+			
 		}
 		
 		#region update
+		public InputHandler Update2(InputHandler handler)
+		{
+			_choice = handler.HandleMenuMovement(2, _choice);
+			return handler;
+		}
 		public void Update(KeyboardState state, GamePadState padkeyState)
 		{
 			#region arrow controls

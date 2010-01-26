@@ -2,9 +2,11 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using XNASystem.Displays;
 using XNASystem.Interfaces;
 using XNASystem.QuizArch;
 using XNASystem.SystemMenus;
+using XNASystem.Utils;
 
 // Enumeration that specifies various Menu Actions
 enum MenuAction
@@ -61,6 +63,9 @@ namespace XNASystem
     	private Booklet _currentBooklet;
     	private Quiz _currentQuiz;
 
+		private SystemDisplay _sysDis;
+
+		private InputHandler _handler;
 		#region old possibly unneed variables
 		/*        // stack of menus being drawn
         readonly List<Menu> _menuList = new List<Menu>();
@@ -90,6 +95,7 @@ namespace XNASystem
 		// System Constructor, performs initialization
 		public SystemMain()
 		{
+			_handler = new InputHandler();
 			// graphics initializer
 			_graphics = new GraphicsDeviceManager(this);
 
@@ -194,8 +200,11 @@ namespace XNASystem
             // the keyState the keyboard is in right now
             var keyState = Keyboard.GetState();
         	var padState = GamePad.GetState(PlayerIndex.One);
+        	_handler.SetInputs(keyState, padState);
             // use the update method from the current menu
-            _menuStack.Peek().Update(keyState, padState);
+			_menuStack.Peek().Update(keyState, padState);
+			//_handler = _sysDis.Update2(_handler);
+            
         }
         #endregion
 

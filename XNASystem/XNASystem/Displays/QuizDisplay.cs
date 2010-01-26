@@ -141,7 +141,7 @@ namespace XNASystem.Displays
 			spriteBatch.DrawString(fonts[0], "Total Questions: " + _currentQuiz.GetTotalQuestionCount(), new Vector2(400, 500), Color.Black);
 			spriteBatch.DrawString(fonts[0], "Current Score: " + _currentQuizScore.Percentage, new Vector2(400, 550), Color.Black);
 			var i = 200;
-			foreach (var q in _currentQuestion.GetAllAnswers())
+			foreach (var q in _currentQuestionAnswers)
 			{
 				spriteBatch.DrawString(fonts[0], q.ToString(), new Vector2(100, i), Black);
 				i += 75;
