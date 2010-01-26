@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using XNASystem.Interfaces;
 
 namespace XNASystem
 {
-	public class Booklet : IComponent<Quiz>
+	public class Booklet : Interfaces.IComponent<Quiz>
 	{
 		#region Variables
 		private readonly String _title;

@@ -21,4 +21,8 @@ namespace XNASystem
             _answer.Choose();
         }
     }
+
+	internal interface IMenuItem
+	{
+	}
 }

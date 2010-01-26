@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using XNASystem.Interfaces;
 
 namespace XNASystem
 {
@@ -26,7 +27,7 @@ namespace XNASystem
 		}
 
 		#region update
-		public void Update(KeyboardState state)
+		public void Update(KeyboardState state, GamePadState padkeyState)
 		{
 			#region arrow controls
 			// up arrow control

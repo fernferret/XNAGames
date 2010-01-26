@@ -42,7 +42,6 @@ namespace XNASystem
 			
 			var oAnswer = new List<Answer>(_answers);
 			var rAnswer = new List<Answer>();
-
 			int i;
 			while(oAnswer.Count > 0)
 			{

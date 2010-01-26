@@ -60,19 +60,28 @@
     <Compile Include="QuizResultsDisplay.cs" />
     <Compile Include="QuizDisplay.cs" />
     <Compile Include="GameDisplay.cs" />
-    <Compile Include="CorrectAnswerMenu.cs" />
-    <Compile Include="KeyChecker.cs" />
-    <Compile Include="EditorMainMenu.cs" />
-    <Compile Include="EditorMenu.cs" />
-    <Compile Include="IComponent.cs" />
+    <Compile Include="BreakOut\BreakOut.cs" />
+    <Compile Include="BreakOut\BreakOutBall.cs" />
+    <Compile Include="BreakOut\BreakOutBlock.cs" />
+    <Compile Include="BreakOut\BreakOutCeiling.cs" />
+    <Compile Include="BreakOut\BreakOutLevel.cs" />
+    <Compile Include="BreakOut\BreakOutPaddle.cs" />
+    <Compile Include="BreakOut\BreakOutWall.cs" />
+    <Compile Include="Interfaces\IGame.cs" />
+    <Compile Include="MaterialEditor\CreateBookletMenu.cs" />
+    <Compile Include="MaterialEditor\CreateQuizMenu.cs" />
+    <Compile Include="Interfaces\IGameObject.cs" />
+    <Compile Include="MaterialEditor\SelectQuizMenu.cs" />
+    <Compile Include="MaterialEditor\CorrectAnswerMenu.cs" />
+    <Compile Include="GameScreen.cs" />
+    <Compile Include="Interfaces\IComponent.cs" />
+    <Compile Include="MaterialEditor\EditorMainMenu.cs" />
+    <Compile Include="MaterialEditor\EditorMenu.cs" />
+    <Compile Include="MaterialEditor\IncorrectAnswerMenu.cs" />
+    <Compile Include="SystemMenus\MainMenu.cs" />
     <Compile Include="EntryPoint.cs" />
-    <Compile Include="IncorrectAnswerMenu.cs" />
-    <Compile Include="IScreen.cs" />
-    <Compile Include="MainMenu.cs" />
-    <Compile Include="MenuItem.cs" />
-    <Compile Include="Menu.cs" />
-    <Compile Include="NavItem.cs" />
-    <Compile Include="OptionsMenu.cs" />
+    <Compile Include="Interfaces\IScreen.cs" />
+    <Compile Include="SystemMenus\OptionsMenu.cs" />
     <Compile Include="PowerUp.cs" />
     <Compile Include="PowerUpManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -81,9 +90,11 @@
     <Compile Include="QuestionLoader.cs" />
     <Compile Include="Quiz.cs" />
     <Compile Include="SystemDisplay.cs" />
-    <Compile Include="Score.cs" />
     <Compile Include="ScoreManager.cs" />
-    <Compile Include="ScoresMenu.cs" />
+    <Compile Include="QuizScreen.cs" />
+    <Compile Include="Score.cs" />
+    <Compile Include="SystemMenus\ScoresMenu.cs" />
+    <Compile Include="MaterialEditor\SelectBookletMenu.cs" />
     <Compile Include="SystemMain.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -113,6 +124,8 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>

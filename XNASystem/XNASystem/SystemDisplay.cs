@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using XNASystem.Interfaces;
 
 
 namespace XNASystem
@@ -15,7 +16,7 @@ namespace XNASystem
 		private Booklet _booklet;
 		private ScoreManager _scoreManager;
 		private String _player;
-		private Stack<IScreen> _menuStack;
+		private Stack<Interfaces.IScreen> _menuStack;
 		private SystemMain _systemMain;
 
 		protected int _up;
@@ -41,7 +42,7 @@ namespace XNASystem
 		}
 		
 		#region update
-		public void Update(KeyboardState state)
+		public void Update(KeyboardState state, GamePadState padkeyState)
 		{
 			#region arrow controls
 			// up arrow control
