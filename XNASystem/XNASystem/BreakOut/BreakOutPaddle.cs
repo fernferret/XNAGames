@@ -30,7 +30,7 @@ namespace XNASystem.BreakOut
 
 		public void UpdatePostiion(float x, float y)
 		{
-			_xPosition += 20 * x;
+			_xPosition += 2* x;
 		}
 
 		#endregion

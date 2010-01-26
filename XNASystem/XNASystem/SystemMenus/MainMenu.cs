@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -31,6 +32,7 @@ namespace XNASystem.SystemMenus
 		protected int _choice;					// place holder for where the users choice icon is
 		protected Stack<IScreen> _menuStack;	// the stack of menus accumulated in the program so far
 		protected SystemMain _systemMain;		// the instance of SystemMain that controls the whole system
+		protected int _currentGameScore;
 
 		#endregion
 
@@ -117,8 +119,8 @@ namespace XNASystem.SystemMenus
 						// take quiz - run the quiz-game loop
 					case 0:
 						// play game - only for debugging will be deleted later
-					case 1:
-						_menuStack.Push(new BreakOut.BreakOut());
+					case 1:	
+						_menuStack.Push(new BreakOut.BreakOut(this));
 						_systemMain.SetStack(_menuStack);
 						break;
 						// change options
@@ -218,5 +220,13 @@ namespace XNASystem.SystemMenus
 			spriteBatch.End();
 		}
 		#endregion
+
+		public void EndGame(int score)
+		{
+			_currentGameScore = score;
+			_menuStack.Pop();
+			_systemMain.SetStack(_menuStack);
+
+		}
 	}
 }
