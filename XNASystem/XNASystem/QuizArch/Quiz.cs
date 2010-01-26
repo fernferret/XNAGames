@@ -7,7 +7,7 @@ using XNASystem.Interfaces;
  * This class is currently undergoing an overhaul from List based, to Stack based question management
  
  */
-namespace XNASystem
+namespace XNASystem.QuizArch
 {
 	public class Quiz : IComponent<Question>
 	{

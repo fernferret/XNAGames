@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using XNASystem.Interfaces;
+using XNASystem.QuizArch;
 using XNASystem.SystemMenus;
 
 // Enumeration that specifies various Menu Actions

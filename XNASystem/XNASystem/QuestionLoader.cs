@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
+using XNASystem.QuizArch;
+
 // This class will be used to load questions via xml in later revs
 namespace XNASystem
 {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace XNASystem
+namespace XNASystem.QuizArch
 {
     public class Question
 	{
