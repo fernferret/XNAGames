@@ -15,13 +15,8 @@ namespace XNASystem
 		private Booklet _booklet;
 		private ScoreManager _scoreManager;
 		private String _player;
-		private bool _inSession;
 		private Stack<IScreen> _menuStack;
 		private SystemMain _systemMain;
-		private KeyChecker _kc;
-		private int _currentState;
-		private GameDisplay _gd;
-		private QuizDisplay _qd;
 
 		protected int _up;
 		protected int _down;
@@ -35,7 +30,6 @@ namespace XNASystem
             _down = 1;
             _enter = 1;
             _choice = 0;
-			_kc = new KeyChecker();
 			_menuStack = screens;
 			_systemMain = main;
 			_qLoad = new QuestionLoader();
@@ -44,51 +38,8 @@ namespace XNASystem
 			_booklet = _qLoad.PopulateSystem();
 			_player = "Eric";
 			_scoreManager = new ScoreManager(_player);
-			_inSession = true;
-			//StartSequence();
 		}
-
-		private void SwitchApplication()
-		{
-			var current = _menuStack.Pop();
-			if (current.GetType() == typeof(GameDisplay))
-			{
-				_menuStack.Push(new QuizDisplay(_booklet.GetNextQuiz(),this));
-				_systemMain.SetStack(_menuStack);
-			}
-			if (current.GetType() == typeof(QuizDisplay))
-			{
-				_menuStack.Push(new GameDisplay());
-				_systemMain.SetStack(_menuStack);
-			}
-			
-		}
-		public void EndGame(int score)
-		{
-			_menuStack.Pop();
-			_menuStack.Push(new QuizDisplay(_booklet.GetNextQuiz(),this));
-			_systemMain.SetStack(_menuStack);
-		}
-		public void EndQuiz(Score score)
-		{
-			_scoreManager.AddScore(score);
-			_menuStack.Pop();
-			_menuStack.Push(new GameDisplay());
-			_systemMain.SetStack(_menuStack);
-		}
-		public Score TakeQuiz()
-		{
-			// This code is correct, but won't work yet!
-			/*while(_booklet.GetOpenItem(false).GetStatus() != Status.Completed)
-			{
-				
-			}*/
-			return new Score(_player, ActivityType.Quiz, 100, "DummyQuiz");
-		}
-		public Score PlayGame()
-		{
-			return new Score(_player,ActivityType.Game,100,"DummyGame");
-		}
+		
 		#region update
 		public void Update(KeyboardState state)
 		{
@@ -179,6 +130,41 @@ namespace XNASystem
 			spriteBatch.DrawString(fonts[0], "Yes! (Start Quiz)", new Vector2(100, 200), Color.Black);
 			spriteBatch.DrawString(fonts[0], "No! (Return to Menu)", new Vector2(100, 275), Color.Black);
 			spriteBatch.End();
+		}
+		/* DO NOT DELETE THIS METHOD */
+		/* IT WILL BE USED AS SOON AS THE GAME IS IMPLEMENTED*/
+		internal void EndGameScoreReview()
+		{
+			_menuStack.Pop();
+			_menuStack.Push(new QuizDisplay(_booklet.GetNextQuiz(), this));
+			_systemMain.SetStack(_menuStack);
+		}
+		internal void EndQuizScoreReview()
+		{
+			_menuStack.Pop();
+			_menuStack.Push(new GameDisplay(this));
+			_systemMain.SetStack(_menuStack);
+		}
+		public void EndGame(int score)
+		{
+			_menuStack.Pop();
+			if (_booklet.GetStatus() == Status.InProgress)
+			{
+				_menuStack.Push(new QuizDisplay(_booklet.GetNextQuiz(), this));
+				_systemMain.SetStack(_menuStack);
+			}
+			else
+			{
+				// TODO: Need to put a done with quiz screen here.
+				_menuStack.Pop();
+			}
+		}
+		public void EndQuiz(Score score)
+		{
+			_scoreManager.AddScore(score);
+			_menuStack.Pop();
+			_menuStack.Push(new QuizResultsDisplay(this,_scoreManager.GetCumulativeQuizScore()));
+			_systemMain.SetStack(_menuStack);
 		}
 	}
 }

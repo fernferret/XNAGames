@@ -1,4 +1,4 @@
-/* DUMMY CLASS PUT IN PLACE FOR TESTING! */
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -6,20 +6,23 @@ using Microsoft.Xna.Framework.Input;
 
 namespace XNASystem
 {
-    public class GameDisplay : IScreen
+    public class QuizResultsDisplay:IScreen
     {
+
 		protected int _up;
 		protected int _down;
 		protected int _enter;
 		protected int _choice;
-		private SystemDisplay _display;
-		public GameDisplay(SystemDisplay display)
+    	private Score _score;
+    	private SystemDisplay _display;
+		public QuizResultsDisplay(SystemDisplay display, Score s)
 		{
 			_up = 1;
 			_down = 1;
 			_enter = 1;
 			_choice = 0;
 			_display = display;
+			_score = s;
 		}
 
 		#region update
@@ -61,7 +64,7 @@ namespace XNASystem
 				{
 					// take quiz
 					case 4:
-						_display.EndGame(0);
+						_display.EndQuizScoreReview();
 						break;
 					default:
 						break;
@@ -96,10 +99,12 @@ namespace XNASystem
 			spriteBatch.Draw(textures[0], new Vector2(75, 175 + (75 * _choice)), Color.White);
 
 			// draw the menu title
-			spriteBatch.DrawString(fonts[0], "Someday There will be an epic game here...", new Vector2(250, 100), Color.Black);
+			spriteBatch.DrawString(fonts[0], "Quiz Score:", new Vector2(250, 100), Color.Black);
 
 			//draw the menu options
-			spriteBatch.DrawString(fonts[0], "Start Quiz!", new Vector2(100, 500), Color.Black);
+			spriteBatch.DrawString(fonts[0], "Quiz Questions Correct: " + _score.Value, new Vector2(100, 200), Color.Black);
+			spriteBatch.DrawString(fonts[0], "Quiz Percentage: " + _score.Percentage, new Vector2(100, 275), Color.Black);
+			spriteBatch.DrawString(fonts[0], "Start Game!", new Vector2(100, 500), Color.Black);
 
 			spriteBatch.End();
     	}

@@ -105,6 +105,7 @@ namespace XNASystem
 
     	private void AdvanceQuestion()
     	{
+			_currentQuizScore.SetPercentage(_currentQuiz.GetTotalQuestionCount());
     		_currentQuestion = _currentQuiz.GetNextQuestion();
 			if(_currentQuestion == null)
 			{
@@ -136,7 +137,7 @@ namespace XNASystem
 			spriteBatch.DrawString(fonts[0], "% Done: " + _currentQuiz.GetPercentDone(), new Vector2(400, 400), Color.Black);
 			spriteBatch.DrawString(fonts[0], "Questions Left: " + _currentQuiz.GetQuestionsLeft(), new Vector2(400, 450), Color.Black);
 			spriteBatch.DrawString(fonts[0], "Total Questions: " + _currentQuiz.GetTotalQuestionCount(), new Vector2(400, 500), Color.Black);
-			spriteBatch.DrawString(fonts[0], "Current Score: " + 100*((double)_currentQuizScore.Value/_currentQuiz.GetTotalQuestionCount()), new Vector2(400, 550), Color.Black);
+			spriteBatch.DrawString(fonts[0], "Current Score: " + _currentQuizScore.Percentage, new Vector2(400, 550), Color.Black);
 			var i = 200;
 			foreach (var q in _currentQuestion.GetAllAnswers())
 			{

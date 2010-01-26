@@ -27,6 +27,11 @@ namespace XNASystem
 		public int Value { get; set; }
 
 		/// <summary>
+		/// The value for this specific score
+		/// </summary>
+		public int Percentage { get; set; }
+
+		/// <summary>
 		/// The Title of the Quiz/ Game Level
 		/// </summary>
 		public String ItemTitle { get; set; }
@@ -62,6 +67,11 @@ namespace XNASystem
 		public DateTime Date()
 		{
 			return _date;
+		}
+
+		internal void SetPercentage(int p)
+		{
+			Percentage = (int)(100*(Value + 0.0)/p);
 		}
 	}
 }

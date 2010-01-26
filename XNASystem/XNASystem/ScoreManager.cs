@@ -32,5 +32,25 @@ namespace XNASystem
 		{
 			_scores.Add(s);
 		}
-    }
+
+		internal List<Score> GetScores()
+		{
+			return _scores;
+		}
+
+		internal Score GetCumulativeQuizScore()
+		{
+			var totalPercent = 0;
+			var totalPoints = 0;
+			var i = 1;
+			foreach (var score in _scores)
+			{
+				totalPercent = (totalPercent + score.Percentage)/i;
+				totalPoints += score.Value;
+				i++;
+			}
+			var s = new Score(_scores[0].PlayerName,ActivityType.Quiz, totalPoints, "Cumulative Quiz Score"){Percentage = totalPercent};
+			return s;
+		}
+	}
 }
