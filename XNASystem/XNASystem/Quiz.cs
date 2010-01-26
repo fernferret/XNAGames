@@ -10,24 +10,22 @@ namespace XNASystem
 	public class Quiz : IComponent<Question>
 	{
 		#region Variables
-		// The listing of the currently loaded questions
-		//private readonly List<Question> _questionList;
 		private readonly String _title;
+
 		private Question _openItem;
+
 		private Status _status = Status.NotStarted;
 		private Stack<Question> _questionStack;
 		private Stack<Question> _answeredQuestionStack;
 		private Score _score;
 		#endregion
 
-		#region Constructors
 		/// <summary>
 		/// Create a quiz with no questions, but initialize a new question list
 		/// </summary>
 		public Quiz(String title)
 		{
 			_title = title;
-			//_questionList = new List<Question>();
 			_questionStack = new Stack<Question>();
 			_answeredQuestionStack = new Stack<Question>();
 			_status = Status.NotStarted;
@@ -40,21 +38,16 @@ namespace XNASystem
 		public Quiz(String title, Stack<Question> questions)
 		{
 			_title = title;
-			//_questionList = questions;
 			_questionStack = questions;
+			_answeredQuestionStack = new Stack<Question>();
+			_status = Status.NotStarted;
+			_score = new Score("Eric", ActivityType.Quiz, 0, _title);
 		}
-		#endregion 
 
-		#region Getters
 		/// <summary>
-		/// Advances the quiz to the next item (basically question)
+		/// 
 		/// </summary>
-		private Question AdvanceItem()
-		{
-			//return _questionList[_questionList.IndexOf(_openItem) + 1];
-			return _questionStack.Pop();
-		}
-
+		/// <returns></returns>
 		private bool HasQuizBeenCompleted()
 		{
 			if(_questionStack.Count != 0)
@@ -72,7 +65,11 @@ namespace XNASystem
 		{
 			return _questionStack.Count;
 		}
-
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="a"></param>
 		public void AnswerQuestion(Answer a)
 		{
 			 if(GetOpenQuestion().AnswerQuestion(a))
@@ -112,11 +109,19 @@ namespace XNASystem
 			return _questionStack.Peek();
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
 		public float GetPercentDone()
 		{
 			return (1 - (GetQuestionsLeft()/GetTotalQuestionCount()));
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
 		public Question GetNextQuestion()
 		{
 			if (_questionStack.Count == 0)
@@ -125,6 +130,9 @@ namespace XNASystem
 				return null;
 			}
 			_status = Status.InProgress;
+
+			// Place the current question on the answered stack
+			_answeredQuestionStack.Push(_questionStack.Peek());
 			return _questionStack.Pop();
 		}
 
@@ -137,16 +145,12 @@ namespace XNASystem
 			return _status;
 		}
 
-		#endregion
-
-		#region Setters
 		/// <summary>
 		/// Advances the quiz to the next item (basically question)
 		/// </summary>
 		public void AddItem(Question item)
 		{
 			_questionStack.Push(item);
-			//_questionList.Add(item);
 		}
 
 		/// <summary>
@@ -160,10 +164,19 @@ namespace XNASystem
 				question.Reset();
 				_questionStack.Push(question);
 			}
-			_openItem = _questionStack.Pop();
+			//_openItem = _questionStack.Pop();
 			_status = Status.NotStarted;
 			return true;
 		}
-		#endregion
+
+		public List<Question> GetRandomQuestions()
+		{
+			throw new NotImplementedException();
+		}
+
+		public List<Question> GetAllQuestions()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

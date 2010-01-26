@@ -14,7 +14,7 @@ namespace XNASystem
         {
             var questionList = new Stack<Question>();
             var questionList2 = new Stack<Question>();
-            var quizList = new List<Quiz>();
+            var quizList = new Stack<Quiz>();
             
             // Add the First Question
             questionList.Push(new Question("What is 1 + 1", new List<Answer>
@@ -35,7 +35,7 @@ namespace XNASystem
                                                                }));
 
             // Add The First Quiz
-            quizList.Add(new Quiz("Math 1", questionList));
+            quizList.Push(new Quiz("Math 1", questionList));
 
             // Add the First Question
 			questionList2.Push(new Question("Where is the Bay of Pigs?", new List<Answer>
@@ -56,7 +56,7 @@ namespace XNASystem
                                                                }));
 
             // Add The Second Quiz
-            quizList.Add(new Quiz("History 1", questionList2));
+            quizList.Push(new Quiz("History 1", questionList2));
             var b = new Booklet("Easy Questions",quizList);
             return b;
         }

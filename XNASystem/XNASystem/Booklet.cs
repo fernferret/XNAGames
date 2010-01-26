@@ -3,122 +3,125 @@ using System.Collections.Generic;
 
 namespace XNASystem
 {
-    class Booklet: IComponent<Quiz>
-    {
-        private readonly List<Quiz> _quizList;
-        private readonly String _title;
-        private Quiz _openItem;
-        private Status _status = Status.NotStarted;
-        private bool _didAdvance;
-        public Booklet(String title)
-        {
-            _title = title;
-            _quizList = new List<Quiz>();
-        }
+	public class Booklet : IComponent<Quiz>
+	{
+		#region Variables
+		private readonly String _title;
 
-        public Booklet(String title, List<Quiz> quizzes)
-        {
-            _title = title;
-            _quizList = quizzes;
-        }
+		private Quiz _openItem;
 
-        private Quiz AdvanceItem()
-        {
-            // If we're in progress, return the same.
-            if(_status == Status.InProgress)
-            {
-                return _quizList[_quizList.IndexOf(_openItem)];
-            }
-            // Else return the next one
-            _didAdvance = true;
-            return _quizList[_quizList.IndexOf(_openItem)+1];
-        }
+		private Status _status = Status.NotStarted;
+		private Stack<Quiz> _quizStack;
+		private Stack<Quiz> _completedQuizStack;
+		#endregion
 
-        private bool CheckStatus()
-        {
-            if (_quizList.IndexOf(_openItem) < GetItemCount()-1)
-            {
-                return true;
-            }
-            _status = Status.Completed;
-            return false;
-        }
+		public Booklet(String title)
+		{
+			_title = title;
+			_quizStack = new Stack<Quiz>();
+			_completedQuizStack = new Stack<Quiz>();
+			_status = Status.NotStarted;
+		}
 
-        public int GetItemCount()
-        {
-            return _quizList.Count;
-        }
+		public Booklet(String title, Stack<Quiz> quizzes)
+		{
+			_title = title;
+			_quizStack = quizzes;
+			_completedQuizStack = new Stack<Quiz>();
+			_status = Status.NotStarted;
+		}
 
-        public String GetTitle()
-        {
-            return _title;
-        }
+		private Status CheckStatus()
+		{
+			HasBookletBeenCompleted();
+			return _status;
+		}
 
-        public Quiz GetOpenItem(bool advance)
-        {
-            if (_status == Status.NotStarted)
-            {
-                _status = Status.InProgress;
-                _openItem = _quizList[0];
-            }
-            else if(advance)
-            {
-                // Set the _openItem to the next item in the booklet
-                _openItem = CheckStatus() ? AdvanceItem() : null;
-            }
-            return _openItem;
-        }
+		private bool HasBookletBeenCompleted()
+		{
+			if(_quizStack.Count != 0)
+			{
+				return false;
+			}
+			_status = Status.Completed;
+			return true;
+		}
 
-        public Status GetStatus()
-        {
-            return _status;
-        }
+		public int GetQuizzesLeft()
+		{
+			return _quizStack.Count;
+		}
 
-        public void AddItem(Quiz item)
-        {
-            _quizList.Add(item);
-        }
+		public int GetTotalQuizCount()
+		{
+			return _quizStack.Count + _completedQuizStack.Count;
+		}
 
-        public bool Reset()
-        {
-            // For now, only allow reset if we're completed
-            //if (_status == Status.Completed)
-            //{
-                _openItem = _quizList[0];
-            foreach (var quiz in _quizList)
-            {
-                quiz.Reset();
-            }
-            _status = Status.NotStarted;
-                return true;
-            //}
-            //return false;
-        }
-/*DEPRECIATED*/
-        /*internal Menu AdvanceQuestion()
-        {
-            return GetOpenItem(false).MenuOf(true);
-        }*/
-        
-		internal bool AdvanceQuiz()
-        {
-            _status = Status.Completed;
-            GetOpenItem(true);
-            return _didAdvance;
-        }
+		public String GetTitle()
+		{
+			return _title;
+		}
 
-        internal bool DoneWithQuiz()
-        {
-            if(GetOpenItem(false).GetStatus() == Status.Completed)
-            {
-                return true;
-            }
-            return false;
-        }
+		public Quiz GetOpenQuiz()
+		{
+			if (_quizStack.Count == 0)
+			{
+				_status = Status.Completed;
+				return null;
+			}
+			_status = Status.InProgress;
 
-        internal void ResetQuizAdvance()
-        {
-            _didAdvance = false;
-        }
-    }
+			return _quizStack.Peek();
+		}
+
+		public float GetPercentDone()
+		{
+			return (1 - (GetQuizzesLeft() / GetTotalQuizCount()));
+		}
+
+		public Quiz GetNextQuiz()
+		{
+			if (_quizStack.Count == 0)
+			{
+				_status = Status.Completed;
+				return null;
+			}
+			_status = Status.InProgress;
+
+			_completedQuizStack.Push(_quizStack.Peek());
+			return _quizStack.Pop();
+		}
+
+		public Status GetStatus()
+		{
+			HasBookletBeenCompleted();
+			return _status;
+		}
+
+		public void AddItem(Quiz item)
+		{
+			_quizStack.Push(item);
+		}
+
+		public bool Reset()
+		{
+			foreach (var quiz in _completedQuizStack)
+			{
+				quiz.Reset();
+				_quizStack.Push(quiz);
+			}
+			//_openItem = _quizStack.Pop();
+			_status = Status.NotStarted;
+			return true;
+		}
+
+		private bool DoneWithQuiz()
+		{
+			if (GetOpenQuiz().GetStatus() == Status.Completed)
+			{
+				return true;
+			}
+			return false;
+		}
+	}
 }

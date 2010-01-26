@@ -38,6 +38,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BookletStackTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuizStackTest.cs" />
     <Compile Include="QuizTest.cs" />
