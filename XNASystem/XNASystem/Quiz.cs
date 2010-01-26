@@ -169,12 +169,20 @@ namespace XNASystem
 			return true;
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
 		public List<Question> GetAllQuestions()
 		{
 			return new List<Question>(_questionStack.ToArray());
 
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
 		public List<Question> GetRandomQuestions()
 		{
 			var r = new Random();

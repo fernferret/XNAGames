@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace XNASystem
 {
-	class SystemDisplay : IScreen
+	public class SystemDisplay : IScreen
 	{
 		private QuestionLoader _qLoad;
 		private Booklet _booklet;
@@ -48,34 +48,34 @@ namespace XNASystem
 			//StartSequence();
 		}
 
-/*		private void StartSequence()
-		{
-			while(_inSession)
-			{
-				_scoreManager.AddScore(TakeQuiz());
-				//_booklet.AdvanceQuiz();
-				if(_booklet.GetStatus() == Status.Completed)
-				{
-					_inSession = false;
-				}
-				_scoreManager.AddScore(PlayGame());
-			}
-		}*/
-
 		private void SwitchApplication()
 		{
 			var current = _menuStack.Pop();
 			if (current.GetType() == typeof(GameDisplay))
 			{
-				_menuStack.Push(new QuizDisplay(_booklet.GetNextQuiz()));
+				_menuStack.Push(new QuizDisplay(_booklet.GetNextQuiz(),this));
+				_systemMain.SetStack(_menuStack);
 			}
 			if (current.GetType() == typeof(QuizDisplay))
 			{
 				_menuStack.Push(new GameDisplay());
+				_systemMain.SetStack(_menuStack);
 			}
 			
 		}
-
+		public void EndGame(int score)
+		{
+			_menuStack.Pop();
+			_menuStack.Push(new QuizDisplay(_booklet.GetNextQuiz(),this));
+			_systemMain.SetStack(_menuStack);
+		}
+		public void EndQuiz(Score score)
+		{
+			_scoreManager.AddScore(score);
+			_menuStack.Pop();
+			_menuStack.Push(new GameDisplay());
+			_systemMain.SetStack(_menuStack);
+		}
 		public Score TakeQuiz()
 		{
 			// This code is correct, but won't work yet!
@@ -128,8 +128,9 @@ namespace XNASystem
 				{
 					// take quiz
 					case 0:
-						SwitchApplication();
+						_menuStack.Push(new QuizDisplay(_booklet.GetNextQuiz(), this));
 						_systemMain.SetStack(_menuStack);
+						
 						break;
 					// change options
 					case 1:

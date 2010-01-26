@@ -39,6 +39,7 @@ namespace XNASystem
 	{
 		#region variable creation
 
+		private Score _score;
 		// graphics variables
 		private GraphicsDeviceManager _graphics;
 		private SpriteBatch _spriteBatch;
@@ -185,6 +186,11 @@ namespace XNASystem
 		public void AddQuestion(Question question)
 		{
 			_newQuestions.Add(question);
+		}
+
+		public void ReportScore(Score s)
+		{
+			_score = s;
 		}
 	}
 }
