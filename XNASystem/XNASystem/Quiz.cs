@@ -169,14 +169,27 @@ namespace XNASystem
 			return true;
 		}
 
-		public List<Question> GetRandomQuestions()
-		{
-			throw new NotImplementedException();
-		}
-
 		public List<Question> GetAllQuestions()
 		{
-			throw new NotImplementedException();
+			return new List<Question>(_questionStack.ToArray());
+
+		}
+
+		public List<Question> GetRandomQuestions()
+		{
+			var r = new Random();
+
+			var oQuestion = new List<Question>(_questionStack.ToArray());
+			var rQuestion = new List<Question>();
+
+			int i;
+			while (oQuestion.Count > 0)
+			{
+				i = r.Next(oQuestion.Count);
+				rQuestion.Add(oQuestion[i]);
+				oQuestion.RemoveAt(i);
+			}
+			return rQuestion;
 		}
 	}
 }

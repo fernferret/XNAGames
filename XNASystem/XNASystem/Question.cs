@@ -4,11 +4,14 @@ using System.Collections.Generic;
 namespace XNASystem
 {
     public class Question
-    {
-        private readonly List<Answer> _answers = new List<Answer>();
+	{
+		#region Variables
+		private readonly List<Answer> _answers = new List<Answer>();
         private bool _hasAnswer;
 		bool _isCorrect;
-        public Question(String q, List<Answer> a)
+		#endregion
+
+		public Question(String q, List<Answer> a)
         {
             Title = q;
             _answers = a;
@@ -32,6 +35,7 @@ namespace XNASystem
         {
             return _answers;
         }
+		
 		public List<Answer> GetRandomAnswers()
 		{
 			var r = new Random();
@@ -60,6 +64,7 @@ namespace XNASystem
             }
             return false;
         }
+		
 		public bool AnsweredCorrectly()
 		{
 			foreach (var answer in _answers)
@@ -71,7 +76,8 @@ namespace XNASystem
 			}
 			return false;
 		}
-        internal void Reset()
+        
+		internal void Reset()
         {
             _hasAnswer = false;
         }
@@ -92,6 +98,11 @@ namespace XNASystem
 		}
 
 		internal String GetTitle()
+		{
+			return Title;
+		}
+
+		public override string ToString()
 		{
 			return Title;
 		}

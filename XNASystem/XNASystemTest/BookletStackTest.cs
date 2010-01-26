@@ -92,10 +92,18 @@ namespace XNASystemTest
 		{
 			_target = new Booklet("A Booklet");
 			var quiz = new Quiz("A Quiz");
-			var question = new Question("Test", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) }); 
+			var question = new Question("Test1", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question);
+			var question2 = new Question("Test2", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question2);
+			var question3 = new Question("Test3", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question3);
+			var question4 = new Question("Test4", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question4);
 			_target.AddItem(quiz);
 			var a = _target.GetOpenQuiz().GetRandomQuestions();
-			var a2 = _target.GetNextQuiz().GetAllQuestions();
+			var a2 = _target.GetOpenQuiz().GetAllQuestions();
+			var a3 = _target.GetOpenQuiz().GetRandomQuestions();
 			_target.AddItem(quiz);
 			Assert.AreNotEqual(a, a2, "These Should not be equal (But this test will fail one every 5! times)");
 		}
