@@ -124,5 +124,31 @@ namespace XNASystem.QuizArch
 			}
 			return false;
 		}
+
+		public List<Quiz> GetQuizList()
+		{
+			Reset();
+			var quizzes = new List<Quiz>();
+			while(_quizStack.Count > 0)
+			{
+				quizzes.Add(GetNextQuiz());
+			}
+			Reset();
+			return quizzes;
+		}
+
+		internal Quiz GetSpecificQuiz(int currentQuiz)
+		{
+			Reset();
+			var i = 0;
+			while (i < currentQuiz)
+			{
+				GetNextQuiz();
+				i++;
+			}
+			var outputQuiz = GetNextQuiz();
+			Reset();
+			return outputQuiz;
+		}
 	}
 }

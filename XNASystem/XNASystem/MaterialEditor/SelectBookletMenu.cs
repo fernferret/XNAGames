@@ -37,10 +37,21 @@ namespace XNASystem.MaterialEditor
 		#region update
 		public void Update(InputHandler handler)
 		{
-			_choice = handler.HandleMenuMovement(1, _choice);
+			_choice = handler.HandleMenuMovement(_systemMain.GetBookletList().Count + 2, _choice);
 			if(handler.IfEnterPressed())
 			{
 				_menuStack.Pop();
+				// for all the booklet choices
+				if (_choice < _systemMain.GetBookletList().Count)
+				{
+					_editor.SetCurrentBooklet(_choice);
+					_systemMain.SetCurrentBooklet(_choice);
+				}
+				//for the craete a new booklet choice
+				if (_choice == _systemMain.GetBookletList().Count)
+				{
+					_menuStack.Push(new CreateBookletMenu(_menuStack, _systemMain, _editor));
+				}
 				_systemMain.SetStack(_menuStack);
 			}
 		}
@@ -56,18 +67,18 @@ namespace XNASystem.MaterialEditor
 			spriteBatch.Draw(textures[1], new Rectangle(0, 0, 800, 600), Color.White);
 
 			// draw the selection box
-			//spriteBatch.Draw(textures[0], new Vector2(75, 175 + ((300 / (_systemMain.GetBookletList().Count + 1)) * _choice)), Color.White);
+			spriteBatch.Draw(textures[0], new Vector2(75, 175 + ((300 / (_systemMain.GetBookletList().Count + 1)) * _choice)), Color.White);
 
 			//draw the title
 			spriteBatch.DrawString(fonts[0], "Choose a booklet", new Vector2(250, 100), Color.Black);
 
 			//draw the menu items
 			int counter;
-			/*for (counter = 0; counter < _systemMain.GetBookletList().Count; counter++)
+			for (counter = 0; counter < _systemMain.GetBookletList().Count; counter++)
 			{
 				spriteBatch.DrawString(fonts[0], _systemMain.GetBookletList()[counter].GetTitle(), new Vector2(100, 200 + ((300 / (_systemMain.GetBookletList().Count + 1)) * counter)), Color.Black);
-			}*/
-			//spriteBatch.DrawString(fonts[0], "Create New Booklet", new Vector2(100, 200 + ((300 / (_systemMain.GetBookletList().Count + 1)) * counter)), Color.Black);
+			}
+			spriteBatch.DrawString(fonts[0], "Create New Booklet", new Vector2(100, 200 + ((300 / (_systemMain.GetBookletList().Count + 1)) * counter)), Color.Black);
 			spriteBatch.DrawString(fonts[0], "Back", new Vector2(100, 500), Color.Black);
 
 			spriteBatch.End();

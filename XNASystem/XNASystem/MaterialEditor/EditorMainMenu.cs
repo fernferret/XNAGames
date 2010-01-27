@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using XNASystem.Interfaces;
+using XNASystem.QuizArch;
 using XNASystem.Utils;
 
 namespace XNASystem.MaterialEditor
@@ -46,8 +47,8 @@ namespace XNASystem.MaterialEditor
 			_choice = 0;
 			_menuStack = stack;
 			_systemMain = main;
-			//_currentBooklet = _systemMain.GetCurrentBooklet();
-			//_currentQuiz = _systemMain.GetCurrentQuiz();
+			_currentBooklet = _systemMain.GetCurrentBooklet();
+			_currentQuiz = _systemMain.GetCurrentQuiz();
 		}
 		#endregion
 
@@ -118,14 +119,14 @@ namespace XNASystem.MaterialEditor
 			spriteBatch.DrawString(fonts[0], "Select Quiz", new Vector2(100, 300), Color.Black);
 
 			// if there are no quizzes in the current booklet than say so
-			/*if (_systemMain.GetBookletList()[_systemMain.GetCurrentBooklet()].GetQuizList().Count == 0)
+			if (_systemMain.GetBookletList()[_systemMain.GetCurrentBooklet()].GetQuizList().Count == 0)
 			{
 				spriteBatch.DrawString(fonts[0], "No Quizzes here", new Vector2(400, 300), Color.Red);
 			}
 			else
 			{
 				spriteBatch.DrawString(fonts[0], _systemMain.GetBookletList()[_systemMain.GetCurrentBooklet()].GetQuizList()[_currentQuiz].GetTitle(), new Vector2(400, 300), Color.Black);
-			}*/
+			}
 
 			spriteBatch.DrawString(fonts[0], "Write New Question Here", new Vector2(100, 400), Color.Black);
 			spriteBatch.DrawString(fonts[0], "Back", new Vector2(100, 500), Color.Black);
@@ -150,7 +151,12 @@ namespace XNASystem.MaterialEditor
 		{
 			return _currentQuiz;
 		}
+		/*public Quiz GetCurrentQuizAsQuiz()
+		{
+			var list = _systemMain.GetBookletList();
 
+			return list[_systemMain.GetCurrentBooklet()].GetSpecificQuiz(_currentQuiz);
+		}*/
 		public int GetCurrentBooklet()
 		{
 			return _currentBooklet;

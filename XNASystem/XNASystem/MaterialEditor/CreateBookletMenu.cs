@@ -133,7 +133,7 @@ namespace XNASystem.MaterialEditor
 				{
 					//submit booklet
 					case 1:
-						//_systemMain.CreateBooklet(_name);
+						_systemMain.CreateBooklet(_name);
 						_menuStack.Pop();
 						_systemMain.SetStack(_menuStack);
 						break;

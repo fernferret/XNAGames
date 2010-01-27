@@ -317,12 +317,12 @@ namespace XNASystem
             _menuStack = stack;
         }
 
-		/*public List<Booklet> GetBookletList()
+		public List<Booklet> GetBookletList()
 		{
 			return _booklets;
-		}*/
+		}
 
-		/*public List<Quiz> GetQuizList()
+		public List<Quiz> GetQuizList()
 		{
 			return _currentBooklet.GetQuizList();
 		}
@@ -349,27 +349,28 @@ namespace XNASystem
 				_currentQuiz = _currentBooklet.GetQuizList()[0];
 
 			}
-		}*/
+		}
 
-		/*public void SetCurrentQuiz(int index)
+		public void SetCurrentQuiz(int index)
 		{
 			_currentQuiz = _currentBooklet.GetQuizList()[index];
-		}*/
+		}
 
-		/*public void CreateBooklet(string name)
+		public void CreateBooklet(string name)
 		{
 			_booklets.Add(new Booklet(name));
-		}*/
+		}
 
-		/*public void CreateQuiz(int bookletIndex, string name)
+		public void CreateQuiz(int bookletIndex, string name)
 		{
 			_booklets[bookletIndex].AddItem(new Quiz(name));
 		}
 
 		public void CreateQuestion(int bookletIndex, int quizIndex, string question, List<Answer> answers)
 		{
-			_booklets[bookletIndex].AddQuestionToQuiz(quizIndex, new Question(question, answers));
-		}*/
+			_booklets[bookletIndex].GetSpecificQuiz(quizIndex).AddItem(new Question(question, answers));
+			//_booklets[bookletIndex].AddQuestionToQuiz(quizIndex, new Question(question, answers));
+		}
 
 		public void ReportScore(Score s)
 		{

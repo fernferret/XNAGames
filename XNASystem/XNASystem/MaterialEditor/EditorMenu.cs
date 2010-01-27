@@ -152,7 +152,7 @@ namespace XNASystem.MaterialEditor
 						break;
 					//submit question
 					case 3:
-						//_systemMain.CreateQuestion(_editor.GetCurrentBooklet(), _editor.GetCurrentQuiz(), _question, _answers);
+						_systemMain.CreateQuestion(_editor.GetCurrentBooklet(), _editor.GetCurrentQuiz(), _question, _answers);
 						_menuStack.Pop();
 						_systemMain.SetStack(_menuStack);
 						break;
