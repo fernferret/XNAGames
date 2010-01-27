@@ -132,6 +132,7 @@ namespace XNASystem.QuizArch
 			while(_quizStack.Count > 0)
 			{
 				quizzes.Add(GetNextQuiz());
+				
 			}
 			Reset();
 			return quizzes;

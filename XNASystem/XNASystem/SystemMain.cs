@@ -130,8 +130,8 @@ namespace XNASystem
 			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         	// initialize the currents to jsut the first boklet and the first quiz in that booklet
-        	//_currentBooklet = _booklets[0];
-        	//_currentQuiz = _booklets[0].GetQuizList()[0];
+        	_currentBooklet = _booklets[0];
+        	_currentQuiz = _booklets[0].GetQuizList()[0];
 
 /*            _qLoad = new QuestionLoader();
 
