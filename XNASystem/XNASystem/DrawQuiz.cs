@@ -1,6 +1,0 @@
-﻿namespace XNASystem
-{
-    class DrawQuiz
-    {
-    }
-}

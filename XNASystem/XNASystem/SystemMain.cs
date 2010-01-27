@@ -3,67 +3,74 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
-#region unneed enums
+using XNASystem.Displays;
+using XNASystem.Interfaces;
+using XNASystem.QuizArch;
+using XNASystem.SystemMenus;
+using XNASystem.Utils;
 
 // Enumeration that specifies various Menu Actions
 enum MenuAction
 {
-    ShowMain,
-    ShowOptions,
-    ShowQuiz,
-    ShowGame,
-    ShowScores,
-    Return,
-    ShowEditor,
-    DoNothing,
-    ShowEditorMain
+	ShowMain,
+	ShowOptions,
+	ShowQuiz,
+	ShowGame,
+	ShowScores,
+	Return
+}
+
+public enum ActivityType
+{
+	Game,
+	Quiz
 }
 // Enumeration that specifies the status of a quiz/booklet
 public enum Status
 {
-    NotStarted,
-    InProgress,
-    Completed,
-    Error
+	NotStarted,
+	InProgress,
+	Completed,
+	Error
 }
-
-#endregion
 
 namespace XNASystem
 {
-    /// <summary>
-    /// This is the main type for your game
-    /// </summary>
-    public class SystemMain : Game
-    {
-        #region variable creation
+	/// <summary>
+	/// This is the main type for your game
+	/// </summary>
+	public class SystemMain : Game
+	{
+		#region variable creation
 
-        // graphics variables
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+		private Score _score;
+		// graphics variables
+		private GraphicsDeviceManager _graphics;
+		private SpriteBatch _spriteBatch;
 
         // initialize a list of fonts
-        private List<SpriteFont> _fontPackage;
+        private readonly List<SpriteFont> _fontPackage;
 
         // initilize a list of textures
-        private List<Texture2D> _texturePackage;
+        private readonly List<Texture2D> _texturePackage;
 
-        // initialize the menustack
-        private Stack<IScreen> _menuStack;
+		// initialize the menustack
+		private Stack<IScreen> _menuStack;
 
         // initialize the DataManager
         private DataManager _dataManager;
 
 		//initialize a new list of booklets
-    	private List<Booklet> _booklets;
+    	private readonly List<Booklet> _booklets;
 
 		//initializes holders for the current booklets and quizzes
     	private Booklet _currentBooklet;
     	private Quiz _currentQuiz;
 
-        #region old possibly unneed variables
-        /*        // stack of menus being drawn
+		private static InputHandler _handler;
+		//public static List<ButtonAlias> PressedButtons = new List<ButtonAlias>();
+		#region old possibly unneed variables
+		/*        // stack of menus being drawn
         readonly List<Menu> _menuList = new List<Menu>();
 
         // Set of variables to initialize button debounce
@@ -75,36 +82,37 @@ namespace XNASystem
 
         // Current Choice in a menu, gets cached for users
         private int _choice;
-
+*/
         // Question loader that will preload all quizzes in
         // a booklet
-        private readonly QuestionLoader _qLoad;
+        private QuestionLoader _qLoad;
 
         // The target booklet to dump data into
-        private readonly Booklet _booklet;
-*/
-        #endregion
+        private Booklet _booklet;
 
-        #endregion
+		#endregion
 
-        #region constructor
-        // System Constructor, performs initialization
-        public SystemMain()
-        {
-            // graphics initializer
-            _graphics = new GraphicsDeviceManager(this);
+		#endregion
 
-            //content location
-            Content.RootDirectory = "Content";
+		#region constructor
+		// System Constructor, performs initialization
+		public SystemMain()
+		{
+			_handler = new InputHandler();
+			// graphics initializer
+			_graphics = new GraphicsDeviceManager(this);
+
+			//content location
+			Content.RootDirectory = "Content";
 
             GamerServicesDispatcher.Initialize(this.Services);
 
-            // initialize font package and texture package
-            _fontPackage = new List<SpriteFont>();
-            _texturePackage = new List<Texture2D>();
+			// initialize font package and texture package
+			_fontPackage = new List<SpriteFont>();
+			_texturePackage = new List<Texture2D>();
 
-            // create the stack
-            _menuStack = new Stack<IScreen>();
+			// create the stack
+			_menuStack = new Stack<IScreen>();
 
             // create the DataManager and load name list
             _dataManager = new DataManager();
@@ -131,8 +139,8 @@ namespace XNASystem
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
         	// initialize the currents to jsut the first boklet and the first quiz in that booklet
-        	_currentBooklet = _booklets[0];
-        	_currentQuiz = _booklets[0].GetQuizList()[0];
+        	//_currentBooklet = _booklets[0];
+        	//_currentQuiz = _booklets[0].GetQuizList()[0];
 
 /*            _qLoad = new QuestionLoader();
 
@@ -168,6 +176,11 @@ namespace XNASystem
             _texturePackage.Add(Content.Load<Texture2D>("Sprites//box"));
             _texturePackage.Add(Content.Load<Texture2D>("Sprites//XNA"));
             _texturePackage.Add(Content.Load<Texture2D>("Sprites//grey box"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//paddle"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//wall"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//block"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ball"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ceiling"));
 
             // give the stack the main menu
             _menuStack.Push(new MainMenu(_menuStack, this));
@@ -192,133 +205,15 @@ namespace XNASystem
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // the state the keyboard is in right now
-            var state = Keyboard.GetState();
-
+            // the keyState the keyboard is in right now
+            var keyState = Keyboard.GetState();
+        	var padState = GamePad.GetState(PlayerIndex.One);
+        	_handler.SetInputs(keyState, padState);
             // use the update method from the current menu
-            _menuStack.Peek().Update(state);
-
-/*            // number of choices on this menu
-            var items = _menuList.Last().GetNum();
-
-            #region arrow controls
-            // up arrow control
-            if(state.IsKeyDown(Keys.Up) && _up != 1)
-            {
-                _up = 1;
-                _choice--;
-            }
-            if (state.IsKeyUp(Keys.Up))
-            {
-                _up = 0;
-            }
-
-            //down arrow control
-            if (state.IsKeyDown(Keys.Down) && _down != 1)
-            {
-                _down = 1;
-                _choice++;
-            }
-            if (state.IsKeyUp(Keys.Down))
-            {
-                _down = 0;
-            }
-            #endregion
-
-            #region enter actions
-            //enter key controls
-            if (state.IsKeyDown(Keys.Enter) && _enter != 1)
-            {
-                _enter = 1;
-
-                // Reinitialize choice upon menu change
-                _choice = 0;
-                var item = _menuList.Last().GetSelectedItem();
-                
-                if(item.GetType() == typeof(NavItem))
-                {
-                    var action = ((NavItem)item).GetAction();
-                    switch (action)
-                    {
-                        case MenuAction.ShowMain:
-                            RemoveAllButMain();
-                            break;
-                        case MenuAction.ShowGame:
-                            ShowGameMenu();
-                            break;
-                        case MenuAction.ShowOptions:
-                            ShowOptionsMenu();
-                            break;
-                        case MenuAction.ShowQuiz:
-                            _booklet.Reset();
-                            _menuList.Add(_booklet.AdvanceQuestion());
-                            break;
-                        case MenuAction.ShowScores:
-                            ShowScoreMenu();
-                            break;
-                        case MenuAction.Return:
-                            PopMenu();
-                            break;
-                        case MenuAction.ShowEditorMain:
-                            ShowEditorMainMenu();
-                            break;
-                        case MenuAction.ShowEditor:
-                            ShowEditorMenu();
-                            break;
-                        case MenuAction.DoNothing:
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                else if(item.GetType() == typeof(QuestionItem))
-                {
-                    ((QuestionItem)item).AnswerQuestion();
-                    if (!_booklet.DoneWithQuiz())
-                    {
-                        _menuList.Add(_booklet.AdvanceQuestion());
-                        _menuList.RemoveAt(_menuList.Count - 2);
-                    }
-                    else
-                    {
-                        if(_booklet.AdvanceQuiz())
-                        {
-                            _menuList.Add(_booklet.AdvanceQuestion());
-                            _booklet.ResetQuizAdvance();
-                            // Remove the prior Question
-                            _menuList.RemoveAt(_menuList.Count - 2);
-                        }
-                        else
-                        {
-                            // Special case for leaving only main menu in
-                            PopMenu();
-                        }
-                    }
-                }
-            }
-            if (state.IsKeyUp(Keys.Enter))
-            {
-                _enter = 0;
-            }
-
-            #endregion
-
-            #region set choice
-            // make sure that choice is always on an actually menu choice
-            if(_choice == -1)
-            {
-                _choice = items - 1;
-            }
-            if(_choice == items)
-            {
-                _choice = 0;
-            }
-            _menuList.Last().SetSelectedItem(_choice);
-
-            #endregion
-
-            base.Update(gameTime);
- */
+			//_menuStack.Peek().Update(keyState, padState);
+			_menuStack.Peek().Update(_handler);
+			//_sysDis.Update2(_handler);
+            
         }
         #endregion
 
@@ -431,12 +326,12 @@ namespace XNASystem
             _menuStack = stack;
         }
 
-		public List<Booklet> GetBookletList()
+		/*public List<Booklet> GetBookletList()
 		{
 			return _booklets;
-		}
+		}*/
 
-		public List<Quiz> GetQuizList()
+		/*public List<Quiz> GetQuizList()
 		{
 			return _currentBooklet.GetQuizList();
 		}
@@ -463,19 +358,19 @@ namespace XNASystem
 				_currentQuiz = _currentBooklet.GetQuizList()[0];
 
 			}
-		}
+		}*/
 
-		public void SetCurrentQuiz(int index)
+		/*public void SetCurrentQuiz(int index)
 		{
 			_currentQuiz = _currentBooklet.GetQuizList()[index];
-		}
+		}*/
 
-		public void CreateBooklet(string name)
+		/*public void CreateBooklet(string name)
 		{
 			_booklets.Add(new Booklet(name));
-		}
+		}*/
 
-		public void CreateQuiz(int bookletIndex, string name)
+		/*public void CreateQuiz(int bookletIndex, string name)
 		{
 			_booklets[bookletIndex].AddItem(new Quiz(name));
 		}
@@ -483,14 +378,21 @@ namespace XNASystem
 		public void CreateQuestion(int bookletIndex, int quizIndex, string question, List<Answer> answers)
 		{
 			_booklets[bookletIndex].AddQuestionToQuiz(quizIndex, new Question(question, answers));
+		}*/
+
+		public void ReportScore(Score s)
+		{
+			_score = s;
 		}
 
-        public void Closing()
+        public void Close()
         {
             foreach (Booklet booklet in _booklets)
             {
                 _dataManager.SaveBooklet(0, booklet);
             }
+            this.Exit();
         }
-    }
+	}
 }
+

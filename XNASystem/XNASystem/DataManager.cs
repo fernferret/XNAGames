@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Storage;
 
+using XNASystem.QuizArch;
+
 namespace XNASystem
 {
     public enum CabinetMode
