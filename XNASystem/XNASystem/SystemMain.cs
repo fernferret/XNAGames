@@ -140,7 +140,7 @@ namespace XNASystem
 
         	// initialize the currents to jsut the first boklet and the first quiz in that booklet
         	_currentBooklet = _booklets[0];
-        	_currentQuiz = _booklets[0].GetQuizList()[0];
+        	_currentQuiz = _booklets[0].GetSpecificQuiz(0);
 
 /*            _qLoad = new QuestionLoader();
 
@@ -333,7 +333,7 @@ namespace XNASystem
 
 		public List<Quiz> GetQuizList()
 		{
-			return _currentBooklet.GetQuizList();
+			return _currentBooklet.GetAsList();
 		}
 
 		public int GetCurrentBooklet()
@@ -343,26 +343,26 @@ namespace XNASystem
 
 		public int GetCurrentQuiz()
 		{
-			return _currentBooklet.GetQuizList().IndexOf(_currentQuiz);
+			return _currentBooklet.GetAsList().IndexOf(_currentQuiz);
 		}
 
 		public void SetCurrentBooklet(int index)
 		{
 			_currentBooklet = _booklets[index];
-			if (_currentBooklet.GetQuizList().Count == 0)
+			if (_currentBooklet.GetAsList().Count == 0)
 			{
 				_currentQuiz = null;
 			}
 			else
 			{
-				_currentQuiz = _currentBooklet.GetQuizList()[0];
+				_currentQuiz = _currentBooklet.GetSpecificQuiz(0);
 
 			}
 		}
 
 		public void SetCurrentQuiz(int index)
 		{
-			_currentQuiz = _currentBooklet.GetQuizList()[index];
+			_currentQuiz = _currentBooklet.GetSpecificQuiz(index);
 		}
 
 		public void CreateBooklet(string name)

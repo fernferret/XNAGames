@@ -201,5 +201,9 @@ namespace XNASystem.QuizArch
 			}
 			return rQuestion;
 		}
+		public override string ToString()
+		{
+			return _title;
+		}
 	}
 }

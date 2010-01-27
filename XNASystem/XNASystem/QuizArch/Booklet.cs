@@ -125,7 +125,7 @@ namespace XNASystem.QuizArch
 			return false;
 		}
 
-		public List<Quiz> GetQuizList()
+		/*public List<Quiz> GetQuizList()
 		{
 			Reset();
 			var quizzes = new List<Quiz>();
@@ -136,20 +136,29 @@ namespace XNASystem.QuizArch
 			}
 			Reset();
 			return quizzes;
-		}
-
-		internal Quiz GetSpecificQuiz(int currentQuiz)
+		}*/
+		public List<Quiz> GetAsList()
 		{
-			Reset();
-			var i = 0;
-			while (i < currentQuiz)
+			List<Quiz> tempQuizzes;
+			if (_completedQuizStack.Count == 0)
 			{
-				GetNextQuiz();
-				i++;
+				tempQuizzes = new List<Quiz>(_quizStack);
+				tempQuizzes.Reverse();
 			}
-			var outputQuiz = GetNextQuiz();
-			Reset();
-			return outputQuiz;
+			else
+			{
+				tempQuizzes = new List<Quiz>(_quizStack);
+				tempQuizzes.AddRange(_completedQuizStack);
+				if (_completedQuizStack.Count > 0)
+				{
+					tempQuizzes.Reverse(0,_quizStack.Count);
+				}
+			}
+			return tempQuizzes;
+		}
+		public Quiz GetSpecificQuiz(int currentQuiz)
+		{
+			return GetAsList()[currentQuiz];
 		}
 	}
 }

@@ -108,6 +108,130 @@ namespace XNASystemTest
 			_target.AddItem(quiz);
 			Assert.AreNotEqual(a, a2, "These Should not be equal (But this test will fail one every 5! times)");
 		}
+		[TestMethod]
+		public void GetASpecificQuiz()
+		{
+			_target = new Booklet("A Booklet");
+			var quiz = new Quiz("A Quiz 0");
+			var question = new Question("Test1", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question);
+			var question2 = new Question("Test2", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question2);
+			var question3 = new Question("Test3", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question3);
+			var question4 = new Question("Test4", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question4);
+			_target.AddItem(quiz);
+
+			quiz = new Quiz("A Quiz 1");
+			question = new Question("Test1", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question);
+			question2 = new Question("Test2", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question2);
+			question3 = new Question("Test3", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question3);
+			question4 = new Question("Test4", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question4);
+			_target.AddItem(quiz);
+
+			quiz = new Quiz("A Quiz 2");
+			question = new Question("Test1", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question);
+			question2 = new Question("Test2", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question2);
+			question3 = new Question("Test3", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question3);
+			question4 = new Question("Test4", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question4);
+			_target.AddItem(quiz);
+
+			quiz = new Quiz("A Quiz 3");
+			question = new Question("Test1", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question);
+			question2 = new Question("Test2", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question2);
+			question3 = new Question("Test3", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question3);
+			question4 = new Question("Test4", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question4);
+			_target.AddItem(quiz);
+
+			quiz = new Quiz("A Quiz 4");
+			question = new Question("Test1", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question);
+			question2 = new Question("Test2", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question2);
+			question3 = new Question("Test3", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question3);
+			question4 = new Question("Test4", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question4);
+			_target.AddItem(quiz);
+
+			quiz = new Quiz("A Quiz 5");
+			question = new Question("Test1", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question);
+			question2 = new Question("Test2", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question2);
+			question3 = new Question("Test3", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question3);
+			question4 = new Question("Test4", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question4);
+			_target.AddItem(quiz);
+
+			quiz = new Quiz("A Quiz 6");
+			question = new Question("Test1", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question);
+			question2 = new Question("Test2", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question2);
+			question3 = new Question("Test3", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question3);
+			question4 = new Question("Test4", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question4);
+			_target.AddItem(quiz);
+
+			quiz = new Quiz("A Quiz 7");
+			question = new Question("Test1", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question);
+			question2 = new Question("Test2", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question2);
+			question3 = new Question("Test3", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question3);
+			question4 = new Question("Test4", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question4);
+			_target.AddItem(quiz);
+
+			quiz = new Quiz("A Quiz 8");
+			question = new Question("Test1", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question);
+			question2 = new Question("Test2", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question2);
+			question3 = new Question("Test3", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question3);
+			question4 = new Question("Test4", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question4);
+			_target.AddItem(quiz);
+
+			quiz = new Quiz("A Quiz 9");
+			question = new Question("Test1", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question);
+			question2 = new Question("Test2", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question2);
+			question3 = new Question("Test3", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question3);
+			question4 = new Question("Test4", new List<Answer> { new Answer("Test", false), new Answer("Correct", true), new Answer("Wrong", false) });
+			quiz.AddItem(question4);
+			_target.AddItem(quiz);
+			var q = _target.GetSpecificQuiz(2);
+			var p = _target.GetSpecificQuiz(6);
+			_target.GetNextQuiz();
+			_target.GetNextQuiz();
+			_target.GetNextQuiz();
+			_target.GetNextQuiz();
+			var m = _target.GetAsList();
+			q = _target.GetSpecificQuiz(2);
+			p = _target.GetSpecificQuiz(6);
+			//Assert.AreNotEqual(a, a2, "These Should not be equal (But this test will fail one every 5! times)");
+		}
 
 	}
 }
