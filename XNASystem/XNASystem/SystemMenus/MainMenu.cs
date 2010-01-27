@@ -136,7 +136,7 @@ namespace XNASystem.SystemMenus
 			spriteBatch.DrawString(fonts[0], "Start Quiz", new Vector2(100, 200), Color.Black);
 			spriteBatch.DrawString(fonts[0], "Options (Disabled)", new Vector2(100, 280), Color.Black);
 			spriteBatch.DrawString(fonts[0], "View Scores (Disabled)", new Vector2(100, 360), Color.Black);
-			spriteBatch.DrawString(fonts[0], "Edit Material (Disabled)", new Vector2(100, 440), Color.Black);
+			spriteBatch.DrawString(fonts[0], "Edit Material", new Vector2(100, 440), Color.Black);
 			spriteBatch.DrawString(fonts[0], "Exit", new Vector2(100, 520), Color.Black);
 
 			spriteBatch.End();
