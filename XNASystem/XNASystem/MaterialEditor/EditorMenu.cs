@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using XNASystem.Interfaces;
+using XNASystem.QuizArch;
+using XNASystem.Utils;
 
 namespace XNASystem.MaterialEditor
 {
@@ -95,8 +97,9 @@ namespace XNASystem.MaterialEditor
 		#endregion
 
 		#region update
-		public void Update(KeyboardState keyState, GamePadState padState)
+		public void Update(InputHandler handler)
 		{
+			var keyState = handler.GetKeyState();
 			#region arrow controls
 			// up arrow control
 			if (keyState.IsKeyDown(Keys.Up) && _up != 1)
@@ -131,7 +134,7 @@ namespace XNASystem.MaterialEditor
 				// case system to perform appropriate action of the chosen menu item
 				switch (_choice)
 				{
-						//add correct answer
+					//add correct answer
 					case 1:
 						if (_answers.Count != 4)
 						{
@@ -139,7 +142,7 @@ namespace XNASystem.MaterialEditor
 							_systemMain.SetStack(_menuStack);
 						}
 						break;
-						//add incorrect answer
+					//add incorrect answer
 					case 2:
 						if (_answers.Count != 4)
 						{
@@ -147,13 +150,13 @@ namespace XNASystem.MaterialEditor
 							_systemMain.SetStack(_menuStack);
 						}
 						break;
-						//submit question
+					//submit question
 					case 3:
 						_systemMain.CreateQuestion(_editor.GetCurrentBooklet(), _editor.GetCurrentQuiz(), _question, _answers);
 						_menuStack.Pop();
 						_systemMain.SetStack(_menuStack);
 						break;
-						// back
+					// back
 					case 4:
 						_menuStack.Pop();
 						_systemMain.SetStack(_menuStack);
@@ -175,7 +178,7 @@ namespace XNASystem.MaterialEditor
 			if (keyState.IsKeyDown(Keys.Back) && _back != 1)
 			{
 				_back = 1;
-				switch(_choice)
+				switch (_choice)
 				{
 					case 0:
 						if (_question.Length != 0)
@@ -200,7 +203,7 @@ namespace XNASystem.MaterialEditor
 			{
 				_space = 1;
 				switch (_choice)
-				{   
+				{
 					case 0:
 						_question = _question.Length != 0 ? _question.Insert(_question.Length, " ") : " ";
 						break;
@@ -681,6 +684,7 @@ namespace XNASystem.MaterialEditor
 
 			#endregion
 		}
+
 		#endregion
 
 		#region draw

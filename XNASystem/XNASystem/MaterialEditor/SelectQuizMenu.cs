@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using XNASystem.Interfaces;
+using XNASystem.Utils;
 
 namespace XNASystem.MaterialEditor
 {
@@ -10,9 +10,6 @@ namespace XNASystem.MaterialEditor
 	{
 		#region variables
 
-		protected int _up;
-		protected int _down;
-		protected int _enter;
 		protected int _choice;
 		protected Stack<IScreen> _menuStack;
 		protected SystemMain _systemMain;
@@ -23,9 +20,6 @@ namespace XNASystem.MaterialEditor
 		#region constructor
 		public SelectQuizMenu(Stack<IScreen> stack, SystemMain main, EditorMainMenu editor)
 		{
-			_up = 1;
-			_down = 1;
-			_enter = 1;
 			_choice = 0;
 			_menuStack = stack;
 			_systemMain = main;
@@ -34,38 +28,11 @@ namespace XNASystem.MaterialEditor
 		#endregion
 
 		#region update
-		public void Update(KeyboardState keyState, GamePadState padState)
+		public void Update(InputHandler handler)
 		{
-			#region arrow controls
-			// up arrow control
-			if (keyState.IsKeyDown(Keys.Up) && _up != 1)
+			_choice = handler.HandleMenuMovement(_systemMain.GetQuizList().Count + 2, _choice);
+			if(handler.IfEnterPressed())
 			{
-				_up = 1;
-				_choice--;
-			}
-			if (keyState.IsKeyUp(Keys.Up))
-			{
-				_up = 0;
-			}
-
-			//down arrow control
-			if (keyState.IsKeyDown(Keys.Down) && _down != 1)
-			{
-				_down = 1;
-				_choice++;
-			}
-			if (keyState.IsKeyUp(Keys.Down))
-			{
-				_down = 0;
-			}
-			#endregion
-
-			#region enter controls
-
-			//enter key controls
-			if (keyState.IsKeyDown(Keys.Enter) && _enter != 1)
-			{
-				_enter = 1;
 				_menuStack.Pop();
 				if (_choice < _systemMain.GetQuizList().Count)
 				{
@@ -78,26 +45,8 @@ namespace XNASystem.MaterialEditor
 				}
 				_systemMain.SetStack(_menuStack);
 			}
-			if (keyState.IsKeyUp(Keys.Enter))
-			{
-				_enter = 0;
-			}
-
-			#endregion
-
-			#region set choice
-			// make sure that choice is always on an actually menu choice
-			if (_choice == -1)
-			{
-				_choice = _systemMain.GetQuizList().Count + 2;
-			}
-			if (_choice == _systemMain.GetQuizList().Count + 2)
-			{
-				_choice = 0;
-			}
-
-			#endregion
 		}
+
 		#endregion
 
 		#region draw

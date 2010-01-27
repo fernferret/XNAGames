@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using XNASystem.Interfaces;
+using XNASystem.QuizArch;
+using XNASystem.Utils;
 
 namespace XNASystem.MaterialEditor
 {
@@ -92,9 +94,9 @@ namespace XNASystem.MaterialEditor
 		}
 		#endregion
 
-		#region update
-		public void Update(KeyboardState keyState, GamePadState padState)
+		public void Update(InputHandler handler)
 		{
+			var keyState = handler.GetKeyState();
 			#region arrow controls
 			// up arrow control
 			if (keyState.IsKeyDown(Keys.Up) && _up != 1)
@@ -129,13 +131,13 @@ namespace XNASystem.MaterialEditor
 				// case system to perform appropriate action of the chosen menu item
 				switch (_choice)
 				{
-						//submit answer
+					//submit answer
 					case 1:
 						_question.AddAnswer(new Answer(_answer, true));
 						_menuStack.Pop();
 						_systemMain.SetStack(_menuStack);
 						break;
-						//back
+					//back
 					case 2:
 						_menuStack.Pop();
 						_systemMain.SetStack(_menuStack);
@@ -663,7 +665,6 @@ namespace XNASystem.MaterialEditor
 
 			#endregion
 		}
-		#endregion
 
 		#region draw
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)

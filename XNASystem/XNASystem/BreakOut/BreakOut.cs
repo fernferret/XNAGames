@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
+using XNASystem.Displays;
 using XNASystem.Interfaces;
+using XNASystem.Utils;
 
 #region block types
 
@@ -31,24 +31,32 @@ namespace XNASystem.BreakOut
 		private readonly BreakOutWall _rightWall;
 		private readonly BreakOutCeiling _ceiling;
 		private readonly List<List<BreakOutBlock>> _blockList;
-		private readonly List<BreakOutBall> _ballList;
+		private List<BreakOutBall> _ballList;
 		private Rectangle _ballRect;
 		private Rectangle _objectRect;
 		private int _a;
+		private int _score;
+		private int _lives;
+		private Boolean _mainBallIsAlive;
+		private SystemDisplay _main;
 
 		#endregion
 
 		#region constructor
 
-		public BreakOut()
+		public BreakOut(SystemDisplay main)
 		{
 			//here is where we can take in things like level
 			_paddle = new BreakOutPaddle();
 			_leftWall = new BreakOutWall(0);
 			_rightWall = new BreakOutWall(1);
 			_ceiling = new BreakOutCeiling();
-
+			_main = main;
 			_a = 0;
+			_score = 0;
+			_lives = 3;
+			_mainBallIsAlive = true;
+
 
 			#region sample level - delete when xml works
 			_blockList = new List<List<BreakOutBlock>>
@@ -196,7 +204,7 @@ namespace XNASystem.BreakOut
 
 			#endregion
 
-			_ballList = new List<BreakOutBall>{new BreakOutBall(200, 400, 5, 5)};
+			_ballList = new List<BreakOutBall>{new BreakOutBall(200, 400, (float) 0.5, (float) 0.5)};
 
 		}
 
@@ -243,166 +251,220 @@ namespace XNASystem.BreakOut
 
 		#region update
 
-		public void Update(KeyboardState keyState, GamePadState padState)
+		public void Update(InputHandler handler)
 		{
-			// update the paddles position by adding or subtracing according to the thumb stick
-			_objectRect = new Rectangle((int)_paddle.GetX(), (int)_paddle.GetY(), 199, 17);
-
-			#region paddle with wall collision
-
-			if (_paddle.GetX() == 10)
+			// TODO: Need to update to use the new handler class!
+			var padState = handler.GetPadState();
+			var keyState = handler.GetKeyState();
+			int x;
+			for (x = 0; x < 10; x++)
 			{
-				if(padState.ThumbSticks.Left.X > 0)
+				#region paddle with wall collision
+
+				// update the paddles position by adding or subtracing according to the thumb stick
+				_objectRect = new Rectangle((int) _paddle.GetX(), (int) _paddle.GetY(), 199, 17);
+
+				if (_paddle.GetX() == 10)
 				{
-					_paddle.UpdatePostiion(padState.ThumbSticks.Left.X, 0);
-				}
-
-			}
-			else if ( _paddle.GetX() == 790 - 199)
-			{
-				if(padState.ThumbSticks.Left.X < 0)
-				{
-					_paddle.UpdatePostiion(padState.ThumbSticks.Left.X, 0);
-				}
-			}
-			else if(_objectRect.Intersects(new Rectangle((int) _leftWall.GetX(), (int) _leftWall.GetY(), 10, 600)))
-			{
-				_paddle.SetX(10);
-			}
-
-			else if (_objectRect.Intersects(new Rectangle((int)_rightWall.GetX(), (int)_rightWall.GetY(), 10, 600)))
-			{
-				_paddle.SetX(790- 199);
-			}
-
-			else
-			{
-				_paddle.UpdatePostiion(padState.ThumbSticks.Left.X, 0);
-			}
-
-			#endregion
-
-			#region  wall collision testing and movement
-
-			// check for collisions between the ball and any other objects
-			int i;
-			for(i = 0; i < _ballList.Count; i++)
-			{
-				// create a rectangle around the balls current position
-				_ballRect = new Rectangle((int) _ballList[i].GetX(), (int) _ballList[i].GetY(), 15, 15);
-
-				#region paddle
-
-				// create a rectangle around the paddle and check for intersections
-				_objectRect = new Rectangle((int) _paddle.GetX(),(int) _paddle.GetY(), 199, 17);
-				if(_ballRect.Intersects(_objectRect))
-				{
-					//simply switch the y velocity 
-					_ballList[i].SwitchY();
-					_ballList[i].IncrementX(padState.ThumbSticks.Left.X);
-				}
-
-				#endregion
-
-				#region walls and ceiling
-
-				// create a rectangle around the lef twall and check for intersections
-				_objectRect = new Rectangle((int)_leftWall.GetX(), (int)_leftWall.GetY(), 10, 600);
-				if (_ballRect.Intersects(_objectRect))
-				{
-					//simply change the x velocity
-					_ballList[i].SwitchX();
-				}
-
-				// create a rectangle aroun the right wall and check for intersections
-				_objectRect = new Rectangle((int)_rightWall.GetX(), (int)_rightWall.GetY(), 10, 600);
-				if (_ballRect.Intersects(_objectRect))
-				{
-					//simple change the x velocty
-					_ballList[i].SwitchX();
-				}
-
-				//create a rectangle around the ceiling and check for intersections
-				_objectRect = new Rectangle((int)_ceiling.GetX(), (int)_ceiling.GetY(), 800, 10);
-				if (_ballRect.Intersects(_objectRect))
-				{
-					//simpley change the y velocity
-					_ballList[i].SwitchY();
-				}
-
-				#endregion
-
-				#region blocks
-
-				int j, k;
-				for(j = 0; j < 10; j++)
-				{
-					for(k = 0; k < 10; k++)
+					if (padState.ThumbSticks.Left.X > 0)
 					{
-						//make a rectangle aroundt he current block
-						_objectRect = new Rectangle((int) _blockList[j][k].GetX() * 78, (int) _blockList[j][k].GetY() * 36, 78, 36);
+						_paddle.UpdatePostion(padState.ThumbSticks.Left.X, 0);
+					}
+					if (keyState.IsKeyDown(Keys.Right))
+					{
+						_paddle.UpdatePostion(1, 0);
+					}
 
-						if(_ballRect.Intersects(_objectRect)) //if a ball intersects with the block...
-						{
-							if (_blockList[j][k].GetType() != Blocktype.Dead)//...and the block is not dead...
-							{
-								switch (_blockList[j][k].GetSide(_ballRect))//..than find out which side it hit and act accordingly.
-								{
-									case 1:
-										_ballList[i].SwitchX();
-										break;
-									case 2:
-										_ballList[i].SwitchY();
-										break;
-									case 3:
-										_ballList[i].SwitchX();
-										break;
-									case 4:
-										_ballList[i].SwitchY();
-										break;
-									default:
-										break;
-								}
-							}
-
-							// change the block type with this method.
-							DecrementType(_blockList[j][k]);
-						}
+				}
+				else if (_paddle.GetX() == 790 - 199)
+				{
+					if (padState.ThumbSticks.Left.X < 0)
+					{
+						_paddle.UpdatePostion(padState.ThumbSticks.Left.X, 0);
+					}
+					if (keyState.IsKeyDown(Keys.Left))
+					{
+						_paddle.UpdatePostion(-1, 0);
 					}
 				}
+				else if (_objectRect.Intersects(new Rectangle((int) _leftWall.GetX(), (int) _leftWall.GetY(), 10, 600)))
+				{
+					_paddle.SetX(10);
+				}
+
+				else if (_objectRect.Intersects(new Rectangle((int) _rightWall.GetX(), (int) _rightWall.GetY(), 10, 600)))
+				{
+					_paddle.SetX(790 - 199);
+				}
+
+				else
+				{
+					_paddle.UpdatePostion(padState.ThumbSticks.Left.X, 0);
+				}
 
 				#endregion
 
-				_ballList[i].UpdatePostiion(_ballList[i].GetVx(), _ballList[i].GetVy());
-			}
+				#region  ball collision testing and movement
 
-			#endregion
+				// check for collisions between the ball and any other objects
+				int i;
+				for (i = 0; i < _ballList.Count; i++)
+				{
+					if (_ballList[i].IsAlive())
+					{
+						// create a rectangle around the balls current position
+						_ballRect = new Rectangle((int) _ballList[i].GetX(), (int) _ballList[i].GetY(), 15, 15);
 
-			if(padState.Buttons.A == ButtonState.Pressed && _a == 0)
-			{
-				_ballList.Add(new BreakOutBall(400, 550, -5, -5));
-				_a = 1;
-			}
-			if(padState.Buttons.A == ButtonState.Released)
-			{
-				_a = 0;
+						#region paddle
+
+						// create a rectangle around the paddle and check for intersections
+						_objectRect = new Rectangle((int) _paddle.GetX(), (int) _paddle.GetY(), 199, 17);
+						if (_ballRect.Intersects(_objectRect))
+						{
+							//simply switch the y velocity 
+							_ballList[i].SwitchY();
+							_ballList[i].IncrementX(padState.ThumbSticks.Left.X);
+						}
+
+						#endregion
+
+						#region walls and ceiling
+
+						// create a rectangle around the lef twall and check for intersections
+						_objectRect = new Rectangle((int) _leftWall.GetX(), (int) _leftWall.GetY(), 10, 600);
+						if (_ballRect.Intersects(_objectRect))
+						{
+							//simply change the x velocity
+							_ballList[i].SwitchX();
+						}
+
+						// create a rectangle aroun the right wall and check for intersections
+						_objectRect = new Rectangle((int) _rightWall.GetX(), (int) _rightWall.GetY(), 10, 600);
+						if (_ballRect.Intersects(_objectRect))
+						{
+							//simple change the x velocty
+							_ballList[i].SwitchX();
+						}
+
+						//create a rectangle around the ceiling and check for intersections
+						_objectRect = new Rectangle((int) _ceiling.GetX(), (int) _ceiling.GetY(), 800, 10);
+						if (_ballRect.Intersects(_objectRect))
+						{
+							//simpley change the y velocity
+							_ballList[i].SwitchY();
+						}
+
+						#endregion
+
+						#region blocks
+
+						int j, k;
+						for (j = 0; j < 10; j++)
+						{
+							for (k = 0; k < 10; k++)
+							{
+								//make a rectangle aroundt he current block
+								_objectRect = new Rectangle((int) _blockList[j][k].GetX(), (int) _blockList[j][k].GetY(), 78, 36);
+
+								if (_ballRect.Intersects(_objectRect)) //if a ball intersects with the block...
+								{
+									if (_blockList[j][k].GetType() != Blocktype.Dead) //...and the block is not dead...
+									{
+										switch (_blockList[j][k].GetSide(_ballRect)) //..than find out which side it hit and act accordingly.
+										{
+											case 0:
+												_ballList[i].SwitchY();
+												break;
+											case 1:
+												_ballList[i].SwitchX();
+												break;
+											case 2:
+												_ballList[i].SwitchY();
+												break;
+											case 3:
+												_ballList[i].SwitchX();
+												break;
+											default:
+												_score = (_blockList[j][k].GetSide(_ballRect));
+												break;
+										}
+									}
+
+									// change the block type with this method.
+									DecrementType(_blockList[j][k]);
+								}
+							}
+						}
+
+						#endregion
+
+						#region deadspace
+
+						_objectRect = new Rectangle(0, 615, 800, 1);
+						if (_objectRect.Intersects(_ballRect))
+						{
+							_lives--;
+							_mainBallIsAlive = false;
+							_ballList[i].Kill();
+							if (_lives == 0)
+							{
+								_main.EndGame(new Score("Name", ActivityType.Game, _score, "Breakout"));
+							}
+						}
+
+						#endregion
+
+						_ballList[i].UpdatePostion(_ballList[i].GetVx(), _ballList[i].GetVy());
+					}
+				}
+				#endregion
+				if ((padState.Buttons.A == ButtonState.Pressed && _a == 0) || (keyState.IsKeyDown(Keys.Space) && _a == 0))
+				{
+					if (_lives > 0 && !_mainBallIsAlive)
+					{
+						_ballList.Add(new BreakOutBall(400, 530, (float) -.5, (float) -.5));
+					}
+					_a = 1;
+				}
+				if (padState.Buttons.A == ButtonState.Released || keyState.IsKeyUp(Keys.Space))
+				{
+					_a = 0;
+				}
 			}
 		}
 
-		private static void DecrementType(BreakOutBlock block)
+		private static List<BreakOutBall> DeleteBall(List<BreakOutBall> balls, int i)
+		{
+			var newList = new List<BreakOutBall>();
+			int x;
+			for(x = 0; x < balls.Count; x++)
+			{
+				if (x != i)
+				{
+					newList.Add(balls[x]);
+				}
+			}
+
+			return newList;
+		}
+
+		private void DecrementType(BreakOutBlock block)
 		{
 			switch(block.GetType())
 			{
 				case Blocktype.Strong3:
 					block.SetType(Blocktype.Strong2);
 					block.SetColor(Color.Salmon);
+					_score += 100;
 					break;
 				case Blocktype.Strong2:
 					block.SetType(Blocktype.Standard);
 					block.SetColor(Color.White);
+					_score += 100;
 					break;
 				case Blocktype.Standard:
 					block.SetType(Blocktype.Dead);
+					_score += 100;
 					break;
 				default:
 					break;
@@ -422,6 +484,12 @@ namespace XNASystem.BreakOut
 			_leftWall.Draw(spriteBatch, fonts, textures);
 			_rightWall.Draw(spriteBatch, fonts, textures);
 			_ceiling.Draw(spriteBatch, fonts, textures);
+
+			//draw the score
+			spriteBatch.DrawString(fonts[0], "" + _score, new Vector2(30,30), Color.Black);
+
+			//draw the lives
+			spriteBatch.DrawString(fonts[0],"Lives: " + _lives, new Vector2(730, 30), Color.Black);
 
 			//draw the blocks
 			int i, j;

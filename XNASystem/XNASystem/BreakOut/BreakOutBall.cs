@@ -16,6 +16,7 @@ namespace XNASystem.BreakOut
 		private float _yVelocity;
 		private int _spin;
 		private const double Effectiveness = 0.075;
+		private Boolean _alive;
 
 		#endregion
 
@@ -27,6 +28,7 @@ namespace XNASystem.BreakOut
 			_yPosition = yPosition;
 			_xVelocity = xVelocity;
 			_yVelocity = yVelocity;
+			_alive = true;
 		}
 
 		#endregion
@@ -58,7 +60,7 @@ namespace XNASystem.BreakOut
 
 		#region update
 
-		public void UpdatePostiion(float x, float y)
+		public void UpdatePostion(float x, float y)
 		{
 			_xPosition += _xVelocity;
 			_yPosition += _yVelocity;
@@ -111,15 +113,25 @@ namespace XNASystem.BreakOut
 
 		public void IncrementX(float f)
 		{
-			_xVelocity += f * 5;
-			if(_xVelocity > 10)
+			_xVelocity +=  f / 2;
+			if(_xVelocity > 1)
 			{
-				_xVelocity = 10;
+				_xVelocity = 1;
 			}
-			if(_xVelocity < -10)
+			if(_xVelocity < -1)
 			{
-				_xVelocity = -10;
+				_xVelocity = -1;
 			}
+		}
+
+		public void Kill()
+		{
+			_alive = false;
+		}
+
+		public Boolean IsAlive()
+		{
+			return _alive;
 		}
 	}
 }

@@ -22,21 +22,21 @@ namespace XNASystem.BreakOut
 
 		public BreakOutBlock(int xPosition, int yPosition, Blocktype type, Color color)
 		{
-			_xPosition = xPosition;
-			_yPosition = yPosition;
+			_xPosition = (xPosition * 78) + 10;
+			_yPosition = (yPosition * 36) + 46;
 			_type = type;
 			_color = color;
-			_rectList = new List<Rectangle> { new Rectangle(xPosition * 78, yPosition * 36, 78, 1),
-												new Rectangle((xPosition * 78) + 77, yPosition* 36, 1, 36),
-												new Rectangle(xPosition * 78, (yPosition* 36) + 35, 78, 1),
-												new Rectangle(xPosition * 78, yPosition* 36, 1, 36)};
+			_rectList = new List<Rectangle> { new Rectangle(_xPosition, _yPosition, 78, 1),
+												new Rectangle(_xPosition + 77, _yPosition, 1, 36),
+												new Rectangle(_xPosition, _yPosition + 35, 78, 1),
+												new Rectangle(_xPosition, _yPosition, 1, 36)};
 		}
 
 		#endregion
 
 		#region useless update
 
-		public void UpdatePostiion(float x, float y)
+		public void UpdatePostion(float x, float y)
 		{
 			//do nothing
 		}
@@ -47,7 +47,7 @@ namespace XNASystem.BreakOut
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
-			spriteBatch.Draw(textures[5], new Vector2(10 + (_xPosition * 78), 10 + (_yPosition * 36)), _color);
+			spriteBatch.Draw(textures[5], new Vector2(_xPosition, _yPosition), _color);
 		}
 
 		#endregion
@@ -85,7 +85,7 @@ namespace XNASystem.BreakOut
 				}
 			}
 
-			return 0;
+			return 69696969;
 		}
 
 		public void SetType(Blocktype type)

@@ -55,8 +55,12 @@
     <XnaCompressContent>true</XnaCompressContent>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Answer.cs" />
-    <Compile Include="Booklet.cs" />
+    <Compile Include="DataManager.cs" />
+    <Compile Include="QuizArch\Answer.cs" />
+    <Compile Include="QuizArch\Booklet.cs" />
+    <Compile Include="Displays\QuizResultsDisplay.cs" />
+    <Compile Include="Displays\QuizDisplay.cs" />
+    <Compile Include="Displays\GameDisplay.cs" />
     <Compile Include="BreakOut\BreakOut.cs" />
     <Compile Include="BreakOut\BreakOutBall.cs" />
     <Compile Include="BreakOut\BreakOutBlock.cs" />
@@ -70,7 +74,6 @@
     <Compile Include="Interfaces\IGameObject.cs" />
     <Compile Include="MaterialEditor\SelectQuizMenu.cs" />
     <Compile Include="MaterialEditor\CorrectAnswerMenu.cs" />
-    <Compile Include="GameScreen.cs" />
     <Compile Include="Interfaces\IComponent.cs" />
     <Compile Include="MaterialEditor\EditorMainMenu.cs" />
     <Compile Include="MaterialEditor\EditorMenu.cs" />
@@ -82,15 +85,17 @@
     <Compile Include="PowerUp.cs" />
     <Compile Include="PowerUpManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Question.cs" />
-    <Compile Include="QuestionItem.cs" />
+    <Compile Include="QuizArch\Question.cs" />
     <Compile Include="QuestionLoader.cs" />
-    <Compile Include="Quiz.cs" />
-    <Compile Include="QuizScreen.cs" />
+    <Compile Include="QuizArch\Quiz.cs" />
+    <Compile Include="Displays\SystemDisplay.cs" />
+    <Compile Include="ScoreManager.cs" />
     <Compile Include="Score.cs" />
     <Compile Include="SystemMenus\ScoresMenu.cs" />
     <Compile Include="MaterialEditor\SelectBookletMenu.cs" />
     <Compile Include="SystemMain.cs" />
+    <Compile Include="Utils\ButtonAlias.cs" />
+    <Compile Include="Utils\InputHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="GameThumbnail.png" />

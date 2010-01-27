@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using XNASystem.Interfaces;
+using XNASystem.QuizArch;
+using XNASystem.Utils;
 
 namespace XNASystem.MaterialEditor
 {
@@ -50,66 +53,30 @@ namespace XNASystem.MaterialEditor
 		#endregion
 
 		#region update
-
-		/// <summary>
-		/// Update
-		/// 
-		/// This method is called in our system mains update which is called extremely frequently. This method is responsible for checking
-		/// the keyboard keyState and performing the appropriate actions when keys are pressed and released.
-		/// </summary>
-		/// <param name="keyState"> the current keys that are pressed</param>
-		public void Update(KeyboardState keyState, GamePadState padState)
+		public void Update(InputHandler handler)
 		{
-			#region arrow controls
-			// up arrow control
-			if (keyState.IsKeyDown(Keys.Up) && _up != 1)
+			_choice = handler.HandleMenuMovement(4, _choice);
+			if(handler.IfEnterPressed())
 			{
-				_up = 1;
-				_choice--;
-			}
-			if (keyState.IsKeyUp(Keys.Up))
-			{
-				_up = 0;
-			}
-
-			//down arrow control
-			if (keyState.IsKeyDown(Keys.Down) && _down != 1)
-			{
-				_down = 1;
-				_choice++;
-			}
-			if (keyState.IsKeyUp(Keys.Down))
-			{
-				_down = 0;
-			}
-			#endregion
-
-			#region enter controls
-
-			//enter key controls
-			if (keyState.IsKeyDown(Keys.Enter) && _enter != 1)
-			{
-				_enter = 1;
-
 				// case system to perform appropriate action of the chosen menu item
 				switch (_choice)
 				{
-						//change booklet
+					//change booklet
 					case 0:
 						_menuStack.Push(new SelectBookletMenu(_menuStack, _systemMain, this));
 						_systemMain.SetStack(_menuStack);
 						break;
-						// change quiz
+					// change quiz
 					case 1:
 						_menuStack.Push(new SelectQuizMenu(_menuStack, _systemMain, this));
 						_systemMain.SetStack(_menuStack);
 						break;
-						//write question
+					//write question
 					case 2:
 						_menuStack.Push(new EditorMenu(_menuStack, _systemMain, this));
 						_systemMain.SetStack(_menuStack);
 						break;
-						// back
+					// back
 					case 3:
 						_menuStack.Pop();
 						_systemMain.SetStack(_menuStack);
@@ -118,26 +85,8 @@ namespace XNASystem.MaterialEditor
 						break;
 				}
 			}
-			if (keyState.IsKeyUp(Keys.Enter))
-			{
-				_enter = 0;
-			}
-
-			#endregion
-
-			#region set choice
-			// make sure that choice is always on an actually menu choice
-			if (_choice == -1)
-			{
-				_choice = 4;
-			}
-			if (_choice == 4)
-			{
-				_choice = 0;
-			}
-
-			#endregion
 		}
+
 		#endregion
 
 		#region draw
@@ -165,18 +114,18 @@ namespace XNASystem.MaterialEditor
 
 			//draw the menu items
 			spriteBatch.DrawString(fonts[0], "Select Booklet", new Vector2(100, 200), Color.Black);
-			spriteBatch.DrawString(fonts[0], _systemMain.GetBookletList()[_currentBooklet].GetTitle(), new Vector2(400, 200), Color.Black);
+			//spriteBatch.DrawString(fonts[0], _systemMain.GetBookletList()[_currentBooklet].GetTitle(), new Vector2(400, 200), Color.Black);
 
 			spriteBatch.DrawString(fonts[0], "Select Quiz", new Vector2(100, 300), Color.Black);
 
 			// if there are no quizzes in the current booklet than say so
-			if (_systemMain.GetBookletList()[_systemMain.GetCurrentBooklet()].GetQuizList().Count == 0)
+			if (_systemMain.GetBookletList()[_systemMain.GetCurrentBooklet()].GetAsList().Count == 0)
 			{
 				spriteBatch.DrawString(fonts[0], "No Quizzes here", new Vector2(400, 300), Color.Red);
 			}
 			else
 			{
-				spriteBatch.DrawString(fonts[0], _systemMain.GetBookletList()[_systemMain.GetCurrentBooklet()].GetQuizList()[_currentQuiz].GetTitle(), new Vector2(400, 300), Color.Black);
+				spriteBatch.DrawString(fonts[0], _systemMain.GetBookletList()[_systemMain.GetCurrentBooklet()].GetAsList()[_currentQuiz].GetTitle(), new Vector2(400, 300), Color.Black);
 			}
 
 			spriteBatch.DrawString(fonts[0], "Write New Question Here", new Vector2(100, 400), Color.Black);
@@ -202,7 +151,12 @@ namespace XNASystem.MaterialEditor
 		{
 			return _currentQuiz;
 		}
+		/*public Quiz GetCurrentQuizAsQuiz()
+		{
+			var list = _systemMain.GetBookletList();
 
+			return list[_systemMain.GetCurrentBooklet()].GetSpecificQuiz(_currentQuiz);
+		}*/
 		public int GetCurrentBooklet()
 		{
 			return _currentBooklet;

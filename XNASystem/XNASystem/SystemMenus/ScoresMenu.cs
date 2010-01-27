@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using XNASystem.Interfaces;
+using XNASystem.Utils;
 
 namespace XNASystem.SystemMenus
 {
@@ -45,57 +47,20 @@ namespace XNASystem.SystemMenus
 		#endregion
 
 		#region update
-
-		/// <summary>
-		/// Update
-		/// 
-		/// This method is called in our system mains update which is called extremely frequently. This method is responsible for checking
-		/// the keyboard keyState and performing the appropriate actions when keys are pressed and released.
-		/// </summary>
-		/// <param name="keyState"> the current keys that are pressed</param>
-		public void Update(KeyboardState keyState, GamePadState padState)
+		public void Update(InputHandler handler)
 		{
-			#region arrow controls
-			// up arrow control
-			if (keyState.IsKeyDown(Keys.Up) && _up != 1)
+			_choice = handler.HandleMenuMovement(3, _choice);
+			if(handler.IfEnterPressed())
 			{
-				_up = 1;
-				_choice--;
-			}
-			if (keyState.IsKeyUp(Keys.Up))
-			{
-				_up = 0;
-			}
-
-			//down arrow control
-			if (keyState.IsKeyDown(Keys.Down) && _down != 1)
-			{
-				_down = 1;
-				_choice++;
-			}
-			if (keyState.IsKeyUp(Keys.Down))
-			{
-				_down = 0;
-			}
-			#endregion
-
-			#region enter controls
-
-			//enter key controls
-			if (keyState.IsKeyDown(Keys.Enter) && _enter != 1)
-			{
-				_enter = 1;
-
-				// case system to perform appropriate action of the chosen menu item
 				switch (_choice)
 				{
-						// quiz scores
+					// quiz scores
 					case 0:
 						break;
-						// game scores
+					// game scores
 					case 1:
 						break;
-						// back
+					// back
 					case 2:
 						// remove this menu than return the list to main
 						_menuStack.Pop();
@@ -105,26 +70,8 @@ namespace XNASystem.SystemMenus
 						break;
 				}
 			}
-			if (keyState.IsKeyUp(Keys.Enter))
-			{
-				_enter = 0;
-			}
-
-			#endregion
-
-			#region set choice
-			// make sure that choice is always on an actually menu choice
-			if (_choice == -1)
-			{
-				_choice = 3;
-			}
-			if (_choice == 3)
-			{
-				_choice = 0;
-			}
-
-			#endregion
 		}
+
 		#endregion
 
 		#region draw

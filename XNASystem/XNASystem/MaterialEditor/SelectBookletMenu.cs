@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using XNASystem.Interfaces;
+using XNASystem.Utils;
 
 namespace XNASystem.MaterialEditor
 {
@@ -34,38 +35,11 @@ namespace XNASystem.MaterialEditor
 		#endregion
 
 		#region update
-		public void Update(KeyboardState keyState, GamePadState padState)
+		public void Update(InputHandler handler)
 		{
-			#region arrow controls
-			// up arrow control
-			if (keyState.IsKeyDown(Keys.Up) && _up != 1)
+			_choice = handler.HandleMenuMovement(_systemMain.GetBookletList().Count + 2, _choice);
+			if(handler.IfEnterPressed())
 			{
-				_up = 1;
-				_choice--;
-			}
-			if (keyState.IsKeyUp(Keys.Up))
-			{
-				_up = 0;
-			}
-
-			//down arrow control
-			if (keyState.IsKeyDown(Keys.Down) && _down != 1)
-			{
-				_down = 1;
-				_choice++;
-			}
-			if (keyState.IsKeyUp(Keys.Down))
-			{
-				_down = 0;
-			}
-			#endregion
-
-			#region enter controls
-
-			//enter key controls
-			if (keyState.IsKeyDown(Keys.Enter) && _enter != 1)
-			{
-				_enter = 1;
 				_menuStack.Pop();
 				// for all the booklet choices
 				if (_choice < _systemMain.GetBookletList().Count)
@@ -76,30 +50,12 @@ namespace XNASystem.MaterialEditor
 				//for the craete a new booklet choice
 				if (_choice == _systemMain.GetBookletList().Count)
 				{
-					_menuStack.Push(new CreateBookletMenu(_menuStack,_systemMain, _editor));
+					_menuStack.Push(new CreateBookletMenu(_menuStack, _systemMain, _editor));
 				}
 				_systemMain.SetStack(_menuStack);
 			}
-			if (keyState.IsKeyUp(Keys.Enter))
-			{
-				_enter = 0;
-			}
-
-			#endregion
-
-			#region set choice
-			// make sure that choice is always on an actually menu choice
-			if (_choice == -1)
-			{
-				_choice = _systemMain.GetBookletList().Count + 2;
-			}
-			if (_choice == _systemMain.GetBookletList().Count + 2)
-			{
-				_choice = 0;
-			}
-
-			#endregion
 		}
+
 		#endregion
 
 		#region draw
