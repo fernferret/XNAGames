@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using XNASystem.Displays;
@@ -56,6 +57,9 @@ namespace XNASystem
 		// initialize the menustack
 		private Stack<IScreen> _menuStack;
 
+        // initialize the DataManager
+        private DataManager _dataManager;
+
 		//initialize a new list of booklets
     	private readonly List<Booklet> _booklets;
 
@@ -101,6 +105,8 @@ namespace XNASystem
 			//content location
 			Content.RootDirectory = "Content";
 
+            GamerServicesDispatcher.Initialize(this.Services);
+
 			// initialize font package and texture package
 			_fontPackage = new List<SpriteFont>();
 			_texturePackage = new List<Texture2D>();
@@ -108,10 +114,13 @@ namespace XNASystem
 			// create the stack
 			_menuStack = new Stack<IScreen>();
 
-			// create a list of booklets the system can run off of
-			_booklets = new List<Booklet>();
+            // create the DataManager and load name list
+            _dataManager = new DataManager();
 
-			////////////////////////////////////////////////delete all this once xml works///////////////////////////////////////////////////////////////////////////
+			// create a list of booklets the system can run off of
+            _booklets = _dataManager.LoadBooklets(0);
+
+			/*///////////////////////////////////////////////delete all this once xml works///////////////////////////////////////////////////////////////////////////
         	Booklet defaultb = new Booklet("defualt Booklet");
         	Booklet second = new Booklet("second Booklet");
 
@@ -127,7 +136,7 @@ namespace XNASystem
 
 			_booklets.Add(defaultb);
 			_booklets.Add(second);
-			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
         	// initialize the currents to jsut the first boklet and the first quiz in that booklet
         	_currentBooklet = _booklets[0];
@@ -376,5 +385,15 @@ namespace XNASystem
 		{
 			_score = s;
 		}
+
+        public void Close()
+        {
+            foreach (Booklet booklet in _booklets)
+            {
+                _dataManager.SaveBooklet(0, booklet);
+            }
+            this.Exit();
+        }
 	}
 }
+

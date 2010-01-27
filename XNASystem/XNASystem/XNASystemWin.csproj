@@ -55,6 +55,7 @@
     <XnaCompressContent>true</XnaCompressContent>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DataManager.cs" />
     <Compile Include="QuizArch\Answer.cs" />
     <Compile Include="QuizArch\Booklet.cs" />
     <Compile Include="Displays\QuizResultsDisplay.cs" />

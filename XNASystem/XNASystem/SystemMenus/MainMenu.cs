@@ -99,7 +99,7 @@ namespace XNASystem.SystemMenus
 					// exit
 					case 4:
 						// tell main to close the program
-						_systemMain.Exit();
+                        _systemMain.Close();
 						break;
 					default:
 						break;
