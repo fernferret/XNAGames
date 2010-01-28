@@ -4,6 +4,7 @@ using XNASystem.Interfaces;
 
 namespace XNASystem.QuizArch
 {
+    [Serializable]
 	public class Booklet : IComponent<Quiz>
 	{
 		#region Variables
