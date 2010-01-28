@@ -2,6 +2,7 @@ using System;
 
 namespace XNASystem.QuizArch
 {
+    [Serializable]
 	public class Answer
 	{
 		private readonly Boolean _correct;

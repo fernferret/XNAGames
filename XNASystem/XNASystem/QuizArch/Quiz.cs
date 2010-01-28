@@ -9,6 +9,7 @@ using XNASystem.Interfaces;
  */
 namespace XNASystem.QuizArch
 {
+    [Serializable]
 	public class Quiz : IComponent<Question>
 	{
 		#region Variables

@@ -198,6 +198,10 @@ namespace XNASystem
                         BinaryFormatter myBf = new BinaryFormatter();
                         myBf.Serialize(fileStream, booklet);
                     }
+                    catch (Exception e)
+                    {
+                        ;
+                    }
                     finally
                     {
                         fileStream.Close();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace XNASystem.QuizArch
 {
+    [Serializable]
     public class Question
 	{
 		#region Variables

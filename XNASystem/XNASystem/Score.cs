@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace XNASystem
 {
+    [Serializable]
 	public class Score
 	{
 		#region Variables
