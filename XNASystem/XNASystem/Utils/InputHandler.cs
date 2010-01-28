@@ -15,6 +15,8 @@ namespace XNASystem.Utils
 		private List<ButtonAlias> _pressedButtons;
 		private ButtonAlias _up;
 		private ButtonAlias _down;
+		private ButtonAlias _left;
+		private ButtonAlias _right;
 		private ButtonAlias _enter;
 		private ButtonAlias _back;
 		private ButtonAlias _space;
@@ -24,6 +26,8 @@ namespace XNASystem.Utils
 			//_gamePadState = g;
 			_up = new ButtonAlias("UP", Buttons.DPadUp, Keys.Up);
 			_down = new ButtonAlias("DOWN", Buttons.DPadDown, Keys.Down);
+			_left = new ButtonAlias("LEFT", Buttons.DPadLeft, Keys.Left);
+			_right = new ButtonAlias("RIGHT", Buttons.DPadRight, Keys.Right);
 			_enter = new ButtonAlias("ENTER", Buttons.A, Keys.Enter);
 			_back = new ButtonAlias("BACK", Buttons.Back, Keys.Delete);
 			_space = new ButtonAlias("SPACE", Buttons.Y, Keys.Space);
@@ -31,6 +35,8 @@ namespace XNASystem.Utils
 			                 	{
 			                 		_up,
 			                 		_down,
+									_left,
+									_right,
 			                 		_enter,
 			                 		_back,
 			                 		_space
@@ -89,6 +95,42 @@ namespace XNASystem.Utils
 		public bool IfSpacePressed()
 		{
 			if (_space == CheckKeys(new List<ButtonAlias> { _space }))
+			{
+				return true;
+			}
+			return false;
+		}
+
+		public bool IfUpPressed()
+		{
+			if (_space == CheckKeys(new List<ButtonAlias> { _up }))
+			{
+				return true;
+			}
+			return false;
+		}
+
+		public bool IfDownPressed()
+		{
+			if (_space == CheckKeys(new List<ButtonAlias> { _down }))
+			{
+				return true;
+			}
+			return false;
+		}
+
+		public bool IfLeftPressed()
+		{
+			if (_space == CheckKeys(new List<ButtonAlias> { _left }))
+			{
+				return true;
+			}
+			return false;
+		}
+
+		public bool IfRightPressed()
+		{
+			if (_space == CheckKeys(new List<ButtonAlias> { _right }))
 			{
 				return true;
 			}

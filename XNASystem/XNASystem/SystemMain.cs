@@ -182,6 +182,25 @@ namespace XNASystem
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ball"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ceiling"));
 
+			//Shooter Game Textures
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ship"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ship_alternate"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//beginexplosion_ship_1"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//beginexplosion_ship_2"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//beginexplosion_ship_3"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//shooterenemybasic"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//shooterenemybasic_alternate"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//beginexplosion_enemy_1"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//beginexplosion_enemy_2"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//beginexplosion_enemy_3"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_1"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_2"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_3"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_4"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_5"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//projectile"));
+
+
             // give the stack the main menu
             _menuStack.Push(new MainMenu(_menuStack, this));
         }
