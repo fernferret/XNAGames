@@ -418,15 +418,16 @@ namespace XNASystem.BreakOut
 					}
 				}
 				#endregion
-				if ((padState.Buttons.A == ButtonState.Pressed && _a == 0) || (keyState.IsKeyDown(Keys.Space) && _a == 0))
+				if ((padState.Buttons.A == ButtonState.Pressed && _a == 0))
 				{
 					if (_lives > 0 && !_mainBallIsAlive)
 					{
 						_ballList.Add(new BreakOutBall(400, 530, (float) -.5, (float) -.5));
+						_mainBallIsAlive = true;
 					}
 					_a = 1;
 				}
-				if (padState.Buttons.A == ButtonState.Released || keyState.IsKeyUp(Keys.Space))
+				if (padState.Buttons.A == ButtonState.Released)
 				{
 					_a = 0;
 				}
