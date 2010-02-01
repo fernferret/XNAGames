@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using XNASystem.Interfaces;
+using System;
 
 namespace XNASystem.BreakOut
 {
@@ -14,7 +15,7 @@ namespace XNASystem.BreakOut
 		private readonly int _yPosition;
 		private Blocktype _type;
 		private Color _color;
-		private readonly List<Rectangle> _rectList;
+		private readonly List<Rectangle> _rectSideList;
 
 		#endregion
 
@@ -26,10 +27,10 @@ namespace XNASystem.BreakOut
 			_yPosition = (yPosition * 36) + 46;
 			_type = type;
 			_color = color;
-			_rectList = new List<Rectangle> { new Rectangle(_xPosition, _yPosition, 78, 1),
-												new Rectangle(_xPosition + 77, _yPosition, 1, 36),
-												new Rectangle(_xPosition, _yPosition + 35, 78, 1),
-												new Rectangle(_xPosition, _yPosition, 1, 36)};
+			_rectSideList = new List<Rectangle> { new Rectangle(_xPosition + 1, _yPosition, 76, 1),
+												new Rectangle(_xPosition + 77, _yPosition + 1, 1, 34),
+												new Rectangle(_xPosition + 1, _yPosition + 35, 76, 1),
+												new Rectangle(_xPosition, _yPosition + 1, 1, 34)};
 		}
 
 		#endregion
@@ -71,21 +72,29 @@ namespace XNASystem.BreakOut
 
 		public List<Rectangle> GetRectList()
 		{
-			return _rectList;
+			return _rectSideList;
 		}
 
 		public int GetSide(Rectangle ball)
 		{
+
+			int hit = -1;
+
 			int i;
-			for(i = 0; i < 4; i++)
+			for (i = 0; i < 4; i++)
 			{
-				if(ball.Intersects(_rectList[i]))
+				if (ball.Intersects(_rectSideList[i]))
 				{
-					return i;
+					hit = i;
 				}
 			}
 
-			return 69696969;
+			if(hit == -1)
+			{
+				return 0;
+			}
+
+			return hit;
 		}
 
 		public void SetType(Blocktype type)
