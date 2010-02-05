@@ -251,7 +251,7 @@ namespace XNASystem.BreakOut
 
 		#region update
 
-		public void Update(InputHandler handler)
+		public void Update(InputHandler handler, GameTime gameTime)
 		{
 			// TODO: Need to update to use the new handler class!
 			var padState = handler.GetPadState();

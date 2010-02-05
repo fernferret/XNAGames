@@ -28,7 +28,7 @@ namespace XNASystem.MaterialEditor
 		#endregion
 
 		#region update
-		public void Update(InputHandler handler)
+		public void Update(InputHandler handler, GameTime gameTime)
 		{
 			_choice = handler.HandleMenuMovement(_systemMain.GetQuizList().Count + 2, _choice);
 			if(handler.IfEnterPressed())

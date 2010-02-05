@@ -61,7 +61,7 @@ namespace XNASystem.SystemMenus
 		/// the keyboard keyState and performing the appropriate actions when keys are pressed and released.
 		/// </summary>
 		/// <param name="handler">the key and button handler</param>
-		public void Update(InputHandler handler)
+		public void Update(InputHandler handler, GameTime gameTime)
 		{
 			_choice = handler.HandleMenuMovement(5, _choice);
 

@@ -24,13 +24,13 @@ namespace XNASystem.Utils
 		{
 			//_keyState = k;
 			//_gamePadState = g;
-			_up = new ButtonAlias("UP", Buttons.DPadUp, Keys.Up);
-			_down = new ButtonAlias("DOWN", Buttons.DPadDown, Keys.Down);
-			_left = new ButtonAlias("LEFT", Buttons.DPadLeft, Keys.Left);
-			_right = new ButtonAlias("RIGHT", Buttons.DPadRight, Keys.Right);
-			_enter = new ButtonAlias("ENTER", Buttons.A, Keys.Enter);
-			_back = new ButtonAlias("BACK", Buttons.Back, Keys.Delete);
-			_space = new ButtonAlias("SPACE", Buttons.Y, Keys.Space);
+			_up = new ButtonAlias("UP", Buttons.DPadUp, Keys.Up, false);
+			_down = new ButtonAlias("DOWN", Buttons.DPadDown, Keys.Down, false);
+			_left = new ButtonAlias("LEFT", Buttons.DPadLeft, Keys.Left, true);
+			_right = new ButtonAlias("RIGHT", Buttons.DPadRight, Keys.Right, true);
+			_enter = new ButtonAlias("ENTER", Buttons.A, Keys.Enter, false);
+			_back = new ButtonAlias("BACK", Buttons.Back, Keys.Delete, false);
+			_space = new ButtonAlias("SPACE", Buttons.Y, Keys.Space, true);
 			_buttonAliases = new List<ButtonAlias>
 			                 	{
 			                 		_up,
@@ -43,9 +43,9 @@ namespace XNASystem.Utils
 			                 	};
 			_pressedButtons = new List<ButtonAlias>();
 		}
-		public void AddAlias(String n, Keys k, Buttons b)
+		public void AddAlias(String n, Keys k, Buttons b, bool h)
 		{
-			_buttonAliases.Add(new ButtonAlias(n, b, k));
+			_buttonAliases.Add(new ButtonAlias(n, b, k, h));
 		}
 		public int HandleMenuMovement(int items, int c)
 		{
@@ -103,7 +103,7 @@ namespace XNASystem.Utils
 
 		public bool IfUpPressed()
 		{
-			if (_space == CheckKeys(new List<ButtonAlias> { _up }))
+			if (_up == CheckKeys(new List<ButtonAlias> { _up }))
 			{
 				return true;
 			}
@@ -112,7 +112,7 @@ namespace XNASystem.Utils
 
 		public bool IfDownPressed()
 		{
-			if (_space == CheckKeys(new List<ButtonAlias> { _down }))
+			if (_down == CheckKeys(new List<ButtonAlias> { _down }))
 			{
 				return true;
 			}
@@ -121,7 +121,7 @@ namespace XNASystem.Utils
 
 		public bool IfLeftPressed()
 		{
-			if (_space == CheckKeys(new List<ButtonAlias> { _left }))
+			if (_left == CheckKeys(new List<ButtonAlias> { _left }))
 			{
 				return true;
 			}
@@ -130,7 +130,7 @@ namespace XNASystem.Utils
 
 		public bool IfRightPressed()
 		{
-			if (_space == CheckKeys(new List<ButtonAlias> { _right }))
+			if (_right == CheckKeys(new List<ButtonAlias> { _right }))
 			{
 				return true;
 			}
@@ -144,7 +144,10 @@ namespace XNASystem.Utils
 				if (_keyState.IsKeyDown(action.GetKey()) && !_pressedButtons.Contains(action))
 				{
 					action.Pressed = PressType.Key;
-					_pressedButtons.Add(action);
+					if (!action.GetHoldable())
+					{
+						_pressedButtons.Add(action);
+					}
 					return action;
 				}
 				if (_gamePadState.IsButtonDown(action.GetButton()) && !_pressedButtons.Contains(action))

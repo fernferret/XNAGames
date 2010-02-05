@@ -40,7 +40,7 @@ namespace XNASystem.Displays
 
 
 		#region update
-		public void Update(InputHandler handler)
+		public void Update(InputHandler handler, GameTime gameTime)
 		{
 			_choice = handler.HandleMenuMovement(_currentQuestionAnswers.Count, _choice);
 			if(handler.IfEnterPressed())
