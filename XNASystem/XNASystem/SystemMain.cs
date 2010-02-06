@@ -98,14 +98,16 @@ namespace XNASystem
 		// System Constructor, performs initialization
 		public SystemMain()
 		{
-			_handler = new InputHandler();
-			// graphics initializer
-			_graphics = new GraphicsDeviceManager(this);
+			
 
+			_handler = new InputHandler();
+			// graphics initializer Also initialize the height and width to 720p
+			//_graphics = new GraphicsDeviceManager(this);
+			_graphics = new GraphicsDeviceManager(this) {PreferredBackBufferWidth = 1280, PreferredBackBufferHeight = 720};
 			//content location
 			Content.RootDirectory = "Content";
 
-            GamerServicesDispatcher.Initialize(this.Services);
+            GamerServicesDispatcher.Initialize(Services);
 
 			// initialize font package and texture package
 			_fontPackage = new List<SpriteFont>();
@@ -141,21 +143,6 @@ namespace XNASystem
         	// initialize the currents to jsut the first boklet and the first quiz in that booklet
         	_currentBooklet = _booklets[0];
         	_currentQuiz = _booklets[0].GetSpecificQuiz(0);
-
-/*            _qLoad = new QuestionLoader();
-
-            //populate a booklet from xml files
-            _booklet = _qLoad.PopulateSystem();
-
-            //create the static main menu
-            _menuList.Add(new Menu("Welcome to the XNA Game System", new List<IMenuItem>
-                                                                         {
-                                                                             new NavItem("Take Quiz", MenuAction.ShowQuiz),
-                                                                             new NavItem("Change Options", MenuAction.ShowOptions),
-                                                                             new NavItem("View Scores", MenuAction.ShowMain),
-                                                                             new NavItem("Edit Questions", MenuAction.ShowEditorMain)
-                                                                         }));
-*/     
         }
         #endregion
 
@@ -314,29 +301,6 @@ namespace XNASystem
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _menuStack.Peek().Draw(_spriteBatch, _fontPackage, _texturePackage);
-/*
-            var items = 300 / _menuList.Last().GetNum();
-            var counter = 0;
-
-            _spriteBatch.Begin();
-
-            _spriteBatch.DrawString(_font, _menuList.Last().GetTitle(), new Vector2(250, 100), Color.Black);
-
-            foreach (var item in _menuList.Last().GetItems())
-            {
-                if (item == _menuList.Last().GetSelectedItem())
-                {
-                    _spriteBatch.DrawString(_font, item.GetTitle(), new Vector2(100, 200 + items*counter), Color.White);
-                }
-                else
-                {
-                    _spriteBatch.DrawString(_font, item.GetTitle(), new Vector2(100, 200 + items * counter), Color.Black);
-                }
-                counter++;
-            }
-
-            _spriteBatch.End();
- */
             base.Draw(gameTime);
         }
         #endregion

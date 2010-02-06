@@ -12,9 +12,9 @@ namespace XNASystem.Utils
 		private Buttons _button;
 		private Keys _key;
 		private String _name;
-		private bool _holdable;
+		private ButtonHoldable _holdable;
 		public PressType Pressed;
-		public ButtonAlias(String n, Buttons b, Keys k, bool holdable)
+		public ButtonAlias(String n, Buttons b, Keys k, ButtonHoldable holdable)
 		{
 			_name = n;
 			_button = b;
@@ -37,8 +37,7 @@ namespace XNASystem.Utils
 
 		public bool GetHoldable()
 		{
-			return _holdable;
+			return _holdable == ButtonHoldable.Yes;
 		}
-
 	}
 }

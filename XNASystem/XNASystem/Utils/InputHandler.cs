@@ -5,6 +5,10 @@ public enum ButtonPressed
 {
 	Before, After
 }
+public enum ButtonHoldable
+{
+	Yes, No
+}
 namespace XNASystem.Utils
 {
 	public class InputHandler
@@ -24,13 +28,13 @@ namespace XNASystem.Utils
 		{
 			//_keyState = k;
 			//_gamePadState = g;
-			_up = new ButtonAlias("UP", Buttons.DPadUp, Keys.Up, false);
-			_down = new ButtonAlias("DOWN", Buttons.DPadDown, Keys.Down, false);
-			_left = new ButtonAlias("LEFT", Buttons.DPadLeft, Keys.Left, true);
-			_right = new ButtonAlias("RIGHT", Buttons.DPadRight, Keys.Right, true);
-			_enter = new ButtonAlias("ENTER", Buttons.A, Keys.Enter, false);
-			_back = new ButtonAlias("BACK", Buttons.Back, Keys.Delete, false);
-			_space = new ButtonAlias("SPACE", Buttons.Y, Keys.Space, true);
+			_up = new ButtonAlias("UP", Buttons.DPadUp, Keys.Up, ButtonHoldable.No);
+			_down = new ButtonAlias("DOWN", Buttons.DPadDown, Keys.Down, ButtonHoldable.No);
+			_left = new ButtonAlias("LEFT", Buttons.DPadLeft, Keys.Left, ButtonHoldable.Yes);
+			_right = new ButtonAlias("RIGHT", Buttons.DPadRight, Keys.Right, ButtonHoldable.Yes);
+			_enter = new ButtonAlias("ENTER", Buttons.A, Keys.Enter, ButtonHoldable.No);
+			_back = new ButtonAlias("BACK", Buttons.Back, Keys.Delete, ButtonHoldable.No);
+			_space = new ButtonAlias("SPACE", Buttons.Y, Keys.Space, ButtonHoldable.Yes);
 			_buttonAliases = new List<ButtonAlias>
 			                 	{
 			                 		_up,
