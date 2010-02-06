@@ -7,16 +7,19 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using XNASystem.Displays;
 using XNASystem.Interfaces;
+using XNASystem.ShooterGame;
+using XNASystem.Utils;
 
 namespace XNASystem.Shooter
 {
-	class Shooter : IGame
+	class Shooter : IGame, IScreen
 	{
 		private readonly SystemDisplay _main;
 
 		private readonly ShooterShip _ship;
 		private Rectangle _shipRect;
-		private readonly List<List<ShooterEnemy>> _enemies;
+		private readonly List<ShooterEnemy> _enemies;
+		private ShooterHerd _herd;
 		//projectile list
 
 		public Shooter(SystemDisplay main)
@@ -25,21 +28,57 @@ namespace XNASystem.Shooter
 			_ship = new ShooterShip();
 			//_shipRect = new Rectangle(_ship.GetX(), _ship.GetY(), _ship.GetWidth(), _ship.GetHeight());
 
+
 			#region sample level - delete when xml works
 
-			_enemies = new List<List<ShooterEnemy>>
-			           	{
-			           		new List<ShooterEnemy>
+			_herd = new ShooterHerd();
+
+			_enemies = new List<ShooterEnemy>
 			           			{
-			           				new ShooterEnemy(0, 0, 10, Color.ForestGreen),
-			           				new ShooterEnemy(1, 0, 10, Color.Gainsboro),
-			           				new ShooterEnemy(2, 0, 10, Color.Goldenrod)
-			           			}
-			           	};
+			           				//new ShooterEnemy(1, 1, 1, Color.White),
+			           				//new ShooterEnemy(1, 0, 10, Color.Gainsboro),
+			           				//new ShooterEnemy(4, 0, 10, Color.Goldenrod)
+			           			};
+
+			_herd.AddEnemy(new ShooterEnemy(1, 1, Color.White));
+			_herd.AddEnemy(new ShooterEnemy(2, 1, Color.White));
+			_herd.AddEnemy(new ShooterEnemy(3, 1, Color.White));
+			_herd.AddEnemy(new ShooterEnemy(4, 1, Color.White));
+			_herd.AddEnemy(new ShooterEnemy(5, 1, Color.White));
+			_herd.AddEnemy(new ShooterEnemy(6, 1, Color.White));
+			_herd.AddEnemy(new ShooterEnemy(7, 1, Color.White));
+			_herd.AddEnemy(new ShooterEnemy(8, 1, Color.White));
+			_herd.AddEnemy(new ShooterEnemy(9, 1, Color.White));
+			_herd.AddEnemy(new ShooterEnemy(10, 1, Color.White));
+
+			_herd.AddEnemy(new ShooterEnemy(1, 2, Color.MediumSeaGreen));
+			_herd.AddEnemy(new ShooterEnemy(2, 2, Color.MediumSeaGreen));
+			_herd.AddEnemy(new ShooterEnemy(3, 2, Color.MediumSeaGreen));
+			_herd.AddEnemy(new ShooterEnemy(4, 2, Color.MediumSeaGreen));
+			_herd.AddEnemy(new ShooterEnemy(5, 2, Color.MediumSeaGreen));
+			_herd.AddEnemy(new ShooterEnemy(6, 2, Color.MediumSeaGreen));
+			_herd.AddEnemy(new ShooterEnemy(7, 2, Color.MediumSeaGreen));
+			_herd.AddEnemy(new ShooterEnemy(8, 2, Color.MediumSeaGreen));
+			_herd.AddEnemy(new ShooterEnemy(9, 2, Color.MediumSeaGreen));
+			_herd.AddEnemy(new ShooterEnemy(10, 2, Color.MediumSeaGreen));
+
+			_herd.AddEnemy(new ShooterEnemy(1, 3, Color.Tomato));
+			_herd.AddEnemy(new ShooterEnemy(2, 3, Color.Tomato));
+			_herd.AddEnemy(new ShooterEnemy(3, 3, Color.Tomato));
+			_herd.AddEnemy(new ShooterEnemy(4, 3, Color.Tomato));
+			_herd.AddEnemy(new ShooterEnemy(5, 3, Color.Tomato));
+			_herd.AddEnemy(new ShooterEnemy(6, 3, Color.Tomato));
+			_herd.AddEnemy(new ShooterEnemy(7, 3, Color.Tomato));
+			_herd.AddEnemy(new ShooterEnemy(8, 3, Color.Tomato));
+			_herd.AddEnemy(new ShooterEnemy(9, 3, Color.Tomato));
+			_herd.AddEnemy(new ShooterEnemy(10, 3, Color.Tomato));
+
 			#endregion
 		}
 
 		#region does not use yet
+
+
 		public void AdvanceLevel()
 		{
 			throw new NotImplementedException();
@@ -76,184 +115,75 @@ namespace XNASystem.Shooter
 		}
 
 		#endregion
-/*
+
 		#region update
 
-		public void Update(KeyboardState keyState, GamePadState padState)
+
+		public void Update(InputHandler handler, GameTime gameTime)
 		{
-			// update the paddles position by adding or subtracing according to the thumb stick
-			_objectRect = new Rectangle((int)_paddle.GetX(), (int)_paddle.GetY(), 199, 17);
+			//animation stuff
+			_ship.AnimateSprite(gameTime);
+			_herd.AnimateSprite(gameTime);
 
-			#region paddle with wall collision
+			_ship.UpdateProjectile();
 
-			if (_paddle.GetX() == 10)
+			if (!_ship.IsDying())
 			{
-				if (padState.ThumbSticks.Left.X > 0)
+				//collision stuff
+				_herd.CollidesWith(_ship);
+				_herd.CollidesWithProjectiles(_ship);
+
+				//Herd update stuff
+				_herd.UpdatePostion(0, 0);
+				_herd.UpdateProjectiles();
+
+				_herd.Shoot();
+
+				if (handler.IfLeftPressed())
 				{
-					_paddle.UpdatePosition(padState.ThumbSticks.Left.X, 0);
+					_ship.UpdatePostion(-1, 0);
 				}
-
-				if (keyState.IsKeyDown(Keys.Left))
+				if (handler.IfRightPressed())
 				{
-					_paddle.UpdatePosition(10, 0);
+					_ship.UpdatePostion(1, 0);
 				}
-
-			}
-			else if (_paddle.GetX() == 790 - 199)
-			{
-				if (padState.ThumbSticks.Left.X < 0)
+				if (handler.IfSpacePressed())
 				{
-					_paddle.UpdatePosition(padState.ThumbSticks.Left.X, 0);
+					_ship.Shoot();
+
 				}
-			}
-			else if (_objectRect.Intersects(new Rectangle((int)_leftWall.GetX(), (int)_leftWall.GetY(), 10, 600)))
-			{
-				_paddle.SetX(10);
-			}
-
-			else if (_objectRect.Intersects(new Rectangle((int)_rightWall.GetX(), (int)_rightWall.GetY(), 10, 600)))
-			{
-				_paddle.SetX(790 - 199);
-			}
-
-			else
-			{
-				_paddle.UpdatePosition(padState.ThumbSticks.Left.X, 0);
-			}
-
-			#endregion
-
-			#region  wall collision testing and movement
-
-			// check for collisions between the ball and any other objects
-			int i;
-			for (i = 0; i < _ballList.Count; i++)
-			{
-				// create a rectangle around the balls current position
-				_ballRect = new Rectangle((int)_ballList[i].GetX(), (int)_ballList[i].GetY(), 15, 15);
-
-				#region paddle
-
-				// create a rectangle around the paddle and check for intersections
-				_objectRect = new Rectangle((int)_paddle.GetX(), (int)_paddle.GetY(), 199, 17);
-				if (_ballRect.Intersects(_objectRect))
+				else
 				{
-					//simply switch the y velocity 
-					_ballList[i].SwitchY();
-					_ballList[i].IncrementX(padState.ThumbSticks.Left.X);
+					_ship.Reload();
 				}
-
-				#endregion
-
-				#region walls and ceiling
-
-				// create a rectangle around the lef twall and check for intersections
-				_objectRect = new Rectangle((int)_leftWall.GetX(), (int)_leftWall.GetY(), 10, 600);
-				if (_ballRect.Intersects(_objectRect))
-				{
-					//simply change the x velocity
-					_ballList[i].SwitchX();
-				}
-
-				// create a rectangle aroun the right wall and check for intersections
-				_objectRect = new Rectangle((int)_rightWall.GetX(), (int)_rightWall.GetY(), 10, 600);
-				if (_ballRect.Intersects(_objectRect))
-				{
-					//simple change the x velocty
-					_ballList[i].SwitchX();
-				}
-
-				//create a rectangle around the ceiling and check for intersections
-				_objectRect = new Rectangle((int)_ceiling.GetX(), (int)_ceiling.GetY(), 800, 10);
-				if (_ballRect.Intersects(_objectRect))
-				{
-					//simpley change the y velocity
-					_ballList[i].SwitchY();
-				}
-
-				#endregion
-
-				#region blocks
-
-				int j, k;
-				for (j = 0; j < 10; j++)
-				{
-					for (k = 0; k < 10; k++)
-					{
-						//make a rectangle aroundt he current block
-						_objectRect = new Rectangle((int)_blockList[j][k].GetX() * 78, (int)_blockList[j][k].GetY() * 36, 78, 36);
-
-						if (_ballRect.Intersects(_objectRect)) //if a ball intersects with the block...
-						{
-							if (_blockList[j][k].GetType() != Blocktype.Dead)//...and the block is not dead...
-							{
-								switch (_blockList[j][k].GetSide(_ballRect))//..than find out which side it hit and act accordingly.
-								{
-									case 1:
-										_ballList[i].SwitchX();
-										break;
-									case 2:
-										_ballList[i].SwitchY();
-										break;
-									case 3:
-										_ballList[i].SwitchX();
-										break;
-									case 4:
-										_ballList[i].SwitchY();
-										break;
-									default:
-										break;
-								}
-							}
-
-							// change the block type with this method.
-							DecrementType(_blockList[j][k]);
-						}
-					}
-				}
-
-				#endregion
-
-				_ballList[i].UpdatePosition(_ballList[i].GetVx(), _ballList[i].GetVy());
-			}
-
-			#endregion
-
-			if (padState.Buttons.A == ButtonState.Pressed && _a == 0)
-			{
-				_ballList.Add(new BreakOutBall(400, 550, -5, -5));
-				_a = 1;
-			}
-			if (padState.Buttons.A == ButtonState.Released)
-			{
-				_a = 0;
 			}
 		}
+	
+		#endregion
 
 		
-
-		#endregion
-*/
-		/*
 		#region draw
+
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
 			spriteBatch.Begin();
 
+			//draw the background
+			spriteBatch.Draw(textures[1], new Rectangle(0, 0, 800, 600), Color.Black);
+
 			//draw the ship
 			_ship.Draw(spriteBatch, fonts, textures);
 
 			//draw the enemies
-			foreach(ShooterEnemy e in _enemies[0])
-			{
-				e.Draw(spriteBatch, fonts, textures);
-			}
+			_herd.Draw(spriteBatch, fonts, textures);
+
+			spriteBatch.End();
 
 		}
 
 		#endregion
-		 */
+		 
 
 	}
 }

@@ -183,12 +183,12 @@ namespace XNASystem
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ceiling"));
 
 			//Shooter Game Textures
-			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ship"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ship"));//8
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ship_alternate"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//beginexplosion_ship_1"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//beginexplosion_ship_2"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//beginexplosion_ship_3"));
-			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//shooterenemybasic"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//shooterenemybasic")); //13
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//shooterenemybasic_alternate"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//beginexplosion_enemy_1"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//beginexplosion_enemy_2"));
@@ -198,7 +198,8 @@ namespace XNASystem
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_3"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_4"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_5"));
-			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//projectile"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//dead_ship"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//projectile"));//24
 
 
             // give the stack the main menu
@@ -230,7 +231,7 @@ namespace XNASystem
         	_handler.SetInputs(keyState, padState);
             // use the update method from the current menu
 			//_menuStack.Peek().Update(keyState, padState);
-			_menuStack.Peek().Update(_handler);
+			_menuStack.Peek().Update(_handler, gameTime);
 			//_sysDis.Update2(_handler);
             
         }
