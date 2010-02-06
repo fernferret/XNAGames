@@ -45,7 +45,7 @@ namespace XNASystem.Displays
 		}
 		
 		#region update
-		public void Update(InputHandler handler)
+		public void Update(InputHandler handler, GameTime gameTime)
 		{
 			_choice = handler.HandleMenuMovement(2, _choice);
 			if (handler.IfEnterPressed())
@@ -100,7 +100,8 @@ namespace XNASystem.Displays
 		internal void EndQuizScoreReview()
 		{
 			_menuStack.Pop();
-			_menuStack.Push(new BreakOut.BreakOut(this));
+			//_menuStack.Push(new BreakOut.BreakOut(this));
+			_menuStack.Push(new Shooter.Shooter(this));
 			_systemMain.SetStack(_menuStack);
 		}
 		public void EndGame(Score score)

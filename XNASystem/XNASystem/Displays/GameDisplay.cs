@@ -26,7 +26,7 @@ namespace XNASystem.Displays
 		}
 
 		#region update
-		public void Update(InputHandler handler)
+		public void Update(InputHandler handler, GameTime gameTime)
 		{
 			_choice = handler.HandleMenuMovement(1, _choice);
 		}
