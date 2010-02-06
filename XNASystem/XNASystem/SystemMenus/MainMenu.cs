@@ -123,7 +123,7 @@ namespace XNASystem.SystemMenus
 			spriteBatch.Begin();
 
 			// draw the background
-			spriteBatch.Draw(textures[1], new Rectangle(0, 0, 800, 600), Color.White);
+			spriteBatch.Draw(textures[1], new Rectangle(0, 0, 1280, 720), Color.White);
 
 			// draw the box whereever it may be
 			spriteBatch.Draw(textures[0], new Vector2(75, 175 + (80 * _choice)), Color.White);

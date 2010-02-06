@@ -34,7 +34,7 @@ namespace XNASystem.Utils
 			_right = new ButtonAlias("RIGHT", Buttons.DPadRight, Keys.Right, ButtonHoldable.Yes);
 			_enter = new ButtonAlias("ENTER", Buttons.A, Keys.Enter, ButtonHoldable.No);
 			_back = new ButtonAlias("BACK", Buttons.Back, Keys.Delete, ButtonHoldable.No);
-			_space = new ButtonAlias("SPACE", Buttons.Y, Keys.Space, ButtonHoldable.Yes);
+			_space = new ButtonAlias("SPACE", Buttons.Y, Keys.Space, ButtonHoldable.No);
 			_buttonAliases = new List<ButtonAlias>
 			                 	{
 			                 		_up,
@@ -49,7 +49,14 @@ namespace XNASystem.Utils
 		}
 		public void AddAlias(String n, Keys k, Buttons b, bool h)
 		{
-			_buttonAliases.Add(new ButtonAlias(n, b, k, h));
+			if (h)
+			{
+				_buttonAliases.Add(new ButtonAlias(n, b, k, ButtonHoldable.Yes));
+			}
+			else
+			{
+				_buttonAliases.Add(new ButtonAlias(n, b, k, ButtonHoldable.No));
+			}
 		}
 		public int HandleMenuMovement(int items, int c)
 		{

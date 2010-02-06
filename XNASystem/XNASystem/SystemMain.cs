@@ -161,7 +161,7 @@ namespace XNASystem
 
             //load texture package
             _texturePackage.Add(Content.Load<Texture2D>("Sprites//box"));
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//XNA"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//xnaGamesBackground"));
             _texturePackage.Add(Content.Load<Texture2D>("Sprites//grey box"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//paddle"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//wall"));
