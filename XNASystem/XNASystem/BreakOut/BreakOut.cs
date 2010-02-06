@@ -35,6 +35,7 @@ namespace XNASystem.BreakOut
 		private Rectangle _ballRect;
 		private Rectangle _objectRect;
 		private int _a;
+		private int _space;
 		private int _score;
 		private int _lives;
 		private Boolean _mainBallIsAlive;
@@ -53,6 +54,7 @@ namespace XNASystem.BreakOut
 			_ceiling = new BreakOutCeiling();
 			_main = main;
 			_a = 0;
+			_space = 0;
 			_score = 0;
 			_lives = 3;
 			_mainBallIsAlive = true;
@@ -300,6 +302,14 @@ namespace XNASystem.BreakOut
 				else
 				{
 					_paddle.UpdatePostion(padState.ThumbSticks.Left.X, 0);
+					if(keyState.IsKeyDown(Keys.Left))
+					{
+						_paddle.UpdatePostion(-1, 0);
+					}
+					if (keyState.IsKeyDown(Keys.Right))
+					{
+						_paddle.UpdatePostion(1, 0);
+					}
 				}
 
 				#endregion
@@ -321,8 +331,19 @@ namespace XNASystem.BreakOut
 						_objectRect = new Rectangle((int) _paddle.GetX(), (int) _paddle.GetY(), 199, 17);
 						if (_ballRect.Intersects(_objectRect))
 						{
-							//simply switch the y velocity 
-							_ballList[i].SwitchY();
+							switch(_paddle.GetSide(_ballRect))
+							{
+								case 0:
+									_ballList[i].SwitchY();
+									break;
+								case 1:
+									_ballList[i].SwitchX();
+									break;
+								case 2:
+									_ballList[i].SwitchX();
+									break;
+							}
+
 							_ballList[i].IncrementX(padState.ThumbSticks.Left.X);
 						}
 
@@ -359,6 +380,10 @@ namespace XNASystem.BreakOut
 						#region blocks
 
 						int j, k;
+						var blocksHitX = new List<int>();
+						var blocksHitY = new List<int>();
+
+						//check every block and record all collisions
 						for (j = 0; j < 10; j++)
 						{
 							for (k = 0; k < 10; k++)
@@ -366,34 +391,78 @@ namespace XNASystem.BreakOut
 								//make a rectangle aroundt he current block
 								_objectRect = new Rectangle((int) _blockList[j][k].GetX(), (int) _blockList[j][k].GetY(), 78, 36);
 
-								if (_ballRect.Intersects(_objectRect)) //if a ball intersects with the block...
+								//if a ball intersects with the block and that block is alive...
+								if (_ballRect.Intersects(_objectRect) && _blockList[j][k].GetType() != Blocktype.Dead)
 								{
-									if (_blockList[j][k].GetType() != Blocktype.Dead) //...and the block is not dead...
-									{
-										switch (_blockList[j][k].GetSide(_ballRect)) //..than find out which side it hit and act accordingly.
-										{
-											case 0:
-												_ballList[i].SwitchY();
-												break;
-											case 1:
-												_ballList[i].SwitchX();
-												break;
-											case 2:
-												_ballList[i].SwitchY();
-												break;
-											case 3:
-												_ballList[i].SwitchX();
-												break;
-											default:
-												_score = (_blockList[j][k].GetSide(_ballRect));
-												break;
-										}
-									}
-
-									// change the block type with this method.
-									DecrementType(_blockList[j][k]);
+									//reord the position of the block
+									blocksHitX.Add(j);
+									blocksHitY.Add(k);
 								}
 							}
+						}
+
+						//act on the collisions based on how many are hit
+						if (blocksHitX.Count == 1)
+						{
+							switch (_blockList[blocksHitX[0]][blocksHitY[0]].GetSide(_ballRect)) //..than find out which side it hit and act accordingly.
+							{
+								case 0:
+									_ballList[i].SwitchY();
+									break;
+								case 1:
+									_ballList[i].SwitchX();
+									break;
+								case 2:
+									_ballList[i].SwitchY();
+									break;
+								case 3:
+									_ballList[i].SwitchX();
+									break;
+								default:
+									break;
+							}
+
+							// change the block type with this method.
+							DecrementType(_blockList[blocksHitX[0]][blocksHitY[0]]);
+						}
+
+						else if (blocksHitY.Count == 2)
+						{
+
+							if (blocksHitX[0] == blocksHitX[1])
+							{
+								_ballList[i].SwitchX();
+							}
+
+							if (blocksHitY[0] == blocksHitY[1])
+							{
+								_ballList[i].SwitchX();
+							}
+
+							// change the block type with this method.
+							DecrementType(_blockList[blocksHitX[0]][blocksHitY[0]]);
+							DecrementType(_blockList[blocksHitX[1]][blocksHitY[1]]);
+						}
+
+						else if (blocksHitY.Count == 3)
+						{
+
+							if (blocksHitX[0] != blocksHitX[1])
+							{
+								if(blocksHitY[0] != blocksHitY[1])
+								{
+									
+								}
+							}
+
+							if (blocksHitY[0] == blocksHitY[1])
+							{
+								_ballList[i].SwitchX();
+							}
+
+							// change the block type with this method.
+							DecrementType(_blockList[blocksHitX[0]][blocksHitY[0]]);
+							DecrementType(_blockList[blocksHitX[1]][blocksHitY[1]]);
 						}
 
 						#endregion
@@ -418,7 +487,10 @@ namespace XNASystem.BreakOut
 					}
 				}
 				#endregion
-				if ((padState.Buttons.A == ButtonState.Pressed && _a == 0))
+
+				#region shooting balls
+
+				if (padState.Buttons.A == ButtonState.Pressed && _a == 0)
 				{
 					if (_lives > 0 && !_mainBallIsAlive)
 					{
@@ -431,6 +503,20 @@ namespace XNASystem.BreakOut
 				{
 					_a = 0;
 				}
+				if (keyState.IsKeyDown(Keys.Space) && _space == 0)
+				{
+					if (_lives > 0 && !_mainBallIsAlive)
+					{
+						_ballList.Add(new BreakOutBall(400, 530, (float)-.5, (float)-.5));
+					}
+					_space = 1;
+				}
+				if (keyState.IsKeyUp(Keys.Space))
+				{
+					_space = 0;
+				}
+
+				#endregion
 			}
 		}
 
