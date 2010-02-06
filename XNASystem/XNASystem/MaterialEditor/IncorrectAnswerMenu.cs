@@ -95,7 +95,7 @@ namespace XNASystem.MaterialEditor
 		#endregion
 
 		#region update
-		public void Update(InputHandler handler)
+		public void Update(InputHandler handler, GameTime gameTime)
 		{
 			var keyState = handler.GetKeyState();
 			#region arrow controls

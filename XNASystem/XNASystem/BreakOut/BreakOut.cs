@@ -253,7 +253,7 @@ namespace XNASystem.BreakOut
 
 		#region update
 
-		public void Update(InputHandler handler)
+		public void Update(InputHandler handler, GameTime gameTime)
 		{
 			// TODO: Need to update to use the new handler class!
 			var padState = handler.GetPadState();
@@ -488,9 +488,7 @@ namespace XNASystem.BreakOut
 				}
 				#endregion
 
-				#region shooting balls
-
-				if (padState.Buttons.A == ButtonState.Pressed && _a == 0)
+				if (handler.IfEnterPressed())
 				{
 					if (_lives > 0 && !_mainBallIsAlive)
 					{
@@ -498,10 +496,6 @@ namespace XNASystem.BreakOut
 						_mainBallIsAlive = true;
 					}
 					_a = 1;
-				}
-				if (padState.Buttons.A == ButtonState.Released)
-				{
-					_a = 0;
 				}
 				if (keyState.IsKeyDown(Keys.Space) && _space == 0)
 				{
