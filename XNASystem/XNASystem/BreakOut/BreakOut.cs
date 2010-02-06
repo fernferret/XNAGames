@@ -552,8 +552,6 @@ namespace XNASystem.BreakOut
 			}
 		}
 
-		#endregion
-
 		#region draw
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
