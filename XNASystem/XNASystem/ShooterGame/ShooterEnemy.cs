@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +22,8 @@ namespace XNASystem.Shooter
 		private Rectangle _collisionBox;
 		private const int Width = 50;
 		private const int Height = 50;
+		private bool _isDying = false;
+		private bool _isHurt = false;
 
 		//animation stuff
 		private float timer = 0f;
@@ -31,65 +33,30 @@ namespace XNASystem.Shooter
 		private int _currentSprite;
 		private List<int> _standardSprites = new List<int> { 13, 14 };
 		private List<int> _deadSprites = new List<int> { 15, 16, 17, 18, 19, 20, 21, 22 };
+		private List <int> _painSprites = new List<int>{ 25 };
 		private List<int> _currentSprites;
 
 		#endregion
 
-		public ShooterEnemy(float xPosition, float yPosition, Color color)
+		public ShooterEnemy(float xPosition, float yPosition, Color color, int hitPoints)
 		{
 			_xPosition = (xPosition * Width) + 2;
 			_yPosition = (yPosition * Height) + 2;
 			_color = color;
-			_currentSprite = 13;
+			_hitPoints = hitPoints;
 			_currentSprites = _standardSprites;
+			_currentSprite = _currentSprites[0];
 			frameCount = _currentSprites.Count;
-			_collisionBox = new Rectangle((int)_xPosition, (int)_yPosition, 45, 45);
+			_collisionBox = new Rectangle((int)_xPosition, (int)_yPosition, Height - 5, Width - 5);
 		}
 
-/*
-		public void SetTarget(float x, float y)
-		{
-			float angle;
-
-			_xTarget = (x * 50) + 2; ;
-			_yTarget = (y * 50) + 2;
-
-			angle = (float) Math.Tan((y - _yPosition)/(x - _xPosition));
-			_xVelocity = _speed*((float) Math.Cos(angle));
-			_yVelocity = _speed*((float) Math.Sin(angle));
-		}
-*/
 
 		public void UpdatePostion(float x, float y)
 		{
-			#region unused
-			/*
-			float xCheck = Math.Abs(_xPosition - _xTarget);
-			float yCheck = Math.Abs(_yPosition - _yTarget);
-
-			bool check = ((xCheck > (float) 0.1) || (yCheck > (float) 0.1));
-			if (check)
-			{
-				_xPosition += _xVelocity + x;
-				_yPosition += _yVelocity + y;
-			}
-			 * */
-			#endregion
-			/*if(_xPosition >= 750 || _xPosition <= 0)
-			{
-				_yPosition += 50;
-				_direction *= -1;
-			}
-			_xPosition += _direction*_speed;*/
-			//_yPosition += y;
-
-			//new movement
 			_xPosition += x;
 			_yPosition += y;
 
 			_collisionBox.Location = new Point((int)_xPosition, (int)_yPosition);
-			//Console.WriteLine(_collisionBox.Center);
-
 		}
 
 		public bool CollidesWith(Rectangle box)
@@ -97,11 +64,27 @@ namespace XNASystem.Shooter
 			return _collisionBox.Intersects(box) ; 
 		}
 
-		public void Kill()
+		public void Damage()
 		{
-			_currentSprites = _deadSprites;
-			frameCount = _currentSprites.Count + 1;
-			currentFrame = 0;
+			if (_hitPoints <= 0)
+			{
+				_currentSprites = _deadSprites;
+				frameCount = _currentSprites.Count + 1;
+				currentFrame = 0;
+				_isDying = true;
+			}
+			else
+			{
+				_hitPoints--;
+				_currentSprites = _painSprites;
+				currentFrame = 0;
+				frameCount = _currentSprites.Count;
+			}
+		}
+
+		public bool IsDying()
+		{
+			return _isDying;
 		}
 
 		public bool IsDead()
