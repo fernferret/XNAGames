@@ -100,6 +100,7 @@
     <Compile Include="MaterialEditor\SelectBookletMenu.cs" />
     <Compile Include="SystemMain.cs" />
     <Compile Include="Utils\ButtonAlias.cs" />
+    <Compile Include="Utils\DrawHelper.cs" />
     <Compile Include="Utils\InputHandler.cs" />
   </ItemGroup>
   <ItemGroup>

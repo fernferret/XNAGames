@@ -157,10 +157,11 @@ namespace XNASystem
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // load the fonts
-            _fontPackage.Add(Content.Load<SpriteFont>("Fonts//Arial"));
+			_fontPackage.Add(Content.Load<SpriteFont>("Fonts//Arial"));
+			_fontPackage.Add(Content.Load<SpriteFont>("Fonts//Awesome"));
 
             //load texture package
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//box"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//Hilight_center"));
             _texturePackage.Add(Content.Load<Texture2D>("Sprites//xnaGamesBackground"));
             _texturePackage.Add(Content.Load<Texture2D>("Sprites//grey box"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//paddle"));
@@ -187,6 +188,8 @@ namespace XNASystem
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_5"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//dead_ship"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//projectile"));//24
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//Hilight_left"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//Hilight_right"));
 
 
             // give the stack the main menu
@@ -300,7 +303,7 @@ namespace XNASystem
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _menuStack.Peek().Draw(_spriteBatch, _fontPackage, _texturePackage);
+            _menuStack.Peek().Draw(_spriteBatch, _fontPackage, _texturePackage, _graphics.PreferredBackBufferHeight,_graphics.PreferredBackBufferWidth);
             base.Draw(gameTime);
         }
         #endregion
