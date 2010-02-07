@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -31,6 +32,7 @@ namespace XNASystem.SystemMenus
 		protected Stack<IScreen> _menuStack;	// the stack of menus accumulated in the program so far
 		protected SystemMain _systemMain;		// the instance of SystemMain that controls the whole system
 
+		private List<String> _menuText = new List<string> { "Select Color Scheme (NYI)", "Select Booklet (NYI)", "Select Game (NYI)", "Back"};
 		#endregion
 
 		#region constructor
@@ -91,14 +93,14 @@ namespace XNASystem.SystemMenus
 		/// <param name="spriteBatch"> the object needed to draw things in XNA</param>
 		/// <param name="fonts"> a list of fonts that cn be used in this screen</param>
 		/// <param name="textures"> a list of textures that can be used to draw this screens</param>
-		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures, int height, int width)
+		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
-			spriteBatch.Begin();
+/*			spriteBatch.Begin();
 
 			// draw the background
-			spriteBatch.Draw(textures[1], new Rectangle(0, 0, width, height), Color.White);
+			spriteBatch.Draw(textures[1], new Rectangle(0, 0, SystemMain.Width, SystemMain.Height), Color.White);
 
-			// draw te selection box
+			// draw the selection box
 			spriteBatch.Draw(textures[0], new Vector2(75, 175 + (100 * _choice)), Color.White);
 
 			// draw the titl
@@ -109,6 +111,21 @@ namespace XNASystem.SystemMenus
 			spriteBatch.DrawString(fonts[0], "Select Booklet (NYI)", new Vector2(100, 300), Color.Black);
 			spriteBatch.DrawString(fonts[0], "Select Game (NYI)", new Vector2(100, 400), Color.Black);
 			spriteBatch.DrawString(fonts[0], "Back", new Vector2(100, 500), Color.Black);
+
+			spriteBatch.End();*/
+			spriteBatch.Begin();
+
+			spriteBatch.Draw(textures[1], new Rectangle(0, 0, SystemMain.Width, SystemMain.Height), Color.White);
+
+			// draw the box
+			//var widthOfCurrentString = (int)(Math.Ceiling(_currentFont.MeasureString(_menuText[_choice]).X));
+			SystemMain.DrawHelper.DrawSelection(new[] { textures[0], textures[25], textures[26] }, SystemMain.DrawHelper.GetDrawLocations(_menuText)[_choice], (int)(Math.Ceiling(fonts[1].MeasureString(_menuText[_choice]).X)));
+
+			// draw the menu title
+			SystemMain.DrawHelper.DrawTitleCentered(fonts[2], "Options Menu");
+
+			//draw the menu options
+			SystemMain.DrawHelper.DrawMenu(_menuText, fonts[1]);
 
 			spriteBatch.End();
 		}

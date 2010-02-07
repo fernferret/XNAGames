@@ -12,6 +12,6 @@ namespace XNASystem.Interfaces
 
 		void Update(InputHandler handler, GameTime gameTime);
 
-		void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures, int h, int w);
+		void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures);
 	}
 }

@@ -20,11 +20,13 @@ namespace XNASystem.Displays
 		private String _player;
 		private Stack<Interfaces.IScreen> _menuStack;
 		private SystemMain _systemMain;
+		private List<String> _menuText = new List<string> { "Yes! (Start Quiz)", "No! (Return to Menu)" };
 
 		protected int _up;
 		protected int _down;
 		protected int _enter;
 		protected int _choice;
+
 
 
 		public SystemDisplay(Stack<IScreen> screens, SystemMain main)
@@ -72,12 +74,12 @@ namespace XNASystem.Displays
 		}
 		#endregion
 
-		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures, int height, int width)
+		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
-			spriteBatch.Begin();
+			/*spriteBatch.Begin();
 
 			// draw the background
-			spriteBatch.Draw(textures[1], new Rectangle(0, 0, width, height), Color.White);
+			spriteBatch.Draw(textures[1], new Rectangle(0, 0, SystemMain.Width, SystemMain.Height), Color.White);
 
 			// draw the box whereever it may be
 			spriteBatch.Draw(textures[0], new Vector2(75, 175 + (75 * _choice)), Color.White);
@@ -88,6 +90,21 @@ namespace XNASystem.Displays
 			//draw the menu options
 			spriteBatch.DrawString(fonts[0], "Yes! (Start Quiz)", new Vector2(100, 200), Color.Black);
 			spriteBatch.DrawString(fonts[0], "No! (Return to Menu)", new Vector2(100, 275), Color.Black);
+			spriteBatch.End();*/
+			spriteBatch.Begin();
+
+			spriteBatch.Draw(textures[1], new Rectangle(0, 0, SystemMain.Width, SystemMain.Height), Color.White);
+
+			// draw the box
+			//var widthOfCurrentString = (int)(Math.Ceiling(_currentFont.MeasureString(_menuText[_choice]).X));
+			SystemMain.DrawHelper.DrawSelection(new[] { textures[0], textures[25], textures[26] }, SystemMain.DrawHelper.GetDrawLocations(_menuText)[_choice], (int)(Math.Ceiling(fonts[1].MeasureString(_menuText[_choice]).X)));
+
+			// draw the menu title
+			SystemMain.DrawHelper.DrawTitleCentered(fonts[2], "Are you ready to take your quiz?");
+
+			//draw the menu options
+			SystemMain.DrawHelper.DrawMenu(_menuText, fonts[1]);
+
 			spriteBatch.End();
 		}
 		/* DO NOT DELETE THIS METHOD */

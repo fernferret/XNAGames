@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using XNASystem.Displays;
 using XNASystem.Interfaces;
 using XNASystem.QuizArch;
 using XNASystem.SystemMenus;
@@ -104,7 +103,7 @@ namespace XNASystem
 			Height = 720; Width = 1280;
 			//Height = 600; Width = 800;
 			_handler = new InputHandler();
-			DrawHelper = new DrawHelper(_spriteBatch);
+			
 			// graphics initializer Also initialize the height and width to 720p
 			//_graphics = new GraphicsDeviceManager(this);
 			_graphics = new GraphicsDeviceManager(this) {PreferredBackBufferWidth = Width, PreferredBackBufferHeight = Height};
@@ -159,7 +158,7 @@ namespace XNASystem
         {
             // Create a new SpriteBatch, which can be used to Draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
+			DrawHelper = new DrawHelper(_spriteBatch);
             // load the fonts
 			_fontPackage.Add(Content.Load<SpriteFont>("Fonts//Arial"));
 			_fontPackage.Add(Content.Load<SpriteFont>("Fonts//Main"));
@@ -308,7 +307,7 @@ namespace XNASystem
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _menuStack.Peek().Draw(_spriteBatch, _fontPackage, _texturePackage, _graphics.PreferredBackBufferHeight,_graphics.PreferredBackBufferWidth);
+            _menuStack.Peek().Draw(_spriteBatch, _fontPackage, _texturePackage);
             base.Draw(gameTime);
         }
         #endregion

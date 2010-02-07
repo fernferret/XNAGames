@@ -99,12 +99,12 @@ namespace XNASystem.MaterialEditor
 		/// <param name="spriteBatch"> the object needed to draw things in XNA</param>
 		/// <param name="fonts"> a list of fonts that cn be used in this screen</param>
 		/// <param name="textures"> a list of textures that can be used to draw this screens</param>
-		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures, int height, int width)
+		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
 			spriteBatch.Begin();
 
 			// draw the background
-			spriteBatch.Draw(textures[1], new Rectangle(0, 0, width, height), Color.White);
+			spriteBatch.Draw(textures[1], new Rectangle(0, 0, SystemMain.Width, SystemMain.Height), Color.White);
 
 			// draw the selection box
 			spriteBatch.Draw(textures[0], new Vector2(75, 175 + (100 * _choice)), Color.White);

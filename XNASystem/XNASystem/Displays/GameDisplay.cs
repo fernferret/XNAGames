@@ -33,12 +33,12 @@ namespace XNASystem.Displays
 
 		#endregion
 
-		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures, int height, int width)
+		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
 			spriteBatch.Begin();
 
 			// draw the background
-			spriteBatch.Draw(textures[1], new Rectangle(0, 0, width, height), Color.White);
+			spriteBatch.Draw(textures[1], new Rectangle(0, 0, SystemMain.Width, SystemMain.Height), Color.White);
 
 			// draw the box whereever it may be
 			spriteBatch.Draw(textures[0], new Vector2(75, 175 + (75 * _choice)), Color.White);

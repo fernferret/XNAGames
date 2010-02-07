@@ -37,7 +37,6 @@ namespace XNASystem.SystemMenus
 		protected int _currentGameScore;
 		private List<String> _menuText;
 		private SpriteFont _currentFont;
-		private DrawHelper _dh;
 		#endregion
 
 		#region constructor
@@ -122,29 +121,21 @@ namespace XNASystem.SystemMenus
 		/// <param name="fonts"> a list of fonts that cn be used in this screen</param>
 		/// <param name="textures"> a list of textures that can be used to draw this screens</param>
 		#region draw
-		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures, int height, int width)
+		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
-			_dh = new DrawHelper(spriteBatch);
-			var drawLocations = _dh.GetDrawLocations(_menuText);
 			spriteBatch.Begin();
-			_currentFont = fonts[1];
 			
-			// Initialize local drawing vars
-			//var h = 200;
-			//const int hconst = 90;
-			//const int buttonOffset = 165;
-			// draw the background
-			spriteBatch.Draw(textures[1], new Rectangle(0, 0, width, height), Color.White);
+			spriteBatch.Draw(textures[1], new Rectangle(0, 0, SystemMain.Width, SystemMain.Height), Color.White);
 
-			// draw the box whereever it may be
-			var widthOfCurrentString = (int)(Math.Ceiling(_currentFont.MeasureString(_menuText[_choice]).X));
-			_dh.DrawSelection(new[] { textures[0], textures[25], textures[26] }, drawLocations[_choice], widthOfCurrentString);
+			// draw the box
+			//var widthOfCurrentString = (int)(Math.Ceiling(_currentFont.MeasureString(_menuText[_choice]).X));
+			SystemMain.DrawHelper.DrawSelection(new[] { textures[0], textures[25], textures[26] }, SystemMain.DrawHelper.GetDrawLocations(_menuText)[_choice], (int)(Math.Ceiling(fonts[1].MeasureString(_menuText[_choice]).X)));
 
 			// draw the menu title
-			_dh.DrawTitleCentered(fonts[2], "Welcome to the XNA Game System");
+			SystemMain.DrawHelper.DrawTitleCentered(fonts[2], "Welcome to the XNA Game System");
 			
 			//draw the menu options
-			_dh.DrawMenu(_menuText,fonts[1]);
+			SystemMain.DrawHelper.DrawMenu(_menuText, fonts[1]);
 
 			spriteBatch.End();
 		}

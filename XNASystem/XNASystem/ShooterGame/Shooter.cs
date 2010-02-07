@@ -165,12 +165,12 @@ namespace XNASystem.Shooter
 		#region draw
 
 
-		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures, int height, int width)
+		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
 			spriteBatch.Begin();
 
 			// draw the background
-			spriteBatch.Draw(textures[1], new Rectangle(0, 0, width, height), Color.White);
+			spriteBatch.Draw(textures[1], new Rectangle(0, 0, SystemMain.Width, SystemMain.Height), Color.White);
 
 			//draw the ship
 			_ship.Draw(spriteBatch, fonts, textures);
