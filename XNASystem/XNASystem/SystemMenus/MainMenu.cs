@@ -35,10 +35,9 @@ namespace XNASystem.SystemMenus
 		protected Stack<IScreen> _menuStack;	// the stack of menus accumulated in the program so far
 		protected SystemMain _systemMain;		// the instance of SystemMain that controls the whole system
 		protected int _currentGameScore;
-		private int _widthOfCurrentString;
-		private int _heightOfCurrentString;
 		private List<String> _menuText;
 		private SpriteFont _currentFont;
+		private DrawHelper _dh;
 		#endregion
 
 		#region constructor
@@ -52,6 +51,7 @@ namespace XNASystem.SystemMenus
 			_menuStack = stack;
 			_systemMain = main;
 			_menuText = new List<string> {"Take Quiz", "Options", "View Scores", "Edit Material", "Exit"};
+			
 		}
 
 		#endregion
@@ -124,43 +124,36 @@ namespace XNASystem.SystemMenus
 		#region draw
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures, int height, int width)
 		{
+			_dh = new DrawHelper(spriteBatch);
 			spriteBatch.Begin();
 			_currentFont = fonts[1];
-			_widthOfCurrentString = (int)(Math.Ceiling(_currentFont.MeasureString(_menuText[_choice]).X));
-			_heightOfCurrentString = (int)(Math.Ceiling(_currentFont.MeasureString(_menuText[_choice]).Y));
-			var centerOfCurrentString = Math.Floor((Double)_heightOfCurrentString/2);
+			
 			// Initialize local drawing vars
 			var h = 200;
 			const int hconst = 90;
-			var button_offset = 165;
+			const int buttonOffset = 165;
 			// draw the background
 			spriteBatch.Draw(textures[1], new Rectangle(0, 0, width, height), Color.White);
 
 			// draw the box whereever it may be
-			//spriteBatch.Draw(textures[0], new Vector2(75, 175 + (hconst * _choice)), Color.White);
-
-			spriteBatch.Draw(textures[0], new Rectangle(100, button_offset + (hconst * _choice), _widthOfCurrentString, 95), Color.White);
-			spriteBatch.Draw(textures[25], new Rectangle(76, button_offset + (hconst * _choice), 24, 95), Color.White);
-			spriteBatch.Draw(textures[26], new Rectangle(100 + _widthOfCurrentString, button_offset + (hconst * _choice), 24, 95), Color.White);
+			var widthOfCurrentString = (int)(Math.Ceiling(_currentFont.MeasureString(_menuText[_choice]).X));
+			_dh.DrawSelection(new[] { textures[0], textures[25], textures[26] }, buttonOffset + (hconst * _choice), widthOfCurrentString);
 
 			// draw the menu title
+			_dh.DrawTitleCentered();
 			spriteBatch.DrawString(_currentFont, "Welcome to the XNA Game System", new Vector2(251, 101), Color.Black);
 			spriteBatch.DrawString(_currentFont, "Welcome to the XNA Game System", new Vector2(250, 100), Color.White);
 			
 
 			//draw the menu options
-			
+
 			foreach (var str in _menuText)
 			{
 				//spriteBatch.DrawString(_currentFont, str, new Vector2(101, h+1), Color.White);
-				spriteBatch.DrawString(_currentFont, str + " (H:" + _heightOfCurrentString + ", W:" + _widthOfCurrentString + ")", new Vector2(100, h), Color.Aquamarine);
+				spriteBatch.DrawString(_currentFont, str + " (H:" + _heightOfCurrentString + ", W:" + _widthOfCurrentString + ")",
+				                       new Vector2(100, h), Color.Aquamarine);
 				h += hconst;
 			}
-			
-			//spriteBatch.DrawString(fonts[0], "Options (Disabled)", new Vector2(100, 280), Color.Black);
-			//spriteBatch.DrawString(fonts[0], "View Scores (Disabled)", new Vector2(100, 360), Color.Black);
-			//spriteBatch.DrawString(fonts[0], "Edit Material", new Vector2(100, 440), Color.Black);
-			//spriteBatch.DrawString(fonts[0], "Exit", new Vector2(100, 520), Color.Black);
 
 			spriteBatch.End();
 		}
