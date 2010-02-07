@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -65,6 +65,11 @@ namespace XNASystem.Shooter
 			if (_shot != null)
 			{
 				_shot.UpdatePostion(0, 0);
+
+				if (_shot.GetY() < 0)
+				{
+					_shot = null;
+				}
 			}
 		}
 
@@ -80,7 +85,7 @@ namespace XNASystem.Shooter
 
 		public void Shoot()
 		{
-			if (!IsDying())
+			if (!IsDying() && (_shot == null))
 			{
 				_currentSprites = _shootSprites;
 				frameCount = _currentSprites.Count;
