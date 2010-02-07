@@ -125,35 +125,26 @@ namespace XNASystem.SystemMenus
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures, int height, int width)
 		{
 			_dh = new DrawHelper(spriteBatch);
+			var drawLocations = _dh.GetDrawLocations(_menuText);
 			spriteBatch.Begin();
 			_currentFont = fonts[1];
 			
 			// Initialize local drawing vars
-			var h = 200;
-			const int hconst = 90;
-			const int buttonOffset = 165;
+			//var h = 200;
+			//const int hconst = 90;
+			//const int buttonOffset = 165;
 			// draw the background
 			spriteBatch.Draw(textures[1], new Rectangle(0, 0, width, height), Color.White);
 
 			// draw the box whereever it may be
 			var widthOfCurrentString = (int)(Math.Ceiling(_currentFont.MeasureString(_menuText[_choice]).X));
-			_dh.DrawSelection(new[] { textures[0], textures[25], textures[26] }, buttonOffset + (hconst * _choice), widthOfCurrentString);
+			_dh.DrawSelection(new[] { textures[0], textures[25], textures[26] }, drawLocations[_choice], widthOfCurrentString);
 
 			// draw the menu title
-			_dh.DrawTitleCentered();
-			spriteBatch.DrawString(_currentFont, "Welcome to the XNA Game System", new Vector2(251, 101), Color.Black);
-			spriteBatch.DrawString(_currentFont, "Welcome to the XNA Game System", new Vector2(250, 100), Color.White);
+			_dh.DrawTitleCentered(fonts[2], "Welcome to the XNA Game System");
 			
-
 			//draw the menu options
-
-			foreach (var str in _menuText)
-			{
-				//spriteBatch.DrawString(_currentFont, str, new Vector2(101, h+1), Color.White);
-				spriteBatch.DrawString(_currentFont, str + " (H:" + _heightOfCurrentString + ", W:" + _widthOfCurrentString + ")",
-				                       new Vector2(100, h), Color.Aquamarine);
-				h += hconst;
-			}
+			_dh.DrawMenu(_menuText,fonts[1]);
 
 			spriteBatch.End();
 		}

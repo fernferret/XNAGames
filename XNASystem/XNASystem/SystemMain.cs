@@ -43,6 +43,8 @@ namespace XNASystem
 	{
 		#region variable creation
 
+		public static int Height;
+		public static int Width;
 		private Score _score;
 		// graphics variables
 		private GraphicsDeviceManager _graphics;
@@ -68,6 +70,7 @@ namespace XNASystem
     	private Quiz _currentQuiz;
 
 		private static InputHandler _handler;
+		public static DrawHelper DrawHelper;
 		//public static List<ButtonAlias> PressedButtons = new List<ButtonAlias>();
 		#region old possibly unneed variables
 		/*        // stack of menus being drawn
@@ -98,12 +101,13 @@ namespace XNASystem
 		// System Constructor, performs initialization
 		public SystemMain()
 		{
-			
-
+			Height = 720; Width = 1280;
+			//Height = 600; Width = 800;
 			_handler = new InputHandler();
+			DrawHelper = new DrawHelper(_spriteBatch);
 			// graphics initializer Also initialize the height and width to 720p
 			//_graphics = new GraphicsDeviceManager(this);
-			_graphics = new GraphicsDeviceManager(this) {PreferredBackBufferWidth = 1280, PreferredBackBufferHeight = 720};
+			_graphics = new GraphicsDeviceManager(this) {PreferredBackBufferWidth = Width, PreferredBackBufferHeight = Height};
 			//content location
 			Content.RootDirectory = "Content";
 
@@ -158,11 +162,12 @@ namespace XNASystem
 
             // load the fonts
 			_fontPackage.Add(Content.Load<SpriteFont>("Fonts//Arial"));
-			_fontPackage.Add(Content.Load<SpriteFont>("Fonts//Awesome"));
+			_fontPackage.Add(Content.Load<SpriteFont>("Fonts//Main"));
+			_fontPackage.Add(Content.Load<SpriteFont>("Fonts//Title"));
 
             //load texture package
             _texturePackage.Add(Content.Load<Texture2D>("Sprites//Hilight_center"));
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//xnaGamesBackground"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//xnaGamesBackground_"+_graphics.PreferredBackBufferWidth+"_"+_graphics.PreferredBackBufferHeight));
             _texturePackage.Add(Content.Load<Texture2D>("Sprites//grey box"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//paddle"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//wall"));
@@ -336,15 +341,7 @@ namespace XNASystem
 		public void SetCurrentBooklet(int index)
 		{
 			_currentBooklet = _booklets[index];
-			if (_currentBooklet.GetAsList().Count == 0)
-			{
-				_currentQuiz = null;
-			}
-			else
-			{
-				_currentQuiz = _currentBooklet.GetSpecificQuiz(0);
-
-			}
+			_currentQuiz = _currentBooklet.GetAsList().Count == 0 ? null : _currentBooklet.GetSpecificQuiz(0);
 		}
 
 		public void SetCurrentQuiz(int index)
