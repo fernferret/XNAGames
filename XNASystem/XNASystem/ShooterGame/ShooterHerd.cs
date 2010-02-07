@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -79,14 +79,14 @@ namespace XNASystem.ShooterGame
 				if(e.GetX() <= 0)
 				{
 					_direction = 1;
-					_yCounter = e.GetWidth();
+					_yCounter = e.GetWidth()-2;
 
 				}
 				
 				if((e.GetX()) == Width)
 				{
 					_direction = -1;
-					_yCounter = 100;
+					_yCounter = e.GetWidth()-2;
 				}
 			}
 
@@ -148,17 +148,20 @@ namespace XNASystem.ShooterGame
 				if(e.CollidesWith(s.GetCollisionBox()))
 				{
 					s.Kill();
-					e.Kill();
+					e.Damage();
 					return true;
 				}
 				
 				if(s.GetShot() != null)
 				{
-					if (e.CollidesWith(s.GetShotCollisionBox()))
+					if (!e.IsDying())
 					{
-						e.Kill();
-						s.KillProjectile();
-						return true;
+						if (e.CollidesWith(s.GetShotCollisionBox()))
+						{
+							e.Damage();
+							s.KillProjectile();
+							return true;
+						}
 					}
 				}
 			}
