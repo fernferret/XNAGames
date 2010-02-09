@@ -37,6 +37,7 @@ namespace XNASystem.SystemMenus
 		protected int _currentGameScore;
 		private List<String> _menuText;
 		private SpriteFont _currentFont;
+		private bool _addHelpBox = true;
 		#endregion
 
 		#region constructor
@@ -124,7 +125,12 @@ namespace XNASystem.SystemMenus
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
 			spriteBatch.Begin();
-			
+			if(_addHelpBox)
+			{
+				SystemMain.DrawHelper.AddHelpBox(new[] { textures[29], textures[27], textures[28] }, 600, 300, 300, 200);
+				//SystemMain.DrawHelper.AddHelpBox(new[] { textures[29], textures[27], textures[28] }, 500, 500, 100, 100);
+				_addHelpBox = false;
+			}
 			spriteBatch.Draw(textures[1], new Rectangle(0, 0, SystemMain.Width, SystemMain.Height), Color.White);
 
 			// draw the box
@@ -133,6 +139,8 @@ namespace XNASystem.SystemMenus
 
 			// draw the menu title
 			SystemMain.DrawHelper.DrawTitleCentered(fonts[2], "Welcome to the XNA Game System");
+			SystemMain.DrawHelper.DrawHelpBox();
+			//SystemMain.DrawHelper.DrawRectangle(new[] {textures[29],textures[27],textures[28]},300,300,300,200);
 			
 			//draw the menu options
 			SystemMain.DrawHelper.DrawMenu(_menuText, fonts[1]);

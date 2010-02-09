@@ -50,7 +50,7 @@ namespace XNASystem
 		private SpriteBatch _spriteBatch;
 
         // initialize a list of fonts
-        private readonly List<SpriteFont> _fontPackage;
+        public static List<SpriteFont> FontPackage;
 
         // initilize a list of textures
         private readonly List<Texture2D> _texturePackage;
@@ -113,7 +113,7 @@ namespace XNASystem
             GamerServicesDispatcher.Initialize(Services);
 
 			// initialize font package and texture package
-			_fontPackage = new List<SpriteFont>();
+			FontPackage = new List<SpriteFont>();
 			_texturePackage = new List<Texture2D>();
 
 			// create the stack
@@ -160,9 +160,9 @@ namespace XNASystem
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 			DrawHelper = new DrawHelper(_spriteBatch);
             // load the fonts
-			_fontPackage.Add(Content.Load<SpriteFont>("Fonts//Arial"));
-			_fontPackage.Add(Content.Load<SpriteFont>("Fonts//Main"));
-			_fontPackage.Add(Content.Load<SpriteFont>("Fonts//Title"));
+			FontPackage.Add(Content.Load<SpriteFont>("Fonts//Arial"));
+			FontPackage.Add(Content.Load<SpriteFont>("Fonts//Main"));
+			FontPackage.Add(Content.Load<SpriteFont>("Fonts//Title"));
 
             //load texture package
             _texturePackage.Add(Content.Load<Texture2D>("Sprites//Hilight_center"));
@@ -194,6 +194,9 @@ namespace XNASystem
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//projectile"));//24
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//Hilight_left"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//Hilight_right"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//UI//UIBorder"));//27
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//UI//UIFill"));//28
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//UI//UICorner"));//29
 
 
             // give the stack the main menu
@@ -307,7 +310,7 @@ namespace XNASystem
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _menuStack.Peek().Draw(_spriteBatch, _fontPackage, _texturePackage);
+            _menuStack.Peek().Draw(_spriteBatch, FontPackage, _texturePackage);
             base.Draw(gameTime);
         }
         #endregion
