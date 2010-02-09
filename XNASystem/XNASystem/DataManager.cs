@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
@@ -27,6 +26,50 @@ namespace XNASystem
         public NameWrapper()
         {
             BookletNames = new List<string>();
+        }
+
+        public NameWrapper(byte[] bytes)
+        {
+            BookletNames = new List<string>();
+
+            int position = 0;
+
+            //Find how many strings to deserialize
+            int num = DataManager.ReadLengthForNextSection(bytes, ref position);
+
+            int nameIndex = 0;
+            for (nameIndex = 0; nameIndex < num; nameIndex++)
+            {
+                //Construct and add the next name
+                BookletNames.Add(DataManager.ReadStringFromByteArray(bytes, ref position));
+            }
+        }
+
+        public byte[] ToByteArray()
+        {
+            List<byte> bytes = new List<byte>();
+
+            //Set number of strings
+            bytes.Add((byte)(BookletNames.Count / byte.MaxValue));
+            bytes.Add((byte)(BookletNames.Count % byte.MaxValue));
+
+            //Serialize each string
+            int index = 0;
+            for (index = 0; index < BookletNames.Count; index++ )
+            {
+                string name = BookletNames[index];
+                //Set the length header of the current name
+                bytes.Add((byte)(name.Length / byte.MaxValue));
+                bytes.Add((byte)(name.Length % byte.MaxValue));
+
+                //Serialize the name
+                foreach (char c in name)
+                {
+                    bytes.Add((byte)c);
+                }
+            }
+            
+            return bytes.ToArray();
         }
     }
 
@@ -54,23 +97,17 @@ namespace XNASystem
 
         public void Close()
         {
-            while (_operationPending)
-            {
-                ;
-            }
+            this.WaitOnOperation();
             FindNameCabinet(0, CabinetMode.Save, "name_file.sys");
         }
 
 		public List<Booklet> LoadBooklets(PlayerIndex playerIndex)
 		{
+            this.WaitOnOperation();
 		    List<Booklet> booklets = new List<Booklet>();
 		    foreach (string bookletName in _nameWrapper.BookletNames)
 		    {
 		        FindCabinet(playerIndex, CabinetMode.Open, bookletName);
-		        while (_operationPending)
-		        {
-		            ;
-		        }
 		        booklets.Add(_currentBooklet);
 		    }
 
@@ -97,7 +134,8 @@ namespace XNASystem
 		}
 
 		public bool SaveBooklet(PlayerIndex playerIndex, Booklet booklet)
-		{
+        {
+            this.WaitOnOperation();
 			try
 			{
 			    _currentBooklet = booklet;
@@ -193,10 +231,10 @@ namespace XNASystem
 
                 using (FileStream fileStream = File.Create(filenamePath))
                 {
+                    BinaryWriter myBw = new BinaryWriter(fileStream);
                     try
                     {
-                        BinaryFormatter myBf = new BinaryFormatter();
-                        myBf.Serialize(fileStream, booklet);
+                        myBw.Write(booklet.ToByteArray());
                     }
                     catch (Exception e)
                     {
@@ -204,6 +242,8 @@ namespace XNASystem
                     }
                     finally
                     {
+                        myBw.Flush();
+                        myBw.Close();
                         fileStream.Close();
                         _operationPending = false;
                         storageContainer.Dispose();
@@ -220,13 +260,15 @@ namespace XNASystem
 
                 using (FileStream fileStream = File.Create(filenamePath))
                 {
+                    BinaryWriter myBw = new BinaryWriter(fileStream);
                     try
                     {
-                        BinaryFormatter myBf = new BinaryFormatter();
-                        myBf.Serialize(fileStream, nameWrapper);
+                        myBw.Write(_nameWrapper.ToByteArray());
                     }
                     finally
                     {
+                        myBw.Flush();
+                        myBw.Close();
                         fileStream.Close();
                         _operationPending = false;
                         storageContainer.Dispose();
@@ -243,11 +285,11 @@ namespace XNASystem
 
                 using (FileStream fileStream = File.OpenRead(filenamePath))
                 {
+                    BinaryReader myBr = new BinaryReader(fileStream);
                     try
                     {
-                        BinaryFormatter myBf = new BinaryFormatter();
                         fileStream.Position = 0;
-                        _currentBooklet = (Booklet) myBf.Deserialize(fileStream);
+                        _currentBooklet = new Booklet(myBr.ReadBytes((int)fileStream.Length));
                     }
                     finally
                     {
@@ -269,11 +311,11 @@ namespace XNASystem
                 {
                     using (FileStream fileStream = File.OpenRead(filenamePath))
                     {
+                        BinaryReader myBr = new BinaryReader(fileStream);
                         try
                         {
-                            BinaryFormatter myBf = new BinaryFormatter();
                             fileStream.Position = 0;
-                            _nameWrapper = (NameWrapper) myBf.Deserialize(fileStream);
+                            _nameWrapper = new NameWrapper(myBr.ReadBytes((int)fileStream.Length));
                         }
                         catch (Exception e)
                         {
@@ -281,6 +323,7 @@ namespace XNASystem
                         }
                         finally
                         {
+                            myBr.Close();
                             fileStream.Close();
                             _operationPending = false;
                             storageContainer.Dispose();
@@ -294,6 +337,45 @@ namespace XNASystem
                 }
             }
         }
+
+        private void WaitOnOperation()
+        {
+            while (this._operationPending)
+            {
+                ;
+            }
+        }
+
+        public static string ReadStringFromByteArray(byte[] bytes, ref int position)
+        {
+            //Find the end of the string using the first two bytes
+            int stringEnd = bytes[position]*byte.MaxValue + bytes[position + 1] + 2 + position;
+            position += 2;
+            string returnString = "";
+
+            while (position < stringEnd)
+            {
+                returnString += (char)bytes[position];
+                position++;
+            }
+
+            return returnString;
+        }
+
+        public static bool ReadBooleanFromByteArray(byte[] bytes, ref int position)
+        {
+            bool b = (bytes[position] == 1 ? true : false);
+            position++;
+            return b;
+        }
+
+        public static int ReadLengthForNextSection(byte[] bytes, ref int position)
+        {
+            int lengthOfSection = bytes[position]*byte.MaxValue + bytes[position + 1];
+            position += 2;
+            return lengthOfSection;
+        }
+
         #endregion
     }
 }

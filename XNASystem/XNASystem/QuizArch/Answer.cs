@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace XNASystem.QuizArch
 {
@@ -12,6 +13,12 @@ namespace XNASystem.QuizArch
 			TheAnswer = a;
 			_correct = c;
 		}
+
+        public Answer(byte[] bytes, ref int position)
+        {
+            TheAnswer = DataManager.ReadStringFromByteArray(bytes, ref position);
+            _correct = DataManager.ReadBooleanFromByteArray(bytes, ref position);
+        }
 
 		public string TheAnswer { get; private set; }
 
@@ -34,5 +41,23 @@ namespace XNASystem.QuizArch
 		{
 			return _questionAnswered;
 		}
+
+        public byte[] ToByteArray()
+        {
+            List<byte> bytes = new List<byte>();
+
+            //Serializing answer
+            bytes.Add((byte)(TheAnswer.Length / byte.MaxValue));
+            bytes.Add((byte)(TheAnswer.Length % byte.MaxValue));
+            foreach (char c in TheAnswer)
+            {
+                bytes.Add((byte)c);
+            }
+
+            //Serialize whether the answer is correct
+            bytes.Add((byte)(_correct ? 1 : 0));
+
+            return bytes.ToArray();
+        }
 	}
 }

@@ -25,6 +25,25 @@ namespace XNASystem.QuizArch
 			_status = Status.NotStarted;
 		}
 
+        public Booklet(byte[] bytes)
+        {
+            int position = 0;
+            _title = DataManager.ReadStringFromByteArray(bytes, ref position);
+
+            //Initialize quizzes
+            _quizStack = new Stack<Quiz>();
+            int numberOfQuizzes = DataManager.ReadLengthForNextSection(bytes, ref position);
+            int index = 0;
+            for (index = 0; index < numberOfQuizzes; index++)
+            {
+                Quiz quiz = new Quiz(bytes, ref position);
+                _quizStack.Push(quiz);
+            }
+
+            _completedQuizStack = new Stack<Quiz>();
+            _status = Status.NotStarted;
+        }
+
 		public Booklet(String title, Stack<Quiz> quizzes)
 		{
 			_title = title;
@@ -161,5 +180,28 @@ namespace XNASystem.QuizArch
 		{
 			return GetAsList()[currentQuiz];
 		}
+
+        public byte[] ToByteArray()
+        {
+            List<byte> bytes = new List<byte>();
+            
+            //Serializing title
+            bytes.Add((byte)(this._title.Length / byte.MaxValue));
+            bytes.Add((byte)(this._title.Length % byte.MaxValue));
+            foreach (char c in this._title)
+            {
+                bytes.Add((byte)c);
+            }
+
+            //Serialize quizzes
+            bytes.Add((byte)(this._quizStack.Count / byte.MaxValue));
+            bytes.Add((byte)(this._quizStack.Count % byte.MaxValue));
+            foreach (Quiz q in this._quizStack)
+            {
+                bytes.AddRange(q.ToByteArray());
+            }
+
+            return bytes.ToArray();
+        }
 	}
 }
