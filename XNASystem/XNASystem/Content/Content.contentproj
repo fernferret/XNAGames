@@ -229,6 +229,168 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_1.png">
+      <Name>ShooterBoss_explosion_1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_10.png">
+      <Name>ShooterBoss_explosion_10</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_11.png">
+      <Name>ShooterBoss_explosion_11</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_12.png">
+      <Name>ShooterBoss_explosion_12</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_13.png">
+      <Name>ShooterBoss_explosion_13</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_14.png">
+      <Name>ShooterBoss_explosion_14</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_15.png">
+      <Name>ShooterBoss_explosion_15</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_16.png">
+      <Name>ShooterBoss_explosion_16</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_17.png">
+      <Name>ShooterBoss_explosion_17</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_18.png">
+      <Name>ShooterBoss_explosion_18</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_19.png">
+      <Name>ShooterBoss_explosion_19</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_20.png">
+      <Name>ShooterBoss_explosion_20</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_21.png">
+      <Name>ShooterBoss_explosion_21</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_22.png">
+      <Name>ShooterBoss_explosion_22</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_23.png">
+      <Name>ShooterBoss_explosion_23</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_24.png">
+      <Name>ShooterBoss_explosion_24</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_25.png">
+      <Name>ShooterBoss_explosion_25</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_26.png">
+      <Name>ShooterBoss_explosion_26</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_27.png">
+      <Name>ShooterBoss_explosion_27</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_28.png">
+      <Name>ShooterBoss_explosion_28</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_29.png">
+      <Name>ShooterBoss_explosion_29</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_3.png">
+      <Name>ShooterBoss_explosion_3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_30.png">
+      <Name>ShooterBoss_explosion_30</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_31.png">
+      <Name>ShooterBoss_explosion_31</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_32.png">
+      <Name>ShooterBoss_explosion_32</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_33.png">
+      <Name>ShooterBoss_explosion_33</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_4.png">
+      <Name>ShooterBoss_explosion_4</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_5.png">
+      <Name>ShooterBoss_explosion_5</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_6.png">
+      <Name>ShooterBoss_explosion_6</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_7.png">
+      <Name>ShooterBoss_explosion_7</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_8.png">
+      <Name>ShooterBoss_explosion_8</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\ShooterGame\ShooterBoss_explosion_9.png">
+      <Name>ShooterBoss_explosion_9</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="XML\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

@@ -14,14 +14,14 @@ namespace XNASystem.ShooterGame
 		#region variables
 
 		protected float _xPosition;
-		private float _yPosition;
+		protected float _yPosition;
 		private float _speed = 2;
 		private int _hitPoints;
 		private readonly int _xGun;
 		private readonly int _yGun;
 		private int _shotSpeed;
 		private readonly Color _color;
-		private Rectangle _collisionBox;
+		protected Rectangle _collisionBox;
 		private readonly int _width;
 		private readonly int _height;
 		private readonly int _shotWidth;

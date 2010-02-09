@@ -24,16 +24,11 @@ namespace XNASystem.Shooter
 		private readonly List<ShooterEnemy> _enemies;
 		private ShooterHerd _herd;
 		private ShooterHerd _bossHerd;
-		//private ShooterBoss _boss;
-		//projectile list
 
 		public Shooter(SystemDisplay main)
 		{
 			_main = main;
 			_ship = new ShooterShip();
-			//_boss = new ShooterBoss(375 - 75, 0, Color.White, 99);
-			//_shipRect = new Rectangle(_ship.GetX(), _ship.GetY(), _ship.GetWidth(), _ship.GetHeight());
-
 
 			#region sample level - delete when xml works
 
@@ -41,9 +36,8 @@ namespace XNASystem.Shooter
 			_bossHerd = new ShooterHerd(1);
 
 			_bossHerd.AddEnemy(new ShooterBossObject(2, 0));
-			//_bossHerd.AddEnemy(new ShooterBossObject(3, 0));
 			
-			_herd.AddEnemy(new ShooterEnemySuper(1, 1));
+			/*_herd.AddEnemy(new ShooterEnemySuper(1, 1));
 			_herd.AddEnemy(new ShooterEnemySuper(2, 1));
 			_herd.AddEnemy(new ShooterEnemySuper(3, 1));
 			_herd.AddEnemy(new ShooterEnemySuper(4, 1));
@@ -63,7 +57,7 @@ namespace XNASystem.Shooter
 			_herd.AddEnemy(new ShooterEnemyAdvanced(7, 2));
 			_herd.AddEnemy(new ShooterEnemyAdvanced(8, 2));
 			_herd.AddEnemy(new ShooterEnemyAdvanced(9, 2));
-			_herd.AddEnemy(new ShooterEnemyAdvanced(10, 2));
+			_herd.AddEnemy(new ShooterEnemyAdvanced(10, 2));*/
 
 			
 			_herd.AddEnemy(new ShooterEnemyBasic(1, 3));
