@@ -28,7 +28,7 @@ namespace XNASystem.Shooter
 		private int _currentSprite;
 		private List<int> _standardSprites = new List<int> {8};
 		private List<int> _shootSprites = new List<int> {9};
-		private List<int> _deadSprites = new List<int> {10, 11, 12, 18, 19, 20, 21, 22, 23};
+		private List<int> _deadSprites = new List<int> { 10, 11, 12, 18, 19, 20, 21, 22, 29, 30, 31, 23 };
 		//private List<int> _explodeSprites = new List<int> {18, 19, 20, 21, 22};
 		private List<int> _currentSprites;
 		private Rectangle _collisionBox;
@@ -91,7 +91,7 @@ namespace XNASystem.Shooter
 				frameCount = _currentSprites.Count;
 				currentFrame = 0;
 
-				_shot = new ShooterProjectile(_xPosition + Width/2*1 - 5, _yPosition - 7, 0, 15, Color.White);
+				_shot = new ShooterProjectile(_xPosition + Width/2*1 - 5, _yPosition - 7, 10, 10, 0, 15, Color.White);
 			}
 		}
 

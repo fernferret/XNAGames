@@ -78,8 +78,14 @@
     <Compile Include="MaterialEditor\EditorMainMenu.cs" />
     <Compile Include="MaterialEditor\EditorMenu.cs" />
     <Compile Include="MaterialEditor\IncorrectAnswerMenu.cs" />
+    <Compile Include="ShooterGame\ShooterBossObject.cs" />
     <Compile Include="ShooterGame\Shooter.cs" />
+    <Compile Include="ShooterGame\ShooterBoss.cs" />
     <Compile Include="ShooterGame\ShooterEnemy.cs" />
+    <Compile Include="ShooterGame\ShooterEnemyAdvanced.cs" />
+    <Compile Include="ShooterGame\ShooterEnemyBasic.cs" />
+    <Compile Include="ShooterGame\ShooterEnemySuper.cs" />
+    <Compile Include="ShooterGame\ShooterGameObject.cs" />
     <Compile Include="ShooterGame\ShooterHerd.cs" />
     <Compile Include="ShooterGame\ShooterProjectile.cs" />
     <Compile Include="ShooterGame\ShooterShip.cs" />

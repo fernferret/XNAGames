@@ -119,10 +119,9 @@ namespace XNASystem.Shooter
 		}
 
 		//shoot method
-
 		public ShooterProjectile GetShot()
 		{
-			return new ShooterProjectile(_xPosition + Width - 5, _yPosition + 7, 0, -3, Color.Red);
+			return new ShooterProjectile(_xPosition + Width - 5, _yPosition + 7, 10, 10, 0, -3, Color.Red);
 		}
 
 		public float GetX()

@@ -11,10 +11,10 @@ namespace XNASystem.ShooterGame
 	{
 		private float _xPosition;
 		private float _yPosition;
-		private float _xVelocity;
-		private float _yVelocity;
-		private const int Width = 10;
-		private const int Height = 10;
+		private readonly float _xVelocity;
+		private readonly float _yVelocity;
+		private int _width = 10;
+		private int _height = 10;
 		private Rectangle _collisionBox;
 		private Color _color;
 
@@ -27,14 +27,18 @@ namespace XNASystem.ShooterGame
 		private List<int> _standardSprites = new List<int> { 24 };
 		private List<int> _currentSprites;
 
-		public ShooterProjectile(float xPosition, float yPosition, float xVelocity, float yVelocity, Color color)
+		public ShooterProjectile(float xPosition, float yPosition, int width, int height, float xVelocity, float yVelocity, Color color)
 		{
 			_xPosition = xPosition;
 			_yVelocity = yVelocity;
 			_xVelocity = xVelocity;
 			_yPosition = yPosition;
+			_width = width;
+			_height = height;
 			_currentSprite = _standardSprites[0];
 			_color = color;
+			_collisionBox.Height = _height;
+			_collisionBox.Width = _width;
 		}
 
 		public void UpdatePostion(float x, float y)
@@ -70,7 +74,7 @@ namespace XNASystem.ShooterGame
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
-			spriteBatch.Draw(textures[_currentSprite], new Vector2(_xPosition, _yPosition), _color);
+			spriteBatch.Draw(textures[_currentSprite], _collisionBox, _color);
 		}
 
 		public float GetY()

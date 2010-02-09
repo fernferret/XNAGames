@@ -16,28 +16,29 @@ namespace XNASystem.ShooterGame
 	{
 		private const int Width = 755;  //Approximately 16 positions across the screen
 		private const int Height = 600;
-		private float _speed = 1;
+		private readonly float _speed;
 		private float _yCounter = 0;
 		private int _total = 0;
 		private int _direction = 1;
-		private List<ShooterEnemy> _enemies;
+		private List<ShooterGameObject> _enemies;
 		private List<ShooterProjectile> _projectiles;
 		Random rndElement = new Random();
 
 
-		public ShooterHerd()
+		public ShooterHerd(float speed)
 		{
-			_enemies = new List<ShooterEnemy>();
+			_speed = speed;
+			_enemies = new List<ShooterGameObject>();
 			_projectiles = new List<ShooterProjectile>();
 		}
 
-		public void AddEnemy(ShooterEnemy e)
+		public void AddEnemy(ShooterGameObject e)
 		{
 			_total++;
 			_enemies.Add(e);
 		}
 
-		public void KillEnemy(ShooterEnemy e)
+		public void KillEnemy(ShooterGameObject e)
 		{
 			_enemies.Remove(e);
 		}
@@ -73,7 +74,7 @@ namespace XNASystem.ShooterGame
 				yInc = 0;
 			}
 
-			foreach(ShooterEnemy e in _enemies)
+			foreach(ShooterGameObject e in _enemies)
 			{
 
 				if(e.GetX() <= 0)
@@ -90,7 +91,7 @@ namespace XNASystem.ShooterGame
 				}
 			}
 
-			foreach(ShooterEnemy e in _enemies)
+			foreach(ShooterGameObject e in _enemies)
 			{
 				e.UpdatePostion(xInc, yInc);
 			}
@@ -117,7 +118,7 @@ namespace XNASystem.ShooterGame
 
 		public void AnimateSprite(GameTime gameTime)
 		{
-			foreach(ShooterEnemy e in _enemies)
+			foreach(ShooterGameObject e in _enemies)
 			{
 				e.AnimateSprite(gameTime);
 
@@ -131,7 +132,7 @@ namespace XNASystem.ShooterGame
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
-			foreach (ShooterEnemy e in _enemies)
+			foreach (ShooterGameObject e in _enemies)
 			{
 				e.Draw(spriteBatch, fonts, textures);
 			}
@@ -143,9 +144,9 @@ namespace XNASystem.ShooterGame
 
 		public bool CollidesWith(ShooterShip s)
 		{
-			foreach(ShooterEnemy e in _enemies)
+			foreach(ShooterGameObject e in _enemies)
 			{
-				if(e.CollidesWith(s.GetCollisionBox()))
+				if(e.GetCollisionBox().Intersects(s.GetCollisionBox()))
 				{
 					s.Kill();
 					e.Damage();
@@ -156,7 +157,7 @@ namespace XNASystem.ShooterGame
 				{
 					if (!e.IsDying())
 					{
-						if (e.CollidesWith(s.GetShotCollisionBox()))
+						if (e.GetCollisionBox().Intersects((s.GetShotCollisionBox())))
 						{
 							e.Damage();
 							s.KillProjectile();

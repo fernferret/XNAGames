@@ -200,6 +200,13 @@ namespace XNASystem
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_5"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//dead_ship"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//projectile"));//24
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//shooterenemybasic_pain"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//shooterboss"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//shooterboss_alternative"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//shooterboss_pain"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_6"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_7"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_8"));
 
 
             // give the stack the main menu
