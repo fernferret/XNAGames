@@ -8,12 +8,18 @@ namespace XNASystem.BreakOut
 	class BreakOutWall : IGameObject
 	{
 		private readonly int _side;
+		private readonly int _height;
+		private readonly int _width;
+		private readonly int _buffer;
 
 		#region constructor
 
-		public BreakOutWall(int side)
+		public BreakOutWall(int side, int width, int height)
 		{
 			_side = side;
+			_height = height;
+			_width = width;
+			_buffer = (width%78)/2;
 		}
 
 		#endregion
@@ -31,7 +37,7 @@ namespace XNASystem.BreakOut
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
-			spriteBatch.Draw(textures[4], new Vector2(_side * 790, 0), Color.White);
+			spriteBatch.Draw(textures[4], new Rectangle(_side * (_width - _buffer), 0, _buffer, _height),Color.White );
 		}
 
 		#endregion
@@ -40,7 +46,7 @@ namespace XNASystem.BreakOut
 
 		public float GetX()
 		{
-			return _side * 790;
+			return _side * (_width - _buffer);
 		}
 
 		public float GetY()

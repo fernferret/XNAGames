@@ -97,6 +97,8 @@ namespace XNASystem
 			_handler = new InputHandler();
 			// graphics initializer
 			_graphics = new GraphicsDeviceManager(this);
+			_graphics.PreferredBackBufferHeight = 720;
+			_graphics.PreferredBackBufferWidth = 1280;
 
 			//content location
 			Content.RootDirectory = "Content";
@@ -167,10 +169,10 @@ namespace XNASystem
             _texturePackage.Add(Content.Load<Texture2D>("Sprites//box"));
             _texturePackage.Add(Content.Load<Texture2D>("Sprites//XNA"));
             _texturePackage.Add(Content.Load<Texture2D>("Sprites//grey box"));
-			_texturePackage.Add(Content.Load<Texture2D>("Sprites//paddle"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//Breakout_Paddle"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//wall"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//block"));
-			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ball"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//Breakout_Ball"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ceiling"));
 
             // give the stack the main menu

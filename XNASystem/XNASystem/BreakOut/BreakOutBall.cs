@@ -14,9 +14,8 @@ namespace XNASystem.BreakOut
 		private float _yPosition;
 		private float _xVelocity;
 		private float _yVelocity;
-		private int _spin;
-		private const double Effectiveness = 0.075;
 		private Boolean _alive;
+		private Boolean _constantV;
 
 		#endregion
 
@@ -29,32 +28,8 @@ namespace XNASystem.BreakOut
 			_xVelocity = xVelocity;
 			_yVelocity = yVelocity;
 			_alive = true;
+			_constantV = false;
 		}
-
-		#endregion
-
-		#region partially implemented, unused advanced movement methods
-		/*public void SetSpin(int spin)
-		{
-			_spin = spin;
-		}
-
-		public void ReflectXVelocity()
-		{
-			_xVelocity *= -1;
-		}
-
-		public void ReflectYVelocity()
-		{
-			_yVelocity *= -1;
-		}
-
-		//timer must be reset after each time the ball bounces, otherwise, spin will not act correctly
-		public void UpdatePosition(int time)
-		{
-			_xPosition = (int)(_xVelocity*time + Effectiveness*2*_spin*time);
-			_yPosition = (int)(_yVelocity*time - Effectiveness*_spin*(time ^ 2));
-		}*/
 
 		#endregion
 
@@ -62,8 +37,8 @@ namespace XNASystem.BreakOut
 
 		public void UpdatePostion(float x, float y)
 		{
-			_xPosition += _xVelocity;
-			_yPosition += _yVelocity;
+				_xPosition += _xVelocity;
+				_yPosition += _yVelocity;
 		}
 
 		#endregion
@@ -106,6 +81,7 @@ namespace XNASystem.BreakOut
 
 		public void SwitchX()
 		{
+			if(!_constantV)
 			_xVelocity *= -1;
 		}
 
@@ -113,14 +89,17 @@ namespace XNASystem.BreakOut
 
 		public void IncrementX(float f)
 		{
-			_xVelocity +=  f / 2;
-			if(_xVelocity > 1)
+			if (!_constantV)
 			{
-				_xVelocity = 1;
-			}
-			if(_xVelocity < -1)
-			{
-				_xVelocity = -1;
+				_xVelocity += f/2;
+				if (_xVelocity > 1)
+				{
+					_xVelocity = 1;
+				}
+				if (_xVelocity < -1)
+				{
+					_xVelocity = -1;
+				}
 			}
 		}
 
@@ -133,5 +112,17 @@ namespace XNASystem.BreakOut
 		{
 			return _alive;
 		}
+
+
+		public void MakeConstantV()
+		{
+			_constantV = true;
+		}
+
+		public Boolean IsConstantV()
+		{
+			return _constantV;
+		}
+
 	}
 }

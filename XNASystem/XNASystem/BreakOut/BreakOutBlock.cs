@@ -15,16 +15,22 @@ namespace XNASystem.BreakOut
 		private readonly int _yPosition;
 		private Blocktype _type;
 		private Color _color;
+		private int _buffer;
+		private int _height;
+		private int _width;
 		private readonly List<Rectangle> _rectSideList;
 
 		#endregion
 
 		#region constructor
 
-		public BreakOutBlock(int xPosition, int yPosition, Blocktype type, Color color)
+		public BreakOutBlock(int xPosition, int yPosition, int width, int height, Blocktype type, Color color)
 		{
-			_xPosition = (xPosition * 78) + 10;
-			_yPosition = (yPosition * 36) + 46;
+			_height = height;
+			_width = width;
+			_buffer = (width%78)/2;
+			_xPosition = (xPosition * 78) + _buffer;
+			_yPosition = (yPosition * 36) + _buffer + 36;
 			_type = type;
 			_color = color;
 			_rectSideList = new List<Rectangle> { new Rectangle(_xPosition + 1, _yPosition, 76, 1),
