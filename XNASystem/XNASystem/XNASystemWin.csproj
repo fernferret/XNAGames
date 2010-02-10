@@ -87,6 +87,7 @@
     <Compile Include="ShooterGame\ShooterEnemySuper.cs" />
     <Compile Include="ShooterGame\ShooterGameObject.cs" />
     <Compile Include="ShooterGame\ShooterHerd.cs" />
+    <Compile Include="ShooterGame\ShooterLevel.cs" />
     <Compile Include="ShooterGame\ShooterProjectile.cs" />
     <Compile Include="ShooterGame\ShooterShip.cs" />
     <Compile Include="SystemMenus\MainMenu.cs" />

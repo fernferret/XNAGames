@@ -16,22 +16,29 @@ namespace XNASystem.Shooter
 	{
 		private readonly SystemDisplay _main;
 
-		private readonly int Width = 800;
-		private readonly int Height = 600;
+		private int Width = 800;
+		private int Height = 600;
 
 		private readonly ShooterShip _ship;
 		private Rectangle _shipRect;
 		private readonly List<ShooterEnemy> _enemies;
 		private ShooterHerd _herd;
 		private ShooterHerd _bossHerd;
+		private List<ShooterLevel> _levels;
+		private List<ShooterHerd> _herdList;
 
 		public Shooter(SystemDisplay main)
 		{
 			_main = main;
-			_ship = new ShooterShip();
+			_ship = new ShooterShip(0, Width);
 
-			#region sample level - delete when xml works
+			_levels = new List<ShooterLevel>();
 
+			_herdList = new List<ShooterHerd>();
+
+			#region sample levels
+
+			/*
 			_herd = new ShooterHerd((float)0.5);
 			_bossHerd = new ShooterHerd(1);
 
@@ -70,40 +77,42 @@ namespace XNASystem.Shooter
 			_herd.AddEnemy(new ShooterEnemyBasic(8, 3));
 			_herd.AddEnemy(new ShooterEnemyBasic(9, 3));
 			_herd.AddEnemy(new ShooterEnemyBasic(10, 3));
+			 */
 
-			/*
-			_herd.AddEnemy(new ShooterEnemy(1, 3, Color.Tomato,2));
-			_herd.AddEnemy(new ShooterEnemy(2, 3, Color.Tomato,2));
-			_herd.AddEnemy(new ShooterEnemy(3, 3, Color.Tomato,2));
-			_herd.AddEnemy(new ShooterEnemy(4, 3, Color.Tomato,2));
-			_herd.AddEnemy(new ShooterEnemy(5, 3, Color.Tomato,2));
-			_herd.AddEnemy(new ShooterEnemy(6, 3, Color.Tomato,2));
-			_herd.AddEnemy(new ShooterEnemy(7, 3, Color.Tomato,2));
-			_herd.AddEnemy(new ShooterEnemy(8, 3, Color.Tomato,2));
-			_herd.AddEnemy(new ShooterEnemy(9, 3, Color.Tomato,2));
-			_herd.AddEnemy(new ShooterEnemy(10, 3, Color.Tomato,2));
+			//1st level
+			ShooterHerd enemies1 = new ShooterHerd((float)0.5, 0, 0, Width, Height);
+			ShooterLevel level1 = new ShooterLevel();
 
-			_herd.AddEnemy(new ShooterEnemy(1, 4, Color.Yellow,1));
-			_herd.AddEnemy(new ShooterEnemy(2, 4, Color.Yellow,1));
-			_herd.AddEnemy(new ShooterEnemy(3, 4, Color.Yellow,1));
-			_herd.AddEnemy(new ShooterEnemy(4, 4, Color.Yellow,1));
-			_herd.AddEnemy(new ShooterEnemy(5, 4, Color.Yellow,1));
-			_herd.AddEnemy(new ShooterEnemy(6, 4, Color.Yellow,1));
-			_herd.AddEnemy(new ShooterEnemy(7, 4, Color.Yellow,1));
-			_herd.AddEnemy(new ShooterEnemy(8, 4, Color.Yellow,1));
-			_herd.AddEnemy(new ShooterEnemy(9, 4, Color.Yellow,1));
-			_herd.AddEnemy(new ShooterEnemy(10, 4, Color.Yellow,1));
+			enemies1.AddEnemy(new ShooterEnemyAdvanced(3, 1));
+			enemies1.AddEnemy(new ShooterEnemyAdvanced(8, 1));
 
-			_herd.AddEnemy(new ShooterEnemy(1, 5, Color.Orchid,0));
-			_herd.AddEnemy(new ShooterEnemy(2, 5, Color.Orchid,0));
-			_herd.AddEnemy(new ShooterEnemy(3, 5, Color.Orchid,0));
-			_herd.AddEnemy(new ShooterEnemy(4, 5, Color.Orchid,0));
-			_herd.AddEnemy(new ShooterEnemy(5, 5, Color.Orchid,0));
-			_herd.AddEnemy(new ShooterEnemy(6, 5, Color.Orchid,0));
-			_herd.AddEnemy(new ShooterEnemy(7, 5, Color.Orchid,0));
-			_herd.AddEnemy(new ShooterEnemy(8, 5, Color.Orchid,0));
-			_herd.AddEnemy(new ShooterEnemy(9, 5, Color.Orchid,0));
-			_herd.AddEnemy(new ShooterEnemy(10, 5, Color.Orchid,0));*/
+			enemies1.AddEnemy(new ShooterEnemyBasic(1, 2));
+			enemies1.AddEnemy(new ShooterEnemyBasic(2, 2));
+			enemies1.AddEnemy(new ShooterEnemyBasic(3, 2));
+			enemies1.AddEnemy(new ShooterEnemyBasic(4, 2));
+			enemies1.AddEnemy(new ShooterEnemyBasic(5, 2));
+			enemies1.AddEnemy(new ShooterEnemyBasic(6, 2));
+			enemies1.AddEnemy(new ShooterEnemyBasic(7, 2));
+			enemies1.AddEnemy(new ShooterEnemyBasic(8, 2));
+			enemies1.AddEnemy(new ShooterEnemyBasic(9, 2));
+			enemies1.AddEnemy(new ShooterEnemyBasic(10, 2));
+
+			enemies1.AddEnemy(new ShooterEnemyBasic(1, 3));
+			enemies1.AddEnemy(new ShooterEnemyBasic(2, 3));
+			enemies1.AddEnemy(new ShooterEnemyBasic(3, 3));
+			enemies1.AddEnemy(new ShooterEnemyBasic(4, 3));
+			enemies1.AddEnemy(new ShooterEnemyBasic(5, 3));
+			enemies1.AddEnemy(new ShooterEnemyBasic(6, 3));
+			enemies1.AddEnemy(new ShooterEnemyBasic(7, 3));
+			enemies1.AddEnemy(new ShooterEnemyBasic(8, 3));
+			enemies1.AddEnemy(new ShooterEnemyBasic(9, 3));
+			enemies1.AddEnemy(new ShooterEnemyBasic(10, 3));
+
+			level1.AddHerd(enemies1);
+
+			_levels.Add(level1);
+
+			_herdList = _levels[0].GetHerdList();
 
 			#endregion
 		}
@@ -155,8 +164,13 @@ namespace XNASystem.Shooter
 		{
 			//animation stuff
 			_ship.AnimateSprite(gameTime);
-			_herd.AnimateSprite(gameTime);
-			_bossHerd.AnimateSprite(gameTime);
+			//_herd.AnimateSprite(gameTime);
+			//_bossHerd.AnimateSprite(gameTime);
+
+			foreach(ShooterHerd h in _herdList)
+			{
+				h.AnimateSprite(gameTime);
+			}
 
 			//boss stuff
 			//_boss.AnimateSprite(gameTime);
@@ -166,19 +180,30 @@ namespace XNASystem.Shooter
 			if (!_ship.IsDying())
 			{
 				//collision stuff
-				_herd.CollidesWith(_ship);
+				/*_herd.CollidesWith(_ship);
 				_herd.CollidesWithProjectiles(_ship);
 				_bossHerd.CollidesWithProjectiles(_ship);
-				_bossHerd.CollidesWith(_ship);
+				_bossHerd.CollidesWith(_ship);*/
+
+				foreach (ShooterHerd h in _herdList)
+				{
+					h.CollidesWith(_ship);
+					h.CollidesWithProjectiles(_ship);
+
+					h.UpdatePostion(0, 0);
+					h.UpdateProjectiles();
+
+					h.Shoot();
+				}
 
 				//Herd update stuff
-				_herd.UpdatePostion(0, 0);
+				/*_herd.UpdatePostion(0, 0);
 				_herd.UpdateProjectiles();
 				_bossHerd.UpdatePostion(0, 0);
-				_bossHerd.UpdateProjectiles();
+				_bossHerd.UpdateProjectiles();*/
 
-				_herd.Shoot();
-				_bossHerd.Shoot();
+				/*_herd.Shoot();
+				_bossHerd.Shoot();*/
 
 				if (handler.IfLeftPressed())
 				{
@@ -216,11 +241,11 @@ namespace XNASystem.Shooter
 			//draw the ship
 			_ship.Draw(spriteBatch, fonts, textures);
 
-			//draw the enemies
-			_herd.Draw(spriteBatch, fonts, textures);
+			foreach (ShooterHerd h in _herdList)
+			{
+				h.Draw(spriteBatch, fonts, textures);
+			}
 
-			//draw the boss
-			_bossHerd.Draw(spriteBatch, fonts, textures);
 
 			spriteBatch.End();
 

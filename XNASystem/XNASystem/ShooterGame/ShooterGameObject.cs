@@ -156,7 +156,7 @@ namespace XNASystem.ShooterGame
 			AddSpritesToDraw(_painSprites);
 		}
 
-		private void Kill()
+		public void Kill()
 		{
 			RemoveAllSpritesToDraw();
 			AddSpritesToDraw(_deadSprites);

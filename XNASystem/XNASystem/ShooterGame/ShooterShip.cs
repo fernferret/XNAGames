@@ -17,6 +17,8 @@ namespace XNASystem.Shooter
 		private int _hitPoints;
 		private const int Width = 45;
 		private const int Height = 45;
+		private int _xMin;
+		private int _xMax;
 		private bool _isDying = false;
 		private ShooterProjectile _shot;
 
@@ -35,9 +37,11 @@ namespace XNASystem.Shooter
 
 
 
-		public ShooterShip()
+		public ShooterShip(int xMin, int xMax)
 		{
-			_xPosition = 300;
+			_xMin = xMin;
+			_xMax = xMax;
+			_xPosition = _xMax/2;
 			_yPosition = 550;
 			_currentSprite = 8;
 			_currentSprites = _standardSprites;
@@ -48,11 +52,11 @@ namespace XNASystem.Shooter
 		public void UpdatePostion(float x, float y)
 		{
 			_xPosition += 7*x;
-			if(_xPosition <= 0)
+			if(_xPosition <= _xMin)
 			{
 				_xPosition = (float) 0.1;
 			}
-			if(_xPosition >= 755)
+			if(_xPosition >= _xMax)
 			{
 				_xPosition = (float) 754.9;
 			}

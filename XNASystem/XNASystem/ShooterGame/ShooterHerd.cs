@@ -14,20 +14,26 @@ namespace XNASystem.ShooterGame
 {
 	class ShooterHerd : IGameObject
 	{
-		private const int Width = 755;  //Approximately 16 positions across the screen
-		private const int Height = 600;
+		private float _width;  //Approximately 16 positions across the screen
+		private float _height;
 		private readonly float _speed;
 		private float _yCounter = 0;
 		private int _total = 0;
 		private int _direction = 1;
+		private float _xPosition;
+		private float _yPosition;
 		private List<ShooterGameObject> _enemies;
 		private List<ShooterProjectile> _projectiles;
 		Random rndElement = new Random();
 
 
-		public ShooterHerd(float speed)
+		public ShooterHerd(float speed, float xPosition, float yPosition, float width, float height)
 		{
 			_speed = speed;
+			_height = height;
+			_width = width;
+			_yPosition = yPosition;
+			_xPosition = xPosition;
 			_enemies = new List<ShooterGameObject>();
 			_projectiles = new List<ShooterProjectile>();
 		}
@@ -77,17 +83,22 @@ namespace XNASystem.ShooterGame
 			foreach(ShooterGameObject e in _enemies)
 			{
 
-				if(e.GetX() <= 0)
+				if(e.GetX() <= _xPosition)
 				{
 					_direction = 1;
 					_yCounter = e.GetWidth()-2;
 
 				}
 				
-				if((e.GetX()) == Width)
+				if((e.GetX() + e.GetWidth()) == _width)
 				{
 					_direction = -1;
 					_yCounter = e.GetWidth()-2;
+				}
+
+				if((e.GetY() + e.GetHeight()) >= _height)
+				{
+					e.Kill();
 				}
 			}
 
@@ -103,7 +114,7 @@ namespace XNASystem.ShooterGame
 			{
 				foreach (ShooterProjectile p in _projectiles)
 				{
-					if (p.GetY() >= Height + 7)
+					if (p.GetY() >= _height + 7)
 					{
 						_projectiles.Remove(p);
 						break;
