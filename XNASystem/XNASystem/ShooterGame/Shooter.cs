@@ -37,7 +37,7 @@ namespace XNASystem.Shooter
 
 			_bossHerd.AddEnemy(new ShooterBossObject(2, 0));
 			
-			/*_herd.AddEnemy(new ShooterEnemySuper(1, 1));
+			_herd.AddEnemy(new ShooterEnemySuper(1, 1));
 			_herd.AddEnemy(new ShooterEnemySuper(2, 1));
 			_herd.AddEnemy(new ShooterEnemySuper(3, 1));
 			_herd.AddEnemy(new ShooterEnemySuper(4, 1));
@@ -57,7 +57,7 @@ namespace XNASystem.Shooter
 			_herd.AddEnemy(new ShooterEnemyAdvanced(7, 2));
 			_herd.AddEnemy(new ShooterEnemyAdvanced(8, 2));
 			_herd.AddEnemy(new ShooterEnemyAdvanced(9, 2));
-			_herd.AddEnemy(new ShooterEnemyAdvanced(10, 2));*/
+			_herd.AddEnemy(new ShooterEnemyAdvanced(10, 2));
 
 			
 			_herd.AddEnemy(new ShooterEnemyBasic(1, 3));
