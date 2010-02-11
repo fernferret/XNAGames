@@ -17,6 +17,7 @@ namespace XNASystem.ShooterGame
 		protected float _yPosition;
 		private float _speed = 2;
 		private int _hitPoints;
+		private int _score;
 		private readonly int _xGun;
 		private readonly int _yGun;
 		private int _shotSpeed;
@@ -40,7 +41,7 @@ namespace XNASystem.ShooterGame
 
 		#endregion
 
-		protected ShooterGameObject(float xPosition, float yPosition, int width, int height, int xGun, int yGun, int shotSpeed, int shotWidth, int shotHeight, Color color, int hitPoints, List<int> standardSprites, List<int> painSprites, List<int> deadSprites)
+		protected ShooterGameObject(float xPosition, float yPosition, int width, int height, int xGun, int yGun, int shotSpeed, int shotWidth, int shotHeight, Color color, int hitPoints, int score, List<int> standardSprites, List<int> painSprites, List<int> deadSprites)
 		{
 			_height = height;
 			_width = width;
@@ -53,6 +54,7 @@ namespace XNASystem.ShooterGame
 			_shotSpeed = shotSpeed;
 			_color = color;
 			_hitPoints = hitPoints;
+			_score = score;
 			_standardSprites = standardSprites;
 			_painSprites = painSprites;
 			_deadSprites = deadSprites;
@@ -129,7 +131,7 @@ namespace XNASystem.ShooterGame
 			return _collisionBox;
 		}
 
-		public void Damage()
+		public int Damage()
 		{
 			_hitPoints--;
 
@@ -142,12 +144,14 @@ namespace XNASystem.ShooterGame
 				else
 				{
 					Kill();
+					return _score;
 				}
 			}
 			else
 			{
 				Hurt();
 			}
+			return 0;
 		}
 
 		private void Hurt()

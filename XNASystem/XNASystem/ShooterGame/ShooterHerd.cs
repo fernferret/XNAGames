@@ -64,10 +64,9 @@ namespace XNASystem.ShooterGame
 
 		public void UpdatePostion(float x, float y)
 		{
-			float yInc = 0, xInc = 0, speedModifier = 0;
+			float yInc = 0, xInc = 0;
 
-			speedModifier = 0;// (float)((_total - _enemies.Count));
-			xInc = (_speed + speedModifier) * _direction;
+			xInc = (_speed) * _direction;
 
 			if (_yCounter > 0)
 			{
@@ -90,13 +89,13 @@ namespace XNASystem.ShooterGame
 
 				}
 				
-				if((e.GetX() + e.GetWidth()) == _width)
+				if((e.GetX() + e.GetWidth()) >= _width)
 				{
 					_direction = -1;
 					_yCounter = e.GetWidth()-2;
 				}
 
-				if((e.GetY() + e.GetHeight()) >= _height)
+				if(e.GetY() >= _height && !e.IsDying())  //modify to set yInc to negative or something similar
 				{
 					e.Kill();
 				}
@@ -114,7 +113,7 @@ namespace XNASystem.ShooterGame
 			{
 				foreach (ShooterProjectile p in _projectiles)
 				{
-					if (p.GetY() >= _height + 7)
+					if (p.GetY() >= _height + 7 || p.GetY() < 0)
 					{
 						_projectiles.Remove(p);
 						break;
@@ -153,15 +152,15 @@ namespace XNASystem.ShooterGame
 			}
 		}
 
-		public bool CollidesWith(ShooterShip s)
+		public int CollidesWith(ShooterShip s)
 		{
+			int score = 0;
 			foreach(ShooterGameObject e in _enemies)
 			{
-				if(e.GetCollisionBox().Intersects(s.GetCollisionBox()))
+				if(e.GetCollisionBox().Intersects(s.GetCollisionBox()) && !s.IsDying())
 				{
 					s.Kill();
-					e.Damage();
-					return true;
+					score += e.Damage();
 				}
 				
 				if(s.GetShot() != null)
@@ -170,21 +169,20 @@ namespace XNASystem.ShooterGame
 					{
 						if (e.GetCollisionBox().Intersects((s.GetShotCollisionBox())))
 						{
-							e.Damage();
+							score += e.Damage();
 							s.KillProjectile();
-							return true;
 						}
 					}
 				}
 			}
-			return false;
+			return score;
 		}
 
 		public void CollidesWithProjectiles(ShooterShip s)
 		{
 			foreach(ShooterProjectile p in _projectiles)
 			{
-				if(p.GetCollisionBox().Intersects(s.GetCollisionBox()))
+				if(p.GetCollisionBox().Intersects(s.GetCollisionBox()) && !s.IsDying())
 				{
 					s.Kill();
 					_projectiles.RemoveRange(0, _projectiles.Count);
@@ -193,14 +191,19 @@ namespace XNASystem.ShooterGame
 			}
 		}
 
+		public bool Empty()
+		{
+			return (_enemies.Count == 0);
+		}
+
 		public float GetX()
 		{
-			throw new NotImplementedException();
+			return _xPosition;
 		}
 
 		public float GetY()
 		{
-			throw new NotImplementedException();
+			return _yPosition;
 		}
 	}
 }

@@ -17,7 +17,7 @@ namespace XNASystem.ShooterGame
 		private static readonly List<int> PainSprites = new List<int> { 28 };
 
 		public ShooterBossObject(float xPosition, float yPosition)
-			: base(xPosition, yPosition, Width, Height, (Width / 2 - 10), Height + 7, 3, 20, 20, Color.White, 15, StandardSprites, PainSprites, DeadSprites)
+			: base(xPosition, yPosition, Width, Height, (Width / 2 - 10), Height + 7, 3, 20, 20, Color.White, 15, 50, StandardSprites, PainSprites, DeadSprites)
 		{
 		}
 

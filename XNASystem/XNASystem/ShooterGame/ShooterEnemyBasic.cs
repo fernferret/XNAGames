@@ -17,7 +17,7 @@ namespace XNASystem.ShooterGame
 		private static readonly List <int> PainSprites = new List<int>{ 25 };
 
 		public ShooterEnemyBasic(float xPosition, float yPosition) 
-			: base(xPosition, yPosition, Width, Height, (Width/2 + 5), Height + 7, 3, 10, 10, Color.White, 0, StandardSprites, PainSprites, DeadSprites)
+			: base(xPosition, yPosition, Width, Height, (Width/2 + 5), Height + 7, 3, 10, 10, Color.White, 0, 1, StandardSprites, PainSprites, DeadSprites)
 		{
 		}
 	}

@@ -232,7 +232,7 @@ namespace XNASystem.BreakOut
 			throw new NotImplementedException();
 		}
 
-		public void StartGame()
+		public void StartGame(int level)
 		{
 			throw new NotImplementedException();
 		}

@@ -56,9 +56,9 @@ namespace XNASystem.Shooter
 			{
 				_xPosition = (float) 0.1;
 			}
-			if(_xPosition >= _xMax)
+			if(_xPosition >= ( _xMax - Width ) )
 			{
-				_xPosition = (float) 754.9;
+				_xPosition = (float) (_xMax - (Width + 0.1));
 			}
 
 			_collisionBox.Location = new Point((int)_xPosition, (int)_yPosition);
@@ -72,7 +72,7 @@ namespace XNASystem.Shooter
 
 				if (_shot.GetY() < 0)
 				{
-					_shot = null;
+					KillProjectile();
 				}
 			}
 		}
