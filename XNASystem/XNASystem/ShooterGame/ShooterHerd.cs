@@ -57,11 +57,38 @@ namespace XNASystem.ShooterGame
 				rand = rndElement.Next(0, 30);
 				if (2 == rand)
 				{
-					_projectiles.Add(_enemies[rndElement.Next(0, _enemies.Count)].GetShot());
+					var enemy = _enemies[rndElement.Next(0, _enemies.Count)];
+					_projectiles.Add(enemy.GetShot());
+					rand = rndElement.Next(0, 30);
+					//if (2 == rand)
+					//{
+						//SystemMain.SoundShootEnemyInstance.Volume = .70f;
+						//SystemMain.SoundShootEnemyInstance.Play();
+					SystemMain.SoundShootEnemy.Play(.7f, 0.0f, GetEnemySoundPos(enemy));
+					//}
 				}
 			}
 		}
-
+		private float GetEnemySoundPos(ShooterGameObject e)
+		{
+			var x = e.GetX();
+			var w = e.GetWidth();
+			var halfwidth = ((float)SystemMain.Width/2);
+			var finalfloat = 0.0f;
+			x += ((float)w/2);
+			var zeropoint = SystemMain.Width/2;
+			if(x>((float)w/2))
+			{
+				x -= halfwidth;
+				finalfloat = (x/halfwidth);
+			}
+			else
+			{
+				finalfloat = (x / halfwidth);
+				finalfloat = Math.Abs(1 - finalfloat)*(-1);
+			}
+			return finalfloat;
+		}
 		public void UpdatePostion(float x, float y)
 		{
 			float yInc = 0, xInc = 0;

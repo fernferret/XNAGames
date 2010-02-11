@@ -473,8 +473,7 @@ namespace XNASystem.Shooter
 				{
 					_ship.Shoot();
 					//SystemMain.SoundBackgroundInstance.IsLooped = true;
-					SystemMain.SoundShootInstance.Volume = 1.0f;
-					SystemMain.SoundShootInstance.Play();
+					
 
 				}
 				else

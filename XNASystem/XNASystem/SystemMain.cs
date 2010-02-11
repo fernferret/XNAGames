@@ -65,8 +65,12 @@ namespace XNASystem
 
 		public static SoundEffect SoundShoot;
 		public static SoundEffectInstance SoundShootInstance;
+
 		public static SoundEffect SoundBackground;
 		public static SoundEffectInstance SoundBackgroundInstance;
+
+		public static SoundEffect SoundShootEnemy;
+		public static SoundEffectInstance SoundShootEnemyInstance;
 		//initialize a new list of booklets
     	private readonly List<Booklet> _booklets;
 
@@ -167,7 +171,11 @@ namespace XNASystem
 			DrawHelper = new DrawHelper(_spriteBatch);
 
 			SoundShoot = Content.Load<SoundEffect>("Audio\\Waves\\shoot");
-        	SoundShootInstance = SoundShoot.CreateInstance();
+			SoundShootInstance = SoundShoot.CreateInstance();
+
+			SoundShootEnemy = Content.Load<SoundEffect>("Audio\\Waves\\shoot_enemy");
+			SoundShootEnemyInstance = SoundShootEnemy.CreateInstance();
+
 			SoundBackground = Content.Load<SoundEffect>("Audio\\Waves\\background");
 			SoundBackgroundInstance = SoundBackground.CreateInstance();
 			

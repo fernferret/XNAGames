@@ -91,6 +91,8 @@ namespace XNASystem.Shooter
 		{
 			if (!IsDying() && (_shot == null))
 			{
+				SystemMain.SoundShootInstance.Volume = 1.0f;
+				SystemMain.SoundShootInstance.Play();
 				_currentSprites = _shootSprites;
 				frameCount = _currentSprites.Count;
 				currentFrame = 0;
