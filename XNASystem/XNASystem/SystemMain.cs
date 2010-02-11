@@ -171,7 +171,7 @@ namespace XNASystem
             _texturePackage.Add(Content.Load<Texture2D>("Sprites//grey box"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//Breakout_Paddle"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//wall"));
-			_texturePackage.Add(Content.Load<Texture2D>("Sprites//block"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//Breakout_Block_Template"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//Breakout_Ball"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ceiling"));
 

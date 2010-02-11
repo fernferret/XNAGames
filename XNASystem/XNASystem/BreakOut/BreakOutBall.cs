@@ -81,7 +81,6 @@ namespace XNASystem.BreakOut
 
 		public void SwitchX()
 		{
-			if(!_constantV)
 			_xVelocity *= -1;
 		}
 
