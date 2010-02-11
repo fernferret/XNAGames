@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,30 +14,37 @@ namespace XNASystem.ShooterGame
 {
 	class ShooterHerd : IGameObject
 	{
-		private const int Width = 755;  //Approximately 16 positions across the screen
-		private const int Height = 600;
-		private float _speed = 1;
+		private float _width;  //Approximately 16 positions across the screen
+		private float _height;
+		private readonly float _speed;
 		private float _yCounter = 0;
 		private int _total = 0;
 		private int _direction = 1;
-		private List<ShooterEnemy> _enemies;
+		private float _xPosition;
+		private float _yPosition;
+		private List<ShooterGameObject> _enemies;
 		private List<ShooterProjectile> _projectiles;
 		Random rndElement = new Random();
 
 
-		public ShooterHerd()
+		public ShooterHerd(float speed, float xPosition, float yPosition, float width, float height)
 		{
-			_enemies = new List<ShooterEnemy>();
+			_speed = speed;
+			_height = height;
+			_width = width;
+			_yPosition = yPosition;
+			_xPosition = xPosition;
+			_enemies = new List<ShooterGameObject>();
 			_projectiles = new List<ShooterProjectile>();
 		}
 
-		public void AddEnemy(ShooterEnemy e)
+		public void AddEnemy(ShooterGameObject e)
 		{
 			_total++;
 			_enemies.Add(e);
 		}
 
-		public void KillEnemy(ShooterEnemy e)
+		public void KillEnemy(ShooterGameObject e)
 		{
 			_enemies.Remove(e);
 		}
@@ -57,10 +64,9 @@ namespace XNASystem.ShooterGame
 
 		public void UpdatePostion(float x, float y)
 		{
-			float yInc = 0, xInc = 0, speedModifier = 0;
+			float yInc = 0, xInc = 0;
 
-			speedModifier = 0;// (float)((_total - _enemies.Count));
-			xInc = (_speed + speedModifier) * _direction;
+			xInc = (_speed) * _direction;
 
 			if (_yCounter > 0)
 			{
@@ -73,24 +79,29 @@ namespace XNASystem.ShooterGame
 				yInc = 0;
 			}
 
-			foreach(ShooterEnemy e in _enemies)
+			foreach(ShooterGameObject e in _enemies)
 			{
 
-				if(e.GetX() <= 0)
+				if(e.GetX() <= _xPosition)
 				{
 					_direction = 1;
-					_yCounter = e.GetWidth();
+					_yCounter = e.GetWidth()-2;
 
 				}
 				
-				if((e.GetX()) == Width)
+				if((e.GetX() + e.GetWidth()) >= _width)
 				{
 					_direction = -1;
-					_yCounter = 100;
+					_yCounter = e.GetWidth()-2;
+				}
+
+				if(e.GetY() >= _height && !e.IsDying())  //modify to set yInc to negative or something similar
+				{
+					e.Kill();
 				}
 			}
 
-			foreach(ShooterEnemy e in _enemies)
+			foreach(ShooterGameObject e in _enemies)
 			{
 				e.UpdatePostion(xInc, yInc);
 			}
@@ -102,7 +113,7 @@ namespace XNASystem.ShooterGame
 			{
 				foreach (ShooterProjectile p in _projectiles)
 				{
-					if (p.GetY() >= Height + 7)
+					if (p.GetY() >= _height + 7 || p.GetY() < 0)
 					{
 						_projectiles.Remove(p);
 						break;
@@ -117,7 +128,7 @@ namespace XNASystem.ShooterGame
 
 		public void AnimateSprite(GameTime gameTime)
 		{
-			foreach(ShooterEnemy e in _enemies)
+			foreach(ShooterGameObject e in _enemies)
 			{
 				e.AnimateSprite(gameTime);
 
@@ -131,7 +142,7 @@ namespace XNASystem.ShooterGame
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
-			foreach (ShooterEnemy e in _enemies)
+			foreach (ShooterGameObject e in _enemies)
 			{
 				e.Draw(spriteBatch, fonts, textures);
 			}
@@ -141,35 +152,37 @@ namespace XNASystem.ShooterGame
 			}
 		}
 
-		public bool CollidesWith(ShooterShip s)
+		public int CollidesWith(ShooterShip s)
 		{
-			foreach(ShooterEnemy e in _enemies)
+			int score = 0;
+			foreach(ShooterGameObject e in _enemies)
 			{
-				if(e.CollidesWith(s.GetCollisionBox()))
+				if(e.GetCollisionBox().Intersects(s.GetCollisionBox()) && !s.IsDying())
 				{
 					s.Kill();
-					e.Kill();
-					return true;
+					score += e.Damage();
 				}
 				
 				if(s.GetShot() != null)
 				{
-					if (e.CollidesWith(s.GetShotCollisionBox()))
+					if (!e.IsDying())
 					{
-						e.Kill();
-						s.KillProjectile();
-						return true;
+						if (e.GetCollisionBox().Intersects((s.GetShotCollisionBox())))
+						{
+							score += e.Damage();
+							s.KillProjectile();
+						}
 					}
 				}
 			}
-			return false;
+			return score;
 		}
 
 		public void CollidesWithProjectiles(ShooterShip s)
 		{
 			foreach(ShooterProjectile p in _projectiles)
 			{
-				if(p.GetCollisionBox().Intersects(s.GetCollisionBox()))
+				if(p.GetCollisionBox().Intersects(s.GetCollisionBox()) && !s.IsDying())
 				{
 					s.Kill();
 					_projectiles.RemoveRange(0, _projectiles.Count);
@@ -178,14 +191,19 @@ namespace XNASystem.ShooterGame
 			}
 		}
 
+		public bool Empty()
+		{
+			return (_enemies.Count == 0);
+		}
+
 		public float GetX()
 		{
-			throw new NotImplementedException();
+			return _xPosition;
 		}
 
 		public float GetY()
 		{
-			throw new NotImplementedException();
+			return _yPosition;
 		}
 	}
 }

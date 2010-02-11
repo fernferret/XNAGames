@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +17,8 @@ namespace XNASystem.Shooter
 		private int _hitPoints;
 		private const int Width = 45;
 		private const int Height = 45;
+		private int _xMin;
+		private int _xMax;
 		private bool _isDying = false;
 		private ShooterProjectile _shot;
 
@@ -28,16 +30,18 @@ namespace XNASystem.Shooter
 		private int _currentSprite;
 		private List<int> _standardSprites = new List<int> {8};
 		private List<int> _shootSprites = new List<int> {9};
-		private List<int> _deadSprites = new List<int> {10, 11, 12, 18, 19, 20, 21, 22, 23};
+		private List<int> _deadSprites = new List<int> { 10, 11, 12, 18, 19, 20, 21, 22, 29, 30, 31, 23 };
 		//private List<int> _explodeSprites = new List<int> {18, 19, 20, 21, 22};
 		private List<int> _currentSprites;
 		private Rectangle _collisionBox;
 
 
 
-		public ShooterShip()
+		public ShooterShip(int xMin, int xMax)
 		{
-			_xPosition = 300;
+			_xMin = xMin;
+			_xMax = xMax;
+			_xPosition = _xMax/2;
 			_yPosition = 550;
 			_currentSprite = 8;
 			_currentSprites = _standardSprites;
@@ -48,13 +52,13 @@ namespace XNASystem.Shooter
 		public void UpdatePostion(float x, float y)
 		{
 			_xPosition += 7*x;
-			if(_xPosition <= 0)
+			if(_xPosition <= _xMin)
 			{
 				_xPosition = (float) 0.1;
 			}
-			if(_xPosition >= 755)
+			if(_xPosition >= ( _xMax - Width ) )
 			{
-				_xPosition = (float) 754.9;
+				_xPosition = (float) (_xMax - (Width + 0.1));
 			}
 
 			_collisionBox.Location = new Point((int)_xPosition, (int)_yPosition);
@@ -65,6 +69,11 @@ namespace XNASystem.Shooter
 			if (_shot != null)
 			{
 				_shot.UpdatePostion(0, 0);
+
+				if (_shot.GetY() < 0)
+				{
+					KillProjectile();
+				}
 			}
 		}
 
@@ -80,13 +89,13 @@ namespace XNASystem.Shooter
 
 		public void Shoot()
 		{
-			if (!IsDying())
+			if (!IsDying() && (_shot == null))
 			{
 				_currentSprites = _shootSprites;
 				frameCount = _currentSprites.Count;
 				currentFrame = 0;
 
-				_shot = new ShooterProjectile(_xPosition + Width/2*1 - 5, _yPosition - 7, 0, 15, Color.White);
+				_shot = new ShooterProjectile(_xPosition + Width/2*1 - 5, _yPosition - 7, 10, 10, 0, 15, Color.White);
 			}
 		}
 
