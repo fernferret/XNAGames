@@ -174,6 +174,8 @@ namespace XNASystem
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//Breakout_Block_Template"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//Breakout_Ball"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ceiling"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//Breakout_Block_Meta_newl"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//Breakout_Ballblock"));
 
             // give the stack the main menu
             _menuStack.Push(new MainMenu(_menuStack, this));

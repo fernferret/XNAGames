@@ -24,7 +24,7 @@ namespace XNASystem.BreakOut
 
 		#region constructor
 
-		public BreakOutBlock(int xPosition, int yPosition, int width, int height, Blocktype type, Color color)
+		public BreakOutBlock(int xPosition, int yPosition, int width, int height, Blocktype type)
 		{
 			_height = height;
 			_width = width;
@@ -32,7 +32,6 @@ namespace XNASystem.BreakOut
 			_xPosition = (xPosition * 78) + _buffer;
 			_yPosition = (yPosition * 36) + _buffer + 36;
 			_type = type;
-			_color = color;
 			_rectSideList = new List<Rectangle> { new Rectangle(_xPosition + 1, _yPosition, 76, 1),
 												new Rectangle(_xPosition + 77, _yPosition + 1, 1, 34),
 												new Rectangle(_xPosition + 1, _yPosition + 35, 76, 1),
@@ -54,7 +53,18 @@ namespace XNASystem.BreakOut
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
-			spriteBatch.Draw(textures[5], new Vector2(_xPosition, _yPosition), _color);
+			switch(_type)
+			{
+				case Blocktype.Invincible:
+					spriteBatch.Draw(textures[8], new Vector2(_xPosition, _yPosition), _color);
+					break;
+				case Blocktype.Ball:
+					spriteBatch.Draw(textures[9], new Vector2(_xPosition, _yPosition), _color);
+					break;
+				default:
+					spriteBatch.Draw(textures[5], new Vector2(_xPosition, _yPosition), _color);
+					break;
+			}
 		}
 
 		#endregion

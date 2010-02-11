@@ -15,7 +15,8 @@ enum Blocktype
 	Invincible,  //never dies
 	Strong2,  //Dead after two hits
 	Strong3,  //Dead after three hits
-	Dead  //No longer affects the ball in any way and not displayed on the screen
+	Dead,  //No longer affects the ball in any way and not displayed on the screen
+	Ball  // creates 2 extra balls when hit
 }
 
 #endregion
@@ -30,8 +31,7 @@ namespace XNASystem.BreakOut
 		private readonly BreakOutWall _leftWall;
 		private readonly BreakOutWall _rightWall;
 		private readonly BreakOutCeiling _ceiling;
-		private readonly List<List<BreakOutBlock>> _blockList;
-		private readonly List<List<BreakOutBlock>> _blockList2;
+		private List<List<BreakOutBlock>> _blockList;
 		private readonly List<BreakOutBall> _ballList;
 		private Rectangle _ballRect;
 		private Rectangle _objectRect;
@@ -44,6 +44,8 @@ namespace XNASystem.BreakOut
 		public int Height = 720;
 		public int Width = 1280;
 		private readonly int _buffer;
+		private Boolean _running;
+		private List<Color> _colorScheme;
 
 		#endregion
 
@@ -60,480 +62,20 @@ namespace XNASystem.BreakOut
 			_a = 0;
 			_space = 0;
 			_score = 0;
-			_lives = 3;
+			_lives = 20;
 			_mainBallIsAlive = true;
 			_buffer = (Width%78)/2;
-
-
-			#region sample level 1
-
-			_blockList = new List<List<BreakOutBlock>>
-			             	{
-								new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(0, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(0, 1, Width, Height, Blocktype.Dead, Color.Violet),
-			             				new BreakOutBlock(0, 2, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(0, 3, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(0, 4, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(0, 5, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(0, 6, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(0, 7, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(0, 8, Width, Height, Blocktype.Dead, Color.CadetBlue),
-			             				new BreakOutBlock(0, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-								new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(1, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(1, 1, Width, Height, Blocktype.Dead, Color.Violet),
-			             				new BreakOutBlock(1, 2, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(1, 3, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(1, 4, Width, Height, Blocktype.Strong2, Color.Salmon),
-			             				new BreakOutBlock(1, 5, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(1, 6, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(1, 7, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(1, 8, Width, Height, Blocktype.Dead, Color.CadetBlue),
-			             				new BreakOutBlock(1, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-								new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(2, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(2, 1, Width, Height, Blocktype.Dead, Color.Violet),
-			             				new BreakOutBlock(2, 2, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(2, 3, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(2, 4, Width, Height, Blocktype.Strong2, Color.Salmon),
-			             				new BreakOutBlock(2, 5, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(2, 6, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(2, 7, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(2, 8, Width, Height, Blocktype.Dead, Color.CadetBlue),
-			             				new BreakOutBlock(2, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-			             		new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(3, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(3, 1, Width, Height, Blocktype.Dead, Color.Violet),
-			             				new BreakOutBlock(3, 2, Width, Height, Blocktype.Dead, Color.Thistle),
-			             				new BreakOutBlock(3, 3, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(3, 4, Width, Height, Blocktype.Strong2, Color.Salmon),
-			             				new BreakOutBlock(3, 5, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(3, 6, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(3, 7, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(3, 8, Width, Height, Blocktype.Dead, Color.CadetBlue),
-			             				new BreakOutBlock(3, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-			             		new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(4, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(4, 1, Width, Height, Blocktype.Dead, Color.Violet),
-			             				new BreakOutBlock(4, 2, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(4, 3, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(4, 4, Width, Height, Blocktype.Strong2, Color.Salmon),
-			             				new BreakOutBlock(4, 5, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(4, 6, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(4, 7, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(4, 8, Width, Height, Blocktype.Dead, Color.CadetBlue),
-			             				new BreakOutBlock(4, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-			             		new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(5, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(5, 1, Width, Height, Blocktype.Dead, Color.Violet),
-			             				new BreakOutBlock(5, 2, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(5, 3, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(5, 4, Width, Height, Blocktype.Strong2, Color.Salmon),
-			             				new BreakOutBlock(5, 5, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(5, 6, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(5, 7, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(5, 8, Width, Height, Blocktype.Dead, Color.CadetBlue),
-			             				new BreakOutBlock(5, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-			             		new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(6, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(6, 1, Width, Height, Blocktype.Dead, Color.Violet),
-			             				new BreakOutBlock(6, 2, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(6, 3, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(6, 4, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(6, 5, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(6, 6, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(6, 7, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(6, 8, Width, Height, Blocktype.Dead, Color.CadetBlue),
-			             				new BreakOutBlock(6, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-			             		new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(7, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(7, 1, Width, Height, Blocktype.Dead, Color.Violet),
-			             				new BreakOutBlock(7, 2, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(7, 3, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(7, 4, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(7, 5, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(7, 6, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(7, 7, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(7, 8, Width, Height, Blocktype.Dead, Color.CadetBlue),
-			             				new BreakOutBlock(7, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-			             		new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(8, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(8, 1, Width, Height, Blocktype.Dead, Color.Violet),
-			             				new BreakOutBlock(8, 2, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(8, 3, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(8, 4, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(8, 5, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(8, 6, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(8, 7, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(8, 8, Width, Height, Blocktype.Dead, Color.CadetBlue),
-			             				new BreakOutBlock(8, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-			             		new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(9, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(9, 1, Width, Height, Blocktype.Dead, Color.Violet),
-			             				new BreakOutBlock(9, 2, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(9, 3, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(9, 4, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(9, 5, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(9, 6, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(9, 7, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(9, 8, Width, Height, Blocktype.Dead, Color.CadetBlue),
-			             				new BreakOutBlock(9, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-			             		new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(10, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(10, 1, Width, Height, Blocktype.Dead, Color.Violet),
-			             				new BreakOutBlock(10, 2, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(10, 3, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(10, 4, Width, Height, Blocktype.Strong2, Color.Salmon),
-			             				new BreakOutBlock(10, 5, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(10, 6, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(10, 7, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(10, 8, Width, Height, Blocktype.Dead, Color.CadetBlue),
-			             				new BreakOutBlock(10, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-			             		new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(11, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(11, 1, Width, Height, Blocktype.Dead, Color.Violet),
-			             				new BreakOutBlock(11, 2, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(11, 3, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(11, 4, Width, Height, Blocktype.Strong2, Color.Salmon),
-			             				new BreakOutBlock(11, 5, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(11, 6, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(11, 7, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(11, 8, Width, Height, Blocktype.Dead, Color.CadetBlue),
-			             				new BreakOutBlock(11, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-			             		new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(12, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(12, 1, Width, Height, Blocktype.Dead, Color.Violet),
-			             				new BreakOutBlock(12, 2, Width, Height, Blocktype.Dead, Color.Thistle),
-			             				new BreakOutBlock(12, 3, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(12, 4, Width, Height, Blocktype.Strong2, Color.Salmon),
-			             				new BreakOutBlock(12, 5, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(12, 6, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(12, 7, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(12, 8, Width, Height, Blocktype.Dead, Color.CadetBlue),
-			             				new BreakOutBlock(12, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-								new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(13, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(13, 1, Width, Height, Blocktype.Dead, Color.Violet),
-			             				new BreakOutBlock(13, 2, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(13, 3, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(13, 4, Width, Height, Blocktype.Strong2, Color.Salmon),
-			             				new BreakOutBlock(13, 5, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(13, 6, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(13, 7, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(13, 8, Width, Height, Blocktype.Dead, Color.CadetBlue),
-			             				new BreakOutBlock(13, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-			             		new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(14, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(14, 1, Width, Height, Blocktype.Dead, Color.Violet),
-			             				new BreakOutBlock(14, 2, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(14, 3, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(14, 4, Width, Height, Blocktype.Strong2, Color.Salmon),
-			             				new BreakOutBlock(14, 5, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(14, 6, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(14, 7, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(14, 8, Width, Height, Blocktype.Dead, Color.CadetBlue),
-			             				new BreakOutBlock(14, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-								new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(15, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(15, 1, Width, Height, Blocktype.Dead, Color.Violet),
-			             				new BreakOutBlock(15, 2, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(15, 3, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(15, 4, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(15, 5, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(15, 6, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(15, 7, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(15, 8, Width, Height, Blocktype.Dead, Color.CadetBlue),
-			             				new BreakOutBlock(15, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			}
-			             	};
-
-			#endregion
-
-			#region sample level 2
-
-			_blockList2 = new List<List<BreakOutBlock>>
-			             	{
-								new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(0, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(0, 1, Width, Height, Blocktype.Dead, Color.Violet),
-			             				new BreakOutBlock(0, 2, Width, Height, Blocktype.Dead, Color.Beige),
-			             				new BreakOutBlock(0, 3, Width, Height, Blocktype.Dead, Color.Beige),
-			             				new BreakOutBlock(0, 4, Width, Height, Blocktype.Dead, Color.Gray),
-			             				new BreakOutBlock(0, 5, Width, Height, Blocktype.Dead, Color.Beige),
-			             				new BreakOutBlock(0, 6, Width, Height, Blocktype.Dead, Color.Beige),
-			             				new BreakOutBlock(0, 7, Width, Height, Blocktype.Dead, Color.Beige),
-			             				new BreakOutBlock(0, 8, Width, Height, Blocktype.Dead, Color.CadetBlue),
-			             				new BreakOutBlock(0, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-								new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(1, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(1, 1, Width, Height, Blocktype.Dead, Color.Violet),
-			             				new BreakOutBlock(1, 2, Width, Height, Blocktype.Dead, Color.Beige),
-			             				new BreakOutBlock(1, 3, Width, Height, Blocktype.Dead, Color.Gray),
-			             				new BreakOutBlock(1, 4, Width, Height, Blocktype.Dead, Color.Salmon),
-			             				new BreakOutBlock(1, 5, Width, Height, Blocktype.Dead, Color.Beige),
-			             				new BreakOutBlock(1, 6, Width, Height, Blocktype.Dead, Color.Beige),
-			             				new BreakOutBlock(1, 7, Width, Height, Blocktype.Dead, Color.Beige),
-			             				new BreakOutBlock(1, 8, Width, Height, Blocktype.Dead, Color.CadetBlue),
-			             				new BreakOutBlock(1, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-								new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(2, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(2, 1, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(2, 2, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(2, 3, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(2, 4, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(2, 5, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(2, 6, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(2, 7, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(2, 8, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(2, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-			             		new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(3, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(3, 1, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(3, 2, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(3, 3, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(3, 4, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(3, 5, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(3, 6, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(3, 7, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(3, 8, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(3, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-			             		new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(4, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(4, 1, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(4, 2, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(4, 3, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(4, 4, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(4, 5, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(4, 6, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(4, 7, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(4, 8, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(4, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-								new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(5, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(5, 1, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(5, 2, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(5, 3, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(5, 4, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(5, 5, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(5, 6, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(5, 7, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(5, 8, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(5, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-			             		new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(6, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(6, 1, Width, Height, Blocktype.Dead, Color.Violet),
-			             				new BreakOutBlock(6, 2, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(6, 3, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(6, 4, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(6, 5, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(6, 6, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(6, 7, Width, Height, Blocktype.Strong2, Color.Salmon),
-			             				new BreakOutBlock(6, 8, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(6, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-			             		new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(7, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(7, 1, Width, Height, Blocktype.Dead, Color.Violet),
-			             				new BreakOutBlock(7, 2, Width, Height, Blocktype.Dead, Color.Beige),
-			             				new BreakOutBlock(7, 3, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(7, 4, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(7, 5, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(7, 6, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(7, 7, Width, Height, Blocktype.Strong2, Color.Salmon),
-			             				new BreakOutBlock(7, 8, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(7, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-			             		new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(8, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(8, 1, Width, Height, Blocktype.Dead, Color.Violet),
-			             				new BreakOutBlock(8, 2, Width, Height, Blocktype.Dead, Color.Beige),
-			             				new BreakOutBlock(8, 3, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(8, 4, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(8, 5, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(8, 6, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(8, 7, Width, Height, Blocktype.Strong2, Color.Salmon),
-			             				new BreakOutBlock(8, 8, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(8, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-			             		new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(9, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(9, 1, Width, Height, Blocktype.Dead, Color.Violet),
-			             				new BreakOutBlock(9, 2, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(9, 3, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(9, 4, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(9, 5, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(9, 6, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(9, 7, Width, Height, Blocktype.Strong2, Color.Salmon),
-			             				new BreakOutBlock(9, 8, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(9, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-			             		new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(10, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(10, 1, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(10, 2, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(10, 3, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(10, 4, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(10, 5, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(10, 6, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(10, 7, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(10, 8, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(10, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-			             		new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(11, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(11, 1, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(11, 2, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(11, 3, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(11, 4, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(11, 5, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(11, 6, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(11, 7, Width, Height, Blocktype.Invincible, Color.Gray),
-			             				new BreakOutBlock(11, 8, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(11, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-			             		new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(12, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(12, 1, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(12, 2, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(12, 3, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(12, 4, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(12, 5, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(12, 6, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(12, 7, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(12, 8, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(12, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-								new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(13, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(13, 1, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(13, 2, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(13, 3, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(13, 4, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(13, 5, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(13, 6, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(13, 7, Width, Height, Blocktype.Standard, Color.Beige),
-			             				new BreakOutBlock(13, 8, Width, Height, Blocktype.Strong3, Color.Red),
-			             				new BreakOutBlock(13, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-			             		new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(14, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(14, 1, Width, Height, Blocktype.Dead, Color.Violet),
-			             				new BreakOutBlock(14, 2, Width, Height, Blocktype.Dead, Color.Beige),
-			             				new BreakOutBlock(14, 3, Width, Height, Blocktype.Dead, Color.Gray),
-			             				new BreakOutBlock(14, 4, Width, Height, Blocktype.Dead, Color.Salmon),
-			             				new BreakOutBlock(14, 5, Width, Height, Blocktype.Dead, Color.Beige),
-			             				new BreakOutBlock(14, 6, Width, Height, Blocktype.Dead, Color.Beige),
-			             				new BreakOutBlock(14, 7, Width, Height, Blocktype.Dead, Color.Beige),
-			             				new BreakOutBlock(14, 8, Width, Height, Blocktype.Dead, Color.CadetBlue),
-			             				new BreakOutBlock(14, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-
-								new List<BreakOutBlock>
-			             			{
-			             				new BreakOutBlock(15, 0, Width, Height, Blocktype.Dead, Color.Red),
-			             				new BreakOutBlock(15, 1, Width, Height, Blocktype.Dead, Color.Violet),
-			             				new BreakOutBlock(15, 2, Width, Height, Blocktype.Dead, Color.Beige),
-			             				new BreakOutBlock(15, 3, Width, Height, Blocktype.Dead, Color.Gray),
-			             				new BreakOutBlock(15, 4, Width, Height, Blocktype.Dead, Color.Salmon),
-			             				new BreakOutBlock(15, 5, Width, Height, Blocktype.Dead, Color.Beige),
-			             				new BreakOutBlock(15, 6, Width, Height, Blocktype.Dead, Color.Beige),
-			             				new BreakOutBlock(15, 7, Width, Height, Blocktype.Dead, Color.Beige),
-			             				new BreakOutBlock(15, 8, Width, Height, Blocktype.Dead, Color.CadetBlue),
-			             				new BreakOutBlock(15, 9, Width, Height, Blocktype.Dead, Color.Red)
-			             			},
-			             	};
-
-			#endregion
+			_running = false;
 
 			_ballList = new List<BreakOutBall>{new BreakOutBall(200, 400, (float) 0.5, (float) 0.5)};
+
+			StartGame(3);
 
 		}
 
 		#endregion
 
-		#region unimplemented methods
+		#region game methods
 
 		public void AdvanceLevel()
 		{
@@ -552,22 +94,727 @@ namespace XNASystem.BreakOut
 
 		public void FinishGame()
 		{
-			throw new NotImplementedException();
+			_main.EndGame(new Score("Name", ActivityType.Game, _score, "Breakout"));
 		}
 
-		public void StartGame()
+		public void StartGame(int level)
 		{
-			throw new NotImplementedException();
+			switch(level)
+			{
+				case 1:
+					_colorScheme = new List<Color>{Color.Beige, Color.Salmon, Color.Red, Color.Coral, Color.Gray};
+					#region sample level 1
+
+					_blockList = new List<List<BreakOutBlock>>
+			             	{
+								new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(0, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(0, 1, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(0, 2, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(0, 3, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(0, 4, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(0, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(0, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(0, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(0, 8, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(0, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+								new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(1, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(1, 1, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(1, 2, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(1, 3, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(1, 4, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(1, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(1, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(1, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(1, 8, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(1, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+								new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(2, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(2, 1, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(2, 2, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(2, 3, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(2, 4, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(2, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(2, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(2, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(2, 8, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(2, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(3, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(3, 1, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(3, 2, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(3, 3, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(3, 4, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(3, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(3, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(3, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(3, 8, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(3, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(4, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(4, 1, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(4, 2, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(4, 3, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(4, 4, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(4, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(4, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(4, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(4, 8, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(4, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(5, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(5, 1, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(5, 2, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(5, 3, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(5, 4, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(5, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(5, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(5, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(5, 8, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(5, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(6, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(6, 1, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(6, 2, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(6, 3, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(6, 4, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(6, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(6, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(6, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(6, 8, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(6, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(7, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(7, 1, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(7, 2, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(7, 3, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(7, 4, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(7, 5, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(7, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(7, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(7, 8, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(7, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(8, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(8, 1, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(8, 2, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(8, 3, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(8, 4, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(8, 5, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(8, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(8, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(8, 8, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(8, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(9, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(9, 1, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(9, 2, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(9, 3, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(9, 4, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(9, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(9, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(9, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(9, 8, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(9, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(10, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(10, 1, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(10, 2, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(10, 3, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(10, 4, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(10, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(10, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(10, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(10, 8, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(10, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(11, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(11, 1, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(11, 2, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(11, 3, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(11, 4, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(11, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(11, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(11, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(11, 8, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(11, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(12, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(12, 1, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(12, 2, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(12, 3, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(12, 4, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(12, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(12, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(12, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(12, 8, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(12, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+								new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(13, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(13, 1, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(13, 2, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(13, 3, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(13, 4, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(13, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(13, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(13, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(13, 8, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(13, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(14, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(14, 1, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(14, 2, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(14, 3, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(14, 4, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(14, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(14, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(14, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(14, 8, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(14, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+								new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(15, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(15, 1, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(15, 2, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(15, 3, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(15, 4, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(15, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(15, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(15, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(15, 8, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(15, 9, Width, Height, Blocktype.Dead)
+			             			}
+			             	};
+
+					#endregion
+					break;
+				case 2:
+					_colorScheme = new List<Color> {Color.Beige, Color.Gold, Color.DarkOrange, Color.Tomato, Color.Gray};
+					#region sample level 2
+
+					_blockList = new List<List<BreakOutBlock>>
+			             	{
+								new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(0, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(0, 1, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(0, 2, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(0, 3, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(0, 4, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(0, 5, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(0, 6, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(0, 7, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(0, 8, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(0, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+								new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(1, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(1, 1, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(1, 2, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(1, 3, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(1, 4, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(1, 5, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(1, 6, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(1, 7, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(1, 8, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(1, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+								new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(2, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(2, 1, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(2, 2, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(2, 3, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(2, 4, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(2, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(2, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(2, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(2, 8, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(2, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(3, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(3, 1, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(3, 2, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(3, 3, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(3, 4, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(3, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(3, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(3, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(3, 8, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(3, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(4, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(4, 1, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(4, 2, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(4, 3, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(4, 4, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(4, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(4, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(4, 7, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(4, 8, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(4, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+								new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(5, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(5, 1, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(5, 2, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(5, 3, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(5, 4, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(5, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(5, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(5, 7, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(5, 8, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(5, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(6, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(6, 1, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(6, 2, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(6, 3, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(6, 4, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(6, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(6, 6, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(6, 7, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(6, 8, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(6, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(7, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(7, 1, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(7, 2, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(7, 3, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(7, 4, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(7, 5, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(7, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(7, 7, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(7, 8, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(7, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(8, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(8, 1, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(8, 2, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(8, 3, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(8, 4, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(8, 5, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(8, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(8, 7, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(8, 8, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(8, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(9, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(9, 1, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(9, 2, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(9, 3, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(9, 4, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(9, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(9, 6, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(9, 7, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(9, 8, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(9, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(10, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(10, 1, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(10, 2, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(10, 3, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(10, 4, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(10, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(10, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(10, 7, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(10, 8, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(10, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(11, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(11, 1, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(11, 2, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(11, 3, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(11, 4, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(11, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(11, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(11, 7, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(11, 8, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(11, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(12, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(12, 1, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(12, 2, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(12, 3, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(12, 4, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(12, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(12, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(12, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(12, 8, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(12, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+								new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(13, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(13, 1, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(13, 2, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(13, 3, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(13, 4, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(13, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(13, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(13, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(13, 8, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(13, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(14, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(14, 1, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(14, 2, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(14, 3, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(14, 4, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(14, 5, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(14, 6, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(14, 7, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(14, 8, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(14, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+								new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(15, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(15, 1, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(15, 2, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(15, 3, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(15, 4, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(15, 5, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(15, 6, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(15, 7, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(15, 8, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(15, 9, Width, Height, Blocktype.Dead)
+			             			},
+			             	};
+
+					#endregion
+					break;
+				case 3:
+					_colorScheme = new List<Color>{Color.Beige, Color.Turquoise, Color.Teal, Color.Thistle, Color.Gray};
+					#region sample level 3
+
+					_blockList = new List<List<BreakOutBlock>>
+			             	{
+								new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(0, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(0, 1, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(0, 2, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(0, 3, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(0, 4, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(0, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(0, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(0, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(0, 8, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(0, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+								new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(1, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(1, 1, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(1, 2, Width, Height, Blocktype.Ball),
+			             				new BreakOutBlock(1, 3, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(1, 4, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(1, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(1, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(1, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(1, 8, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(1, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+								new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(2, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(2, 1, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(2, 2, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(2, 3, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(2, 4, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(2, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(2, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(2, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(2, 8, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(2, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+			             		new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(3, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(3, 1, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(3, 2, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(3, 3, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(3, 4, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(3, 5, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(3, 6, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(3, 7, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(3, 8, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(3, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+								new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(4, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(4, 1, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(4, 2, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(4, 3, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(4, 4, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(4, 5, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(4, 6, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(4, 7, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(4, 8, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(4, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+								new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(5, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(5, 1, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(5, 2, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(5, 3, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(5, 4, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(5, 5, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(5, 6, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(5, 7, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(5, 8, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(5, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+								new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(6, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(6, 1, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(6, 2, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(6, 3, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(6, 4, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(6, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(6, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(6, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(6, 8, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(6, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+								new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(7, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(7, 1, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(7, 2, Width, Height, Blocktype.Ball),
+			             				new BreakOutBlock(7, 3, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(7, 4, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(7, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(7, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(7, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(7, 8, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(7, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+								new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(8, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(8, 1, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(8, 2, Width, Height, Blocktype.Ball),
+			             				new BreakOutBlock(8, 3, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(8, 4, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(8, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(8, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(8, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(8, 8, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(8, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+								new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(9, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(9, 1, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(9, 2, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(9, 3, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(9, 4, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(9, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(9, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(9, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(9, 8, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(9, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+								new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(10, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(10, 1, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(10, 2, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(10, 3, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(10, 4, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(10, 5, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(10, 6, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(10, 7, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(10, 8, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(10, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+								new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(11, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(11, 1, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(11, 2, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(11, 3, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(11, 4, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(11, 5, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(11, 6, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(11, 7, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(11, 8, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(11, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+								new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(12, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(12, 1, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(12, 2, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(12, 3, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(12, 4, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(12, 5, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(12, 6, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(12, 7, Width, Height, Blocktype.Strong2),
+			             				new BreakOutBlock(12, 8, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(12, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+								new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(13, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(13, 1, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(13, 2, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(13, 3, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(13, 4, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(13, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(13, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(13, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(13, 8, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(13, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+								new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(14, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(14, 1, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(14, 2, Width, Height, Blocktype.Ball),
+			             				new BreakOutBlock(14, 3, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(14, 4, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(14, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(14, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(14, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(14, 8, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(14, 9, Width, Height, Blocktype.Dead)
+			             			},
+
+								new List<BreakOutBlock>
+			             			{
+			             				new BreakOutBlock(15, 0, Width, Height, Blocktype.Dead),
+			             				new BreakOutBlock(15, 1, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(15, 2, Width, Height, Blocktype.Invincible),
+			             				new BreakOutBlock(15, 3, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(15, 4, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(15, 5, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(15, 6, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(15, 7, Width, Height, Blocktype.Standard),
+			             				new BreakOutBlock(15, 8, Width, Height, Blocktype.Strong3),
+			             				new BreakOutBlock(15, 9, Width, Height, Blocktype.Dead)
+			             			}
+			             	};
+
+					#endregion
+					break;
+				default:
+					break;
+			}
+
+			_running = true;
 		}
 
 		public int GetLevelScore()
 		{
-			throw new NotImplementedException();
+			return _score;
 		}
 
 		public void ResetScore()
 		{
-			throw new NotImplementedException();
+			_score = 0;
 		}
 
 		#endregion
@@ -748,10 +995,10 @@ namespace XNASystem.BreakOut
 								for (k = 0; k < 10; k++)
 								{
 									//make a rectangle aroundt he current block
-									_objectRect = new Rectangle((int)_blockList2[j][k].GetX(), (int)_blockList2[j][k].GetY(), 78, 36);
+									_objectRect = new Rectangle((int)_blockList[j][k].GetX(), (int)_blockList[j][k].GetY(), 78, 36);
 
 									//if a ball intersects with the block and that block is alive...
-									if (_ballRect.Intersects(_objectRect) && _blockList2[j][k].GetType() != Blocktype.Dead)
+									if (_ballRect.Intersects(_objectRect) && _blockList[j][k].GetType() != Blocktype.Dead)
 									{
 										//reord the position of the block
 										blocksHitX.Add(j);
@@ -765,7 +1012,7 @@ namespace XNASystem.BreakOut
 							//act on the collisions based on how many are hit
 							if (blocksHitX.Count == 1)
 							{
-								switch (_blockList2[blocksHitX[0]][blocksHitY[0]].GetSide(_ballRect))
+								switch (_blockList[blocksHitX[0]][blocksHitY[0]].GetSide(_ballRect))
 								//..than find out which side it hit and act accordingly.
 								{
 									case 0:
@@ -785,7 +1032,7 @@ namespace XNASystem.BreakOut
 								}
 
 								// change the block type with this method.
-								DecrementType(_blockList2[blocksHitX[0]][blocksHitY[0]]);
+								DecrementType(_blockList[blocksHitX[0]][blocksHitY[0]]);
 							}
 
 							#endregion
@@ -806,8 +1053,8 @@ namespace XNASystem.BreakOut
 								}
 
 								// change the block type with this method.
-								DecrementType(_blockList2[blocksHitX[0]][blocksHitY[0]]);
-								DecrementType(_blockList2[blocksHitX[1]][blocksHitY[1]]);
+								DecrementType(_blockList[blocksHitX[0]][blocksHitY[0]]);
+								DecrementType(_blockList[blocksHitX[1]][blocksHitY[1]]);
 							}
 
 							#endregion
@@ -822,15 +1069,15 @@ namespace XNASystem.BreakOut
 									if (blocksHitY[0] != blocksHitY[2])
 									{
 										// change the block type with this method.
-										DecrementType(_blockList2[blocksHitX[0]][blocksHitY[0]]);
-										DecrementType(_blockList2[blocksHitX[2]][blocksHitY[2]]);
+										DecrementType(_blockList[blocksHitX[0]][blocksHitY[0]]);
+										DecrementType(_blockList[blocksHitX[2]][blocksHitY[2]]);
 									}
 								}
 								else if (blocksHitX[0] != blocksHitX[2])
 								{
 									// change the block type with this method.
-									DecrementType(_blockList2[blocksHitX[2]][blocksHitY[2]]);
-									DecrementType(_blockList2[blocksHitX[1]][blocksHitY[1]]);
+									DecrementType(_blockList[blocksHitX[2]][blocksHitY[2]]);
+									DecrementType(_blockList[blocksHitX[1]][blocksHitY[1]]);
 								}
 
 								if (blocksHitY[0] == blocksHitY[1])
@@ -887,7 +1134,7 @@ namespace XNASystem.BreakOut
 							_ballList[i].Kill();
 							if (_lives == 0)
 							{
-								_main.EndGame(new Score("Name", ActivityType.Game, _score, "Breakout"));
+								FinishGame();
 							}
 						}
 
@@ -905,7 +1152,7 @@ namespace XNASystem.BreakOut
 				{
 					for (y = 0; y < 10; y++)
 					{
-						if (_blockList2[x][y].GetType() == Blocktype.Standard || _blockList2[x][y].GetType() == Blocktype.Strong2 || _blockList2[x][y].GetType() == Blocktype.Strong3)
+						if (_blockList[x][y].GetType() == Blocktype.Standard || _blockList[x][y].GetType() == Blocktype.Strong2 || _blockList[x][y].GetType() == Blocktype.Strong3)
 						{
 							win = false;
 						}
@@ -914,7 +1161,8 @@ namespace XNASystem.BreakOut
 
 				if (win)
 				{
-					_main.EndGame(new Score("Name", ActivityType.Game, _score, "Breakout"));
+					_score += 1000;
+					FinishGame();
 				}
 
 				#endregion
@@ -968,6 +1216,14 @@ namespace XNASystem.BreakOut
 					block.SetType(Blocktype.Dead);
 					_score += 100;
 					break;
+				case Blocktype.Ball:
+					var rand = new Random();
+					_ballList.Add(new BreakOutBall(block.GetX() + 39, block.GetY() + 18,(float) .2 * (rand.Next(4) + 1), (float) .5));
+					_ballList.Add(new BreakOutBall(block.GetX() + 39, block.GetY() + 18,(float) .2 * (rand.Next(4) + 1), (float) .5));
+					_lives += 2;
+					block.SetType(Blocktype.Dead);
+					_score += 100;
+					break;
 				default:
 					break;
 			}
@@ -979,42 +1235,66 @@ namespace XNASystem.BreakOut
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
-			spriteBatch.Begin();
-
-			spriteBatch.Draw(textures[4], new Rectangle(0, 0, Width, Height), Color.Black );
-			//draw the paddle wlls and ceiling
-			_paddle.Draw(spriteBatch, fonts, textures);
-			_leftWall.Draw(spriteBatch, fonts, textures);
-			_rightWall.Draw(spriteBatch, fonts, textures);
-			_ceiling.Draw(spriteBatch, fonts, textures);
-
-			//draw the score
-			spriteBatch.DrawString(fonts[0], "" + _score, new Vector2(2 * _buffer ,2 * _buffer), Color.White);
-
-			//draw the lives
-			spriteBatch.DrawString(fonts[0],"Lives: " + _lives, new Vector2(Width - 70 - (2 * _buffer) , 2 * _buffer), Color.White);
-			
-			//draw the blocks
-			int i, j;
-			for (i = 0; i < 16; i++)
+			if (_running)
 			{
-				for(j = 0; j < 10; j++)
+				spriteBatch.Begin();
+
+				spriteBatch.Draw(textures[4], new Rectangle(0, 0, Width, Height), Color.Black);
+				//draw the paddle wlls and ceiling
+				_paddle.Draw(spriteBatch, fonts, textures);
+				_leftWall.Draw(spriteBatch, fonts, textures);
+				_rightWall.Draw(spriteBatch, fonts, textures);
+				_ceiling.Draw(spriteBatch, fonts, textures);
+
+				//draw the score
+				spriteBatch.DrawString(fonts[0], "" + _score, new Vector2(2*_buffer, 2*_buffer), Color.White);
+
+				//draw the lives
+				spriteBatch.DrawString(fonts[0], "Lives: " + _lives, new Vector2(Width - 70 - (2*_buffer), 2*_buffer), Color.White);
+
+				//draw the blocks
+				int i, j;
+				for (i = 0; i < 16; i++)
 				{
-					// only draw the current block if it is not dead
-					if(_blockList2[i][j].GetType() != Blocktype.Dead)
-						_blockList2[i][j].Draw(spriteBatch, fonts, textures);
+					for (j = 0; j < 10; j++)
+					{
+						switch(_blockList[i][j].GetType())
+						{
+							case Blocktype.Standard:
+								_blockList[i][j].SetColor(_colorScheme[0]);
+								break;
+							case Blocktype.Strong2:
+								_blockList[i][j].SetColor(_colorScheme[1]);
+								break;
+							case Blocktype.Strong3:
+								_blockList[i][j].SetColor(_colorScheme[2]);
+								break;
+							case Blocktype.Ball:
+								_blockList[i][j].SetColor(_colorScheme[3]);
+								break;
+							case Blocktype.Invincible:
+								_blockList[i][j].SetColor(_colorScheme[4]);
+								break;
+							default:
+								break;
+						}
+
+						if (_blockList[i][j].GetType() != Blocktype.Dead)
+						{
+							_blockList[i][j].Draw(spriteBatch, fonts, textures);
+						}
+					}
 				}
-			}
 
-			//draw the balls
-			int k;
-			for (k = 0; k < _ballList.Count; k++)
-			{
-				if(_ballList[k].IsAlive())
-					_ballList[k].Draw(spriteBatch, fonts, textures);
-			}
+				//draw the balls
+				int k;
+				for (k = 0; k < _ballList.Count; k++)
+				{
+					if (_ballList[k].IsAlive())
+						_ballList[k].Draw(spriteBatch, fonts, textures);
+				}
 				spriteBatch.End();
-
+			}
 		}
 
 		#endregion
