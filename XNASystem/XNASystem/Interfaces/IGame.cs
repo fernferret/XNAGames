@@ -8,7 +8,7 @@ namespace XNASystem.Interfaces
 		void ResetGame();
 		List<PowerUp> GetPowerUps();
 		void FinishGame();
-		void StartGame();
+		void StartGame(int level);
 		int GetLevelScore();
 		void ResetScore();
 	}
