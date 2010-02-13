@@ -66,10 +66,17 @@ namespace XNASystem
 		public static SoundEffect SoundShoot;
 		public static SoundEffectInstance SoundShootInstance;
 
+		public static SoundEffect SoundBoom;
+		public static SoundEffectInstance SoundBoomInstance;
+
+		public static List<SoundEffect> SoundsBackground;
+		public static List<SoundEffectInstance> SoundsBackgroundInstance;
+
 		public static SoundEffect SoundBackground;
 		public static SoundEffectInstance SoundBackgroundInstance;
 
 		public static SoundEffect SoundShootEnemy;
+		
 		public static SoundEffectInstance SoundShootEnemyInstance;
 		//initialize a new list of booklets
     	private readonly List<Booklet> _booklets;
@@ -133,7 +140,7 @@ namespace XNASystem
             _dataManager = new DataManager();
 
 			// create a list of booklets the system can run off of
-            _booklets = _dataManager.LoadBooklets(0);
+            //_booklets = _dataManager.LoadBooklets(0);
 
 			/*///////////////////////////////////////////////delete all this once xml works///////////////////////////////////////////////////////////////////////////
         	Booklet defaultb = new Booklet("defualt Booklet");
@@ -154,8 +161,8 @@ namespace XNASystem
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
         	// initialize the currents to jsut the first boklet and the first quiz in that booklet
-        	_currentBooklet = _booklets[0];
-        	_currentQuiz = _booklets[0].GetSpecificQuiz(0);
+        	//_currentBooklet = _booklets[0];
+        	//_currentQuiz = _booklets[0].GetSpecificQuiz(0);
         }
         #endregion
 
@@ -173,25 +180,42 @@ namespace XNASystem
 			SoundShoot = Content.Load<SoundEffect>("Audio\\Waves\\shoot");
 			SoundShootInstance = SoundShoot.CreateInstance();
 
+			SoundBoom = Content.Load<SoundEffect>("Audio\\Waves\\baboom");
+			SoundBoomInstance = SoundBoom.CreateInstance();
+
 			SoundShootEnemy = Content.Load<SoundEffect>("Audio\\Waves\\shoot_enemy");
 			SoundShootEnemyInstance = SoundShootEnemy.CreateInstance();
 
-			SoundBackground = Content.Load<SoundEffect>("Audio\\Waves\\background");
+			SoundBackground = Content.Load<SoundEffect>("Audio\\Waves\\groove1");
 			SoundBackgroundInstance = SoundBackground.CreateInstance();
-			
-            // load the fonts
-			FontPackage.Add(Content.Load<SpriteFont>("Fonts//Arial"));
+			SoundsBackground = new List<SoundEffect>();
+			SoundsBackgroundInstance = new List<SoundEffectInstance>();
+			for (var i = 1; i <= 12; i++)
+			{
+				var path = "Audio\\Waves\\groove" + i;
+				SoundsBackground.Add(Content.Load<SoundEffect>(path));
+				SoundsBackgroundInstance.Add(SoundsBackground[i-1].CreateInstance()); 
+			}
+			for (var i = 1; i <= 4; i++)
+			{
+				var path = "Audio\\Waves\\jgroove" + i;
+				SoundsBackground.Add(Content.Load<SoundEffect>(path));
+				SoundsBackgroundInstance.Add(SoundsBackground[i+12-1].CreateInstance()); 
+			}
+
+				// load the fonts
+				FontPackage.Add(Content.Load<SpriteFont>("Fonts//Arial"));
 			FontPackage.Add(Content.Load<SpriteFont>("Fonts//Main"));
 			FontPackage.Add(Content.Load<SpriteFont>("Fonts//Title"));
 
             //load texture package
             _texturePackage.Add(Content.Load<Texture2D>("Sprites//Hilight_center"));
             _texturePackage.Add(Content.Load<Texture2D>("Sprites//xnaGamesBackground_"+_graphics.PreferredBackBufferWidth+"_"+_graphics.PreferredBackBufferHeight));
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//grey box"));
-			_texturePackage.Add(Content.Load<Texture2D>("Sprites//paddle"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//BreakoutGame//Breakout_Block_Meta_newl"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//BreakoutGame//Breakout_Paddle"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//wall"));
-			_texturePackage.Add(Content.Load<Texture2D>("Sprites//block"));
-			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ball"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//BreakoutGame//Breakout_Block_Template"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//BreakoutGame//BreakoutBall"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ceiling"));
 
 			//Shooter Game Textures
@@ -254,9 +278,10 @@ namespace XNASystem
             _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_33_a")); //32-63        
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//Hilight_left"));
 			_texturePackage.Add(Content.Load<Texture2D>("Sprites//Hilight_right"));
-			_texturePackage.Add(Content.Load<Texture2D>("Sprites//UI//UIBorder"));//27
-			_texturePackage.Add(Content.Load<Texture2D>("Sprites//UI//UIFill"));//28
-			_texturePackage.Add(Content.Load<Texture2D>("Sprites//UI//UICorner"));//29
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//UI//UIBorder"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//UI//UIFill"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//UI//UICorner"));//68
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//BreakoutGame//Breakout_BallBlock"));
 
 
             // give the stack the main menu
@@ -436,7 +461,7 @@ namespace XNASystem
         {
             foreach (Booklet booklet in _booklets)
             {
-                _dataManager.SaveBooklet(0, booklet);
+                //_dataManager.SaveBooklet(0, booklet);
             }
             this.Exit();
         }

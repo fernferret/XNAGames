@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
 public enum ButtonPressed
@@ -34,7 +34,7 @@ namespace XNASystem.Utils
 			_right = new ButtonAlias("RIGHT", Buttons.DPadRight, Keys.Right, ButtonHoldable.Yes);
 			_enter = new ButtonAlias("ENTER", Buttons.A, Keys.Enter, ButtonHoldable.No);
 			_back = new ButtonAlias("BACK", Buttons.Back, Keys.Delete, ButtonHoldable.No);
-			_space = new ButtonAlias("SPACE", Buttons.Y, Keys.Space, ButtonHoldable.No);
+			_space = new ButtonAlias("SPACE", Buttons.Y, Keys.Space, ButtonHoldable.Yes);
 			_buttonAliases = new List<ButtonAlias>
 			                 	{
 			                 		_up,
@@ -47,17 +47,10 @@ namespace XNASystem.Utils
 			                 	};
 			_pressedButtons = new List<ButtonAlias>();
 		}
-		public void AddAlias(String n, Keys k, Buttons b, bool h)
+		/*public void AddAlias(String n, Keys k, Buttons b, ButtonHoldable h)
 		{
-			if (h)
-			{
-				_buttonAliases.Add(new ButtonAlias(n, b, k, ButtonHoldable.Yes));
-			}
-			else
-			{
-				_buttonAliases.Add(new ButtonAlias(n, b, k, ButtonHoldable.No));
-			}
-		}
+			_buttonAliases.Add(new ButtonAlias(n, b, k, h));
+		}*/
 		public int HandleMenuMovement(int items, int c)
 		{
 			var choice = c;
@@ -96,7 +89,7 @@ namespace XNASystem.Utils
 
 		public bool IfEnterPressed()
 		{
-			if(_enter == CheckKeys(new List<ButtonAlias> {_enter}))
+			if (_enter == CheckKeys(new List<ButtonAlias> { _enter }))
 			{
 				return true;
 			}
@@ -164,7 +157,10 @@ namespace XNASystem.Utils
 				if (_gamePadState.IsButtonDown(action.GetButton()) && !_pressedButtons.Contains(action))
 				{
 					action.Pressed = PressType.XboxController;
-					_pressedButtons.Add(action);
+					if (!action.GetHoldable())
+					{
+						_pressedButtons.Add(action);
+					}
 					return action;
 				}
 				if ((_keyState.IsKeyUp(action.GetKey())) && _pressedButtons.Contains(action))
@@ -184,7 +180,7 @@ namespace XNASystem.Utils
 			}
 			return null;
 		}
-		
+
 
 		internal void SetInputs(KeyboardState keyState, GamePadState padState)
 		{

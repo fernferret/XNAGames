@@ -1,7 +1,5 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using XNASystem.Interfaces;
@@ -14,7 +12,9 @@ namespace XNASystem.BreakOut
 
 		private float _xPosition;
 		private const float YPosition = 550;
-		private readonly Rectangle[] _sideRect;
+		private readonly int _width;
+		private readonly int _height;
+		private Rectangle[] _sideRect;
 
 		#endregion
 
@@ -23,10 +23,8 @@ namespace XNASystem.BreakOut
 		public BreakOutPaddle()
 		{
 			_xPosition = 300;
-			_sideRect = new Rectangle[]{new Rectangle((int) _xPosition, (int) YPosition, 199, 1), 
-										new Rectangle((int) (_xPosition + 198), (int) (YPosition + 1), 1, 15), 
-										new Rectangle((int) _xPosition, (int) (YPosition + 16), 199, 1), 
-										new Rectangle((int) _xPosition, (int) (YPosition + 1), 1, 15)};
+			_width = 200;
+			_height = 15;
 		}
 
 		#endregion
@@ -35,7 +33,18 @@ namespace XNASystem.BreakOut
 
 		public void UpdatePostion(float x, float y)
 		{
-			_xPosition += 2* x;
+			if (2 * x > 1)
+			{
+				_xPosition++;
+			}
+			else if (2 * x < -1)
+			{
+				_xPosition--;
+			}
+			else
+			{
+				_xPosition += 2 * x;
+			}
 		}
 
 		#endregion
@@ -68,15 +77,29 @@ namespace XNASystem.BreakOut
 
 		public int GetSide(Rectangle ball)
 		{
-			if(ball.Intersects(_sideRect[1]))
+			_sideRect = new[]{new Rectangle((int) _xPosition, (int) YPosition, _width, 1), 
+										new Rectangle((int) (_xPosition + _width - 1), (int) (YPosition + 1), 1, _height - 1), 
+										new Rectangle((int) _xPosition, (int) (YPosition + 1), 1, _height - 1)};
+
+			if (ball.Intersects(_sideRect[1]))
 			{
 				return 1;
 			}
-			if(ball.Intersects(_sideRect[3]))
+			if (ball.Intersects(_sideRect[2]))
 			{
-				return 3;
+				return 1;
 			}
 			return 0;
+		}
+
+		public int GetWidth()
+		{
+			return _width;
+		}
+
+		public int GetHeight()
+		{
+			return _height;
 		}
 
 		#endregion

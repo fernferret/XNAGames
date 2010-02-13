@@ -50,11 +50,15 @@ namespace XNASystem.Shooter
 
 		public void AdvanceLevel()
 		{
-			if (_currentLevel <= _levels.Count)
+			if (_currentLevel < _levels.Count)
 			{
 				_currentLevel++;
 				_herdList = _levels[_currentLevel].GetHerdList();
 				ResetGame();
+			}
+			else
+			{
+				FinishGame();
 			}
 		}
 
@@ -424,11 +428,23 @@ namespace XNASystem.Shooter
 
 		public void Update(InputHandler handler, GameTime gameTime)
 		{
-			if (SystemMain.SoundBackgroundInstance.State != SoundState.Playing)
+			var soundplaying = false;
+			foreach (var sound in SystemMain.SoundsBackgroundInstance)
 			{
-				SystemMain.SoundBackgroundInstance.IsLooped = true;
-				SystemMain.SoundBackgroundInstance.Volume = .35f;
-				SystemMain.SoundBackgroundInstance.Play();
+				if(sound.State == SoundState.Playing)
+				{
+					soundplaying = true;
+				}
+			}
+			if(!soundplaying)
+			{
+				Random r = new Random();
+				var rn = r.Next(0, SystemMain.SoundsBackgroundInstance.Count);
+				//SystemMain.SoundsBackgroundInstance[rn].IsLooped = false;
+				SystemMain.SoundsBackgroundInstance[rn].Volume = .35f;
+				//SystemMain.SoundsBackgroundInstance[rn].Pitch = -1.0f;
+				SystemMain.SoundsBackgroundInstance[rn].Play();
+
 			}
 			if(GameWon() || GameLost())
 			{

@@ -183,7 +183,7 @@ namespace XNASystem.MaterialEditor
 					case 0:
 						if (_question.Length != 0)
 						{
-							_question = _question.Remove(_question.Length - 1);
+							_question = _question.Remove(_question.Length - 1,0);
 						}
 						break;
 					default:

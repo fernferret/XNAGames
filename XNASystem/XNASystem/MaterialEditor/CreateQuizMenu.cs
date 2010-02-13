@@ -163,7 +163,7 @@ namespace XNASystem.MaterialEditor
 					case 0:
 						if (_name.Length != 0)
 						{
-							_name = _name.Remove(_name.Length - 1);
+							_name = _name.Remove(_name.Length - 1,0);
 						}
 						break;
 					default:
@@ -735,7 +735,7 @@ namespace XNASystem.MaterialEditor
 					case 0:
 						if (_name.Length != 0)
 						{
-							_name = _name.Remove(_name.Length - 1);
+							_name = _name.Remove(_name.Length - 1,0);
 						}
 						break;
 					default:

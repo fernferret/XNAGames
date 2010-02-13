@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -10,6 +10,15 @@ namespace XNASystem.BreakOut
 {
 	class BreakOutCeiling : IGameObject
 	{
+		private readonly int _width;
+		private readonly int _buffer;
+
+		public BreakOutCeiling(int width)
+		{
+			_width = width;
+			_buffer = (width % 78) / 2;
+		}
+
 		#region update
 
 		public void UpdatePostion(float x, float y)
@@ -23,7 +32,7 @@ namespace XNASystem.BreakOut
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
-			spriteBatch.Draw(textures[7], new Vector2(0, 0), Color.White);
+			spriteBatch.Draw(textures[7], new Rectangle(0, 0, _width, _buffer), Color.White);
 		}
 
 		#endregion

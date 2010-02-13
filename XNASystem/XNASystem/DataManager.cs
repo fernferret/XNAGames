@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
+//using System.Runtime.Serialization.Formatters.Binary;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
@@ -45,9 +45,9 @@ namespace XNASystem
 
         #endregion
 
-        #region Operations
+        //#region Operations
 
-        public DataManager()
+        /*public DataManager()
         {
             FindNameCabinet(0, CabinetMode.Open, "name_file.sys");
         }
@@ -195,8 +195,8 @@ namespace XNASystem
                 {
                     try
                     {
-                        BinaryFormatter myBf = new BinaryFormatter();
-                        myBf.Serialize(fileStream, booklet);
+                    //    BinaryFormatter myBf = new BinaryFormatter();
+                    //    myBf.Serialize(fileStream, booklet);
                     }
                     catch (Exception e)
                     {
@@ -222,8 +222,8 @@ namespace XNASystem
                 {
                     try
                     {
-                        BinaryFormatter myBf = new BinaryFormatter();
-                        myBf.Serialize(fileStream, nameWrapper);
+                     //   BinaryFormatter myBf = new BinaryFormatter();
+                     //   myBf.Serialize(fileStream, nameWrapper);
                     }
                     finally
                     {
@@ -245,9 +245,9 @@ namespace XNASystem
                 {
                     try
                     {
-                        BinaryFormatter myBf = new BinaryFormatter();
+                    //    BinaryFormatter myBf = new BinaryFormatter();
                         fileStream.Position = 0;
-                        _currentBooklet = (Booklet) myBf.Deserialize(fileStream);
+                     //   _currentBooklet = (Booklet) myBf.Deserialize(fileStream);
                     }
                     finally
                     {
@@ -271,9 +271,9 @@ namespace XNASystem
                     {
                         try
                         {
-                            BinaryFormatter myBf = new BinaryFormatter();
+                         //   BinaryFormatter myBf = new BinaryFormatter();
                             fileStream.Position = 0;
-                            _nameWrapper = (NameWrapper) myBf.Deserialize(fileStream);
+                        //    _nameWrapper = (NameWrapper) myBf.Deserialize(fileStream);
                         }
                         catch (Exception e)
                         {
@@ -294,6 +294,6 @@ namespace XNASystem
                 }
             }
         }
-        #endregion
+        #endregion*/
     }
 }

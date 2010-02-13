@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,11 +25,11 @@ namespace XNASystem.BreakOut
 			if (block != null)
 			{
 				//removes any blocks occupying the same location as the block being added
-				foreach(var b in _blocks)
+				foreach (var b in _blocks)
 				{
-					if(block.GetX() == b.GetX())
+					if (block.GetX() == b.GetX())
 					{
-						if(block.GetY() == b.GetY())
+						if (block.GetY() == b.GetY())
 						{
 							_blocks.Remove(b);
 						}

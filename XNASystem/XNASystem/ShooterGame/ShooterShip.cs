@@ -42,7 +42,7 @@ namespace XNASystem.Shooter
 			_xMin = xMin;
 			_xMax = xMax;
 			_xPosition = _xMax/2;
-			_yPosition = 550;
+			_yPosition = SystemMain.Height-Height-5;
 			_currentSprite = 8;
 			_currentSprites = _standardSprites;
 			frameCount = _currentSprites.Count;
@@ -127,6 +127,7 @@ namespace XNASystem.Shooter
 			_currentSprites = _deadSprites;
 			frameCount = _currentSprites.Count;
 			currentFrame = 0;
+			SystemMain.SoundBoomInstance.Play();
 		}
 
 		public bool IsDead()
