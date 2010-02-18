@@ -11,7 +11,7 @@ namespace XNASystem.BreakOut
 		#region variables
 
 		private float _xPosition;
-		private const float YPosition = 550;
+		private float YPosition = SystemMain.Height - 15;
 		private readonly int _width;
 		private readonly int _height;
 		private Rectangle[] _sideRect;
@@ -23,6 +23,7 @@ namespace XNASystem.BreakOut
 		public BreakOutPaddle()
 		{
 			_xPosition = 300;
+			
 			_width = 200;
 			_height = 15;
 		}

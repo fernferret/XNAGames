@@ -154,6 +154,8 @@ namespace XNASystem
 
 			// create a list of booklets the system can run off of
             Booklets = _dataManager.LoadBooklets(0);
+			//_qLoad = new QuestionLoader();
+			//Booklets[0] = _qLoad.PopulateSystem();
 
 			/*///////////////////////////////////////////////delete all this once xml works///////////////////////////////////////////////////////////////////////////
         	Booklet defaultb = new Booklet("defualt Booklet");

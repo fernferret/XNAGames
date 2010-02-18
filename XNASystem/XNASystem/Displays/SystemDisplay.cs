@@ -60,6 +60,7 @@ namespace XNASystem.Displays
 				{
 					// take quiz
 					case 0:
+						_booklet.Reset();
 						_menuStack.Push(new QuizDisplay(_booklet.GetNextQuiz(), this));
 						_systemMain.SetStack(_menuStack);
 

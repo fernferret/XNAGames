@@ -100,7 +100,7 @@ namespace XNASystem.BreakOut
 
 		public void StartGame(int level)
 		{
-			switch (level)
+			switch (level+1)
 			{
 				case 1:
 					_colorScheme = new List<Color> { Color.Beige, Color.Salmon, Color.Red, Color.Coral, Color.Gray };

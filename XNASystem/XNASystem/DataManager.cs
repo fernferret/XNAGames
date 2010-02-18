@@ -105,14 +105,15 @@ namespace XNASystem
 		{
 			this.WaitOnOperation();
 			List<Booklet> booklets = new List<Booklet>();
-			foreach (string bookletName in _nameWrapper.BookletNames)
+			/*foreach (string bookletName in _nameWrapper.BookletNames)
 			{
 				FindCabinet(playerIndex, CabinetMode.Open, bookletName);
+				this.WaitOnOperation();
 				booklets.Add(_currentBooklet);
-			}
+			}*/
 
 			//Hack for initialization with no booklets
-			if (booklets.Count == 0)
+			if (/*booklets.Count == 0*/true)
 			{
 				Booklet math = new Booklet("Math");
 				//Booklet history = new Booklet("History");
@@ -184,13 +185,13 @@ namespace XNASystem
 				mqz7.AddItem(mq73);
 
 
-				math.AddItem(mqz1);
-				math.AddItem(mqz2);
-				math.AddItem(mqz3);
-				math.AddItem(mqz4);
-				math.AddItem(mqz5);
-				math.AddItem(mqz6);
 				math.AddItem(mqz7);
+				math.AddItem(mqz6);
+				math.AddItem(mqz5);
+				math.AddItem(mqz4);
+				math.AddItem(mqz3);
+				math.AddItem(mqz2);
+				math.AddItem(mqz1);
 				//history.AddItem(hqz1);
 				//history.AddItem(hqz2);
 

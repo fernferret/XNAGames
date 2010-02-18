@@ -51,7 +51,7 @@ namespace XNASystem.SystemMenus
 		#region update
 		public void Update(InputHandler handler, GameTime gameTime)
 		{
-			_choice = handler.HandleMenuMovement(4, _choice);
+			_choice = handler.HandleMenuMovement(3, _choice);
 			if(handler.IfEnterPressed())
 			{
 				// case system to perform appropriate action of the chosen menu item based on _choice
