@@ -44,6 +44,7 @@ namespace XNASystem
 	{
 		#region variable creation
 
+		public static int Game;
 		public static int Height;
 		public static int Width;
 		private Score _score;
@@ -75,11 +76,23 @@ namespace XNASystem
 		public static SoundEffect SoundBackground;
 		public static SoundEffectInstance SoundBackgroundInstance;
 
+		public static SoundEffect SoundOuch;
+		public static SoundEffectInstance SoundOuchInstance;
+
+		public static SoundEffect SoundOof;
+		public static SoundEffectInstance SoundOofInstance;
+
+		public static SoundEffect SoundNoooo;
+		public static SoundEffectInstance SoundNooooInstance;
+
+		public static SoundEffect SoundQuizBg;
+		public static SoundEffectInstance SoundQuizBgInstance;
+
 		public static SoundEffect SoundShootEnemy;
 		
 		public static SoundEffectInstance SoundShootEnemyInstance;
 		//initialize a new list of booklets
-    	private readonly List<Booklet> _booklets;
+    	public static List<Booklet> Booklets;
 
 		//initializes holders for the current booklets and quizzes
     	private Booklet _currentBooklet;
@@ -140,7 +153,7 @@ namespace XNASystem
             _dataManager = new DataManager();
 
 			// create a list of booklets the system can run off of
-            //_booklets = _dataManager.LoadBooklets(0);
+            Booklets = _dataManager.LoadBooklets(0);
 
 			/*///////////////////////////////////////////////delete all this once xml works///////////////////////////////////////////////////////////////////////////
         	Booklet defaultb = new Booklet("defualt Booklet");
@@ -156,8 +169,8 @@ namespace XNASystem
 			second.AddItem(test3);
 			second.AddItem(test4);
 
-			_booklets.Add(defaultb);
-			_booklets.Add(second);
+			Booklets.Add(defaultb);
+			Booklets.Add(second);
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
         	// initialize the currents to jsut the first boklet and the first quiz in that booklet
@@ -186,8 +199,21 @@ namespace XNASystem
 			SoundShootEnemy = Content.Load<SoundEffect>("Audio\\Waves\\shoot_enemy");
 			SoundShootEnemyInstance = SoundShootEnemy.CreateInstance();
 
-			SoundBackground = Content.Load<SoundEffect>("Audio\\Waves\\groove1");
-			SoundBackgroundInstance = SoundBackground.CreateInstance();
+			//SoundBackground = Content.Load<SoundEffect>("Audio\\Waves\\background");
+			//SoundBackgroundInstance = SoundBackground.CreateInstance();
+
+			SoundOuch = Content.Load<SoundEffect>("Audio\\Waves\\ouch");
+			SoundOuchInstance = SoundOuch.CreateInstance();
+
+			SoundOof = Content.Load<SoundEffect>("Audio\\Waves\\oof");
+			SoundOofInstance = SoundOof.CreateInstance();
+
+			SoundNoooo = Content.Load<SoundEffect>("Audio\\Waves\\no");
+			SoundNooooInstance = SoundNoooo.CreateInstance();
+
+			SoundQuizBg = Content.Load<SoundEffect>("Audio\\Waves\\glow");
+			SoundQuizBgInstance = SoundQuizBg.CreateInstance();
+
 			SoundsBackground = new List<SoundEffect>();
 			SoundsBackgroundInstance = new List<SoundEffectInstance>();
 			for (var i = 1; i <= 12; i++)
@@ -407,7 +433,7 @@ namespace XNASystem
 
 		public List<Booklet> GetBookletList()
 		{
-			return _booklets;
+			return Booklets;
 		}
 
 		public List<Quiz> GetQuizList()
@@ -417,7 +443,7 @@ namespace XNASystem
 
 		public int GetCurrentBooklet()
 		{
-			return _booklets.IndexOf(_currentBooklet);
+			return Booklets.IndexOf(_currentBooklet);
 		}
 
 		public int GetCurrentQuiz()
@@ -427,7 +453,7 @@ namespace XNASystem
 
 		public void SetCurrentBooklet(int index)
 		{
-			_currentBooklet = _booklets[index];
+			_currentBooklet = Booklets[index];
 			_currentQuiz = _currentBooklet.GetAsList().Count == 0 ? null : _currentBooklet.GetSpecificQuiz(0);
 		}
 
@@ -438,17 +464,17 @@ namespace XNASystem
 
 		public void CreateBooklet(string name)
 		{
-			_booklets.Add(new Booklet(name));
+			Booklets.Add(new Booklet(name));
 		}
 
 		public void CreateQuiz(int bookletIndex, string name)
 		{
-			_booklets[bookletIndex].AddItem(new Quiz(name));
+			Booklets[bookletIndex].AddItem(new Quiz(name));
 		}
 
 		public void CreateQuestion(int bookletIndex, int quizIndex, string question, List<Answer> answers)
 		{
-			_booklets[bookletIndex].GetSpecificQuiz(quizIndex).AddItem(new Question(question, answers));
+			Booklets[bookletIndex].GetSpecificQuiz(quizIndex).AddItem(new Question(question, answers));
 			//_booklets[bookletIndex].AddQuestionToQuiz(quizIndex, new Question(question, answers));
 		}
 
@@ -459,9 +485,9 @@ namespace XNASystem
 
         public void Close()
         {
-            foreach (Booklet booklet in _booklets)
+            foreach (Booklet booklet in Booklets)
             {
-                //_dataManager.SaveBooklet(0, booklet);
+                _dataManager.SaveBooklet(0, booklet);
             }
             this.Exit();
         }

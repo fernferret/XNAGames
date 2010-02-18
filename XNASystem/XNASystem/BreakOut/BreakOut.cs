@@ -53,7 +53,7 @@ namespace XNASystem.BreakOut
 
 		#region constructor
 
-		public BreakOut(SystemDisplay main)
+		public BreakOut(SystemDisplay main, int level)
 		{
 			//here is where we can take in things like level
 			_paddle = new BreakOutPaddle();
@@ -70,7 +70,7 @@ namespace XNASystem.BreakOut
 			_ballList = new List<BreakOutBall>();
 			_balls = 0;
 
-			StartGame(_level);
+			StartGame(level);
 
 		}
 

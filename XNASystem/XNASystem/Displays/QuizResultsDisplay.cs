@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,6 +17,7 @@ namespace XNASystem.Displays
 		protected int _choice;
 		private Score _score;
 		private SystemDisplay _display;
+		private List<String> _menuText = new List<String>{"Play Game!"};
 		public QuizResultsDisplay(SystemDisplay display, Score s)
 		{
 			_up = 1;
@@ -53,15 +55,23 @@ namespace XNASystem.Displays
 			spriteBatch.Draw(textures[1], new Rectangle(0, 0, SystemMain.Width, SystemMain.Height), Color.White);
 
 			// draw the box whereever it may be
-			spriteBatch.Draw(textures[0], new Vector2(75, 175 + (75 * _choice)), Color.White);
+			//spriteBatch.Draw(textures[0], new Vector2(75, 175 + (75 * _choice)), Color.White);
 
 			// draw the menu title
-			spriteBatch.DrawString(fonts[0], "Quiz Score:", new Vector2(250, 100), Color.Black);
+			//spriteBatch.DrawString(fonts[0], "Quiz Score:", new Vector2(250, 100), Color.Black);
+			spriteBatch.Draw(textures[1], new Rectangle(0, 0, SystemMain.Width, SystemMain.Height), Color.White);
+			SystemMain.DrawHelper.DrawSelection(new[] { textures[0], textures[64], textures[65] }, SystemMain.Height-200, (int)(Math.Ceiling(fonts[1].MeasureString(_menuText[0]).X)));
+
+			// draw the menu title
+			SystemMain.DrawHelper.DrawTitleCentered(fonts[2], "Score Viewer");
+			SystemMain.DrawHelper.DrawHelpBox();
+			SystemMain.DrawHelper.DrawMenu(_menuText, fonts[1]);
 
 			//draw the menu options
+			SystemMain.DrawHelper.DrawRectangle(50, 150, 160, 300, new[] { textures[68], textures[66], textures[67] });
 			spriteBatch.DrawString(fonts[0], "Quiz Questions Correct: " + _score.Value, new Vector2(100, 200), Color.Black);
 			spriteBatch.DrawString(fonts[0], "Quiz Percentage: " + _score.Percentage, new Vector2(100, 275), Color.Black);
-			spriteBatch.DrawString(fonts[0], "Start Game!", new Vector2(100, 500), Color.Black);
+			//spriteBatch.DrawString(fonts[0], "Start Game!", new Vector2(100, 500), Color.Black);
 
 			spriteBatch.End();
 		}

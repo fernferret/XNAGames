@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using XNASystem.Interfaces;
@@ -43,6 +44,21 @@ namespace XNASystem.Displays
 		#region update
 		public void Update(InputHandler handler, GameTime gameTime)
 		{
+			foreach (var sound in SystemMain.SoundsBackgroundInstance)
+			{
+				if (sound.State == SoundState.Playing)
+				{
+					sound.Stop();
+				}
+			}
+			if (SystemMain.SoundQuizBgInstance.State != SoundState.Playing)
+			{
+				if (!SystemMain.SoundQuizBgInstance.IsLooped)
+				{ SystemMain.SoundQuizBgInstance.IsLooped = true; }
+				
+				SystemMain.SoundQuizBgInstance.Volume = .4f;
+				SystemMain.SoundQuizBgInstance.Play();
+			}
 			_choice = handler.HandleMenuMovement(_currentQuestionAnswers.Count, _choice);
 			if(handler.IfEnterPressed())
 			{
@@ -109,7 +125,7 @@ namespace XNASystem.Displays
 			{
 				menuText.Add(q.ToString());
 			}
-			SystemMain.DrawHelper.DrawSelection(new[] { textures[0], textures[25], textures[26] }, SystemMain.DrawHelper.GetDrawLocations(menuText)[_choice], (int)(Math.Ceiling(fonts[1].MeasureString(menuText[_choice]).X)));
+			SystemMain.DrawHelper.DrawSelection(new[] { textures[0], textures[64], textures[65] }, SystemMain.DrawHelper.GetDrawLocations(menuText)[_choice], (int)(Math.Ceiling(fonts[1].MeasureString(menuText[_choice]).X)));
 
 			// draw the menu title
 			SystemMain.DrawHelper.DrawTitleCentered(fonts[2], _currentQuiz.GetTitle());

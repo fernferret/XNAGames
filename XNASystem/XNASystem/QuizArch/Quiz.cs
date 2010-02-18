@@ -47,6 +47,24 @@ namespace XNASystem.QuizArch
 			_score = new Score("Eric", ActivityType.Quiz, 0, _title);
 		}
 
+		public Quiz(byte[] bytes, ref int position)
+		{
+			_title = DataManager.ReadStringFromByteArray(bytes, ref position);
+
+			_questionStack = new Stack<Question>();
+			int numberOfQuestions = DataManager.ReadLengthForNextSection(bytes, ref position);
+			int index = 0;
+			for (index = 0; index < numberOfQuestions; index++)
+			{
+				Question question = new Question(bytes, ref position);
+				_questionStack.Push(question);
+			}
+
+			_answeredQuestionStack = new Stack<Question>();
+			_status = Status.NotStarted;
+			_score = new Score("Eric", ActivityType.Quiz, 0, _title);
+		}
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -205,6 +223,28 @@ namespace XNASystem.QuizArch
 		public override string ToString()
 		{
 			return _title;
+		}
+		public byte[] ToByteArray()
+		{
+			List<byte> bytes = new List<byte>();
+
+			//Serializing title
+			bytes.Add((byte)(this._title.Length / byte.MaxValue));
+			bytes.Add((byte)(this._title.Length % byte.MaxValue));
+			foreach (char c in this._title)
+			{
+				bytes.Add((byte)c);
+			}
+
+			//Serialize questions
+			bytes.Add((byte)(this._questionStack.Count / byte.MaxValue));
+			bytes.Add((byte)(this._questionStack.Count % byte.MaxValue));
+			foreach (Question q in this._questionStack)
+			{
+				bytes.AddRange(q.ToByteArray());
+			}
+
+			return bytes.ToArray();
 		}
 	}
 }

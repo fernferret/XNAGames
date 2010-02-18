@@ -27,16 +27,16 @@ namespace XNASystem.ShooterGame
 		private readonly int _height;
 		private readonly int _shotWidth;
 		private readonly int _shotHeight;
-		private bool _isDying = false;
+		protected bool _isDying = false;
 		private bool _isHurt = false;
 
 		//animation stuff
 		private float timer = 0f;
 		private float interval = 1000f / 7f;
 		protected readonly List<int> _standardSprites;
-		private readonly List<int> _deadSprites;
-		private readonly List<int> _painSprites;
-		private readonly List<int> _blankSprite;
+		protected readonly List<int> _deadSprites;
+		protected readonly List<int> _painSprites;
+		protected readonly List<int> _blankSprite;
 		protected readonly Queue<int> _spriteQueue;
 
 		#endregion
@@ -144,6 +144,7 @@ namespace XNASystem.ShooterGame
 				else
 				{
 					Kill();
+					
 					return _score;
 				}
 			}
@@ -154,14 +155,16 @@ namespace XNASystem.ShooterGame
 			return 0;
 		}
 
-		private void Hurt()
+		virtual public void Hurt()
 		{
+			SystemMain.SoundOuch.Play();
 			RemoveAllSpritesToDraw();
 			AddSpritesToDraw(_painSprites);
 		}
 
-		public void Kill()
+		virtual public void Kill()
 		{
+			SystemMain.SoundBoom.Play();
 			RemoveAllSpritesToDraw();
 			AddSpritesToDraw(_deadSprites);
 			_isDying = true;

@@ -32,7 +32,7 @@ namespace XNASystem.SystemMenus
 		protected Stack<IScreen> _menuStack;	// the stack of menus accumulated in the program so far
 		protected SystemMain _systemMain;		// the instance of SystemMain that controls the whole system
 
-		private List<String> _menuText = new List<string> { "Select Color Scheme (NYI)", "Select Booklet (NYI)", "Select Game (NYI)", "Back"};
+		private List<String> _menuText = new List<string> {/* "Select Color Scheme (NYI)", "Select Booklet (NYI)", */"Set Game to Breakout!", "Set Game to Death Squid!", "Back" };
 		#endregion
 
 		#region constructor
@@ -59,15 +59,14 @@ namespace XNASystem.SystemMenus
 				{
 					// color option
 					case 0:
+						SystemMain.Game = 0;
 						break;
 					// booklet option
 					case 1:
-						break;
-					// game option
-					case 2:
+						SystemMain.Game = 1;
 						break;
 					// back
-					case 3:
+					case 2:
 						//take this menu off the stack
 						_menuStack.Pop();
 
@@ -119,7 +118,7 @@ namespace XNASystem.SystemMenus
 
 			// draw the box
 			//var widthOfCurrentString = (int)(Math.Ceiling(_currentFont.MeasureString(_menuText[_choice]).X));
-			SystemMain.DrawHelper.DrawSelection(new[] { textures[0], textures[25], textures[26] }, SystemMain.DrawHelper.GetDrawLocations(_menuText)[_choice], (int)(Math.Ceiling(fonts[1].MeasureString(_menuText[_choice]).X)));
+			SystemMain.DrawHelper.DrawSelection(new[] { textures[0], textures[64], textures[65] }, SystemMain.DrawHelper.GetDrawLocations(_menuText)[_choice], (int)(Math.Ceiling(fonts[1].MeasureString(_menuText[_choice]).X)));
 
 			// draw the menu title
 			SystemMain.DrawHelper.DrawTitleCentered(fonts[2], "Options Menu");

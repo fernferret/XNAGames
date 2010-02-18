@@ -31,7 +31,7 @@ namespace XNASystem.Shooter
 		private List<ShooterLevel> _levels;
 		private List<ShooterHerd> _herdList;
 
-		public Shooter(SystemDisplay main)
+		public Shooter(SystemDisplay main, int level)
 		{
 			_main = main;
 			_ship = new ShooterShip(0, _width);
@@ -41,7 +41,7 @@ namespace XNASystem.Shooter
 			_herdList = new List<ShooterHerd>();
 
 			//remove later
-			StartGame(0);
+			StartGame(level);
 
 		}
 
@@ -75,7 +75,7 @@ namespace XNASystem.Shooter
 
 		public void FinishGame()
 		{
-			//_main.EndGame();
+			_main.EndGame(new Score("Player",ActivityType.Game,_score,"Shooter"));
 		}
 
 		public void StartGame(int level)
@@ -428,6 +428,10 @@ namespace XNASystem.Shooter
 
 		public void Update(InputHandler handler, GameTime gameTime)
 		{
+			if (SystemMain.SoundQuizBgInstance.State == SoundState.Playing)
+			{
+				SystemMain.SoundQuizBgInstance.Stop();
+			}
 			var soundplaying = false;
 			foreach (var sound in SystemMain.SoundsBackgroundInstance)
 			{
@@ -441,7 +445,7 @@ namespace XNASystem.Shooter
 				Random r = new Random();
 				var rn = r.Next(0, SystemMain.SoundsBackgroundInstance.Count);
 				//SystemMain.SoundsBackgroundInstance[rn].IsLooped = false;
-				SystemMain.SoundsBackgroundInstance[rn].Volume = .35f;
+				SystemMain.SoundsBackgroundInstance[rn].Volume = .30f;
 				//SystemMain.SoundsBackgroundInstance[rn].Pitch = -1.0f;
 				SystemMain.SoundsBackgroundInstance[rn].Play();
 

@@ -26,6 +26,7 @@ namespace XNASystem.Displays
 		protected int _down;
 		protected int _enter;
 		protected int _choice;
+		protected int _level = 0;
 
 
 
@@ -37,15 +38,17 @@ namespace XNASystem.Displays
 			_choice = 0;
 			_menuStack = screens;
 			_systemMain = main;
-			_qLoad = new QuestionLoader();
+			//_qLoad = new QuestionLoader();
 
 			//populate a booklet from xml files
-			_booklet = _qLoad.PopulateSystem();
+			//_booklet = _qLoad.PopulateSystem();
+			_booklet = SystemMain.Booklets[0];
+			
 			_player = "Eric";
 			_scoreManager = new ScoreManager(_player);
 			
 		}
-		
+
 		#region update
 		public void Update(InputHandler handler, GameTime gameTime)
 		{
@@ -76,28 +79,13 @@ namespace XNASystem.Displays
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
-			/*spriteBatch.Begin();
-
-			// draw the background
-			spriteBatch.Draw(textures[1], new Rectangle(0, 0, SystemMain.Width, SystemMain.Height), Color.White);
-
-			// draw the box whereever it may be
-			spriteBatch.Draw(textures[0], new Vector2(75, 175 + (75 * _choice)), Color.White);
-
-			// draw the menu title
-			spriteBatch.DrawString(fonts[0], "Are you ready to take your quiz?", new Vector2(250, 100), Color.Black);
-
-			//draw the menu options
-			spriteBatch.DrawString(fonts[0], "Yes! (Start Quiz)", new Vector2(100, 200), Color.Black);
-			spriteBatch.DrawString(fonts[0], "No! (Return to Menu)", new Vector2(100, 275), Color.Black);
-			spriteBatch.End();*/
 			spriteBatch.Begin();
 
 			spriteBatch.Draw(textures[1], new Rectangle(0, 0, SystemMain.Width, SystemMain.Height), Color.White);
 
 			// draw the box
 			//var widthOfCurrentString = (int)(Math.Ceiling(_currentFont.MeasureString(_menuText[_choice]).X));
-			SystemMain.DrawHelper.DrawSelection(new[] { textures[0], textures[25], textures[26] }, SystemMain.DrawHelper.GetDrawLocations(_menuText)[_choice], (int)(Math.Ceiling(fonts[1].MeasureString(_menuText[_choice]).X)));
+			SystemMain.DrawHelper.DrawSelection(new[] { textures[0], textures[64], textures[65] }, SystemMain.DrawHelper.GetDrawLocations(_menuText)[_choice], (int)(Math.Ceiling(fonts[1].MeasureString(_menuText[_choice]).X)));
 
 			// draw the menu title
 			SystemMain.DrawHelper.DrawTitleCentered(fonts[2], "Are you ready to take your quiz?");
@@ -119,7 +107,16 @@ namespace XNASystem.Displays
 		{
 			_menuStack.Pop();
 			//_menuStack.Push(new BreakOut.BreakOut(this));
-			_menuStack.Push(new Shooter.Shooter(this));
+			if(SystemMain.Game == 0)
+			{
+				_menuStack.Push(new BreakOut.BreakOut(this, _level));
+			}
+			else
+			{
+				_menuStack.Push(new Shooter.Shooter(this, _level));
+			}
+			
+			_level++;
 			_systemMain.SetStack(_menuStack);
 		}
 		public void EndGame(Score score)
@@ -133,7 +130,7 @@ namespace XNASystem.Displays
 			}
 			else
 			{
-				// TODO: Need to put a done with quiz screen here.
+				// TODO: Need to put a done with game screen here.
 				_menuStack.Pop();
 			}
 		}

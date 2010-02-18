@@ -40,6 +40,31 @@ namespace XNASystem.Utils
 			var r = new Rectangle();
 			return r;
 		}
+		public void DrawRectangle(int x, int y, int h, int w, Texture2D[] t)
+		{
+			// Upper Left
+			_sb.Draw(t[0], new Rectangle(x, y, 24, 24), Color.White);
+			// Upper Right
+			_sb.Draw(t[0], new Rectangle(x + w, y, 24, 24), null, Color.White, 0, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0);
+
+			// Lower Left
+			_sb.Draw(t[0], new Rectangle(x, y + h, 24, 24), null, Color.White, 0, new Vector2(0, 0), SpriteEffects.FlipVertically, 0);
+			// Lower Right
+			_sb.Draw(t[0], new Rectangle(x + 24 + w, y + 24 + h, 24, 24), null, Color.White, (float)Math.PI, new Vector2(0, 0), SpriteEffects.None, 0);
+
+			// Draw Fill
+			_sb.Draw(t[2], new Rectangle(x + 24, y + 24, w - 24, h - 24), Color.White);
+
+			// Top Border
+			_sb.Draw(t[1], new Rectangle(x + 24, y, w - 24, 24), Color.White);
+			// Bottom Border
+			_sb.Draw(t[1], new Rectangle(x + 24, y + h, w - 24, 24), null, Color.White, 0, new Vector2(0, 0), SpriteEffects.FlipVertically, 0);
+
+			// Right Border
+			_sb.Draw(t[1], new Rectangle(x + 24 + w, y + 24, h - 24, 24), null, Color.White, (float)(Math.PI / 2), new Vector2(0, 0), SpriteEffects.None, 0);
+			// Left Border
+			_sb.Draw(t[1], new Rectangle(x + 24, y + 24, h - 24, 24), null, Color.White, (float)(Math.PI / 2), new Vector2(0, 0), SpriteEffects.FlipVertically, 0);
+		}
 		public void SelectionGoTo(int x, int y, int width)
 		{
 			if (x > -1)
@@ -103,7 +128,7 @@ namespace XNASystem.Utils
 			_sb.Draw(t[1], new Rectangle(_xmin - ButtonSideWidth, _selectionCurrentY + ButtonOffset, ButtonSideWidth, ButtonWidth), Color.White);
 			_sb.Draw(t[0], new Rectangle(_xmin, _selectionCurrentY + ButtonOffset, _selectionCurrentWidth, ButtonWidth), Color.White);
 			_sb.Draw(t[2], new Rectangle(_xmin + _selectionCurrentWidth, _selectionCurrentY + ButtonOffset, ButtonSideWidth, ButtonWidth), Color.White);
-			_sb.DrawString(SystemMain.FontPackage[1], _selectionCurrentWidth + "," + _selectionFinalWidth,new Vector2(800,500), Color.White);
+			//_sb.DrawString(SystemMain.FontPackage[1], _selectionCurrentWidth + "," + _selectionFinalWidth,new Vector2(800,500), Color.White);
 		}
 
 		internal void DrawTitleCentered(SpriteFont currentFont, string title)
@@ -164,7 +189,10 @@ namespace XNASystem.Utils
 			
 			var hconst = 0;
 			var totalheight = 0;
-			
+			if (strings.Count == 1)
+			{
+				return new List<int> {SystemMain.Height - 200};
+			}
 			if (strings.Count > 1)
 			{
 				hconst = (int) Math.Floor(((Double) _ymax - _ymin)/(strings.Count - 1));

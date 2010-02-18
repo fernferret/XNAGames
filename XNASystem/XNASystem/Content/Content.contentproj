@@ -471,6 +471,45 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Sprites\BreakoutGame\BreakoutBall.png">
+      <Name>BreakoutBall</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\BreakoutGame\Breakout_BallBlock.PNG">
+      <Name>Breakout_BallBlock</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\BreakoutGame\Breakout_Block.png">
+      <Name>Breakout_Block</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\BreakoutGame\Breakout_Block_Meta_newl.png">
+      <Name>Breakout_Block_Meta_newl</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\BreakoutGame\Breakout_Block_Template.PNG">
+      <Name>Breakout_Block_Template</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\BreakoutGame\Breakout_Paddle.png">
+      <Name>Breakout_Paddle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Audio\Waves\baboom.wav">
+      <Name>baboom</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Audio\Waves\groove1.wav">
       <Name>groove1</Name>
       <Importer>WavImporter</Importer>
@@ -551,42 +590,27 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Sprites\BreakoutGame\BreakoutBall.png">
-      <Name>BreakoutBall</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
+    <Compile Include="Audio\Waves\oof.wav">
+      <Name>oof</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
     </Compile>
-    <Compile Include="Sprites\BreakoutGame\Breakout_BallBlock.PNG">
-      <Name>Breakout_BallBlock</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Sprites\BreakoutGame\Breakout_Block.png">
-      <Name>Breakout_Block</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Sprites\BreakoutGame\Breakout_Block_Meta_newl.png">
-      <Name>Breakout_Block_Meta_newl</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Sprites\BreakoutGame\Breakout_Block_Template.PNG">
-      <Name>Breakout_Block_Template</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Sprites\BreakoutGame\Breakout_Paddle.png">
-      <Name>Breakout_Paddle</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
+    <Compile Include="Audio\Waves\ouch.wav">
+      <Name>ouch</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Audio\Waves\baboom.wav">
-      <Name>baboom</Name>
+    <Compile Include="Audio\Waves\no.wav">
+      <Name>no</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Audio\Waves\glow.wav">
+      <Name>glow</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>

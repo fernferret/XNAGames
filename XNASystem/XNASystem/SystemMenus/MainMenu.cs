@@ -50,7 +50,7 @@ namespace XNASystem.SystemMenus
 			_choice = 0;
 			_menuStack = stack;
 			_systemMain = main;
-			_menuText = new List<string> {"Take Quiz", "Options", "View Scores", "Edit Material", "Exit"};
+			_menuText = new List<string> {"Take Quiz", "Options", "View Scores"/*, "Edit Material"*/, "Exit"};
 			
 		}
 
@@ -67,7 +67,7 @@ namespace XNASystem.SystemMenus
 		/// <param name="handler">the key and button handler</param>
 		public void Update(InputHandler handler, GameTime gameTime)
 		{
-			_choice = handler.HandleMenuMovement(5, _choice);
+			_choice = handler.HandleMenuMovement(_menuText.Count, _choice);
 			
 			if (handler.IfEnterPressed())
 			{
@@ -94,14 +94,14 @@ namespace XNASystem.SystemMenus
 						_systemMain.SetStack(_menuStack);
 						break;
 					// write questions
-					case 3:
+					//case 3:
 						//create a editormainmenu menu and add it to the stack
-						_menuStack.Push(new EditorMainMenu(_menuStack, _systemMain));
+					//	_menuStack.Push(new EditorMainMenu(_menuStack, _systemMain));
 						//retrn the new stack to main
-						_systemMain.SetStack(_menuStack);
-						break;
+					//	_systemMain.SetStack(_menuStack);
+					//	break;
 					// exit
-					case 4:
+					case 3:
 						// tell main to close the program
                         _systemMain.Close();
 						break;
@@ -125,17 +125,17 @@ namespace XNASystem.SystemMenus
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
 			spriteBatch.Begin();
-			if(_addHelpBox)
-			{
-				SystemMain.DrawHelper.AddHelpBox(new[] { textures[29], textures[27], textures[28] }, 600, 300, 300, 200);
+			//if(_addHelpBox)
+			//{
+			//	SystemMain.DrawHelper.AddHelpBox(new[] { textures[29], textures[27], textures[28] }, 600, 300, 300, 200);
 				//SystemMain.DrawHelper.AddHelpBox(new[] { textures[29], textures[27], textures[28] }, 500, 500, 100, 100);
-				_addHelpBox = false;
-			}
+			//	_addHelpBox = false;
+			//}
 			spriteBatch.Draw(textures[1], new Rectangle(0, 0, SystemMain.Width, SystemMain.Height), Color.White);
 
 			// draw the box
 			//var widthOfCurrentString = (int)(Math.Ceiling(_currentFont.MeasureString(_menuText[_choice]).X));
-			SystemMain.DrawHelper.DrawSelection(new[] { textures[0], textures[25], textures[26] }, SystemMain.DrawHelper.GetDrawLocations(_menuText)[_choice], (int)(Math.Ceiling(fonts[1].MeasureString(_menuText[_choice]).X)));
+			SystemMain.DrawHelper.DrawSelection(new[] { textures[0], textures[64], textures[65] }, SystemMain.DrawHelper.GetDrawLocations(_menuText)[_choice], (int)(Math.Ceiling(fonts[1].MeasureString(_menuText[_choice]).X)));
 
 			// draw the menu title
 			SystemMain.DrawHelper.DrawTitleCentered(fonts[2], "Welcome to the XNA Game System");

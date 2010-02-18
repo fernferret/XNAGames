@@ -127,7 +127,7 @@ namespace XNASystem.Shooter
 			_currentSprites = _deadSprites;
 			frameCount = _currentSprites.Count;
 			currentFrame = 0;
-			SystemMain.SoundBoomInstance.Play();
+			SystemMain.SoundBoom.Play();
 		}
 
 		public bool IsDead()

@@ -32,5 +32,19 @@ namespace XNASystem.ShooterGame
 				AddSpritesToDraw(_standardSprites);
 			}
 		}
+		public override void Hurt()
+		{
+			SystemMain.SoundOofInstance.Play();
+			RemoveAllSpritesToDraw();
+			AddSpritesToDraw(_painSprites);
+		}
+
+		public override void Kill()
+		{
+			SystemMain.SoundNooooInstance.Play();
+			RemoveAllSpritesToDraw();
+			AddSpritesToDraw(_deadSprites);
+			_isDying = true;
+		}
 	}
 }

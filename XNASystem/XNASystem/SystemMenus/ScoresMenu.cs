@@ -88,20 +88,26 @@ namespace XNASystem.SystemMenus
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
 			spriteBatch.Begin();
-
-			// draw the background
 			spriteBatch.Draw(textures[1], new Rectangle(0, 0, SystemMain.Width, SystemMain.Height), Color.White);
+			SystemMain.DrawHelper.DrawSelection(new[] { textures[0], textures[64], textures[65] }, SystemMain.DrawHelper.GetDrawLocations(_menuText)[_choice], (int)(Math.Ceiling(fonts[1].MeasureString(_menuText[_choice]).X)));
+
+			// draw the menu title
+			SystemMain.DrawHelper.DrawTitleCentered(fonts[2], "Score Viewer");
+			SystemMain.DrawHelper.DrawHelpBox();
+			SystemMain.DrawHelper.DrawMenu(_menuText, fonts[1]);
+			// draw the background
+			
 
 			//draw te selection box
-			spriteBatch.Draw(textures[0], new Vector2(75, 175 + (150 * _choice)), Color.White);
+			//spriteBatch.Draw(textures[0], new Vector2(75, 175 + (150 * _choice)), Color.White);
 
 			//draw the title
-			spriteBatch.DrawString(fonts[0], "Score Viewer", new Vector2(250, 100), Color.Black);
+			//spriteBatch.DrawString(fonts[0], "Score Viewer", new Vector2(250, 100), Color.Black);
 
 			//draw the menu items
-			spriteBatch.DrawString(fonts[0], "View Quiz Scores (NYI)", new Vector2(100, 200), Color.Black);
-			spriteBatch.DrawString(fonts[0], "View Game Scores (NYI)", new Vector2(100, 350), Color.Black);
-			spriteBatch.DrawString(fonts[0], "Back", new Vector2(100, 500), Color.Black);
+			//spriteBatch.DrawString(fonts[0], "View Quiz Scores (NYI)", new Vector2(100, 200), Color.Black);
+			//spriteBatch.DrawString(fonts[0], "View Game Scores (NYI)", new Vector2(100, 350), Color.Black);
+			//spriteBatch.DrawString(fonts[0], "Back", new Vector2(100, 500), Color.Black);
 
 			spriteBatch.End();
 		}
