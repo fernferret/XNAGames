@@ -453,7 +453,7 @@ namespace XNASystem.Shooter
 			if(GameWon() || GameLost())
 			{
 				//AdvanceLevel();//remove later
-				_lives += 3;//remove later
+				//_lives += 3;//remove later
 				FinishGame();
 			}
 
