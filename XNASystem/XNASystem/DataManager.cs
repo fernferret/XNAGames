@@ -105,15 +105,15 @@ namespace XNASystem
 		{
 			this.WaitOnOperation();
 			List<Booklet> booklets = new List<Booklet>();
-			/*foreach (string bookletName in _nameWrapper.BookletNames)
+			foreach (string bookletName in _nameWrapper.BookletNames)
 			{
 				FindCabinet(playerIndex, CabinetMode.Open, bookletName);
 				this.WaitOnOperation();
 				booklets.Add(_currentBooklet);
-			}*/
+			}
 
 			//Hack for initialization with no booklets
-			if (/*booklets.Count == 0*/true)
+			if (booklets.Count == 0)
 			{
 				Booklet math = new Booklet("Math");
 				//Booklet history = new Booklet("History");
@@ -202,7 +202,8 @@ namespace XNASystem
 		}
 
 		public bool SaveBooklet(PlayerIndex playerIndex, Booklet booklet)
-		{
+        {
+		    booklet.Reset();
 			this.WaitOnOperation();
 			try
 			{
@@ -321,7 +322,7 @@ namespace XNASystem
 		}
 
 		void SaveNameData(string filename, StorageDevice storageDevice, NameWrapper nameWrapper)
-		{
+        {
 			using (StorageContainer storageContainer = storageDevice.OpenContainer("Content"))
 			{
 				string filenamePath = Path.Combine(storageContainer.Path, filename);
