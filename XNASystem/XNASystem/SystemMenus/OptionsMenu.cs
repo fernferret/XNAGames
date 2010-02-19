@@ -31,8 +31,8 @@ namespace XNASystem.SystemMenus
 		protected int _choice;					// place holder for where the users choice icon is
 		protected Stack<IScreen> _menuStack;	// the stack of menus accumulated in the program so far
 		protected SystemMain _systemMain;		// the instance of SystemMain that controls the whole system
-
-		private List<String> _menuText = new List<string> {/* "Select Color Scheme (NYI)", "Select Booklet (NYI)", */"Set Game to Breakout!", "Set Game to Death Squid!", "Back" };
+		public static String Game;
+		private List<String> _menuText = new List<string> {"Breakout", "DeathSquid", "Back" };
 		#endregion
 
 		#region constructor
@@ -47,7 +47,10 @@ namespace XNASystem.SystemMenus
 
 		}
 		#endregion
-
+		public void SetGame(int menuOption)
+		{
+			Game = _menuText[menuOption];
+		}
 		#region update
 		public void Update(InputHandler handler, GameTime gameTime)
 		{
@@ -55,15 +58,14 @@ namespace XNASystem.SystemMenus
 			if(handler.IfEnterPressed())
 			{
 				// case system to perform appropriate action of the chosen menu item based on _choice
+				
 				switch (_choice)
 				{
 					// color option
 					case 0:
-						SystemMain.Game = 0;
-						break;
-					// booklet option
 					case 1:
-						SystemMain.Game = 1;
+						//SystemMain.Game = 1;
+						SetGame(_choice);
 						break;
 					// back
 					case 2:

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using XNASystem.Interfaces;
 using XNASystem.QuizArch;
+using XNASystem.SystemMenus;
 using XNASystem.Utils;
 
 
@@ -108,15 +109,18 @@ namespace XNASystem.Displays
 		{
 			_menuStack.Pop();
 			//_menuStack.Push(new BreakOut.BreakOut(this));
-			if(SystemMain.Game == 0)
+			switch (OptionsMenu.Game)
 			{
-				_menuStack.Push(new BreakOut.BreakOut(this, _level));
+				case "Breakout":
+					_menuStack.Push(new BreakOut.BreakOut(this, _level));
+					break;
+				case "DeathSquid":
+					_menuStack.Push(new Shooter.Shooter(this, _level));
+					break;
+				default:
+					_menuStack.Push(new Shooter.Shooter(this, _level));
+					break;
 			}
-			else
-			{
-				_menuStack.Push(new Shooter.Shooter(this, _level));
-			}
-			
 			_level++;
 			_systemMain.SetStack(_menuStack);
 		}
