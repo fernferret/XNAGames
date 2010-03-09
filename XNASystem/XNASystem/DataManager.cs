@@ -1,4 +1,6 @@
-﻿﻿using System;
+﻿﻿This class was authored by Kenny Skaggs. My email is skaggskd88@gmail.com if you have any questions.
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
@@ -12,12 +14,14 @@ using XNASystem.QuizArch;
 
 namespace XNASystem
 {
+        //The CabinetMode acts to represent the two states of operation that the DataManager will be in
 	public enum CabinetMode
 	{
 		Open,
 		Save,
 	}
 
+        /// A class used to encapsulate the list of Booklets that are already known to be in the system
 	[Serializable]
 	public class NameWrapper
 	{
@@ -28,6 +32,7 @@ namespace XNASystem
 			BookletNames = new List<string>();
 		}
 
+                /// Creates a new NameWrapper instance from an array of bytes representing a NameWrapper class
 		public NameWrapper(byte[] bytes)
 		{
 			BookletNames = new List<string>();
@@ -45,6 +50,9 @@ namespace XNASystem
 			}
 		}
 
+                /// Returns an array of bytes representing this instance. The first two bytes are the number of
+                ///strings, then the first two bytes of each item added after that is the length of the string, finally
+                ///the remaining bytes represent the string
 		public byte[] ToByteArray()
 		{
 			List<byte> bytes = new List<byte>();
@@ -78,9 +86,9 @@ namespace XNASystem
 	{
 		#region Fields
 
-		private bool _operationPending;
+		private bool _operationPending;        // Records whether there is already a process running
 		private NameWrapper _nameWrapper;
-		private Booklet _currentBooklet;
+		private Booklet _currentBooklet;       // A booklet shared by multiple threads to get data back to the main thread
 
 		#endregion
 
@@ -101,6 +109,7 @@ namespace XNASystem
 			FindNameCabinet(0, CabinetMode.Save, "name_file.sys");
 		}
 
+                /// Load all known booklets from memory (if none are known, then a default set is instead given)
 		public List<Booklet> LoadBooklets(PlayerIndex playerIndex)
 		{
 			this.WaitOnOperation();
@@ -112,7 +121,7 @@ namespace XNASystem
 				booklets.Add(_currentBooklet);
 			}
 
-			//Hack for initialization with no booklets
+			//Enter code here for initialization with no booklets
 			if (booklets.Count == 0)
 			{
 				Booklet math = new Booklet("Math");
@@ -200,7 +209,7 @@ namespace XNASystem
 			}
 			return booklets;
 		}
-
+                /// Save the given booklet
 		public bool SaveBooklet(PlayerIndex playerIndex, Booklet booklet)
         {
 		    booklet.Reset();
@@ -292,7 +301,7 @@ namespace XNASystem
 			}
 		}
 
-		void SaveBookletData(string filename, StorageDevice storageDevice, Booklet booklet)
+		private void SaveBookletData(string filename, StorageDevice storageDevice, Booklet booklet)
 		{
 			using (StorageContainer storageContainer = storageDevice.OpenContainer("Content"))
 			{
@@ -321,7 +330,7 @@ namespace XNASystem
 			}
 		}
 
-		void SaveNameData(string filename, StorageDevice storageDevice, NameWrapper nameWrapper)
+		private void SaveNameData(string filename, StorageDevice storageDevice, NameWrapper nameWrapper)
         {
 			using (StorageContainer storageContainer = storageDevice.OpenContainer("Content"))
 			{
@@ -346,7 +355,7 @@ namespace XNASystem
 			}
 		}
 
-		void LoadBookletData(string filename, StorageDevice storageDevice)
+		private void LoadBookletData(string filename, StorageDevice storageDevice)
 		{
 			using (StorageContainer storageContainer = storageDevice.OpenContainer("Content"))
 			{
@@ -370,7 +379,7 @@ namespace XNASystem
 			}
 		}
 
-		void LoadNameData(string filename, StorageDevice storageDevice)
+		private void LoadNameData(string filename, StorageDevice storageDevice)
 		{
 			using (StorageContainer storageContainer = storageDevice.OpenContainer("Content"))
 			{
@@ -407,6 +416,7 @@ namespace XNASystem
 			}
 		}
 
+                /// Used to hang a thread if an operation is still processing
 		private void WaitOnOperation()
 		{
 			while (this._operationPending)
@@ -415,6 +425,9 @@ namespace XNASystem
 			}
 		}
 
+                /// Read a string from the given byte array. The position variable is the start of the string (the
+                ///position of the first length byte), and is set to point after the string (the first byte after the
+                ///last byte of the string)
 		public static string ReadStringFromByteArray(byte[] bytes, ref int position)
 		{
 			//Find the end of the string using the first two bytes
@@ -431,6 +444,8 @@ namespace XNASystem
 			return returnString;
 		}
 
+                /// Read a bool from the given byte array. The position variable is the position of the bool, and is
+                ///set to point after the bool
 		public static bool ReadBooleanFromByteArray(byte[] bytes, ref int position)
 		{
 			bool b = (bytes[position] == 1 ? true : false);
@@ -438,6 +453,8 @@ namespace XNASystem
 			return b;
 		}
 
+                /// Read the length of the next section (may be the number of quizzes, answers, etc.) Sets position to
+                ///after the last byte of the length.
 		public static int ReadLengthForNextSection(byte[] bytes, ref int position)
 		{
 			int lengthOfSection = bytes[position] * byte.MaxValue + bytes[position + 1];
@@ -448,3 +465,5 @@ namespace XNASystem
 		#endregion
 	}
 }
+
+// Again, this class was authored by Kenny Skaggs. My email is skaggskd88@gmail.com if you have any questions.
