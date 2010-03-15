@@ -19,7 +19,7 @@ namespace XNASystem.Displays
 		private Booklet _booklet;
 		private ScoreManager _scoreManager;
 		private String _player;
-		private Stack<Interfaces.IScreen> _menuStack;
+		private Stack<IScreen> _menuStack;
 		private SystemMain _systemMain;
 		private List<String> _menuText = new List<string> { "Yes! (Start Quiz)", "No! (Return to Menu)" };
 
@@ -27,6 +27,7 @@ namespace XNASystem.Displays
 		protected int _down;
 		protected int _enter;
 		protected int _choice;
+		// Start the game at level 0
 		protected int _level = 0;
 
 
@@ -41,9 +42,8 @@ namespace XNASystem.Displays
 			_systemMain = main;
 			//_qLoad = new QuestionLoader();
 
-			//populate a booklet from xml files
-			//_booklet = _qLoad.PopulateSystem();
-			_booklet = SystemMain.Booklets[0];
+			//populate a booklet from file system
+			_booklet = SystemMain.Booklets[SystemMain.SelectedBooklet];
 			
 			_player = "Eric";
 			_scoreManager = new ScoreManager(_player);
@@ -99,10 +99,11 @@ namespace XNASystem.Displays
 		}
 		/* DO NOT DELETE THIS METHOD */
 		/* IT WILL BE USED AS SOON AS THE GAME IS IMPLEMENTED*/
-		internal void EndGameScoreReview()
+		internal void ShowFinal()
 		{
 			_menuStack.Pop();
-			_menuStack.Push(new QuizDisplay(_booklet.GetNextQuiz(), this));
+			_menuStack.Push(new QuizResultsDisplay(this, _scoreManager.GetCumulativeQuizScore(), true));
+			//_menuStack.Push(new FinalResultsDisplay(this, _scoreManager));
 			_systemMain.SetStack(_menuStack);
 		}
 		internal void EndQuizScoreReview()
@@ -137,13 +138,16 @@ namespace XNASystem.Displays
 			{
 				// TODO: Need to put a done with game screen here.
 				_menuStack.Pop();
+				_menuStack.Push(new QuizResultsDisplay(this, _scoreManager.GetCumulativeQuizScore(), false));
+				_systemMain.SetStack(_menuStack);
+
 			}
 		}
 		public void EndQuiz(Score score)
 		{
 			_scoreManager.AddScore(score);
 			_menuStack.Pop();
-			_menuStack.Push(new QuizResultsDisplay(this,_scoreManager.GetCumulativeQuizScore()));
+			_menuStack.Push(new QuizResultsDisplay(this,_scoreManager.GetCumulativeQuizScore(), false));
 			_systemMain.SetStack(_menuStack);
 		}
 	}

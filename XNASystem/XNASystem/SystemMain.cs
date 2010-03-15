@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.GamerServices;
@@ -179,7 +180,10 @@ namespace XNASystem
         	//_currentBooklet = _booklets[0];
         	//_currentQuiz = _booklets[0].GetSpecificQuiz(0);
         }
-        #endregion
+
+		public static int SelectedBooklet;
+
+		#endregion
 
         #region Load and Unload
         /// <summary>

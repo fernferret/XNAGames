@@ -38,9 +38,6 @@ namespace XNASystem.SystemMenus
 		#region constructor
 		public OptionsMenu(Stack<IScreen> stack, SystemMain main)
 		{
-			_up = 1;
-			_down = 1;
-			_enter = 1;
 			_choice = 0;
 			_menuStack = stack;
 			_systemMain = main;
@@ -49,8 +46,9 @@ namespace XNASystem.SystemMenus
 		#endregion
 		public void SetGame(int menuOption)
 		{
-			Game = _menuText[menuOption];
+				Game = _menuText[menuOption];	
 		}
+
 		#region update
 		public void Update(InputHandler handler, GameTime gameTime)
 		{

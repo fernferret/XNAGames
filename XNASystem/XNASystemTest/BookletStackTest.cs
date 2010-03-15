@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using XNASystem;
 using XNASystem.QuizArch;
 
 namespace XNASystemTest
@@ -15,6 +13,11 @@ namespace XNASystemTest
 		public void SetUp()
 		{
 
+		}
+		[TestCleanup]
+		public void CleanUp()
+		{
+			
 		}
 		[TestMethod]
 		public void CreateQuizWithTitle()

@@ -18,8 +18,11 @@ namespace XNASystem.Displays
 		private Score _score;
 		private SystemDisplay _display;
 		private List<String> _menuText = new List<String>{"Play Game!"};
-		public QuizResultsDisplay(SystemDisplay display, Score s)
+		private bool _isdone;
+		private String _menuTitle = "Score Viewer";
+		public QuizResultsDisplay(SystemDisplay display, Score s, bool isdone)
 		{
+			_isdone = isdone;
 			_up = 1;
 			_down = 1;
 			_enter = 1;
@@ -63,7 +66,11 @@ namespace XNASystem.Displays
 			SystemMain.DrawHelper.DrawSelection(new[] { textures[0], textures[64], textures[65] }, SystemMain.Height-200, (int)(Math.Ceiling(fonts[1].MeasureString(_menuText[0]).X)));
 
 			// draw the menu title
-			SystemMain.DrawHelper.DrawTitleCentered(fonts[2], "Score Viewer");
+			if(_isdone)
+			{
+				_menuTitle = "You're Done!";
+			}
+			SystemMain.DrawHelper.DrawTitleCentered(fonts[2], _menuTitle);
 			SystemMain.DrawHelper.DrawHelpBox();
 			SystemMain.DrawHelper.DrawMenu(_menuText, fonts[1]);
 
