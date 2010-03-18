@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using XNASystem.Interfaces;
 using XNASystem.QuizArch;
 using XNASystem.SystemMenus;
@@ -15,7 +12,8 @@ namespace XNASystem.Displays
 {
 	public class SystemDisplay : IScreen
 	{
-		private QuestionLoader _qLoad;
+		private ScreenMenu _menu;
+		//private QuestionLoader _qLoad;
 		private Booklet _booklet;
 		private ScoreManager _scoreManager;
 		private String _player;
@@ -23,10 +21,10 @@ namespace XNASystem.Displays
 		private SystemMain _systemMain;
 		private List<String> _menuText = new List<string> { "Yes! (Start Quiz)", "No! (Return to Menu)" };
 
-		protected int _up;
-		protected int _down;
-		protected int _enter;
-		protected int _choice;
+		//protected int _up;
+		//protected int _down;
+		//protected int _enter;
+		//protected int _choice;
 		// Start the game at level 0
 		protected int _level = 0;
 
@@ -34,10 +32,6 @@ namespace XNASystem.Displays
 
 		public SystemDisplay(Stack<IScreen> screens, SystemMain main)
 		{
-			_up = 1;
-			_down = 1;
-			_enter = 1;
-			_choice = 0;
 			_menuStack = screens;
 			_systemMain = main;
 			//_qLoad = new QuestionLoader();
@@ -47,55 +41,35 @@ namespace XNASystem.Displays
 			
 			_player = "Eric";
 			_scoreManager = new ScoreManager(_player);
+
+			_menu = new ScreenMenu(_menuText, "Are you ready to take your quiz?");
 			
 		}
 
 		#region update
-		public void Update(InputHandler handler, GameTime gameTime)
+		public void Update()
 		{
-			_choice = handler.HandleMenuMovement(2, _choice);
-			if (handler.IfEnterPressed())
+			_menu.Update();
+			if (_menu.GetSelectedItem() == "No! (Return to Menu)")
 			{
-				// case system to perform appropriate action of the chosen menu item
-				switch (_choice)
-				{
-					// take quiz
-					case 0:
-						_booklet.Reset();
-						_menuStack.Push(new QuizDisplay(_booklet.GetNextQuiz(), this));
-						_systemMain.SetStack(_menuStack);
+				_menuStack.Pop();
 
-						break;
-					// change options
-					case 1:
-						_menuStack.Pop();
-						_systemMain.SetStack(_menuStack);
-						break;
-					default:
-						break;
-				}
+				_systemMain.SetStack(_menuStack);
 			}
-
+			if (_menu.GetSelectedItem() == "Yes! (Start Quiz)")
+			{
+				_booklet.Reset();
+				_menuStack.Push(new QuizDisplay(_booklet.GetNextQuiz(), this));
+				_systemMain.SetStack(_menuStack);
+			}
 		}
 		#endregion
 
-		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
+		public void Draw()
 		{
-			spriteBatch.Begin();
-
-			spriteBatch.Draw(textures[1], new Rectangle(0, 0, SystemMain.Width, SystemMain.Height), Color.White);
-
-			// draw the box
-			//var widthOfCurrentString = (int)(Math.Ceiling(_currentFont.MeasureString(_menuText[_choice]).X));
-			SystemMain.DrawHelper.DrawSelection(new[] { textures[0], textures[64], textures[65] }, SystemMain.DrawHelper.GetDrawLocations(_menuText)[_choice], (int)(Math.Ceiling(fonts[1].MeasureString(_menuText[_choice]).X)));
-
-			// draw the menu title
-			SystemMain.DrawHelper.DrawTitleCentered(fonts[2], "Are you ready to take your quiz?");
-
-			//draw the menu options
-			SystemMain.DrawHelper.DrawMenu(_menuText, fonts[1]);
-
-			spriteBatch.End();
+			SystemMain.GameSpriteBatch.Begin();
+			_menu.Draw();
+			SystemMain.GameSpriteBatch.End();
 		}
 		internal void ShowFinal()
 		{

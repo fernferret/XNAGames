@@ -98,13 +98,25 @@ namespace XNASystem.QuizArch
 			a.Choose();
 			_hasAnswer = true;
 
-			if(a.IsCorrect())
+			if (a.IsCorrect())
 			{
 				_isCorrect = true;
 				return true;
 			}
 			_isCorrect = false;
 			return false;
+		}
+
+		public Answer GetAnswer(String a)
+		{
+			foreach (var answer in _answers)
+			{
+				if(answer.TheAnswer.Equals(a))
+				{
+					return answer;
+				}
+			}
+			return null;
 		}
 
 		internal String GetTitle()

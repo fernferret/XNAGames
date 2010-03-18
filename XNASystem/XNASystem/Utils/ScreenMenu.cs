@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using XNASystem.QuizArch;
 
 namespace XNASystem.Utils
 {
@@ -11,6 +12,8 @@ namespace XNASystem.Utils
 		private int _choice;
 		private readonly String _title;
 		private ButtonAction _lastPressed = ButtonAction.NONE;
+		private String _subtitle;
+
 		/// <summary>
 		/// Creates a new Menu of text that will be drawn on the screen
 		/// </summary>
@@ -20,6 +23,16 @@ namespace XNASystem.Utils
 		{
 			_menuText = text;
 			_title = t;
+		}
+		public ScreenMenu(List<Answer> text, String t, String st)
+		{
+			_menuText = new List<string>();
+			foreach (var answer in text)
+			{
+				_menuText.Add(answer.TheAnswer);
+			}
+			_title = t;
+			_subtitle = st;
 		}
 		public ScreenMenu(List<String> text)
 		{
@@ -37,7 +50,7 @@ namespace XNASystem.Utils
 		}
 		public void Update()
 		{
-			if (DeathSquid.GetInput.IsButtonPressed(ButtonAction.MenuUp))
+			if (SystemMain.GetInput.IsButtonPressed(ButtonAction.MenuUp))
 			{
 				if (_choice == 0)
 				{
@@ -48,7 +61,7 @@ namespace XNASystem.Utils
 					_choice--;
 				}
 			}
-			if (DeathSquid.GetInput.IsButtonPressed(ButtonAction.MenuDown))
+			if (SystemMain.GetInput.IsButtonPressed(ButtonAction.MenuDown))
 			{
 				if (_choice == _menuText.Count - 1)
 				{
@@ -59,11 +72,11 @@ namespace XNASystem.Utils
 					_choice++;
 				}
 			}
-			if (DeathSquid.GetInput.IsButtonPressed(ButtonAction.MenuAccept))
+			if (SystemMain.GetInput.IsButtonPressed(ButtonAction.MenuAccept))
 			{
 				SetButtonPressed(ButtonAction.MenuAccept);
 			}
-			if (DeathSquid.GetInput.IsButtonPressed(ButtonAction.MenuCancel))
+			if (SystemMain.GetInput.IsButtonPressed(ButtonAction.MenuCancel))
 			{
 
 			}
@@ -71,8 +84,9 @@ namespace XNASystem.Utils
 		public void Draw()
 		{
 			//DeathSquid.GameSpriteBatch.Begin();
-			DeathSquid.Drawing.DrawTitleCentered(DeathSquid.SystemFonts["Title"], _title);
-			DeathSquid.Drawing.DrawMenu(_menuText, DeathSquid.SystemFonts["Main"], _choice, new[] { DeathSquid.GameGraphics["Hilight_left"], DeathSquid.GameGraphics["Hilight_center"], DeathSquid.GameGraphics["Hilight_right"] });
+			SystemMain.Drawing.DrawTitleCentered(SystemMain.FontPackage["Title"], _title);
+			SystemMain.Drawing.DrawSubTitleCentered(SystemMain.FontPackage["Title"], _subtitle);
+			SystemMain.Drawing.DrawMenu(_menuText, SystemMain.FontPackage["Main"], _choice, new[] { SystemMain.TexturePackage["Hilight_left"], SystemMain.TexturePackage["Hilight_center"], SystemMain.TexturePackage["Hilight_right"] });
 			//DeathSquid.GameSpriteBatch.End();
 		}
 

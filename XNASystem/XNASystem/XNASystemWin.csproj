@@ -69,15 +69,8 @@
     <Compile Include="BreakOut\BreakOutPaddle.cs" />
     <Compile Include="BreakOut\BreakOutWall.cs" />
     <Compile Include="Interfaces\IGame.cs" />
-    <Compile Include="MaterialEditor\CreateBookletMenu.cs" />
-    <Compile Include="MaterialEditor\CreateQuizMenu.cs" />
     <Compile Include="Interfaces\IGameObject.cs" />
-    <Compile Include="MaterialEditor\SelectQuizMenu.cs" />
-    <Compile Include="MaterialEditor\CorrectAnswerMenu.cs" />
     <Compile Include="Interfaces\IComponent.cs" />
-    <Compile Include="MaterialEditor\EditorMainMenu.cs" />
-    <Compile Include="MaterialEditor\EditorMenu.cs" />
-    <Compile Include="MaterialEditor\IncorrectAnswerMenu.cs" />
     <Compile Include="ShooterGame\Shooter.cs" />
     <Compile Include="ShooterGame\ShooterBossObject.cs" />
     <Compile Include="ShooterGame\ShooterEnemyAdvanced.cs" />
@@ -102,12 +95,12 @@
     <Compile Include="ScoreManager.cs" />
     <Compile Include="Score.cs" />
     <Compile Include="SystemMenus\ScoresMenu.cs" />
-    <Compile Include="MaterialEditor\SelectBookletMenu.cs" />
     <Compile Include="SystemMain.cs" />
     <Compile Include="Utils\ButtonAlias.cs" />
     <Compile Include="Utils\DrawHelper.cs" />
     <Compile Include="Utils\HelpBox.cs" />
     <Compile Include="Utils\InputHandler.cs" />
+    <Compile Include="Utils\ScreenMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="GameThumbnail.png" />

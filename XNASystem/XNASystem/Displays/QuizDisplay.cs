@@ -18,31 +18,24 @@ namespace XNASystem.Displays
 		private Question _currentQuestion;
 		private Score _currentQuizScore;
 		private List<Answer> _currentQuestionAnswers;
-
-		protected int _up;
-		protected int _down;
-		protected int _enter;
-		protected int _choice;
+		private ScreenMenu _menu;
 
 		private SystemDisplay _display;
 
 		public QuizDisplay(Quiz q, SystemDisplay sysDisplay)
 		{
 			_display = sysDisplay;
-			_up = 1;
-			_down = 1;
-			_enter = 1;
-			_choice = 0;
 			
 			_currentQuiz = q;
 			_currentQuestion = _currentQuiz.GetNextQuestion();
 			_currentQuestionAnswers = _currentQuestion.GetRandomAnswers();
 			_currentQuizScore = new Score("Eric", ActivityType.Quiz, 0, _currentQuiz.GetTitle());
+			_menu = new ScreenMenu(_currentQuestionAnswers,_currentQuiz.GetTitle(),_currentQuestion.Title);
 		}
 
 
 		#region update
-		public void Update(InputHandler handler, GameTime gameTime)
+		public void Update()
 		{
 			foreach (var sound in SystemMain.SoundsBackgroundInstance)
 			{
@@ -59,10 +52,11 @@ namespace XNASystem.Displays
 				SystemMain.SoundQuizBgInstance.Volume = .4f;
 				SystemMain.SoundQuizBgInstance.Play();
 			}
-			_choice = handler.HandleMenuMovement(_currentQuestionAnswers.Count, _choice);
-			if(handler.IfEnterPressed())
+			_menu.Update();
+			if (SystemMain.GetInput.IsButtonPressed(ButtonAction.MenuAccept))
 			{
-				AnswerTheQuestion(_currentQuestionAnswers[_choice]);
+				// Answer the question with the current selection obtained from _menu
+				AnswerTheQuestion(_currentQuestion.GetAnswer(_menu.GetSelectedItem()));
 			}
 		}
 
@@ -92,32 +86,32 @@ namespace XNASystem.Displays
 
 		#endregion
 
-		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
+		public void Draw()
 		{
-			spriteBatch.Begin();
-
-			spriteBatch.Draw(textures[1], new Rectangle(0, 0, SystemMain.Width, SystemMain.Height), Color.White);
+			SystemMain.GameSpriteBatch.Begin();
+			_menu.Draw();
+			//spriteBatch.Draw(textures[1], new Rectangle(0, 0, SystemMain.Width, SystemMain.Height), Color.White);
 
 			// draw the box
 			//var widthOfCurrentString = (int)(Math.Ceiling(_currentFont.MeasureString(_menuText[_choice]).X));
-			var menuText = new List<String>();
-			foreach (var q in _currentQuestionAnswers)
-			{
-				menuText.Add(q.ToString());
-			}
-			SystemMain.DrawHelper.DrawSelection(new[] { textures[0], textures[64], textures[65] }, SystemMain.DrawHelper.GetDrawLocations(menuText)[_choice], (int)(Math.Ceiling(fonts[1].MeasureString(menuText[_choice]).X)));
+			//var menuText = new List<String>();
+			//foreach (var q in _currentQuestionAnswers)
+			//{
+			//	menuText.Add(q.ToString());
+			//}
+			//SystemMain.DrawHelper.DrawSelection(new[] { textures[0], textures[64], textures[65] }, SystemMain.DrawHelper.GetDrawLocations(menuText)[_choice], (int)(Math.Ceiling(fonts[1].MeasureString(menuText[_choice]).X)));
 
 			// draw the menu title
-			SystemMain.DrawHelper.DrawTitleCentered(fonts[2], _currentQuiz.GetTitle());
-			SystemMain.DrawHelper.DrawSubTitleCentered(fonts[1], _currentQuestion.GetTitle());
+			//SystemMain.DrawHelper.DrawTitleCentered(fonts[2], _currentQuiz.GetTitle());
+			//SystemMain.DrawHelper.DrawSubTitleCentered(fonts[1], _currentQuestion.GetTitle());
 
 			//draw the menu options
-			SystemMain.DrawHelper.DrawMenu(menuText, fonts[1]);
-			spriteBatch.DrawString(fonts[0], "% Done: " + _currentQuiz.GetPercentDone(), new Vector2(400, 400), Color.Black);
-			spriteBatch.DrawString(fonts[0], "Questions Left: " + _currentQuiz.GetQuestionsLeft(), new Vector2(400, 450), Color.Black);
-			spriteBatch.DrawString(fonts[0], "Total Questions: " + _currentQuiz.GetTotalQuestionCount(), new Vector2(400, 500), Color.Black);
-			spriteBatch.DrawString(fonts[0], "Current Score: " + _currentQuizScore.Percentage, new Vector2(400, 550), Color.Black);
-			spriteBatch.End();
+			//SystemMain.DrawHelper.DrawMenu(menuText, fonts[1]);
+			SystemMain.GameSpriteBatch.DrawString(SystemMain.FontPackage["main"], "% Done: " + _currentQuiz.GetPercentDone(), new Vector2(400, 400), Color.Black);
+			SystemMain.GameSpriteBatch.DrawString(SystemMain.FontPackage["main"], "Questions Left: " + _currentQuiz.GetQuestionsLeft(), new Vector2(400, 450), Color.Black);
+			SystemMain.GameSpriteBatch.DrawString(SystemMain.FontPackage["main"], "Total Questions: " + _currentQuiz.GetTotalQuestionCount(), new Vector2(400, 500), Color.Black);
+			SystemMain.GameSpriteBatch.DrawString(SystemMain.FontPackage["main"], "Current Score: " + _currentQuizScore.Percentage, new Vector2(400, 550), Color.Black);
+			SystemMain.GameSpriteBatch.End();
 		}
 
 		public void SetQuiz(Quiz q)
