@@ -1,7 +1,5 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -25,7 +23,12 @@ namespace XNASystem.Utils
 		private int _selectionFinalX;
 		private int _selectionFinalY;
 		private int _selectionFinalWidth;
-		private int _speed = 5;
+		private int _speed = 10;
+		private int _hconst = 0;
+		private const int StandardSpeed = 10;
+		private const int GlobalOffset = 5;
+		public static String Debug = "";
+
 		public DrawHelper(SpriteBatch sb)
 		{
 			_sb = sb;
@@ -108,7 +111,7 @@ namespace XNASystem.Utils
 				_selectionCurrentY += _speed;
 			}
 		}
-		public void DrawSelection(Texture2D[] t, int height, int widthOfString)
+		public void DrawSelection(int height, int widthOfString)
 		{
 			_selectionFinalWidth = widthOfString;
 			_selectionFinalY = height;
@@ -117,47 +120,75 @@ namespace XNASystem.Utils
 				_selectionCurrentY = height;
 			}
 			UpdateSelection();
-			DrawSelectionBox(t);
+			DrawSelectionBox();
 		}
-		public void DrawSelectionBox(Texture2D[] t)
+		public void DrawSelection2(int height, String s, SpriteFont font)
+		{
+			var widthOfString = (int)(Math.Ceiling(font.MeasureString(s).X));
+			_selectionFinalWidth = widthOfString;
+			_selectionFinalY = height;
+			if (_selectionCurrentY == -1)
+			{
+				_selectionCurrentY = height;
+			}
+			UpdateSelection();
+			DrawSelectionBox();
+		}
+		private void DrawSelectionBox()
 		{
 			//_sb.Draw(t[1], new Rectangle(_xmin - ButtonSideWidth, height + ButtonOffset, ButtonSideWidth, ButtonWidth), Color.White);
 			//_sb.Draw(t[0], new Rectangle(_xmin, height + ButtonOffset, widthOfString, ButtonWidth), Color.White);
 			//_sb.Draw(t[2], new Rectangle(_xmin + widthOfString, height + ButtonOffset, ButtonSideWidth, ButtonWidth), Color.White);
 
-			_sb.Draw(t[1], new Rectangle(_xmin - ButtonSideWidth, _selectionCurrentY + ButtonOffset, ButtonSideWidth, ButtonWidth), Color.White);
-			_sb.Draw(t[0], new Rectangle(_xmin, _selectionCurrentY + ButtonOffset, _selectionCurrentWidth, ButtonWidth), Color.White);
-			_sb.Draw(t[2], new Rectangle(_xmin + _selectionCurrentWidth, _selectionCurrentY + ButtonOffset, ButtonSideWidth, ButtonWidth), Color.White);
+			_sb.Draw(SystemMain.TexturePackage["Hilight_left"], new Rectangle(_xmin - ButtonSideWidth, _selectionCurrentY + ButtonOffset, ButtonSideWidth, ButtonWidth), Color.White);
+			_sb.Draw(SystemMain.TexturePackage["Hilight_center"], new Rectangle(_xmin, _selectionCurrentY + ButtonOffset, _selectionCurrentWidth, ButtonWidth), Color.White);
+			_sb.Draw(SystemMain.TexturePackage["Hilight_right"], new Rectangle(_xmin + _selectionCurrentWidth, _selectionCurrentY + ButtonOffset, ButtonSideWidth, ButtonWidth), Color.White);
+
+			_sb.DrawString(SystemMain.FontPackage["Main"], "" + _speed, new Vector2(100, 300), Color.Aquamarine);
+			_sb.DrawString(SystemMain.FontPackage["Main"], "" + (_selectionCurrentY + ButtonOffset), new Vector2(100, 400), Color.Aquamarine);
 			//_sb.DrawString(SystemMain.FontPackage[1], _selectionCurrentWidth + "," + _selectionFinalWidth,new Vector2(800,500), Color.White);
 		}
 
-		internal void DrawTitleCentered(SpriteFont currentFont, string title)
+		public void DrawTitleCentered(SpriteFont currentFont, string title)
 		{
 			var widthOfCurrentString = (int)(Math.Ceiling(currentFont.MeasureString(title).X));
 			var heightOfCurrentstring = (int)(Math.Ceiling(currentFont.MeasureString(title).Y));
-			_sb.DrawString(currentFont, title, new Vector2(SystemMain.Width/2 - widthOfCurrentString/2, 60 - heightOfCurrentstring), Color.White);
+			_sb.DrawString(currentFont, title, new Vector2(SystemMain.Width / 2 - widthOfCurrentString / 2, 60 - heightOfCurrentstring), Color.White);
 		}
-		internal void DrawSubTitleCentered(SpriteFont currentFont, string title)
+		public void DrawSubTitleCentered(SpriteFont currentFont, string title)
 		{
 			var widthOfCurrentString = (int)(Math.Ceiling(currentFont.MeasureString(title).X));
 			var heightOfCurrentstring = (int)(Math.Ceiling(currentFont.MeasureString(title).Y));
 			_sb.DrawString(currentFont, title, new Vector2(SystemMain.Width / 2 - widthOfCurrentString / 2, 100 - heightOfCurrentstring), Color.White);
 		}
-		public int DrawMenu(List<String> strings, SpriteFont font)
+		public int DrawMenu(List<String> strings, SpriteFont font, int choice, Texture2D[] t)
 		{
 			var drawLocations = GetDrawLocations(strings);
-			
+
 			var i = 0;
+			if (Math.Abs(_selectionCurrentY - _selectionFinalY) > 2 * _hconst)
+			{
+				_speed = 2 * StandardSpeed;
+			}
+			else if (_speed != StandardSpeed && _selectionCurrentY == _selectionFinalY)
+			{
+				_speed = StandardSpeed;
+
+			}
+			DrawSelection2(drawLocations[choice] + GlobalOffset, strings[choice], font);
 			foreach (var str in strings)
 			{
+
+
 				_sb.DrawString(font, str, new Vector2(_xmin, drawLocations[i]), Color.Aquamarine);
 				i++;
 			}
+			_sb.DrawString(font, drawLocations[0] + "", new Vector2(500, drawLocations[0]), Color.Aquamarine);
 			return _spacingDanger;
 		}
 		public void AddHelpBox(Texture2D[] t, int x, int y, int width, int height)
 		{
-			_helpBoxes.Add(new HelpBox(_sb,x,y,width, height,1,t,"test",SystemMain.FontPackage[1]));
+			_helpBoxes.Add(new HelpBox(_sb, x, y, width, height, 1, t, "test", SystemMain.FontPackage["Main"]));
 		}
 		public void DrawHelpBox()
 		{
@@ -179,56 +210,56 @@ namespace XNASystem.Utils
 			_heightPadding = .2;
 			_widthPadding = .15;
 		}
-		public List<int> GetDrawLocations(List<String> strings)
+		private List<int> GetDrawLocations(List<String> strings)
 		{
 			ResetPadding();
 			RecalculateScreenPadding();
-			
+
 			var drawLocations = new List<int>();
-			
-			
-			var hconst = 0;
+
+
+			_hconst = 0;
 			var totalheight = 0;
 			if (strings.Count == 1)
 			{
-				return new List<int> {SystemMain.Height - 200};
+				return new List<int> { SystemMain.Height - 200 };
 			}
 			if (strings.Count > 1)
 			{
-				hconst = (int) Math.Floor(((Double) _ymax - _ymin)/(strings.Count - 1));
-				_spacingDanger = hconst < ButtonWidth/2 ? 1 : 0;
+				_hconst = (int)Math.Floor(((Double)_ymax - _ymin) / (strings.Count - 1));
+				_spacingDanger = _hconst < ButtonWidth / 2 ? 1 : 0;
 			}
-			
+
 			// We have too much spacing, decrease the amount of space between
 			// words until we hava an acceptable number
-			while (hconst > _spacingConstant)
+			while (_hconst > _spacingConstant)
 			{
 				_heightPadding = _heightPadding + .02;
 				RecalculateScreenPadding();
-				hconst = (int)Math.Floor(((Double)_ymax - _ymin) / (strings.Count - 1));
-				totalheight = (strings.Count - 1) * hconst;
+				_hconst = (int)Math.Floor(((Double)_ymax - _ymin) / (strings.Count - 1));
+				totalheight = (strings.Count - 1) * _hconst;
 			}
 			var h = _ymin;
-			if(totalheight != 0)
+			if (totalheight != 0)
 			{
-				h += (((_ymax-_ymin)-totalheight)/2);
+				h += (((_ymax - _ymin) - totalheight) / 2);
 			}
 			if (strings.Count == 1)
 			{
-				hconst = 0;
+				_hconst = 0;
 				h = _ymax - _ymin;
 			}
 
 			drawLocations.Add(h);
 			foreach (var str in strings)
 			{
-				h += hconst;
+				h += _hconst;
 				drawLocations.Add(h);
 			}
 			drawLocations.RemoveAt(drawLocations.Count - 1);
 			return drawLocations;
 		}
 
-		
+
 	}
 }

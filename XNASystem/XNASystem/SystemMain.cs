@@ -44,6 +44,7 @@ namespace XNASystem
 	public class SystemMain : Game
 	{
 		#region variable creation
+		public static InputHandler GetInput = new InputHandler();
 		public static SpriteBatch GameSpriteBatch;
 		public static int Game;
 		public static int Height { get; set; }
@@ -102,8 +103,7 @@ namespace XNASystem
     	private Booklet _currentBooklet;
     	private Quiz _currentQuiz;
 
-		private static InputHandler _handler;
-		public static DrawHelper DrawHelper;
+		public static DrawHelper Drawing;
 		//public static List<ButtonAlias> PressedButtons = new List<ButtonAlias>();
 		#region old possibly unneed variables
 		/*        // stack of menus being drawn
@@ -136,7 +136,6 @@ namespace XNASystem
 		{
 			Height = 720; Width = 1280;
 			//Height = 600; Width = 800;
-			_handler = new InputHandler();
 			
 			// graphics initializer Also initialize the height and width to 720p
 			//_graphics = new GraphicsDeviceManager(this);
@@ -172,8 +171,8 @@ namespace XNASystem
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to Draw textures.
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-			DrawHelper = new DrawHelper(_spriteBatch);
+			GameSpriteBatch = new SpriteBatch(GraphicsDevice);
+			Drawing = new DrawHelper(GameSpriteBatch);
 
 			SoundShoot = Content.Load<SoundEffect>("Audio\\Waves\\shoot");
 			SoundShootInstance = SoundShoot.CreateInstance();
@@ -212,9 +211,9 @@ namespace XNASystem
 			}
 
 				// load the fonts
-				FontPackage.Add(Content.Load<SpriteFont>("Fonts//Arial"));
-			FontPackage.Add(Content.Load<SpriteFont>("Fonts//Main"));
-			FontPackage.Add(Content.Load<SpriteFont>("Fonts//Title"));
+			FontPackage.Add("arial",Content.Load<SpriteFont>("Fonts//Arial"));
+			FontPackage.Add("main", Content.Load<SpriteFont>("Fonts//Main"));
+			FontPackage.Add("title", Content.Load<SpriteFont>("Fonts//Title"));
 
             //load texture package
             _texturePackage.Add(Content.Load<Texture2D>("Sprites//Hilight_center"));
@@ -315,83 +314,15 @@ namespace XNASystem
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+        	CurrentGameTime = gameTime;
+			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+				Exit();
             // the keyState the keyboard is in right now
-            var keyState = Keyboard.GetState();
-        	var padState = GamePad.GetState(PlayerIndex.One);
-        	_handler.SetInputs(keyState, padState);
-            // use the update method from the current menu
-			//_menuStack.Peek().Update(keyState, padState);
-			_menuStack.Peek().Update(_handler, gameTime);
-			//_sysDis.Update2(_handler);
+			GetInput.SetInputs(Keyboard.GetState(), GamePad.GetState(PlayerIndex.One));
+			_menuStack.Peek().Update();
+			base.Update(gameTime);
             
         }
-        #endregion
-
-        #region menu administration
-/*
-        // this is the ation the kiks off a game after the quiz
-        private void ShowGameMenu()
-        {
-            _menuList.Add(new Menu("Boom...Game! (NYI)", new List<IMenuItem>
-                                                             {
-                                                                 new NavItem("Return", MenuAction.Return)
-                                                             }));
-        }
-
-        //this adds a menu to the stack which shows scores for particular users
-        private void ShowScoreMenu()
-        {
-            _menuList.Add(new Menu("BooYaa...Scores! (NYI)", new List<IMenuItem>
-                                                                 {
-                                                                     new NavItem("Return",
-                                                                                 MenuAction.Return)
-                                                                 }));
-        }
-
-        //this adds a menu to the stack which kicks of the question editor menu sequence
-        private void ShowEditorMainMenu()
-        {
-            _menuList.Add(new Menu("Question Editor", new List<IMenuItem>
-                                                           {
-                                                               new NavItem("Change Booklet (NYI)", MenuAction.DoNothing),
-                                                               new NavItem("Change Quiz (NYI)", MenuAction.DoNothing),
-                                                               new NavItem("Write new Question", MenuAction.ShowEditor)
-                                                           }));
-        }
-        private void ShowEditorMenu()
-        {
-            _menuList.Add(new Menu("New Question", new List<IMenuItem>
-                                                       {
-                                                           new NavItem("Type your")
-                                                       }));
-        }
-
-        // this adds a menu to the stack that shows the option and allows them to be changed
-        private void ShowOptionsMenu()
-        {
-            _menuList.Add(new Menu("Options Screen (NYI)", new List<IMenuItem>
-                                                               {
-                                                                   new NavItem("Some Sweet Option", MenuAction.ShowMain),
-                                                                   new NavItem("Color Jazz", MenuAction.ShowMain),
-                                                                   new NavItem("The Greatest Option in the World", MenuAction.ShowMain),
-                                                                   new NavItem("Return Home", MenuAction.ShowMain)
-                                                               }));
-        }
-
-        #region menu removal
-        // this removes a menu from the menu stack
-        private void PopMenu()
-        {
-            _menuList.RemoveAt(_menuList.Count - 1);
-        }
-
-        //this removes all the menus except for he main menu from the stack
-        private void RemoveAllButMain()
-        {
-            _menuList.RemoveRange(1,_menuList.Count - 1);
-        }
-        #endregion
-*/
         #endregion
 
         #region Draw
@@ -403,7 +334,7 @@ namespace XNASystem
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _menuStack.Peek().Draw(_spriteBatch, FontPackage, TexturePackage);
+            _menuStack.Peek().Draw();
             base.Draw(gameTime);
         }
         #endregion
