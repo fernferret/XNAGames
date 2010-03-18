@@ -44,20 +44,23 @@ namespace XNASystem
 	public class SystemMain : Game
 	{
 		#region variable creation
-
+		public static SpriteBatch GameSpriteBatch;
 		public static int Game;
-		public static int Height;
-		public static int Width;
+		public static int Height { get; set; }
+		public static int Width { get; set; }
 		private Score _score;
 		// graphics variables
 		private GraphicsDeviceManager _graphics;
 		private SpriteBatch _spriteBatch;
 
         // initialize a list of fonts
-        public static List<SpriteFont> FontPackage;
+        public static Dictionary<String, SpriteFont> FontPackage;
 
         // initilize a list of textures
-        private readonly List<Texture2D> _texturePackage;
+        public static Dictionary<String, Texture2D> TexturePackage;
+        
+		// initialize the Global GameTime Variable
+		public static GameTime CurrentGameTime;
 
 		// initialize the menustack
 		private Stack<IScreen> _menuStack;
@@ -144,8 +147,8 @@ namespace XNASystem
             GamerServicesDispatcher.Initialize(Services);
 
 			// initialize font package and texture package
-			FontPackage = new List<SpriteFont>();
-			_texturePackage = new List<Texture2D>();
+			FontPackage = new Dictionary<String, SpriteFont>();
+			TexturePackage = new Dictionary<String, Texture2D>();
 
 			// create the stack
 			_menuStack = new Stack<IScreen>();
@@ -155,30 +158,6 @@ namespace XNASystem
 
 			// create a list of booklets the system can run off of
             Booklets = _dataManager.LoadBooklets(0);
-			//_qLoad = new QuestionLoader();
-			//Booklets[0] = _qLoad.PopulateSystem();
-
-			/*///////////////////////////////////////////////delete all this once xml works///////////////////////////////////////////////////////////////////////////
-        	Booklet defaultb = new Booklet("defualt Booklet");
-        	Booklet second = new Booklet("second Booklet");
-
-			Quiz test1 = new Quiz("Test Quiz 1 default");
-			Quiz test2 = new Quiz("Test Quiz 2 defualt");
-			Quiz test3 = new Quiz("Test Quiz 1 second");
-			Quiz test4 = new Quiz("Test Quiz 2 second");
-
-			defaultb.AddItem(test1);
-			defaultb.AddItem(test2);
-			second.AddItem(test3);
-			second.AddItem(test4);
-
-			Booklets.Add(defaultb);
-			Booklets.Add(second);
-			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
-
-        	// initialize the currents to jsut the first boklet and the first quiz in that booklet
-        	//_currentBooklet = _booklets[0];
-        	//_currentQuiz = _booklets[0].GetSpecificQuiz(0);
         }
 
 		public static int SelectedBooklet;
@@ -204,9 +183,6 @@ namespace XNASystem
 
 			SoundShootEnemy = Content.Load<SoundEffect>("Audio\\Waves\\shoot_enemy");
 			SoundShootEnemyInstance = SoundShootEnemy.CreateInstance();
-
-			//SoundBackground = Content.Load<SoundEffect>("Audio\\Waves\\background");
-			//SoundBackgroundInstance = SoundBackground.CreateInstance();
 
 			SoundOuch = Content.Load<SoundEffect>("Audio\\Waves\\ouch");
 			SoundOuchInstance = SoundOuch.CreateInstance();
@@ -427,7 +403,7 @@ namespace XNASystem
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _menuStack.Peek().Draw(_spriteBatch, FontPackage, _texturePackage);
+            _menuStack.Peek().Draw(_spriteBatch, FontPackage, TexturePackage);
             base.Draw(gameTime);
         }
         #endregion

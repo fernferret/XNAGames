@@ -8,10 +8,8 @@ namespace XNASystem.Interfaces
 {
 	public interface IScreen
 	{
-		//void Update(KeyboardState keykeyState, GamePadState padkeyState);
+		void Update();
 
-		void Update(InputHandler handler, GameTime gameTime);
-
-		void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures);
+		void Draw();
 	}
 }

@@ -94,26 +94,6 @@ namespace XNASystem.Displays
 
 		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
 		{
-			/*spriteBatch.Begin();
-
-			// draw the background
-			spriteBatch.Draw(textures[1], new Rectangle(0, 0, SystemMain.Width, SystemMain.Height), Color.White);
-
-			// draw the box whereever it may be
-			spriteBatch.Draw(textures[0], new Vector2(75, 175 + (75 * _choice)), Color.White);
-
-			//draw the menu options
-			spriteBatch.DrawString(fonts[0], _currentQuiz.GetTitle(), new Vector2(50, 50), Color.Black);
-			spriteBatch.DrawString(fonts[0], _currentQuestion.GetTitle(), new Vector2(250, 100), Color.Black);
-			
-			var i = 200;
-			foreach (var q in _currentQuestionAnswers)
-			{
-				spriteBatch.DrawString(fonts[0], q.ToString(), new Vector2(100, i), Black);
-				i += 75;
-			}
-
-			spriteBatch.End();*/
 			spriteBatch.Begin();
 
 			spriteBatch.Draw(textures[1], new Rectangle(0, 0, SystemMain.Width, SystemMain.Height), Color.White);

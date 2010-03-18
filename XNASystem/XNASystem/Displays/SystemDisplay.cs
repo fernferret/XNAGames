@@ -97,8 +97,6 @@ namespace XNASystem.Displays
 
 			spriteBatch.End();
 		}
-		/* DO NOT DELETE THIS METHOD */
-		/* IT WILL BE USED AS SOON AS THE GAME IS IMPLEMENTED*/
 		internal void ShowFinal()
 		{
 			_menuStack.Pop();
