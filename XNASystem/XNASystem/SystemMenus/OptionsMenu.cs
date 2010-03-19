@@ -40,9 +40,7 @@ namespace XNASystem.SystemMenus
 		public void Update()
 		{
 			_menu.Update();
-			if (SystemMain.GetInput.IsButtonPressed(ButtonAction.MenuAccept))
-			{
-				if (_menu.GetSelectedItem() == "Back")
+				if (_menu.GetSelectedItem("Back"))
 				{
 					//take this menu off the stack
 					_menuStack.Pop();
@@ -52,9 +50,8 @@ namespace XNASystem.SystemMenus
 				}
 				else
 				{
-					Game = _menu.GetSelectedItem();
+					Game = _menu.GetSelectedItem(false);
 				}
-			}
 			
 		}
 

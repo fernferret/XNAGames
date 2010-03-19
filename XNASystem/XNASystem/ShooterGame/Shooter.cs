@@ -487,7 +487,7 @@ namespace XNASystem.Shooter
 					_ship.UpdatePostion(-1, 0);
 				}
 				//if (handler.IfRightPressed())
-				if (SystemMain.GetInput.IsButtonPressed(ButtonAction.ShipMoveLeftSlow))
+				if (SystemMain.GetInput.IsButtonPressed(ButtonAction.ShipMoveRightSlow))
 				{
 					_ship.UpdatePostion(1, 0);
 				}

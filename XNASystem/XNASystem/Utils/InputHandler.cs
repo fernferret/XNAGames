@@ -44,8 +44,8 @@ namespace XNASystem.Utils
 			                     	});
 			_superButton.Add(ButtonAction.MenuAccept, new List<ButtonAlias>
 			                     	{
-			                     		new ButtonAlias(Buttons.A, -1,-1,"MenuAccept"),
-										new ButtonAlias(Buttons.Start, -1,-1,"MenuAccept"),
+			                     		//new ButtonAlias(Buttons.A, -1,-1,"MenuAccept"),
+										//new ButtonAlias(Buttons.Start, -1,-1,"MenuAccept"),
 										new ButtonAlias(Keys.Enter, -1,-1,"MenuAccept")
 			                     	});
 			_superButton.Add(ButtonAction.MenuCancel, new List<ButtonAlias>

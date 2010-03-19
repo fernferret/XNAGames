@@ -21,11 +21,6 @@ namespace XNASystem.Displays
 		private SystemMain _systemMain;
 		private List<String> _menuText = new List<string> { "Yes! (Start Quiz)", "No! (Return to Menu)" };
 
-		//protected int _up;
-		//protected int _down;
-		//protected int _enter;
-		//protected int _choice;
-		// Start the game at level 0
 		protected int _level = 0;
 
 
@@ -50,13 +45,12 @@ namespace XNASystem.Displays
 		public void Update()
 		{
 			_menu.Update();
-			if (_menu.GetSelectedItem() == "No! (Return to Menu)")
+			if (_menu.GetSelectedItem("No! (Return to Menu)"))
 			{
 				_menuStack.Pop();
-
 				_systemMain.SetStack(_menuStack);
 			}
-			if (_menu.GetSelectedItem() == "Yes! (Start Quiz)")
+			if (_menu.GetSelectedItem("Yes! (Start Quiz)"))
 			{
 				_booklet.Reset();
 				_menuStack.Push(new QuizDisplay(_booklet.GetNextQuiz(), this));

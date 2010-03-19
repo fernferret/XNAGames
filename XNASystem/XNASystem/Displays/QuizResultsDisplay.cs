@@ -36,7 +36,7 @@ namespace XNASystem.Displays
 		#region update
 		public void Update()
 		{
-			_menu.Update();
+			///_menu.Update();
 			if(SystemMain.GetInput.IsButtonPressed(ButtonAction.MenuAccept))
 			{
 				_display.EndQuizScoreReview();

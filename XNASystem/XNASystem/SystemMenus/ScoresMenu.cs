@@ -45,11 +45,11 @@ namespace XNASystem.SystemMenus
 		public void Update()
 		{
 			_menu.Update();
-				if (_menu.GetSelectedItem() == "Back")
-				{
-					_menuStack.Pop();
-					_systemMain.SetStack(_menuStack);
-				}
+			if (_menu.GetSelectedItem("Back"))
+			{
+				_menuStack.Pop();
+				_systemMain.SetStack(_menuStack);
+			}
 		}
 
 		#endregion

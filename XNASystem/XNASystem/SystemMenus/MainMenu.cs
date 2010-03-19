@@ -60,26 +60,26 @@ namespace XNASystem.SystemMenus
 		{
 			_menu.Update();
 
-			if (_menu.GetSelectedItem() == "Take Quiz")
+			if (_menu.GetSelectedItem("Take Quiz"))
 			{
 				_menuStack.Push(new SystemDisplay(_menuStack, _systemMain));
 				_systemMain.SetStack(_menuStack);
 			}
-			if (_menu.GetSelectedItem() == "Options")
+			if (_menu.GetSelectedItem("Options"))
 			{
 				// create an options menu than push it onto the _menuStack
 				_menuStack.Push(new OptionsMenu(_menuStack, _systemMain));
 				// return the new _menuStack to main
 				_systemMain.SetStack(_menuStack);
 			}
-			if (_menu.GetSelectedItem() == "View Scores")
+			if (_menu.GetSelectedItem("View Scores"))
 			{
 				// create a scores menu and add it to the stack
 				_menuStack.Push(new ScoresMenu(_menuStack, _systemMain));
 				//return the new stack to main
 				_systemMain.SetStack(_menuStack);
 			}
-			if (_menu.GetSelectedItem() == "Exit")
+			if (_menu.GetSelectedItem("Exit"))
 			{
 				_systemMain.Close();
 			}

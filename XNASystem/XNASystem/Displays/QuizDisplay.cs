@@ -53,11 +53,17 @@ namespace XNASystem.Displays
 				SystemMain.SoundQuizBgInstance.Play();
 			}
 			_menu.Update();
-			if (SystemMain.GetInput.IsButtonPressed(ButtonAction.MenuAccept))
-			{
+			
 				// Answer the question with the current selection obtained from _menu
-				AnswerTheQuestion(_currentQuestion.GetAnswer(_menu.GetSelectedItem()));
+			//if(SystemMain.GetInput.IsButtonPressed(ButtonAction.MenuAccept))
+			//{
+			if (_menu.GetSelectedItem(false) != "")
+			{
+				AnswerTheQuestion(_currentQuestion.GetAnswer(_menu.GetSelectedItem(true)));
 			}
+				
+			//}
+			
 		}
 
 		private void AnswerTheQuestion(Answer answer)
@@ -80,6 +86,7 @@ namespace XNASystem.Displays
 			else
 			{
 				_currentQuestionAnswers = _currentQuestion.GetRandomAnswers();
+				_menu.SetText(_currentQuestionAnswers);
 			}
     		
 		}

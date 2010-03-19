@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using XNASystem.QuizArch;
 
 namespace XNASystem.Utils
@@ -46,7 +48,7 @@ namespace XNASystem.Utils
 			if (_lastPressed.Equals(ButtonAction.NONE))
 				_lastPressed = a;
 		}
-		private void ClearButtonPressed()
+		public void ClearButtonPressed()
 		{
 			_lastPressed = ButtonAction.NONE;
 		}
@@ -80,25 +82,57 @@ namespace XNASystem.Utils
 			}
 			if (SystemMain.GetInput.IsButtonPressed(ButtonAction.MenuCancel))
 			{
-
+				SetButtonPressed(ButtonAction.MenuCancel);
 			}
 		}
 		public void Draw()
 		{
 			//DeathSquid.GameSpriteBatch.Begin();
+			SystemMain.GameSpriteBatch.Draw(SystemMain.TexturePackage["Background"], new Rectangle(0, 0, SystemMain.Width, SystemMain.Height), Color.White);
 			SystemMain.Drawing.DrawTitleCentered(SystemMain.FontPackage["Title"], _title);
 			SystemMain.Drawing.DrawSubTitleCentered(SystemMain.FontPackage["Title"], _subtitle);
 			SystemMain.Drawing.DrawMenu(_menuText, SystemMain.FontPackage["Main"], _choice, new[] { SystemMain.TexturePackage["HilightLeft"], SystemMain.TexturePackage["HilightCenter"], SystemMain.TexturePackage["HilightRight"] });
 			//DeathSquid.GameSpriteBatch.End();
 		}
 
-		public String GetSelectedItem()
+		public bool GetSelectedItem(String s)
 		{
-			if (!_lastPressed.Equals(ButtonAction.NONE))
+			if (_lastPressed.Equals(ButtonAction.MenuAccept))
 			{
-				return _menuText[_choice];
+				if (_menuText[_choice] == s)
+				{
+					ClearButtonPressed();
+					return true;
+				}
+			}
+			return false;
+		}
+		/// <summary>
+		/// Gets the selected item from the list NOW.  This does NOT wait for input.
+		/// </summary>
+		/// <returns></returns>
+		public String GetSelectedItem(bool clear)
+		{
+			if (_lastPressed.Equals(ButtonAction.MenuAccept))
+			{
+				if (clear)
+					ClearButtonPressed();
+				return (_menuText[_choice]);
 			}
 			return "";
+		}
+		public String GetItemOnNewPress()
+		{
+			return "";
+		}
+
+		public void SetText(List<Answer> text)
+		{
+			_menuText.Clear();
+			foreach (var answer in text)
+			{
+				_menuText.Add(answer.TheAnswer);
+			}
 		}
 	}
 }
