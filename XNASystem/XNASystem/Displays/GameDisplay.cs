@@ -26,16 +26,16 @@ namespace XNASystem.Displays
 		}
 
 		#region update
-		public void Update(InputHandler handler, GameTime gameTime)
+		public void Update()
 		{
-			_choice = handler.HandleMenuMovement(1, _choice);
+			//_choice = handler.HandleMenuMovement(1, _choice);
 		}
 
 		#endregion
 
-		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
+		public void Draw()
 		{
-			spriteBatch.Begin();
+			/*spriteBatch.Begin();
 
 			// draw the background
 			spriteBatch.Draw(textures[1], new Rectangle(0, 0, SystemMain.Width, SystemMain.Height), Color.White);
@@ -49,7 +49,7 @@ namespace XNASystem.Displays
 			//draw the menu options
 			spriteBatch.DrawString(fonts[0], "Start Quiz!", new Vector2(100, 500), Color.Black);
 
-			spriteBatch.End();
+			spriteBatch.End();*/
 		}
 	}
 }

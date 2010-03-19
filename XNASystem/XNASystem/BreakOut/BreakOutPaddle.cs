@@ -52,9 +52,9 @@ namespace XNASystem.BreakOut
 
 		#region draw
 
-		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
+		public void Draw()
 		{
-			spriteBatch.Draw(textures[3], new Vector2(_xPosition, YPosition), Color.White);
+			SystemMain.GameSpriteBatch.Draw(SystemMain.TexturePackage["BreakoutPaddle"], new Vector2(_xPosition, YPosition), Color.White);
 		}
 
 		#endregion

@@ -7,7 +7,7 @@ namespace XNASystem.Interfaces
 	{
 		void UpdatePostion(float x, float y);
 
-		void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures);
+		void Draw();
 
 		float GetX();
 

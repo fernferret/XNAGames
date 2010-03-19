@@ -45,9 +45,9 @@ namespace XNASystem.BreakOut
 
 		#region draw
 
-		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
+		public void Draw()
 		{
-			spriteBatch.Draw(textures[6], new Vector2(_xPosition, _yPosition), Color.White);
+			SystemMain.GameSpriteBatch.Draw(SystemMain.TexturePackage["BreakoutBall"], new Vector2(_xPosition, _yPosition), Color.White);
 		}
 
 		#endregion

@@ -426,7 +426,7 @@ namespace XNASystem.Shooter
 		#region update
 
 
-		public void Update(InputHandler handler, GameTime gameTime)
+		public void Update()
 		{
 			if (SystemMain.SoundQuizBgInstance.State == SoundState.Playing)
 			{
@@ -458,11 +458,11 @@ namespace XNASystem.Shooter
 			}
 
 			//animation stuff
-			_ship.AnimateSprite(gameTime);
+			_ship.AnimateSprite(SystemMain.CurrentGameTime);
 
 			foreach(ShooterHerd h in _herdList)
 			{
-				h.AnimateSprite(gameTime);
+				h.AnimateSprite(SystemMain.CurrentGameTime);
 			}
 
 			_ship.UpdateProjectile();
@@ -481,20 +481,21 @@ namespace XNASystem.Shooter
 					h.Shoot();
 				}
 
-				if (handler.IfLeftPressed())
+				//if (handler.IfLeftPressed())
+				if (SystemMain.GetInput.IsButtonPressed(ButtonAction.ShipMoveLeftSlow))
 				{
 					_ship.UpdatePostion(-1, 0);
 				}
-				if (handler.IfRightPressed())
+				//if (handler.IfRightPressed())
+				if (SystemMain.GetInput.IsButtonPressed(ButtonAction.ShipMoveLeftSlow))
 				{
 					_ship.UpdatePostion(1, 0);
 				}
-				if (handler.IfSpacePressed())
+				//if (handler.IfSpacePressed())
+				if (SystemMain.GetInput.IsButtonPressed(ButtonAction.ShipShoot))
 				{
 					_ship.Shoot();
 					//SystemMain.SoundBackgroundInstance.IsLooped = true;
-					
-
 				}
 				else
 				{
@@ -509,26 +510,26 @@ namespace XNASystem.Shooter
 		#region draw
 
 
-		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
+		public void Draw()
 		{
-			spriteBatch.Begin();
+			SystemMain.GameSpriteBatch.Begin();
 
 			//draw the background
-			spriteBatch.Draw(textures[1], new Rectangle(0, 0, _width, _height), Color.Black);
+			SystemMain.GameSpriteBatch.Draw(SystemMain.TexturePackage["Background"], new Rectangle(0, 0, _width, _height), Color.Black);
 
 			//draw text
-			spriteBatch.DrawString(fonts[0], "Lives: " + _lives, new Vector2(_width - 100, 0), Color.White);
-			spriteBatch.DrawString(fonts[0], "Score: " + _score, new Vector2(0, 0), Color.White);
+			SystemMain.GameSpriteBatch.DrawString(SystemMain.FontPackage["Main"], "Lives: " + _lives, new Vector2(_width - 100, 0), Color.White);
+			SystemMain.GameSpriteBatch.DrawString(SystemMain.FontPackage["Main"], "Score: " + _score, new Vector2(0, 0), Color.White);
 
 			//draw the ship
-			_ship.Draw(spriteBatch, fonts, textures);
+			_ship.Draw();
 
 			foreach (ShooterHerd h in _herdList)
 			{
-				h.Draw(spriteBatch, fonts, textures);
+				h.Draw();
 			}
 
-			spriteBatch.End();
+			SystemMain.GameSpriteBatch.End();
 
 		}
 

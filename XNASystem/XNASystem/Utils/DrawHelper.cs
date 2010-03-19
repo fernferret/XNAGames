@@ -140,9 +140,9 @@ namespace XNASystem.Utils
 			//_sb.Draw(t[0], new Rectangle(_xmin, height + ButtonOffset, widthOfString, ButtonWidth), Color.White);
 			//_sb.Draw(t[2], new Rectangle(_xmin + widthOfString, height + ButtonOffset, ButtonSideWidth, ButtonWidth), Color.White);
 
-			_sb.Draw(SystemMain.TexturePackage["Hilight_left"], new Rectangle(_xmin - ButtonSideWidth, _selectionCurrentY + ButtonOffset, ButtonSideWidth, ButtonWidth), Color.White);
-			_sb.Draw(SystemMain.TexturePackage["Hilight_center"], new Rectangle(_xmin, _selectionCurrentY + ButtonOffset, _selectionCurrentWidth, ButtonWidth), Color.White);
-			_sb.Draw(SystemMain.TexturePackage["Hilight_right"], new Rectangle(_xmin + _selectionCurrentWidth, _selectionCurrentY + ButtonOffset, ButtonSideWidth, ButtonWidth), Color.White);
+			_sb.Draw(SystemMain.TexturePackage["HilightLeft"], new Rectangle(_xmin - ButtonSideWidth, _selectionCurrentY + ButtonOffset, ButtonSideWidth, ButtonWidth), Color.White);
+			_sb.Draw(SystemMain.TexturePackage["HilightCenter"], new Rectangle(_xmin, _selectionCurrentY + ButtonOffset, _selectionCurrentWidth, ButtonWidth), Color.White);
+			_sb.Draw(SystemMain.TexturePackage["HilightRight"], new Rectangle(_xmin + _selectionCurrentWidth, _selectionCurrentY + ButtonOffset, ButtonSideWidth, ButtonWidth), Color.White);
 
 			_sb.DrawString(SystemMain.FontPackage["Main"], "" + _speed, new Vector2(100, 300), Color.Aquamarine);
 			_sb.DrawString(SystemMain.FontPackage["Main"], "" + (_selectionCurrentY + ButtonOffset), new Vector2(100, 400), Color.Aquamarine);

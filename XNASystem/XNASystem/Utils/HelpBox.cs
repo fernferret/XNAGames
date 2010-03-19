@@ -100,7 +100,7 @@ namespace XNASystem.Utils
 			_sb.Draw(_t[1], new Rectangle(_currentXPos + 24 + _currentWidth, _currentYPos + 24, _currentHeight - 24, 24), null, Color.White, (float)(Math.PI / 2), new Vector2(0, 0), SpriteEffects.None, 0);
 			// Left Border
 			_sb.Draw(_t[1], new Rectangle(_currentXPos + 24, _currentYPos + 24, _currentHeight - 24, 24), null, Color.White, (float)(Math.PI / 2), new Vector2(0, 0), SpriteEffects.FlipVertically, 0);
-			_sb.DrawString(SystemMain.FontPackage[1],_currentXPos+", "+_finalXPos,new Vector2(500,500), Color.White );
+			_sb.DrawString(SystemMain.FontPackage["Main"],_currentXPos+", "+_finalXPos,new Vector2(500,500), Color.White );
 			var textColor = Color.White;
 			textColor = new Color(textColor.R, textColor.G, textColor.B, _textAlpha);
 			_sb.DrawString(_font,"test",new Vector2(_currentXPos,_currentYPos), textColor);

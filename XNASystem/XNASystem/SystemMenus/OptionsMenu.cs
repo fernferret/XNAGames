@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using XNASystem.Interfaces;
 using XNASystem.Utils;
-using XNASystem;
 
 namespace XNASystem.SystemMenus
 {
@@ -44,15 +40,22 @@ namespace XNASystem.SystemMenus
 		public void Update()
 		{
 			_menu.Update();
-			if(_menu.GetSelectedItem() == "Back")
+			if (SystemMain.GetInput.IsButtonPressed(ButtonAction.MenuAccept))
 			{
-				//take this menu off the stack
-				_menuStack.Pop();
+				if (_menu.GetSelectedItem() == "Back")
+				{
+					//take this menu off the stack
+					_menuStack.Pop();
 
-				// return the new stack to main
-				_systemMain.SetStack(_menuStack);
+					// return the new stack to main
+					_systemMain.SetStack(_menuStack);
+				}
+				else
+				{
+					Game = _menu.GetSelectedItem();
+				}
 			}
-			Game = _menu.GetSelectedItem();
+			
 		}
 
 		public void Draw()

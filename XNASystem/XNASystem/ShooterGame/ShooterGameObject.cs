@@ -33,15 +33,15 @@ namespace XNASystem.ShooterGame
 		//animation stuff
 		private float timer = 0f;
 		private float interval = 1000f / 7f;
-		protected readonly List<int> _standardSprites;
-		protected readonly List<int> _deadSprites;
-		protected readonly List<int> _painSprites;
-		protected readonly List<int> _blankSprite;
-		protected readonly Queue<int> _spriteQueue;
+		protected readonly List<String> _standardSprites;
+		protected readonly List<String> _deadSprites;
+		protected readonly List<String> _painSprites;
+		protected readonly List<String> _blankSprite;
+		protected readonly Queue<String> _spriteQueue;
 
 		#endregion
 
-		protected ShooterGameObject(float xPosition, float yPosition, int width, int height, int xGun, int yGun, int shotSpeed, int shotWidth, int shotHeight, Color color, int hitPoints, int score, List<int> standardSprites, List<int> painSprites, List<int> deadSprites)
+		protected ShooterGameObject(float xPosition, float yPosition, int width, int height, int xGun, int yGun, int shotSpeed, int shotWidth, int shotHeight, Color color, int hitPoints, int score, List<String> standardSprites, List<String> painSprites, List<String> deadSprites)
 		{
 			_height = height;
 			_width = width;
@@ -58,8 +58,8 @@ namespace XNASystem.ShooterGame
 			_standardSprites = standardSprites;
 			_painSprites = painSprites;
 			_deadSprites = deadSprites;
-			_blankSprite = new List<int>{23};
-			_spriteQueue = new Queue<int>();
+			_blankSprite = new List<String> { "ShipDead" };
+			_spriteQueue = new Queue<String>();
 			AddSpritesToDraw(_standardSprites);
 			_collisionBox = new Rectangle((int)_xPosition, (int)_yPosition, _width - 5, _height - 5);
 			
@@ -78,7 +78,7 @@ namespace XNASystem.ShooterGame
 			}
 		}
 
-		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
+		public void Draw()
 		{
 			if (!IsDead())
 			{
@@ -88,7 +88,7 @@ namespace XNASystem.ShooterGame
 					AddSpritesToDraw(_standardSprites);
 				}
 
-				spriteBatch.Draw(textures[_spriteQueue.Peek()], new Vector2(_xPosition, _yPosition), _color);
+				SystemMain.GameSpriteBatch.Draw(SystemMain.TexturePackage[_spriteQueue.Peek()], new Vector2(_xPosition, _yPosition), _color);
 			}
 		}
 
@@ -108,7 +108,7 @@ namespace XNASystem.ShooterGame
 				}
 		}
 
-		public void AddSpritesToDraw(List<int> l)
+		public void AddSpritesToDraw(List<String> l)
 		{
 			int i;
 			for(i=0; i<l.Count; i++)

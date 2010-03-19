@@ -23,9 +23,9 @@ namespace XNASystem.ShooterGame
 		private float interval = 1000f / 7f;
 		private int frameCount;
 		private int currentFrame = 0;
-		private int _currentSprite;
-		private List<int> _standardSprites = new List<int> { 24 };
-		private List<int> _currentSprites;
+		private String _currentSprite;
+		private List<String> _standardSprites = new List<String> { "Bullet" };
+		private List<String> _currentSprites;
 
 		public ShooterProjectile(float xPosition, float yPosition, int width, int height, float xVelocity, float yVelocity, Color color)
 		{
@@ -72,9 +72,9 @@ namespace XNASystem.ShooterGame
 			_currentSprite = _currentSprites[currentFrame];
 		}
 
-		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
+		public void Draw()
 		{
-			spriteBatch.Draw(textures[_currentSprite], _collisionBox, _color);
+			SystemMain.GameSpriteBatch.Draw(SystemMain.TexturePackage[_currentSprite], _collisionBox, _color);
 		}
 
 		public float GetY()

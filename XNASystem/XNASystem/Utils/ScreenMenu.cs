@@ -23,6 +23,7 @@ namespace XNASystem.Utils
 		{
 			_menuText = text;
 			_title = t;
+			_subtitle = "";
 		}
 		public ScreenMenu(List<Answer> text, String t, String st)
 		{
@@ -38,6 +39,7 @@ namespace XNASystem.Utils
 		{
 			_menuText = text;
 			_title = "";
+			_subtitle = "";
 		}
 		private void SetButtonPressed(ButtonAction a)
 		{
@@ -86,7 +88,7 @@ namespace XNASystem.Utils
 			//DeathSquid.GameSpriteBatch.Begin();
 			SystemMain.Drawing.DrawTitleCentered(SystemMain.FontPackage["Title"], _title);
 			SystemMain.Drawing.DrawSubTitleCentered(SystemMain.FontPackage["Title"], _subtitle);
-			SystemMain.Drawing.DrawMenu(_menuText, SystemMain.FontPackage["Main"], _choice, new[] { SystemMain.TexturePackage["Hilight_left"], SystemMain.TexturePackage["Hilight_center"], SystemMain.TexturePackage["Hilight_right"] });
+			SystemMain.Drawing.DrawMenu(_menuText, SystemMain.FontPackage["Main"], _choice, new[] { SystemMain.TexturePackage["HilightLeft"], SystemMain.TexturePackage["HilightCenter"], SystemMain.TexturePackage["HilightRight"] });
 			//DeathSquid.GameSpriteBatch.End();
 		}
 

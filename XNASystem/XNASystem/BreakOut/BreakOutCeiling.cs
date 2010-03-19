@@ -30,9 +30,9 @@ namespace XNASystem.BreakOut
 
 		#region draw
 
-		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
+		public void Draw()
 		{
-			spriteBatch.Draw(textures[7], new Rectangle(0, 0, _width, _buffer), Color.White);
+			SystemMain.GameSpriteBatch.Draw(SystemMain.TexturePackage["Ceiling"], new Rectangle(0, 0, _width, _buffer), Color.White);
 		}
 
 		#endregion

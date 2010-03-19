@@ -27,12 +27,12 @@ namespace XNASystem.Shooter
 		private float interval = 1000f / 7f;
 		private int frameCount;
 		private int currentFrame = 0;
-		private int _currentSprite;
-		private List<int> _standardSprites = new List<int> {8};
-		private List<int> _shootSprites = new List<int> {9};
-		private List<int> _deadSprites = new List<int> { 10, 11, 12, 18, 19, 20, 21, 22, 29, 30, 31, 23 };
+		private String _currentSprite;
+		private List<String> _standardSprites = new List<String> {"Ship"};
+		private List<String> _shootSprites = new List<String> { "ShipAlt" };
+		private List<String> _deadSprites = new List<String> { "BeginExplosionShip1", "BeginExplosionShip2", "BeginExplosionShip3", "Explode1", "Explode2", "Explode3", "Explode4", "Explode5", "Explode6", "Explode7", "Explode8", "ShipDead" };
 		//private List<int> _explodeSprites = new List<int> {18, 19, 20, 21, 22};
-		private List<int> _currentSprites;
+		private List<String> _currentSprites;
 		private Rectangle _collisionBox;
 
 
@@ -43,7 +43,7 @@ namespace XNASystem.Shooter
 			_xMax = xMax;
 			_xPosition = _xMax/2;
 			_yPosition = SystemMain.Height-Height-5;
-			_currentSprite = 8;
+			_currentSprite = "Ship";
 			_currentSprites = _standardSprites;
 			frameCount = _currentSprites.Count;
 			_collisionBox = new Rectangle((int)_xPosition, (int)_yPosition, 50, 50);
@@ -162,13 +162,13 @@ namespace XNASystem.Shooter
 			}
 		}
 
-		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
+		public void Draw()
 		{
-			spriteBatch.Draw(textures[_currentSprite], new Vector2(_xPosition, _yPosition), Color.White);
+			SystemMain.GameSpriteBatch.Draw(SystemMain.TexturePackage[_currentSprite], new Vector2(_xPosition, _yPosition), Color.White);
 
 			if(_shot != null)
 			{
-				_shot.Draw(spriteBatch, fonts, textures);
+				_shot.Draw();
 			}
 		}
 

@@ -51,18 +51,18 @@ namespace XNASystem.BreakOut
 
 		#region draw
 
-		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
+		public void Draw()
 		{
 			switch (_type)
 			{
 				case Blocktype.Invincible:
-					spriteBatch.Draw(textures[2], new Vector2(_xPosition, _yPosition), _color);
+					SystemMain.GameSpriteBatch.Draw(SystemMain.TexturePackage["BreakoutBlockMetal"], new Vector2(_xPosition, _yPosition), _color);
 					break;
 				case Blocktype.Ball:
-					spriteBatch.Draw(textures[69], new Vector2(_xPosition, _yPosition), _color);
+					SystemMain.GameSpriteBatch.Draw(SystemMain.TexturePackage["BreakoutBallBlock"], new Vector2(_xPosition, _yPosition), _color);
 					break;
 				default:
-					spriteBatch.Draw(textures[5], new Vector2(_xPosition, _yPosition), _color);
+					SystemMain.GameSpriteBatch.Draw(SystemMain.TexturePackage["BreakoutBlockTemplate"], new Vector2(_xPosition, _yPosition), _color);
 					break;
 			}
 		}

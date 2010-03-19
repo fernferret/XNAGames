@@ -1298,7 +1298,7 @@ namespace XNASystem.BreakOut
 
 		#region update
 
-		public void Update(InputHandler handler, GameTime gameTime)
+		public void Update()
 		{
 			var soundplaying = false;
 			foreach (var sound in SystemMain.SoundsBackgroundInstance)
@@ -1319,8 +1319,9 @@ namespace XNASystem.BreakOut
 
 			}
 			// TODO: Need to update to use the new handler class!
-			var padState = handler.GetPadState();
-			var keyState = handler.GetKeyState();
+			// Above: almost done !
+			//var padState = handler.GetPadState();
+			//var keyState = handler.GetKeyState();
 
 			var rand = new Random();
 			//test all collisions between the ball and blocks, paddle, and walls.
@@ -1337,11 +1338,12 @@ namespace XNASystem.BreakOut
 				//if the paddle is up against the left wall only allow it to move to the right
 				if (_paddle.GetX() == _buffer)
 				{
-					if (padState.ThumbSticks.Left.X > 0)
-					{
-						_paddle.UpdatePostion(padState.ThumbSticks.Left.X, 0);
-					}
-					if (keyState.IsKeyDown(Keys.Right))
+					//if (padState.ThumbSticks.Left.X > 0)
+					//{
+					//	_paddle.UpdatePostion(padState.ThumbSticks.Left.X, 0);
+					//}
+					if (SystemMain.GetInput.IsButtonPressed(ButtonAction.ShipMoveRightSlow))
+					//if (keyState.IsKeyDown(Keys.Right))
 					{
 						_paddle.UpdatePostion(1, 0);
 					}
@@ -1351,11 +1353,12 @@ namespace XNASystem.BreakOut
 				// if the paddle is up against the right wall only allow it to move to the left
 				else if (_paddle.GetX() == _rightWall.GetX() - _paddle.GetWidth())
 				{
-					if (padState.ThumbSticks.Left.X < 0)
-					{
-						_paddle.UpdatePostion(padState.ThumbSticks.Left.X, 0);
-					}
-					if (keyState.IsKeyDown(Keys.Left))
+					//if (padState.ThumbSticks.Left.X < 0)
+					//{
+					//	_paddle.UpdatePostion(padState.ThumbSticks.Left.X, 0);
+					//}
+					if (SystemMain.GetInput.IsButtonPressed(ButtonAction.ShipMoveLeftSlow))
+					//if (keyState.IsKeyDown(Keys.Left))
 					{
 						_paddle.UpdatePostion(-1, 0);
 					}
@@ -1380,12 +1383,14 @@ namespace XNASystem.BreakOut
 				// move the paddle based on the thumbstick or arrow key input
 				else
 				{
-					_paddle.UpdatePostion(padState.ThumbSticks.Left.X, 0);
-					if (keyState.IsKeyDown(Keys.Left))
+					//_paddle.UpdatePostion(padState.ThumbSticks.Left.X, 0);
+					//if (keyState.IsKeyDown(Keys.Left))
+					if (SystemMain.GetInput.IsButtonPressed(ButtonAction.ShipMoveLeftSlow))
 					{
 						_paddle.UpdatePostion(-1, 0);
 					}
-					if (keyState.IsKeyDown(Keys.Right))
+					if (SystemMain.GetInput.IsButtonPressed(ButtonAction.ShipMoveRightSlow))
+					//if (keyState.IsKeyDown(Keys.Right))
 					{
 						_paddle.UpdatePostion(1, 0);
 					}
@@ -1410,12 +1415,14 @@ namespace XNASystem.BreakOut
 							if (_paddle.GetSide(_ballRect) == 0)
 							{
 								_ballList[i].SwitchY();
-								_ballList[i].IncrementX(padState.ThumbSticks.Left.X);
-								if (keyState.IsKeyDown(Keys.Left))
+								//_ballList[i].IncrementX(padState.ThumbSticks.Left.X);
+								//if (keyState.IsKeyDown(Keys.Left))
+								if (SystemMain.GetInput.IsButtonPressed(ButtonAction.ShipMoveLeftSlow))
 								{
 									_ballList[i].IncrementX((float)-0.2);
 								}
-								if (keyState.IsKeyDown(Keys.Right))
+								//if (keyState.IsKeyDown(Keys.Right))
+								if (SystemMain.GetInput.IsButtonPressed(ButtonAction.ShipMoveRightSlow))
 								{
 									_ballList[i].IncrementX((float)0.2);
 								}
@@ -1459,12 +1466,14 @@ namespace XNASystem.BreakOut
 								if (_paddle.GetSide(_ballRect) == 0)
 								{
 									_ballList[i].SwitchY();
-									_ballList[i].IncrementX(padState.ThumbSticks.Left.X);
-									if (keyState.IsKeyDown(Keys.Left))
+									//_ballList[i].IncrementX(padState.ThumbSticks.Left.X);
+									//if (keyState.IsKeyDown(Keys.Left))
+									if (SystemMain.GetInput.IsButtonPressed(ButtonAction.ShipMoveLeftSlow))
 									{
 										_ballList[i].IncrementX((float)-0.2);
 									}
-									if (keyState.IsKeyDown(Keys.Right))
+									//if (keyState.IsKeyDown(Keys.Right))
+									if (SystemMain.GetInput.IsButtonPressed(ButtonAction.ShipMoveRightSlow))
 									{
 										_ballList[i].IncrementX((float)0.2);
 									}
@@ -1675,21 +1684,22 @@ namespace XNASystem.BreakOut
 				#endregion
 
 				#region shooting balls
-
-				if (padState.Buttons.A == ButtonState.Pressed && _a == 0)
+				if (SystemMain.GetInput.IsButtonPressed(ButtonAction.ShipShoot))
+				//if (padState.Buttons.A == ButtonState.Pressed && _a == 0)
 				{
 					if (_lives > 0 && _balls == 0)
 					{
 						_ballList.Add(new BreakOutBall(_paddle.GetX() + 100, _paddle.GetY() - 15, (float)-.1 * rand.Next(5), (float)-.5));
 						_balls++;
 					}
-					_a = 1;
+					//_a = 1;
 				}
-				if (padState.Buttons.A == ButtonState.Released)
+				// Removed due to new imput handler
+				/*if (padState.Buttons.A == ButtonState.Released)
 				{
 					_a = 0;
-				}
-				if (keyState.IsKeyDown(Keys.Space) && _space == 0)
+				}*/
+				/*if (keyState.IsKeyDown(Keys.Space) && _space == 0)
 				{
 					if (_lives > 0 && _balls == 0)
 					{
@@ -1701,7 +1711,7 @@ namespace XNASystem.BreakOut
 				if (keyState.IsKeyUp(Keys.Space))
 				{
 					_space = 0;
-				}
+				}*/
 
 				#endregion
 			}
@@ -1743,24 +1753,24 @@ namespace XNASystem.BreakOut
 
 		#region draw
 
-		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
+		public void Draw()
 		{
 			if (_running)
 			{
-				spriteBatch.Begin();
+				SystemMain.GameSpriteBatch.Begin();
 
-				spriteBatch.Draw(textures[4], new Rectangle(0, 0, Width, Height), Color.Black);
+				SystemMain.GameSpriteBatch.Draw(SystemMain.TexturePackage["Wall"], new Rectangle(0, 0, Width, Height), Color.Black);
 				//draw the paddle wlls and ceiling
-				_paddle.Draw(spriteBatch, fonts, textures);
-				_leftWall.Draw(spriteBatch, fonts, textures);
-				_rightWall.Draw(spriteBatch, fonts, textures);
-				_ceiling.Draw(spriteBatch, fonts, textures);
+				_paddle.Draw();
+				_leftWall.Draw();
+				_rightWall.Draw();
+				_ceiling.Draw();
 
 				//draw the score
-				spriteBatch.DrawString(fonts[0], "" + _score, new Vector2(2 * _buffer, 2 * _buffer), Color.White);
+				SystemMain.GameSpriteBatch.DrawString(SystemMain.FontPackage["Main"], "" + _score, new Vector2(2 * _buffer, 2 * _buffer), Color.White);
 
 				//draw the lives
-				spriteBatch.DrawString(fonts[0], "Lives: " + _lives, new Vector2(Width - 70 - (2 * _buffer), 2 * _buffer), Color.White);
+				SystemMain.GameSpriteBatch.DrawString(SystemMain.FontPackage["Main"], "Lives: " + _lives, new Vector2(Width - 70 - (2 * _buffer), 2 * _buffer), Color.White);
 
 				//draw the blocks
 				int i, j;
@@ -1791,7 +1801,7 @@ namespace XNASystem.BreakOut
 
 						if (_blockList[i][j].GetType() != Blocktype.Dead)
 						{
-							_blockList[i][j].Draw(spriteBatch, fonts, textures);
+							_blockList[i][j].Draw();
 						}
 					}
 				}
@@ -1801,9 +1811,9 @@ namespace XNASystem.BreakOut
 				for (k = 0; k < _ballList.Count; k++)
 				{
 					if (_ballList[k].IsAlive())
-						_ballList[k].Draw(spriteBatch, fonts, textures);
+						_ballList[k].Draw();
 				}
-				spriteBatch.End();
+				SystemMain.GameSpriteBatch.End();
 			}
 		}
 

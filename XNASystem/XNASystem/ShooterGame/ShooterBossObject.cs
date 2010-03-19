@@ -12,9 +12,14 @@ namespace XNASystem.ShooterGame
 		private const int Width = 150;
 		private const int Height = 50;
 
-		private static readonly List<int> StandardSprites = new List<int> { 26, 27 };
-		private static readonly List<int> DeadSprites = new List<int> { 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 31 };
-		private static readonly List<int> PainSprites = new List<int> { 28 };
+		private static readonly List<String> StandardSprites = new List<String> { "Boss", "BossAlt" };
+		private static readonly List<String> DeadSprites = new List<String> { "ShooterBossExplosion1A", "ShooterBossExplosion3A", "ShooterBossExplosion4A", "ShooterBossExplosion5A", 
+			"ShooterBossExplosion6A", "ShooterBossExplosion7A", "ShooterBossExplosion8A", "ShooterBossExplosion9A", "ShooterBossExplosion10A", "ShooterBossExplosion11A", 
+			"ShooterBossExplosion12A", "ShooterBossExplosion13A", "ShooterBossExplosion14A", "ShooterBossExplosion15A", "ShooterBossExplosion16A", "ShooterBossExplosion17A", 
+			"ShooterBossExplosion18A", "ShooterBossExplosion19A", "ShooterBossExplosion20A", "ShooterBossExplosion21A", "ShooterBossExplosion22A", "ShooterBossExplosion23A", 
+			"ShooterBossExplosion24A", "ShooterBossExplosion25A", "ShooterBossExplosion26A", "ShooterBossExplosion27A", "ShooterBossExplosion28A", "ShooterBossExplosion29A", 
+			"ShooterBossExplosion30A", "ShooterBossExplosion31A", "ShooterBossExplosion32A", "ShooterBossExplosion33A"};
+		private static readonly List<String> PainSprites = new List<String> { "BossPain" };
 
 		public ShooterBossObject(float xPosition, float yPosition)
 			: base(xPosition, yPosition, Width, Height, (Width / 2 - 10), Height + 7, 3, 20, 20, Color.White, 15, 50, StandardSprites, PainSprites, DeadSprites)

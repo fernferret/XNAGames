@@ -167,15 +167,15 @@ namespace XNASystem.ShooterGame
 			}
 		}
 
-		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
+		public void Draw()
 		{
 			foreach (ShooterGameObject e in _enemies)
 			{
-				e.Draw(spriteBatch, fonts, textures);
+				e.Draw();
 			}
 			foreach(ShooterProjectile p in _projectiles)
 			{
-				p.Draw(spriteBatch, fonts, textures);
+				p.Draw();
 			}
 		}
 

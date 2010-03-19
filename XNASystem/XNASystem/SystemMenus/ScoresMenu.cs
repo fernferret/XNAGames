@@ -25,10 +25,7 @@ namespace XNASystem.SystemMenus
 	{
 		#region variables
 
-		protected int _up;
-		protected int _down;
-		protected int _enter;
-		protected int _choice;
+		private ScreenMenu _menu;
 		protected Stack<IScreen> _menuStack;
 		protected SystemMain _systemMain;
 		private List<String> _menuText = new List<string>{"View Quiz Scores (NYI)","View Game Scores (NYI)","Back"};
@@ -38,63 +35,37 @@ namespace XNASystem.SystemMenus
 		#region constructor
 		public ScoresMenu(Stack<IScreen> stack, SystemMain main)
 		{
-			_up = 1;
-			_down = 1;
-			_enter = 1;
-			_choice = 0;
 			_menuStack = stack;
 			_systemMain = main;
+			_menu = new ScreenMenu(_menuText,"Scores Menu");
 		}
 		#endregion
 
 		#region update
-		public void Update(InputHandler handler, GameTime gameTime)
+		public void Update()
 		{
-			_choice = handler.HandleMenuMovement(3, _choice);
-			if(handler.IfEnterPressed())
-			{
-				switch (_choice)
+			_menu.Update();
+				if (_menu.GetSelectedItem() == "Back")
 				{
-					// quiz scores
-					case 0:
-						break;
-					// game scores
-					case 1:
-						break;
-					// back
-					case 2:
-						// remove this menu than return the list to main
-						_menuStack.Pop();
-						_systemMain.SetStack(_menuStack);
-						break;
-					default:
-						break;
+					_menuStack.Pop();
+					_systemMain.SetStack(_menuStack);
 				}
-			}
 		}
 
 		#endregion
 
 		#region draw
-
-		/// <summary>
-		/// Draw
-		/// 
-		/// This method is called in the main systems draw method. This method draws to the screen everything that makes up this screen.
-		/// </summary>
-		/// <param name="spriteBatch"> the object needed to draw things in XNA</param>
-		/// <param name="fonts"> a list of fonts that cn be used in this screen</param>
-		/// <param name="textures"> a list of textures that can be used to draw this screens</param>
-		public void Draw(SpriteBatch spriteBatch, List<SpriteFont> fonts, List<Texture2D> textures)
+		public void Draw()
 		{
-			spriteBatch.Begin();
-			spriteBatch.Draw(textures[1], new Rectangle(0, 0, SystemMain.Width, SystemMain.Height), Color.White);
-			SystemMain.DrawHelper.DrawSelection(new[] { textures[0], textures[64], textures[65] }, SystemMain.DrawHelper.GetDrawLocations(_menuText)[_choice], (int)(Math.Ceiling(fonts[1].MeasureString(_menuText[_choice]).X)));
+			SystemMain.GameSpriteBatch.Begin();
+			_menu.Draw();
+			//spriteBatch.Draw(textures[1], new Rectangle(0, 0, SystemMain.Width, SystemMain.Height), Color.White);
+			//SystemMain.DrawHelper.DrawSelection(new[] { textures[0], textures[64], textures[65] }, SystemMain.DrawHelper.GetDrawLocations(_menuText)[_choice], (int)(Math.Ceiling(fonts[1].MeasureString(_menuText[_choice]).X)));
 
 			// draw the menu title
-			SystemMain.DrawHelper.DrawTitleCentered(fonts[2], "Score Viewer");
-			SystemMain.DrawHelper.DrawHelpBox();
-			SystemMain.DrawHelper.DrawMenu(_menuText, fonts[1]);
+			//SystemMain.DrawHelper.DrawTitleCentered(fonts[2], "Score Viewer");
+			//SystemMain.DrawHelper.DrawHelpBox();
+			//SystemMain.DrawHelper.DrawMenu(_menuText, fonts[1]);
 			// draw the background
 			
 
@@ -109,7 +80,7 @@ namespace XNASystem.SystemMenus
 			//spriteBatch.DrawString(fonts[0], "View Game Scores (NYI)", new Vector2(100, 350), Color.Black);
 			//spriteBatch.DrawString(fonts[0], "Back", new Vector2(100, 500), Color.Black);
 
-			spriteBatch.End();
+			SystemMain.GameSpriteBatch.End();
 		}
 		#endregion
 	}
