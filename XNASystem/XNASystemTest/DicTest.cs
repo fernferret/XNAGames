@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using XNASystem;
 
 namespace XNASystemTest
 {
@@ -85,7 +84,7 @@ namespace XNASystemTest
         {
             _target = new SystemMain();
             Assert.IsNotNull(_target);
-            Assert.IsNotNull(_target.FontPackage);
+            Assert.IsNotNull(SystemMain.FontPackage);
         }
 
         [TestMethod]
@@ -93,16 +92,15 @@ namespace XNASystemTest
         {
             _target = new SystemMain();
             Assert.IsNotNull(_target);
-            Assert.IsNotNull(_target.TexturePackage);
+            Assert.IsNotNull(SystemMain.TexturePackage);
         }
 
         [TestMethod]
-        public void AddValuesToDictionary()
+        public void AddValuesToDictionaryActualDict()
         {
             _target = new SystemMain();
-            _target.LoadContent();
-            Assert.AreEqual(true, _target.FontPackage.ContainsKey("Main"));
-            Assert.AreEqual(true, _target.TexturePackage.ContainsKey("Boss"));
+            Assert.AreEqual(true, SystemMain.FontPackage.ContainsKey("Main"));
+            Assert.AreEqual(true, SystemMain.TexturePackage.ContainsKey("Boss"));
         }
 
     }

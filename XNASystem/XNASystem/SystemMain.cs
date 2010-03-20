@@ -233,14 +233,10 @@ namespace XNASystem
 			TexturePackage.Add("BeginExplode1",Content.Load<Texture2D>("Sprites//ShooterGame//beginexplosion_1b"));
 			TexturePackage.Add("BeginExplode2",Content.Load<Texture2D>("Sprites//ShooterGame//beginexplosion_2b"));
 			TexturePackage.Add("BeginExplode3",Content.Load<Texture2D>("Sprites//ShooterGame//beginexplosion_3b"));
-			TexturePackage.Add("Explode1",Content.Load<Texture2D>("Sprites//ShooterGame//explosion_1"));
-			TexturePackage.Add("Explode2",Content.Load<Texture2D>("Sprites//ShooterGame//explosion_2"));
-			TexturePackage.Add("Explode3",Content.Load<Texture2D>("Sprites//ShooterGame//explosion_3"));
-			TexturePackage.Add("Explode4",Content.Load<Texture2D>("Sprites//ShooterGame//explosion_4"));
-			TexturePackage.Add("Explode5",Content.Load<Texture2D>("Sprites//ShooterGame//explosion_5"));
-			TexturePackage.Add("Explode6",Content.Load<Texture2D>("Sprites//ShooterGame//explosion_6"));
-			TexturePackage.Add("Explode7",Content.Load<Texture2D>("Sprites//ShooterGame//explosion_7"));
-			TexturePackage.Add("Explode8",Content.Load<Texture2D>("Sprites//ShooterGame//explosion_8"));
+			for (int i = 1; i < 8; i++)
+			{
+				TexturePackage.Add("Explode"+i, Content.Load<Texture2D>("Sprites//ShooterGame//explosion_"+i));
+			}
 			TexturePackage.Add("ShipDead",Content.Load<Texture2D>("Sprites//ShooterGame//dead_ship"));
 			TexturePackage.Add("Bullet",Content.Load<Texture2D>("Sprites//ShooterGame//projectile"));
 			TexturePackage.Add("EnemyBasicPain",Content.Load<Texture2D>("Sprites//ShooterGame//shooterenemybasic_pain"));
@@ -248,38 +244,10 @@ namespace XNASystem
 			TexturePackage.Add("BossAlt",Content.Load<Texture2D>("Sprites//ShooterGame//shooterboss_alternative"));
 			TexturePackage.Add("BossPain",Content.Load<Texture2D>("Sprites//ShooterGame//shooterboss_pain"));
 			TexturePackage.Add("ShooterBossExplosion1A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_1_a"));
-			TexturePackage.Add("ShooterBossExplosion3A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_3_a"));
-			TexturePackage.Add("ShooterBossExplosion4A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_4_a"));
-			TexturePackage.Add("ShooterBossExplosion5A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_5_a"));
-			TexturePackage.Add("ShooterBossExplosion6A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_6_a"));
-			TexturePackage.Add("ShooterBossExplosion7A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_7_a"));
-			TexturePackage.Add("ShooterBossExplosion8A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_8_a"));
-			TexturePackage.Add("ShooterBossExplosion9A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_9_a"));
-			TexturePackage.Add("ShooterBossExplosion10A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_10_a"));
-			TexturePackage.Add("ShooterBossExplosion11A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_11_a"));
-			TexturePackage.Add("ShooterBossExplosion12A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_12_a"));
-			TexturePackage.Add("ShooterBossExplosion13A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_13_a"));
-			TexturePackage.Add("ShooterBossExplosion14A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_14_a"));
-			TexturePackage.Add("ShooterBossExplosion15A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_15_a"));
-			TexturePackage.Add("ShooterBossExplosion16A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_16_a"));
-			TexturePackage.Add("ShooterBossExplosion17A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_17_a"));
-			TexturePackage.Add("ShooterBossExplosion18A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_18_a"));
-			TexturePackage.Add("ShooterBossExplosion19A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_19_a"));
-			TexturePackage.Add("ShooterBossExplosion20A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_20_a"));
-			TexturePackage.Add("ShooterBossExplosion21A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_21_a"));
-			TexturePackage.Add("ShooterBossExplosion22A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_22_a"));
-			TexturePackage.Add("ShooterBossExplosion23A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_23_a"));
-			TexturePackage.Add("ShooterBossExplosion24A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_24_a"));
-			TexturePackage.Add("ShooterBossExplosion25A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_25_a"));
-			TexturePackage.Add("ShooterBossExplosion26A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_26_a"));
-			TexturePackage.Add("ShooterBossExplosion27A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_27_a"));
-			TexturePackage.Add("ShooterBossExplosion28A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_28_a"));
-			TexturePackage.Add("ShooterBossExplosion29A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_29_a"));
-			TexturePackage.Add("ShooterBossExplosion30A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_30_a"));
-			TexturePackage.Add("ShooterBossExplosion31A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_31_a"));
-			TexturePackage.Add("ShooterBossExplosion32A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_32_a"));
-			TexturePackage.Add("ShooterBossExplosion33A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_33_a"));
-
+        	for (int i = 3; i < 34; i++)
+        	{
+				TexturePackage.Add("ShooterBossExplosion"+i+"A", Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_"+i+"_a"));
+        	}
 			TexturePackage.Add("HilightLeft", Content.Load<Texture2D>("Sprites//Hilight_left"));
 			TexturePackage.Add("HilightRight", Content.Load<Texture2D>("Sprites//Hilight_right"));
 			TexturePackage.Add("UIBorder", Content.Load<Texture2D>("Sprites//UI//UIBorder"));
@@ -287,82 +255,82 @@ namespace XNASystem
 			TexturePackage.Add("UICorner", Content.Load<Texture2D>("Sprites//UI//UICorner"));
 			TexturePackage.Add("BreakoutBallBlock", Content.Load<Texture2D>("Sprites//BreakoutGame//Breakout_BallBlock"));
 			TexturePackage.Add("BreakoutBlockMetal", Content.Load<Texture2D>("Sprites//BreakoutGame//Breakout_Block_Meta_newl"));
-			
-			
-			//_texturePackage.Add(Content.Load<Texture2D>("Sprites//Hilight_center"));0
-            //_texturePackage.Add(Content.Load<Texture2D>("Sprites//xnaGamesBackground_"+_graphics.PreferredBackBufferWidth+"_"+_graphics.PreferredBackBufferHeight));1
-            //_texturePackage.Add(Content.Load<Texture2D>("Sprites//BreakoutGame//Breakout_Block_Meta_newl"));2
-			//_texturePackage.Add(Content.Load<Texture2D>("Sprites//BreakoutGame//Breakout_Paddle"));3
-			//_texturePackage.Add(Content.Load<Texture2D>("Sprites//wall"));4
-			//_texturePackage.Add(Content.Load<Texture2D>("Sprites//BreakoutGame//Breakout_Block_Template"));5
-			//_texturePackage.Add(Content.Load<Texture2D>("Sprites//BreakoutGame//BreakoutBall"));6
-			//_texturePackage.Add(Content.Load<Texture2D>("Sprites//ceiling"));7
+
+        	var _texturePackage = new List<Texture2D>();
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//Hilight_center"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//xnaGamesBackground_"+_graphics.PreferredBackBufferWidth+"_"+_graphics.PreferredBackBufferHeight));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//BreakoutGame//Breakout_Block_Meta_newl"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//BreakoutGame//Breakout_Paddle"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//wall"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//BreakoutGame//Breakout_Block_Template"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//BreakoutGame//BreakoutBall"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ceiling"));
 
 			//Shooter Game Textures
-			//_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ship"));//8
-			//_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ship_alternate"));9
-			//_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//beginexplosion_ship_1"));10
-			//_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//beginexplosion_ship_2"));11
-			//_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//beginexplosion_ship_3"));12
-			//_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//shooterenemybasic")); //13
-			//_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//shooterenemybasic_alternate"));14
-			//_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//beginexplosion_1b"));15
-			//_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//beginexplosion_2b"));16
-			//_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//beginexplosion_3b"));17
-			//_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_1"));18
-			//_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_2"));19
-			//_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_3"));20
-			//_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_4"));21
-			//_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_5"));22
-			//_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//dead_ship"));23
-			//_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//projectile"));//24
-            //_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//shooterenemybasic_pain"));25
-            //_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//shooterboss"));26
-            //_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//shooterboss_alternative"));27
-            //_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//shooterboss_pain"));28
-            //_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_6"));29
-            //_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_7"));30
-            //_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_8"));31
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ship"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ship_alternate"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//beginexplosion_ship_1"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//beginexplosion_ship_2"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//beginexplosion_ship_3"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//shooterenemybasic")); 
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//shooterenemybasic_alternate"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//beginexplosion_1b"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//beginexplosion_2b"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//beginexplosion_3b"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_1"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_2"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_3"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_4"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_5"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//dead_ship"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//projectile"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//shooterenemybasic_pain"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//shooterboss"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//shooterboss_alternative"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//shooterboss_pain"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_6"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_7"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//explosion_8"));
             //boss explosion
-            /*_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_1_a"));//32
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_3_a"));33
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_4_a"));34
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_5_a"));35
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_6_a"));36
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_7_a"));37
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_8_a"));38
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_9_a"));39
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_10_a"));40
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_11_a"));41
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_12_a"));42
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_13_a"));43
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_14_a"));44
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_15_a"));45
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_16_a"));46
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_17_a"));47
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_18_a"));48
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_19_a"));49
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_20_a"));50
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_21_a"));51
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_22_a"));52
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_23_a"));53
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_24_a"));54
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_25_a"));55
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_26_a"));56
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_27_a"));57
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_28_a"));58
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_29_a"));59
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_30_a"));60
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_31_a"));61
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_32_a"));62
-            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_33_a"));63        
-			_texturePackage.Add(Content.Load<Texture2D>("Sprites//Hilight_left"));64
-			_texturePackage.Add(Content.Load<Texture2D>("Sprites//Hilight_right"));65
-			_texturePackage.Add(Content.Load<Texture2D>("Sprites//UI//UIBorder"));66
-			_texturePackage.Add(Content.Load<Texture2D>("Sprites//UI//UIFill"));67
-			_texturePackage.Add(Content.Load<Texture2D>("Sprites//UI//UICorner"));//68
-			_texturePackage.Add(Content.Load<Texture2D>("Sprites//BreakoutGame//Breakout_BallBlock"));69
-			*/
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_1_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_3_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_4_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_5_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_6_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_7_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_8_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_9_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_10_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_11_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_12_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_13_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_14_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_15_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_16_a"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_17_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_18_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_19_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_20_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_21_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_22_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_23_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_24_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_25_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_26_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_27_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_28_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_29_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_30_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_31_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_32_a"));
+            _texturePackage.Add(Content.Load<Texture2D>("Sprites//ShooterGame//ShooterBoss_explosion_33_a"));     
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//Hilight_left"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//Hilight_right"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//UI//UIBorder"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//UI//UIFill"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//UI//UICorner"));
+			_texturePackage.Add(Content.Load<Texture2D>("Sprites//BreakoutGame//Breakout_BallBlock"));
+			
 
             // give the stack the main menu
             _menuStack.Push(new MainMenu(_menuStack, this));

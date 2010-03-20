@@ -78,282 +78,185 @@ namespace XNASystem.Utils
 
 		public bool IsButtonPressed(ButtonAction b)
 		{
-			// If our epic superbutton Dictionary contains the action provided
-			// ProTip: If you're doing it right, it will ;) aka It always will if you've defined everything correctly
-			if (_superButton.ContainsKey(b))
+			if (!_superButton.ContainsKey(b))
 			{
-				// Check each ButtonAlias within our specific _superButton
+				return false;
+			}
 				foreach (var button in _superButton[b])
 				{
-					// Handle GamePad buttons first, if and only if the gampead is plugged in!
 					if (!button.GetButton().Equals(null) && _gamePadState.IsConnected)
 					{
-						// This _superButton Command Has a Key Associated with it, 
-						// Is it DOWN?
-						// Does this command NOT already have an associated press?
-						//if (_keyState.IsKeyDown(button.GetKey()) && !_pressedButtons.Contains(button.GetAssociation()))
-						// OR
 						if (_gamePadState.IsButtonDown(button.GetButton()) && !_buttonLocks.ContainsKey(button.GetAssociation()))
 						{
-							//NO! Sweet, let's set the association.  This is the key that will be counted as pressed
-							// UNTIL IT DIES (is unpressed)
-							button.Pressed = PressType.XboxController;
-							//_pressedButtons.Add(button.GetAssociation());
-							_buttonLocks.Add(button.GetAssociation(), button);
-							return true;
-							// Return True, since the button is being held
-							//return false;
-
+							return SetTypeXbox(button);
 						}
-						//if (_keyState.IsKeyDown(button.GetKey()) && _pressedButtons.Contains(button.GetAssociation()))
 						if (_gamePadState.IsButtonDown(button.GetButton()) && _buttonLocks.ContainsValue(button))
 						{
-							//We already have an association, are we holdable and still held?
-							if (button.IsHoldable())
-							{
-								if (button.GetHoldable() == 0)
-								{
-									return true;
-								}
-								// If we have a holdable button whos delay is greater than 0 seconds, and we have NO association, create one and return
-								// We have NOTHING
-								if (button.GetHoldable() > 0 && !_holdTimes.ContainsKey(button.GetAssociation()))
-								{
-									_holdTimes.Add(button.GetAssociation(), SystemMain.CurrentGameTime.TotalRealTime.TotalSeconds + button.GetHoldable());
-									return false;
-								}
-								// If we have a holdable button whos delay is greater than 0 seconds, and we have AN association, and it's not done yet, we don't care, it's FALSE!
-								// We DO Have:
-								// A. HoldTime Assoc (Button HAS NOT been held long enough)
-								// We DONT Have:
-								// A. RepeatHoldTime Assoc
-								if (button.GetHoldable() > 0 && _holdTimes.ContainsKey(button.GetAssociation()) && _holdTimes[button.GetAssociation()].CompareTo(SystemMain.CurrentGameTime.TotalRealTime.TotalSeconds) > 0 && !_repeatHoldTimes.ContainsKey(button.GetAssociation()))
-								{
-									//_repeatHoldTimes.Add(button.GetAssociation(), DeathSquid.DeathSquid.CurrentGameTime.TotalRealTime.TotalSeconds + button.GetHoldable());
-									return false;
-								}
-
-								// HOldable has been held for a valid amount of time, allow one press in! 
-								// We DO Have:
-								// A. HoldTime Assoc (Button HAS been held long enough)
-								// We DONT Have:
-								// A. RepeatHoldTime Assoc
-								if (_holdTimes.ContainsKey(button.GetAssociation()) && _holdTimes[button.GetAssociation()].CompareTo(SystemMain.CurrentGameTime.TotalRealTime.TotalSeconds) < 0 && !_repeatHoldTimes.ContainsKey(button.GetAssociation()) && button.GetHoldableRepeat() >= 0)
-								{
-									// Remove, re-add, rinse, repeat!
-									//_holdTimes.Remove(button.GetAssociation());
-									_repeatHoldTimes.Add(button.GetAssociation(), SystemMain.CurrentGameTime.TotalRealTime.TotalSeconds + button.GetHoldableRepeat());
-									return false;
-								}
-
-								// We DO Have:
-								// A. HoldTime Assoc (Button HAS been held long enough)
-								// B. RepeatHoldTime Assoc (Button HAS been held long enough)
-								// Should be all systems go here to return true
-								if (_repeatHoldTimes.ContainsKey(button.GetAssociation()) && _repeatHoldTimes[button.GetAssociation()].CompareTo(SystemMain.CurrentGameTime.TotalRealTime.TotalSeconds) < 0)
-								{
-									_repeatHoldTimes.Remove(button.GetAssociation());
-									_advances++;
-									return true;
-								}
-								// We DO Have:
-								// A. HoldTime Assoc (Button HAS been held long enough)
-								// B. RepeatHoldTime Assoc (Button HAS NOT been held long enough)
-								if (!_repeatHoldTimes.ContainsKey(button.GetAssociation()) && button.GetHoldableRepeat() >= 0)
-								{
-									_repeatHoldTimes.Add(button.GetAssociation(), SystemMain.CurrentGameTime.TotalRealTime.TotalSeconds + button.GetHoldableRepeat());
-									return false;
-								}
-
-
-
-
-							}
-							// Otherwise, tell the system to only do it once!
-
-							// REMEMBER BUTTON IS STILL HELD DOWN HERE
-							return false;
-
+							return checkButtonDynamics(button);
 						}
-						// This _superButton Command Has a Key Associated with it
-						// Is it UP?
-						// Does this command already have an associated press?
-						//if (_keyState.IsKeyUp(button.GetKey()) && _pressedButtons.Contains(button.GetAssociation()))
-						if (_gamePadState.IsButtonUp(button.GetButton()) && _buttonLocks.ContainsValue(button))
-						{
-							//_pressedButtons.Remove(button.GetAssociation());
-							//_buttonLocks.Remove(button.GetAssociation());
-
-							// We NEED the check for the time, so users can't glitch and press the up button faster than we want the repeat to be pressed!
-
-							// Now we check for:
-							// A. We have an association on Hold Time
-							// B. We DO NOT have an association on Hold Time REPEAT
-							// C. The button IS HOLDABLE
-							// D. The hold time is finished
-							if (_holdTimes.ContainsKey(button.GetAssociation()) && button.GetHoldable() > 0 && _holdTimes[button.GetAssociation()].CompareTo(SystemMain.CurrentGameTime.TotalRealTime.TotalSeconds) < 0 && !_repeatHoldTimes.ContainsKey(button.GetAssociation()))
-							{
-								//DrawHelper.Debug = "FINSHES:" + DeathSquid.DeathSquid.CurrentGameTime.TotalRealTime.TotalSeconds;
-								//DrawHelper.Debug = _holdTimes[button.GetAssociation()].CompareTo(DeathSquid.DeathSquid.CurrentGameTime.TotalRealTime.TotalSeconds) + ",(" + _holdTimes[button.GetAssociation()] + ", " + button.GetHoldable() + ")";
-								_holdTimes.Remove(button.GetAssociation());
-								_buttonLocks.Remove(button.GetAssociation());
-							}
-							else if (_repeatHoldTimes.ContainsKey(button.GetAssociation()) && _repeatHoldTimes[button.GetAssociation()].CompareTo(SystemMain.CurrentGameTime.TotalRealTime.TotalSeconds) < 0)
-							{
-								//DrawHelper.Debug = "FINSHES2:" + _advances + DeathSquid.DeathSquid.CurrentGameTime.TotalRealTime.TotalSeconds;
-								//DrawHelper.Debug = _holdTimes[button.GetAssociation()].CompareTo(DeathSquid.DeathSquid.CurrentGameTime.TotalRealTime.TotalSeconds) + ",(" + _holdTimes[button.GetAssociation()] + ", " + button.GetHoldable() + ")";
-								_repeatHoldTimes.Remove(button.GetAssociation());
-								//_holdTimes.Remove(button.GetAssociation());
-								_buttonLocks.Remove(button.GetAssociation());
-							}
-							else if (!_holdTimes.ContainsKey(button.GetAssociation()))
-							{
-								_buttonLocks.Remove(button.GetAssociation());
-							}
-							// We already have an association
-							// Which has just been removed (key finally pulled up, remove association)
-							// Were we holdable?
-							// Well I guess it doesnt matter... The association... HAS BEEN REVOKED!
-							return false;
-						}
+						if (!checkCommandButtonUp(button)) return false;
 					}
-					// If the key is SOMETHING aka, not a button
-				if (!button.GetKey().Equals(Keys.None))
+					if (button.GetKey().Equals(Keys.None)) continue;
+
+					if (setupNewKeyAssociation(button)) return true;
+
+					if (_keyState.IsKeyDown(button.GetKey()) && _buttonLocks.ContainsValue(button))
 					{
-						// This _superButton Command Has a Key Associated with it, 
-						// Is it DOWN?
-						// Does this command NOT already have an associated press?
-						//if (_keyState.IsKeyDown(button.GetKey()) && !_pressedButtons.Contains(button.GetAssociation()))
-						// OR
-						if (_keyState.IsKeyDown(button.GetKey()) && !_buttonLocks.ContainsKey(button.GetAssociation()))
-						{
-							//NO! Sweet, let's set the association.  This is the key that will be counted as pressed
-							// UNTIL IT DIES (is unpressed)
-							button.Pressed = PressType.Key;
-							//_pressedButtons.Add(button.GetAssociation());
-							_buttonLocks.Add(button.GetAssociation(), button);
-							return true;
-							// Return True, since the button is being held
-							//return false;
-
-						}
-						//if (_keyState.IsKeyDown(button.GetKey()) && _pressedButtons.Contains(button.GetAssociation()))
-						if (_keyState.IsKeyDown(button.GetKey()) && _buttonLocks.ContainsValue(button))
-						{
-							//We already have an association, are we holdable and still held?
-							if (button.IsHoldable())
-							{
-								if (button.GetHoldable() == 0)
-								{
-									return true;
-								}
-								// If we have a holdable button whos delay is greater than 0 seconds, and we have NO association, create one and return
-								// We have NOTHING
-								if (button.GetHoldable() > 0 && !_holdTimes.ContainsKey(button.GetAssociation()))
-								{
-									_holdTimes.Add(button.GetAssociation(), SystemMain.CurrentGameTime.TotalRealTime.TotalSeconds + button.GetHoldable());
-									return false;
-								}
-								// If we have a holdable button whos delay is greater than 0 seconds, and we have AN association, and it's not done yet, we don't care, it's FALSE!
-								// We DO Have:
-								// A. HoldTime Assoc (Button HAS NOT been held long enough)
-								// We DONT Have:
-								// A. RepeatHoldTime Assoc
-								if (button.GetHoldable() > 0 && _holdTimes.ContainsKey(button.GetAssociation()) && _holdTimes[button.GetAssociation()].CompareTo(SystemMain.CurrentGameTime.TotalRealTime.TotalSeconds) > 0 && !_repeatHoldTimes.ContainsKey(button.GetAssociation()))
-								{
-									//_repeatHoldTimes.Add(button.GetAssociation(), DeathSquid.DeathSquid.CurrentGameTime.TotalRealTime.TotalSeconds + button.GetHoldable());
-									return false;
-								}
-
-								// HOldable has been held for a valid amount of time, allow one press in! 
-								// We DO Have:
-								// A. HoldTime Assoc (Button HAS been held long enough)
-								// We DONT Have:
-								// A. RepeatHoldTime Assoc
-								if (_holdTimes.ContainsKey(button.GetAssociation()) && _holdTimes[button.GetAssociation()].CompareTo(SystemMain.CurrentGameTime.TotalRealTime.TotalSeconds) < 0 && !_repeatHoldTimes.ContainsKey(button.GetAssociation()) && button.GetHoldableRepeat() >= 0)
-								{
-									// Remove, re-add, rinse, repeat!
-									//_holdTimes.Remove(button.GetAssociation());
-									_repeatHoldTimes.Add(button.GetAssociation(), SystemMain.CurrentGameTime.TotalRealTime.TotalSeconds + button.GetHoldableRepeat());
-									return false;
-								}
-
-								// We DO Have:
-								// A. HoldTime Assoc (Button HAS been held long enough)
-								// B. RepeatHoldTime Assoc (Button HAS been held long enough)
-								// Should be all systems go here to return true
-								if (_repeatHoldTimes.ContainsKey(button.GetAssociation()) && _repeatHoldTimes[button.GetAssociation()].CompareTo(SystemMain.CurrentGameTime.TotalRealTime.TotalSeconds) < 0)
-								{
-									_repeatHoldTimes.Remove(button.GetAssociation());
-									_advances++;
-									return true;
-								}
-								// We DO Have:
-								// A. HoldTime Assoc (Button HAS been held long enough)
-								// B. RepeatHoldTime Assoc (Button HAS NOT been held long enough)
-								if (!_repeatHoldTimes.ContainsKey(button.GetAssociation()) && button.GetHoldableRepeat() >= 0)
-								{
-									_repeatHoldTimes.Add(button.GetAssociation(), SystemMain.CurrentGameTime.TotalRealTime.TotalSeconds + button.GetHoldableRepeat());
-									return false;
-								}
-
-
-
-
-							}
-							// Otherwise, tell the system to only do it once!
-
-							// REMEMBER BUTTON IS STILL HELD DOWN HERE
-							return false;
-
-						}
-						// This _superButton Command Has a Key Associated with it
-						// Is it UP?
-						// Does this command already have an associated press?
-						//if (_keyState.IsKeyUp(button.GetKey()) && _pressedButtons.Contains(button.GetAssociation()))
-						if (_keyState.IsKeyUp(button.GetKey()) && _buttonLocks.ContainsValue(button))
-						{
-							//_pressedButtons.Remove(button.GetAssociation());
-							//_buttonLocks.Remove(button.GetAssociation());
-
-							// We NEED the check for the time, so users can't glitch and press the up button faster than we want the repeat to be pressed!
-
-							// Now we check for:
-							// A. We have an association on Hold Time
-							// B. We DO NOT have an association on Hold Time REPEAT
-							// C. The button IS HOLDABLE
-							// D. The hold time is finished
-							if (_holdTimes.ContainsKey(button.GetAssociation()) && button.GetHoldable() > 0 && _holdTimes[button.GetAssociation()].CompareTo(SystemMain.CurrentGameTime.TotalRealTime.TotalSeconds) < 0 && !_repeatHoldTimes.ContainsKey(button.GetAssociation()))
-							{
-								//DrawHelper.Debug = "FINSHES:" + DeathSquid.DeathSquid.CurrentGameTime.TotalRealTime.TotalSeconds;
-								//DrawHelper.Debug = _holdTimes[button.GetAssociation()].CompareTo(DeathSquid.DeathSquid.CurrentGameTime.TotalRealTime.TotalSeconds) + ",(" + _holdTimes[button.GetAssociation()] + ", " + button.GetHoldable() + ")";
-								_holdTimes.Remove(button.GetAssociation());
-								_buttonLocks.Remove(button.GetAssociation());
-							}
-							else if (_repeatHoldTimes.ContainsKey(button.GetAssociation()) && _repeatHoldTimes[button.GetAssociation()].CompareTo(SystemMain.CurrentGameTime.TotalRealTime.TotalSeconds) < 0)
-							{
-								//DrawHelper.Debug = "FINSHES2:" + _advances + DeathSquid.DeathSquid.CurrentGameTime.TotalRealTime.TotalSeconds;
-								//DrawHelper.Debug = _holdTimes[button.GetAssociation()].CompareTo(DeathSquid.DeathSquid.CurrentGameTime.TotalRealTime.TotalSeconds) + ",(" + _holdTimes[button.GetAssociation()] + ", " + button.GetHoldable() + ")";
-								_repeatHoldTimes.Remove(button.GetAssociation());
-								//_holdTimes.Remove(button.GetAssociation());
-								//_buttonLocks.Remove(button.GetAssociation());
-							}
-							else if (!_holdTimes.ContainsKey(button.GetAssociation()))
-							{
-								_buttonLocks.Remove(button.GetAssociation());
-							}
-							// We already have an association
-							// Which has just been removed (key finally pulled up, remove association)
-							// Were we holdable?
-							// Well I guess it doesnt matter... The association... HAS BEEN REVOKED!
-							return false;
-						}
+						return checkButtonDynamics(button);
 					}
+					if (!checkCommandKeyUp(button)) return false;
 				}
 				return false;
+		}
+
+		private bool checkButtonDynamics(ButtonAlias button)
+		{
+			if (button.IsHoldable())
+			{
+				if (isHoldable(button)) return true;
+
+				if (!isHoldableButNotHeldEnough(button)) return false;
+
+				if (!buttonNotHeldEnough(button)) return false;
+
+				if (!allowOneButtonPress(button)) return false;
+
+				if (buttonHeldEnoughRepeat(button)) return true;
+
+				if (!buttonNotHeldLongEnough(button)) return false;
 			}
 			return false;
 		}
+
+		private bool checkCommandButtonUp(ButtonAlias button)
+		{
+			if (_gamePadState.IsButtonUp(button.GetButton()) && _buttonLocks.ContainsValue(button))
+			{
+				RemoveLocksAndHolds(button);
+				return false;
+			}
+			return true;
+		}
+
+		private bool SetTypeXbox(ButtonAlias button)
+		{
+			button.Pressed = PressType.XboxController;
+			//_pressedButtons.Add(button.GetAssociation());
+			_buttonLocks.Add(button.GetAssociation(), button);
+			return true;
+		}
+
+		private void RemoveLocksAndHolds(ButtonAlias button)
+		{
+			if (_holdTimes.ContainsKey(button.GetAssociation()) && button.GetHoldable() > 0 && _holdTimes[button.GetAssociation()].CompareTo(SystemMain.CurrentGameTime.TotalRealTime.TotalSeconds) < 0 && !_repeatHoldTimes.ContainsKey(button.GetAssociation()))
+			{
+				_holdTimes.Remove(button.GetAssociation());
+				_buttonLocks.Remove(button.GetAssociation());
+			}
+			else if (_repeatHoldTimes.ContainsKey(button.GetAssociation()) && _repeatHoldTimes[button.GetAssociation()].CompareTo(SystemMain.CurrentGameTime.TotalRealTime.TotalSeconds) < 0)
+			{
+				_repeatHoldTimes.Remove(button.GetAssociation());
+				_buttonLocks.Remove(button.GetAssociation());
+			}
+			else if (!_holdTimes.ContainsKey(button.GetAssociation()))
+			{
+				_buttonLocks.Remove(button.GetAssociation());
+			}
+		}
+
+		private bool isHoldable(ButtonAlias button)
+		{
+			if (button.GetHoldable() == 0)
+			{
+				return true;
+			}
+			return false;
+		}
+
+		private bool isHoldableButNotHeldEnough(ButtonAlias button)
+		{
+			if (button.GetHoldable() > 0 && !_holdTimes.ContainsKey(button.GetAssociation()))
+			{
+				_holdTimes.Add(button.GetAssociation(), SystemMain.CurrentGameTime.TotalRealTime.TotalSeconds + button.GetHoldable());
+				return false;
+			}
+			return true;
+		}
+
+		private bool buttonNotHeldEnough(ButtonAlias button)
+		{
+			if (button.GetHoldable() > 0 && _holdTimes.ContainsKey(button.GetAssociation()) && _holdTimes[button.GetAssociation()].CompareTo(SystemMain.CurrentGameTime.TotalRealTime.TotalSeconds) > 0 && !_repeatHoldTimes.ContainsKey(button.GetAssociation()))
+			{
+				return false;
+			}
+			return true;
+		}
+
+		private bool allowOneButtonPress(ButtonAlias button)
+		{
+			if (_holdTimes.ContainsKey(button.GetAssociation()) && _holdTimes[button.GetAssociation()].CompareTo(SystemMain.CurrentGameTime.TotalRealTime.TotalSeconds) < 0 && !_repeatHoldTimes.ContainsKey(button.GetAssociation()) && button.GetHoldableRepeat() >= 0)
+			{
+				// Remove, re-add, rinse, repeat!
+				_repeatHoldTimes.Add(button.GetAssociation(), SystemMain.CurrentGameTime.TotalRealTime.TotalSeconds + button.GetHoldableRepeat());
+				return false;
+			}
+			return true;
+		}
+
+		private bool buttonHeldEnoughRepeat(ButtonAlias button)
+		{
+			if (_repeatHoldTimes.ContainsKey(button.GetAssociation()) && _repeatHoldTimes[button.GetAssociation()].CompareTo(SystemMain.CurrentGameTime.TotalRealTime.TotalSeconds) < 0)
+			{
+				_repeatHoldTimes.Remove(button.GetAssociation());
+				_advances++;
+				return true;
+			}
+			return false;
+		}
+
+		private bool buttonNotHeldLongEnough(ButtonAlias button)
+		{
+			if (!_repeatHoldTimes.ContainsKey(button.GetAssociation()) && button.GetHoldableRepeat() >= 0)
+			{
+				_repeatHoldTimes.Add(button.GetAssociation(), SystemMain.CurrentGameTime.TotalRealTime.TotalSeconds + button.GetHoldableRepeat());
+				return false;
+			}
+			return true;
+		}
+
+		private bool setupNewKeyAssociation(ButtonAlias button)
+		{
+			if (_keyState.IsKeyDown(button.GetKey()) && !_buttonLocks.ContainsKey(button.GetAssociation()))
+			{
+				button.Pressed = PressType.Key;
+				_buttonLocks.Add(button.GetAssociation(), button);
+				return true;
+			}
+			return false;
+		}
+
+		private bool checkCommandKeyUp(ButtonAlias button)
+		{
+			if (_keyState.IsKeyUp(button.GetKey()) && _buttonLocks.ContainsValue(button))
+			{
+				if (_holdTimes.ContainsKey(button.GetAssociation()) && button.GetHoldable() > 0 && _holdTimes[button.GetAssociation()].CompareTo(SystemMain.CurrentGameTime.TotalRealTime.TotalSeconds) < 0 && !_repeatHoldTimes.ContainsKey(button.GetAssociation()))
+				{
+					_holdTimes.Remove(button.GetAssociation());
+					_buttonLocks.Remove(button.GetAssociation());
+				}
+				else if (_repeatHoldTimes.ContainsKey(button.GetAssociation()) && _repeatHoldTimes[button.GetAssociation()].CompareTo(SystemMain.CurrentGameTime.TotalRealTime.TotalSeconds) < 0)
+				{
+					_repeatHoldTimes.Remove(button.GetAssociation());
+				}
+				else if (!_holdTimes.ContainsKey(button.GetAssociation()))
+				{
+					_buttonLocks.Remove(button.GetAssociation());
+				}
+				return false;
+			}
+			return true;
+		}
+
 		internal void SetInputs(KeyboardState keyState, GamePadState padState)
 		{
 			_keyState = keyState;
