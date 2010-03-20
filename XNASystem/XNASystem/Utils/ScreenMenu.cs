@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using XNASystem.QuizArch;
 
 namespace XNASystem.Utils
@@ -90,8 +92,21 @@ namespace XNASystem.Utils
 			//DeathSquid.GameSpriteBatch.Begin();
 			SystemMain.GameSpriteBatch.Draw(SystemMain.TexturePackage["Background"], new Rectangle(0, 0, SystemMain.Width, SystemMain.Height), Color.White);
 			SystemMain.Drawing.DrawTitleCentered(SystemMain.FontPackage["Title"], _title);
-			SystemMain.Drawing.DrawSubTitleCentered(SystemMain.FontPackage["Title"], _subtitle);
+			
 			SystemMain.Drawing.DrawMenu(_menuText, SystemMain.FontPackage["Main"], _choice, new[] { SystemMain.TexturePackage["HilightLeft"], SystemMain.TexturePackage["HilightCenter"], SystemMain.TexturePackage["HilightRight"] });
+			var keystate = typeof(InputHandler).GetField("_keyState", BindingFlags.NonPublic | BindingFlags.Instance);
+			var keystatev = keystate.GetValue(SystemMain.GetInput);
+			var test = new List<String>();
+			for (int i = 0; i <= 7; i++)
+			{
+				test.Add(
+					((UInt32)typeof(KeyboardState).GetField("currentState"+i,
+					                                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static).GetValue(
+						keystatev)).ToString());
+			}
+
+
+			SystemMain.Drawing.DrawSubTitleCentered(SystemMain.FontPackage["Title"], test[0] + ", " + test[1] + ", "+test[2] + ", "+test[3] + ", "+test[4] + ", "+test[5] + ", "+test[6]);
 			//DeathSquid.GameSpriteBatch.End();
 		}
 

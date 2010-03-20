@@ -26,7 +26,7 @@ namespace XNASystem.Utils
 			_buttonLocks = new Dictionary<string, ButtonAlias>();
 			_holdTimes = new Dictionary<string, double>();
 			_superButton = new Dictionary<ButtonAction, List<ButtonAlias>>();
-			_superButton.Add(ButtonAction.MenuUp, new List<ButtonAlias>
+			/*_superButton.Add(ButtonAction.MenuUp, new List<ButtonAlias>
 			                     	{
 			                     		new ButtonAlias(Buttons.DPadUp, -1,-1,"MenuUp"),
 										new ButtonAlias(Buttons.LeftThumbstickUp, -1,-1,"MenuUp"),
@@ -44,8 +44,8 @@ namespace XNASystem.Utils
 			                     	});
 			_superButton.Add(ButtonAction.MenuAccept, new List<ButtonAlias>
 			                     	{
-			                     		//new ButtonAlias(Buttons.A, -1,-1,"MenuAccept"),
-										//new ButtonAlias(Buttons.Start, -1,-1,"MenuAccept"),
+			                     		new ButtonAlias(Buttons.A, -1,-1,"MenuAccept"),
+										new ButtonAlias(Buttons.Start, -1,-1,"MenuAccept"),
 										new ButtonAlias(Keys.Enter, -1,-1,"MenuAccept")
 			                     	});
 			_superButton.Add(ButtonAction.MenuCancel, new List<ButtonAlias>
@@ -73,7 +73,7 @@ namespace XNASystem.Utils
 			                     		new ButtonAlias(Buttons.DPadRight, -1,0,"ShipMoveRightSlow"),
 										new ButtonAlias(Buttons.LeftThumbstickRight, -1,0,"ShipMoveRightSlow"),
 										new ButtonAlias(Keys.Right, -1,0,"ShipMoveRightSlow")
-			                     	});
+			                     	});*/
 		}
 
 		public bool IsButtonPressed(ButtonAction b)
@@ -218,7 +218,7 @@ namespace XNASystem.Utils
 						}
 					}
 					// If the key is SOMETHING aka, not a button
-					if (!button.GetKey().Equals(Keys.None))
+				if (!button.GetKey().Equals(Keys.None))
 					{
 						// This _superButton Command Has a Key Associated with it, 
 						// Is it DOWN?
