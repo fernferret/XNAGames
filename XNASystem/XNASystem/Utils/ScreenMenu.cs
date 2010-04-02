@@ -89,12 +89,20 @@ namespace XNASystem.Utils
 		}
 		public void Draw()
 		{
-			//DeathSquid.GameSpriteBatch.Begin();
 			SystemMain.GameSpriteBatch.Draw(SystemMain.TexturePackage["Background"], new Rectangle(0, 0, SystemMain.Width, SystemMain.Height), Color.White);
 			SystemMain.Drawing.DrawTitleCentered(SystemMain.FontPackage["Title"], _title);
 			
 			SystemMain.Drawing.DrawMenu(_menuText, SystemMain.FontPackage["Main"], _choice, new[] { SystemMain.TexturePackage["HilightLeft"], SystemMain.TexturePackage["HilightCenter"], SystemMain.TexturePackage["HilightRight"] });
-			var keystate = typeof(InputHandler).GetField("_keyState", BindingFlags.NonPublic | BindingFlags.Instance);
+			
+			 
+			/************************************************\
+			|* The following commented out lines are VERY   *|
+			|* useful while debugging the input handler.    *|
+			|* They show the raw keyboard input on the main *|
+			|* screen.                                      *|
+			\************************************************/
+			/*
+			 * var keystate = typeof(InputHandler).GetField("_keyState", BindingFlags.NonPublic | BindingFlags.Instance);
 			var keystatev = keystate.GetValue(SystemMain.GetInput);
 			var test = new List<String>();
 			for (int i = 0; i <= 7; i++)
@@ -103,11 +111,9 @@ namespace XNASystem.Utils
 					((UInt32)typeof(KeyboardState).GetField("currentState"+i,
 					                                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static).GetValue(
 						keystatev)).ToString());
-			}
-
-
-			SystemMain.Drawing.DrawSubTitleCentered(SystemMain.FontPackage["Title"], test[0] + ", " + test[1] + ", "+test[2] + ", "+test[3] + ", "+test[4] + ", "+test[5] + ", "+test[6]);
-			//DeathSquid.GameSpriteBatch.End();
+			}*/
+			//SystemMain.Drawing.DrawSubTitleCentered(SystemMain.FontPackage["Title"], test[0] + ", " + test[1] + ", "+test[2] + ", "+test[3] + ", "+test[4] + ", "+test[5] + ", "+test[6]);
+			
 		}
 
 		public bool GetSelectedItem(String s)

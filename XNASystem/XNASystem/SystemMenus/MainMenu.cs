@@ -43,6 +43,8 @@ namespace XNASystem.SystemMenus
 			_menuText = new List<string> {"Take Quiz", "Options", "View Scores"/*, "Edit Material"*/, "Exit"};
 			_menu = new ScreenMenu(_menuText,"XNA GAMES!");
 			
+			//SystemMain.Drawing.DrawInstruction(40, 640, " to go back", SystemMain.TexturePackage["B"], 4);
+			
 		}
 
 		#endregion
@@ -100,7 +102,7 @@ namespace XNASystem.SystemMenus
 		{
 			SystemMain.GameSpriteBatch.Begin();
 			_menu.Draw();
-
+			SystemMain.Drawing.DrawHelpers();
 			SystemMain.GameSpriteBatch.End();
 		}
 		#endregion
