@@ -243,33 +243,45 @@ namespace XNASystem.Utils
 
 			// We have too much spacing, decrease the amount of space between
 			// words until we hava an acceptable number
-			while (_hconst > _spacingConstant)
-			{
-				_heightPadding = _heightPadding + .02;
-				RecalculateScreenPadding();
-				_hconst = (int)Math.Floor(((Double)_ymax - _ymin) / (strings.Count - 1));
-				totalheight = (strings.Count - 1) * _hconst;
-			}
-			var h = _ymin;
-			if (totalheight != 0)
-			{
-				h += (((_ymax - _ymin) - totalheight) / 2);
-			}
-			if (strings.Count == 1)
-			{
-				_hconst = 0;
-				h = _ymax - _ymin;
-			}
+            totalheight = DecreaseSpaceBetweenWords(strings, totalheight);
+			var height = CalculateHeight(strings, totalheight);
 
-			drawLocations.Add(h);
+			drawLocations.Add(height);
 			foreach (var str in strings)
 			{
-				h += _hconst;
-				drawLocations.Add(h);
+				height += _hconst;
+				drawLocations.Add(height);
 			}
 			drawLocations.RemoveAt(drawLocations.Count - 1);
 			return drawLocations;
 		}
+
+        private int CalculateHeight(List<String> strings, int totalheight)
+        {
+            var height = _ymin;
+            if (totalheight != 0)
+            {
+                height += (((_ymax - _ymin) - totalheight) / 2);
+            }
+            if (strings.Count == 1)
+            {
+                _hconst = 0;
+                height = _ymax - _ymin;
+            }
+            return height;
+        }
+
+        private int DecreaseSpaceBetweenWords(List<String> strings, int totalheight)
+        {
+            while (_hconst > _spacingConstant)
+            {
+                _heightPadding = _heightPadding + .02;
+                RecalculateScreenPadding();
+                _hconst = (int)Math.Floor(((Double)_ymax - _ymin) / (strings.Count - 1));
+                totalheight = (strings.Count - 1) * _hconst;
+            }
+            return totalheight;
+        }
 
 
 		public void DestroyTips()
