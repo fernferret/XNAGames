@@ -21,6 +21,7 @@ namespace XNASystem.QuizArch
 		private Stack<Question> _questionStack;
 		private Stack<Question> _answeredQuestionStack;
 		private Score _score;
+        private const int Empty = 0; 
 		#endregion
 
 		/// <summary>
@@ -71,7 +72,7 @@ namespace XNASystem.QuizArch
 		/// <returns></returns>
 		private bool HasQuizBeenCompleted()
 		{
-			if(_questionStack.Count != 0)
+			if(_questionStack.Count != Empty)
 			{
 				return false;
 			}
@@ -120,7 +121,7 @@ namespace XNASystem.QuizArch
 		/// </summary>
 		public Question GetOpenQuestion()
 		{
-			if (_questionStack.Count == 0)
+			if (_questionStack.Count == Empty)
 			{
 				_status = Status.Completed;
 				return null;
@@ -145,7 +146,7 @@ namespace XNASystem.QuizArch
 		/// <returns></returns>
 		public Question GetNextQuestion()
 		{
-			if (_questionStack.Count == 0)
+			if (_questionStack.Count == Empty)
 			{
 				_status = Status.Completed;
 				return null;

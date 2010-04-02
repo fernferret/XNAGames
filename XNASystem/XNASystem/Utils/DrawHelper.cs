@@ -241,8 +241,6 @@ namespace XNASystem.Utils
 				_spacingDanger = _hconst < ButtonWidth / 2 ? 1 : 0;
 			}
 
-			// We have too much spacing, decrease the amount of space between
-			// words until we hava an acceptable number
             totalheight = DecreaseSpaceBetweenWords(strings, totalheight);
 			var height = CalculateHeight(strings, totalheight);
 

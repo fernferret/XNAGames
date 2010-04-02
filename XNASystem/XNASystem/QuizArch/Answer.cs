@@ -7,10 +7,10 @@ namespace XNASystem.QuizArch
 	{
 		private readonly Boolean _correct;
 		private bool _questionAnswered;
-		public Answer(String a, Boolean c)
+		public Answer(String answer, Boolean correct)
 		{
-			TheAnswer = a;
-			_correct = c;
+			TheAnswer = answer;
+			_correct = correct;
 		}
 
 		public string TheAnswer { get; private set; }
