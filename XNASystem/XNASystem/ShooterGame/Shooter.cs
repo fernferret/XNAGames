@@ -8,10 +8,10 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using XNASystem.Displays;
 using XNASystem.Interfaces;
-using XNASystem.ShooterGame;
+using XNASystem.Shooter;
 using XNASystem.Utils;
 
-namespace XNASystem.Shooter
+namespace XNASystem.ShooterGame
 {
 	class Shooter : IGame, IScreen
 	{
@@ -41,6 +41,8 @@ namespace XNASystem.Shooter
 			_herdList = new List<ShooterHerd>();
 
 			//remove later
+			SystemMain.Drawing.DestroyTips();
+			SystemMain.Drawing.DrawInstruction(40, 560, " to try and kill SQUIDS!", SystemMain.TexturePackage["A"], 3);
 			StartGame(level);
 
 		}
@@ -467,40 +469,40 @@ namespace XNASystem.Shooter
 
 			_ship.UpdateProjectile();
 
-				//collision stuff
-				foreach (ShooterHerd h in _herdList)
-				{
-					//increment score
-					_score += h.CollidesWith(_ship);
+			//collision stuff
+			foreach (ShooterHerd h in _herdList)
+			{
+				//increment score
+				_score += h.CollidesWith(_ship);
 
-					h.CollidesWithProjectiles(_ship);
+				h.CollidesWithProjectiles(_ship);
 
-					h.UpdatePostion(0, 0);
-					h.UpdateProjectiles();
+				h.UpdatePostion(0, 0);
+				h.UpdateProjectiles();
 
-					h.Shoot();
-				}
+				h.Shoot();
+			}
 
-				//if (handler.IfLeftPressed())
-				if (SystemMain.GetInput.IsButtonPressed(ButtonAction.ShipMoveLeftSlow))
-				{
-					_ship.UpdatePostion(-1, 0);
-				}
-				//if (handler.IfRightPressed())
-				if (SystemMain.GetInput.IsButtonPressed(ButtonAction.ShipMoveRightSlow))
-				{
-					_ship.UpdatePostion(1, 0);
-				}
-				//if (handler.IfSpacePressed())
-				if (SystemMain.GetInput.IsButtonPressed(ButtonAction.ShipShoot))
-				{
-					_ship.Shoot();
-					//SystemMain.SoundBackgroundInstance.IsLooped = true;
-				}
-				else
-				{
-					_ship.Reload();
-				}
+			//if (handler.IfLeftPressed())
+			if (SystemMain.GetInput.IsButtonPressed(ButtonAction.ShipMoveLeftSlow))
+			{
+				_ship.UpdatePostion(-1, 0);
+			}
+			//if (handler.IfRightPressed())
+			if (SystemMain.GetInput.IsButtonPressed(ButtonAction.ShipMoveRightSlow))
+			{
+				_ship.UpdatePostion(1, 0);
+			}
+			//if (handler.IfSpacePressed())
+			if (SystemMain.GetInput.IsButtonPressed(ButtonAction.ShipShoot))
+			{
+				_ship.Shoot();
+				//SystemMain.SoundBackgroundInstance.IsLooped = true;
+			}
+			else
+			{
+				_ship.Reload();
+			}
 			
 		}
 	
@@ -513,7 +515,7 @@ namespace XNASystem.Shooter
 		public void Draw()
 		{
 			SystemMain.GameSpriteBatch.Begin();
-
+			SystemMain.Drawing.DrawHelpers();
 			//draw the background
 			SystemMain.GameSpriteBatch.Draw(SystemMain.TexturePackage["Background"], new Rectangle(0, 0, _width, _height), Color.Black);
 
@@ -528,7 +530,7 @@ namespace XNASystem.Shooter
 			{
 				h.Draw();
 			}
-
+			SystemMain.Drawing.DrawHelpers();
 			SystemMain.GameSpriteBatch.End();
 
 		}

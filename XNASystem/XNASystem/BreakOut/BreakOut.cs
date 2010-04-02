@@ -69,7 +69,8 @@ namespace XNASystem.BreakOut
 			_running = false;
 			_ballList = new List<BreakOutBall>();
 			_balls = 0;
-
+			SystemMain.Drawing.DrawInstruction(40, 560, " to launch ball", SystemMain.TexturePackage["A"], 3);
+			//SystemMain.Drawing.DrawInstruction(40, 560, " to go back", SystemMain.TexturePackage["B"], 3);
 			StartGame(level);
 
 		}
@@ -1758,7 +1759,7 @@ namespace XNASystem.BreakOut
 			if (_running)
 			{
 				SystemMain.GameSpriteBatch.Begin();
-
+				SystemMain.Drawing.DrawHelpers();
 				SystemMain.GameSpriteBatch.Draw(SystemMain.TexturePackage["Wall"], new Rectangle(0, 0, Width, Height), Color.Black);
 				//draw the paddle wlls and ceiling
 				_paddle.Draw();

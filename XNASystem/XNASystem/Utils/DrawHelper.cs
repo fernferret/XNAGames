@@ -28,9 +28,11 @@ namespace XNASystem.Utils
 		private const int StandardSpeed = 10;
 		private const int GlobalOffset = 5;
 		public static String Debug = "";
+		private static List<Instruction> _tips;
 
 		public DrawHelper(SpriteBatch sb)
 		{
+			_tips = new List<Instruction>();
 			_sb = sb;
 			_xmin = (int)(Math.Floor(SystemMain.Width * _widthPadding));
 			_xmax = SystemMain.Width - _xmin;
@@ -42,6 +44,10 @@ namespace XNASystem.Utils
 		{
 			var r = new Rectangle();
 			return r;
+		}
+		public void DrawInstruction(int x, int y, String text, Texture2D buttonImage, int seconds)
+		{
+			_tips.Add(new Instruction(x, y, text, buttonImage, seconds));
 		}
 		public void DrawRectangle(int x, int y, int h, int w, Texture2D[] t)
 		{
@@ -190,12 +196,17 @@ namespace XNASystem.Utils
 		{
 			_helpBoxes.Add(new HelpBox(_sb, x, y, width, height, 1, t, "test", SystemMain.FontPackage["Main"]));
 		}
-		public void DrawHelpBox()
+		public void DrawHelpers()
 		{
 			foreach (var box in _helpBoxes)
 			{
 				box.UpdatePosition();
 				box.DrawRectangle();
+			}
+			foreach (var tip in _tips)
+			{
+				tip.Update();
+				tip.Draw();
 			}
 		}
 		private void RecalculateScreenPadding()
@@ -261,5 +272,9 @@ namespace XNASystem.Utils
 		}
 
 
+		public void DestroyTips()
+		{
+			_tips.Clear();
+		}
 	}
 }

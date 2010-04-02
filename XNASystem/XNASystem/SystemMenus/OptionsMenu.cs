@@ -34,6 +34,9 @@ namespace XNASystem.SystemMenus
 
 			_menuText = new List<string> {"Breakout", "DeathSquid", "Back"};
 			_menu = new ScreenMenu(_menuText, "Options");
+			SystemMain.Drawing.DestroyTips();
+			SystemMain.Drawing.DrawInstruction(40, 560, " to continue", SystemMain.TexturePackage["A"], 3);
+			SystemMain.Drawing.DrawInstruction(40, 640, " to go back", SystemMain.TexturePackage["B"], 3);
 
 		}
 
@@ -59,6 +62,7 @@ namespace XNASystem.SystemMenus
 		{
 			SystemMain.GameSpriteBatch.Begin();
 			_menu.Draw();
+			SystemMain.Drawing.DrawHelpers();
 			SystemMain.GameSpriteBatch.End();
 		}
 	}

@@ -26,7 +26,7 @@ namespace XNASystem.Utils
 			_buttonLocks = new Dictionary<string, ButtonAlias>();
 			_holdTimes = new Dictionary<string, double>();
 			_superButton = new Dictionary<ButtonAction, List<ButtonAlias>>();
-			/*_superButton.Add(ButtonAction.MenuUp, new List<ButtonAlias>
+			_superButton.Add(ButtonAction.MenuUp, new List<ButtonAlias>
 			                     	{
 			                     		new ButtonAlias(Buttons.DPadUp, -1,-1,"MenuUp"),
 										new ButtonAlias(Buttons.LeftThumbstickUp, -1,-1,"MenuUp"),
@@ -73,7 +73,7 @@ namespace XNASystem.Utils
 			                     		new ButtonAlias(Buttons.DPadRight, -1,0,"ShipMoveRightSlow"),
 										new ButtonAlias(Buttons.LeftThumbstickRight, -1,0,"ShipMoveRightSlow"),
 										new ButtonAlias(Keys.Right, -1,0,"ShipMoveRightSlow")
-			                     	});*/
+			                     	});
 		}
 
 		public bool IsButtonPressed(ButtonAction b)

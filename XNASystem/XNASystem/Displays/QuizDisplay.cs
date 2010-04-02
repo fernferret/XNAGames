@@ -31,6 +31,8 @@ namespace XNASystem.Displays
 			_currentQuestionAnswers = _currentQuestion.GetRandomAnswers();
 			_currentQuizScore = new Score("Eric", ActivityType.Quiz, 0, _currentQuiz.GetTitle());
 			_menu = new ScreenMenu(_currentQuestionAnswers,_currentQuiz.GetTitle(),_currentQuestion.Title);
+			SystemMain.Drawing.DestroyTips();
+			SystemMain.Drawing.DrawInstruction(40, 660, " to confirm your answer!", SystemMain.TexturePackage["A"], -1);
 		}
 
 
@@ -118,6 +120,7 @@ namespace XNASystem.Displays
 			SystemMain.GameSpriteBatch.DrawString(SystemMain.FontPackage["Main"], "Questions Left: " + _currentQuiz.GetQuestionsLeft(), new Vector2(400, 450), Color.Black);
 			SystemMain.GameSpriteBatch.DrawString(SystemMain.FontPackage["Main"], "Total Questions: " + _currentQuiz.GetTotalQuestionCount(), new Vector2(400, 500), Color.Black);
 			SystemMain.GameSpriteBatch.DrawString(SystemMain.FontPackage["Main"], "Current Score: " + _currentQuizScore.Percentage, new Vector2(400, 550), Color.Black);
+			SystemMain.Drawing.DrawHelpers();
 			SystemMain.GameSpriteBatch.End();
 		}
 

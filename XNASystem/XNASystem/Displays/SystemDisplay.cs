@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using XNASystem.Interfaces;
 using XNASystem.QuizArch;
 using XNASystem.SystemMenus;
@@ -38,6 +36,9 @@ namespace XNASystem.Displays
 			_scoreManager = new ScoreManager(_player);
 
 			_menu = new ScreenMenu(_menuText, "Are you ready to take your quiz?");
+			SystemMain.Drawing.DestroyTips();
+			SystemMain.Drawing.DrawInstruction(40, 560, " to continue", SystemMain.TexturePackage["A"], 3);
+			SystemMain.Drawing.DrawInstruction(40, 640, " to go back", SystemMain.TexturePackage["B"], 4);
 			
 		}
 
@@ -63,6 +64,7 @@ namespace XNASystem.Displays
 		{
 			SystemMain.GameSpriteBatch.Begin();
 			_menu.Draw();
+			SystemMain.Drawing.DrawHelpers();
 			SystemMain.GameSpriteBatch.End();
 		}
 		internal void ShowFinal()
@@ -82,10 +84,10 @@ namespace XNASystem.Displays
 					_menuStack.Push(new BreakOut.BreakOut(this, _level));
 					break;
 				case "DeathSquid":
-					_menuStack.Push(new Shooter.Shooter(this, _level));
+					_menuStack.Push(new ShooterGame.Shooter(this, _level));
 					break;
 				default:
-					_menuStack.Push(new Shooter.Shooter(this, _level));
+					_menuStack.Push(new ShooterGame.Shooter(this, _level));
 					break;
 			}
 			_level++;
