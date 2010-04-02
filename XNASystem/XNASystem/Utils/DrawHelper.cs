@@ -28,6 +28,11 @@ namespace XNASystem.Utils
 		private const int StandardSpeed = 10;
 		private const int GlobalOffset = 5;
 		public static String Debug = "";
+        private const float NoRotation = 0;
+        private const float ZeroLayerDepth = 0;
+        private const float InitialXPosition = 0;
+        private const float InitailYPosition = 0;
+        private const int ConvertTo90Degrees = 2;
 
 		public DrawHelper(SpriteBatch sb)
 		{
@@ -46,27 +51,27 @@ namespace XNASystem.Utils
 		public void DrawRectangle(int x, int y, int h, int w, Texture2D[] t)
 		{
 			// Upper Left
-			_sb.Draw(t[0], new Rectangle(x, y, 24, 24), Color.White);
+			_sb.Draw(t[0], new Rectangle(x, y, ButtonSideWidth, ButtonSideWidth), Color.White);
 			// Upper Right
-			_sb.Draw(t[0], new Rectangle(x + w, y, 24, 24), null, Color.White, 0, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0);
+            _sb.Draw(t[0], new Rectangle(x + w, y, ButtonSideWidth, ButtonSideWidth), null, Color.White, NoRotation, new Vector2(InitialXPosition, InitailYPosition), SpriteEffects.FlipHorizontally, ZeroLayerDepth);
 
 			// Lower Left
-			_sb.Draw(t[0], new Rectangle(x, y + h, 24, 24), null, Color.White, 0, new Vector2(0, 0), SpriteEffects.FlipVertically, 0);
+            _sb.Draw(t[0], new Rectangle(x, y + h, ButtonSideWidth, ButtonSideWidth), null, Color.White, NoRotation, new Vector2(InitialXPosition, InitailYPosition), SpriteEffects.FlipVertically, ZeroLayerDepth);
 			// Lower Right
-			_sb.Draw(t[0], new Rectangle(x + 24 + w, y + 24 + h, 24, 24), null, Color.White, (float)Math.PI, new Vector2(0, 0), SpriteEffects.None, 0);
+            _sb.Draw(t[0], new Rectangle(x + ButtonSideWidth + w, y + ButtonSideWidth + h, ButtonSideWidth, ButtonSideWidth), null, Color.White, (float)Math.PI, new Vector2(InitialXPosition, InitailYPosition), SpriteEffects.None, ZeroLayerDepth);
 
 			// Draw Fill
-			_sb.Draw(t[2], new Rectangle(x + 24, y + 24, w - 24, h - 24), Color.White);
+			_sb.Draw(t[2], new Rectangle(x + ButtonSideWidth, y + ButtonSideWidth, w - ButtonSideWidth, h - ButtonSideWidth), Color.White);
 
 			// Top Border
-			_sb.Draw(t[1], new Rectangle(x + 24, y, w - 24, 24), Color.White);
+			_sb.Draw(t[1], new Rectangle(x + ButtonSideWidth, y, w - ButtonSideWidth, ButtonSideWidth), Color.White);
 			// Bottom Border
-			_sb.Draw(t[1], new Rectangle(x + 24, y + h, w - 24, 24), null, Color.White, 0, new Vector2(0, 0), SpriteEffects.FlipVertically, 0);
+            _sb.Draw(t[1], new Rectangle(x + ButtonSideWidth, y + h, w - ButtonSideWidth, ButtonSideWidth), null, Color.White, NoRotation, new Vector2(InitialXPosition, InitailYPosition), SpriteEffects.FlipVertically, ZeroLayerDepth);
 
 			// Right Border
-			_sb.Draw(t[1], new Rectangle(x + 24 + w, y + 24, h - 24, 24), null, Color.White, (float)(Math.PI / 2), new Vector2(0, 0), SpriteEffects.None, 0);
+            _sb.Draw(t[1], new Rectangle(x + ButtonSideWidth + w, y + ButtonSideWidth, h - ButtonSideWidth, ButtonSideWidth), null, Color.White, (float)(Math.PI / ConvertTo90Degrees), new Vector2(InitialXPosition, InitailYPosition), SpriteEffects.None, ZeroLayerDepth);
 			// Left Border
-			_sb.Draw(t[1], new Rectangle(x + 24, y + 24, h - 24, 24), null, Color.White, (float)(Math.PI / 2), new Vector2(0, 0), SpriteEffects.FlipVertically, 0);
+            _sb.Draw(t[1], new Rectangle(x + ButtonSideWidth, y + ButtonSideWidth, h - ButtonSideWidth, ButtonSideWidth), null, Color.White, (float)(Math.PI / ConvertTo90Degrees), new Vector2(InitialXPosition, InitailYPosition), SpriteEffects.FlipVertically, ZeroLayerDepth);
 		}
 		public void SelectionGoTo(int x, int y, int width)
 		{
@@ -136,17 +141,12 @@ namespace XNASystem.Utils
 		}
 		private void DrawSelectionBox()
 		{
-			//_sb.Draw(t[1], new Rectangle(_xmin - ButtonSideWidth, height + ButtonOffset, ButtonSideWidth, ButtonWidth), Color.White);
-			//_sb.Draw(t[0], new Rectangle(_xmin, height + ButtonOffset, widthOfString, ButtonWidth), Color.White);
-			//_sb.Draw(t[2], new Rectangle(_xmin + widthOfString, height + ButtonOffset, ButtonSideWidth, ButtonWidth), Color.White);
-
 			_sb.Draw(SystemMain.TexturePackage["HilightLeft"], new Rectangle(_xmin - ButtonSideWidth, _selectionCurrentY + ButtonOffset, ButtonSideWidth, ButtonWidth), Color.White);
 			_sb.Draw(SystemMain.TexturePackage["HilightCenter"], new Rectangle(_xmin, _selectionCurrentY + ButtonOffset, _selectionCurrentWidth, ButtonWidth), Color.White);
 			_sb.Draw(SystemMain.TexturePackage["HilightRight"], new Rectangle(_xmin + _selectionCurrentWidth, _selectionCurrentY + ButtonOffset, ButtonSideWidth, ButtonWidth), Color.White);
 
 			_sb.DrawString(SystemMain.FontPackage["Main"], "" + _speed, new Vector2(100, 300), Color.Aquamarine);
 			_sb.DrawString(SystemMain.FontPackage["Main"], "" + (_selectionCurrentY + ButtonOffset), new Vector2(100, 400), Color.Aquamarine);
-			//_sb.DrawString(SystemMain.FontPackage[1], _selectionCurrentWidth + "," + _selectionFinalWidth,new Vector2(800,500), Color.White);
 		}
 
 		public void DrawTitleCentered(SpriteFont currentFont, string title)
