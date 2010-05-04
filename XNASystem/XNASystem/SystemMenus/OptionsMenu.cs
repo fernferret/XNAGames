@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using XNASystem.Interfaces;
 using XNASystem.Utils;
 
@@ -25,19 +27,21 @@ namespace XNASystem.SystemMenus
 
 		protected Stack<IScreen> _menuStack;	// the stack of menus accumulated in the program so far
 		protected SystemMain _systemMain;		// the instance of SystemMain that controls the whole system
-		public static String Game;
+		public static String Game = "DeathSquid";
 
 		public OptionsMenu(Stack<IScreen> stack, SystemMain main)
 		{
 			_menuStack = stack;
 			_systemMain = main;
 
-			_menuText = new List<string> {"Breakout", "DeathSquid", "Back"};
+			if (Game.Equals("DeathSquid"))
+				_menuText = new List<string> {"DeathSquid", "Breakout", "Back"};
+			else
+				_menuText = new List<string> {"Breakout", "DeathSquid", "Back"};
 			_menu = new ScreenMenu(_menuText, "Options");
 			SystemMain.Drawing.DestroyTips();
 			SystemMain.Drawing.DrawInstruction(40, 560, " to continue", SystemMain.TexturePackage["A"], 3);
 			SystemMain.Drawing.DrawInstruction(40, 640, " to go back", SystemMain.TexturePackage["B"], 3);
-
 		}
 
 		public void Update()
@@ -51,9 +55,23 @@ namespace XNASystem.SystemMenus
 					// return the new stack to main
 					_systemMain.SetStack(_menuStack);
 				}
-				else
+				else if (_menu.GetSelectedItem("DeathSquid"))
 				{
-					Game = _menu.GetSelectedItem(false);
+					Game = "DeathSquid";
+					//take this menu off the stack
+					_menuStack.Pop();
+
+					// return the new stack to main
+					_systemMain.SetStack(_menuStack);
+				}
+				else if(_menu.GetSelectedItem("Breakout"))
+				{
+					Game = "Breakout";
+					//take this menu off the stack
+					_menuStack.Pop();
+
+					// return the new stack to main
+					_systemMain.SetStack(_menuStack);
 				}
 			
 		}
@@ -61,6 +79,7 @@ namespace XNASystem.SystemMenus
 		public void Draw()
 		{
 			SystemMain.GameSpriteBatch.Begin();
+			SystemMain.GameSpriteBatch.DrawString(SystemMain.FontPackage["Main"],Game,new Vector2(100,100),Color.White);
 			_menu.Draw();
 			SystemMain.Drawing.DrawHelpers();
 			SystemMain.GameSpriteBatch.End();

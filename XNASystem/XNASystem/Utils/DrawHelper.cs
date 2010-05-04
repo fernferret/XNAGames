@@ -151,8 +151,10 @@ namespace XNASystem.Utils
 			_sb.Draw(SystemMain.TexturePackage["HilightCenter"], new Rectangle(_xmin, _selectionCurrentY + ButtonOffset, _selectionCurrentWidth, ButtonWidth), Color.White);
 			_sb.Draw(SystemMain.TexturePackage["HilightRight"], new Rectangle(_xmin + _selectionCurrentWidth, _selectionCurrentY + ButtonOffset, ButtonSideWidth, ButtonWidth), Color.White);
 
-			_sb.DrawString(SystemMain.FontPackage["Main"], "" + _speed, new Vector2(100, 300), Color.Aquamarine);
-			_sb.DrawString(SystemMain.FontPackage["Main"], "" + (_selectionCurrentY + ButtonOffset), new Vector2(100, 400), Color.Aquamarine);
+			// The following two lines show the speed the selection box is moving at and what the current offset is.  You should not need these unless you are extending
+			// this feature
+			//_sb.DrawString(SystemMain.FontPackage["Main"], "" + _speed, new Vector2(100, 300), Color.Aquamarine);
+			//_sb.DrawString(SystemMain.FontPackage["Main"], "" + (_selectionCurrentY + ButtonOffset), new Vector2(100, 400), Color.Aquamarine);
 		}
 
 		public void DrawTitleCentered(SpriteFont currentFont, string title)
@@ -184,12 +186,12 @@ namespace XNASystem.Utils
 			DrawSelection2(drawLocations[choice] + GlobalOffset, strings[choice], font);
 			foreach (var str in strings)
 			{
-
-
 				_sb.DrawString(font, str, new Vector2(_xmin, drawLocations[i]), Color.Aquamarine);
 				i++;
 			}
-			_sb.DrawString(font, drawLocations[0] + "", new Vector2(500, drawLocations[0]), Color.Aquamarine);
+
+
+			//_sb.DrawString(font, drawLocations[0] + "", new Vector2(500, drawLocations[0]), Color.Red);
 			return _spacingDanger;
 		}
 		public void AddHelpBox(Texture2D[] t, int x, int y, int width, int height)

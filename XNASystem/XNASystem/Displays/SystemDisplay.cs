@@ -105,7 +105,7 @@ namespace XNASystem.Displays
 			else
 			{
 				// TODO: Need to put a done with game screen here.
-				_menuStack.Pop();
+				//_menuStack.Pop();
 				_menuStack.Push(new QuizResultsDisplay(this, _scoreManager.GetCumulativeQuizScore(), false));
 				_systemMain.SetStack(_menuStack);
 

@@ -116,10 +116,11 @@ namespace XNASystem.Displays
 
 			//draw the menu options
 			//SystemMain.DrawHelper.DrawMenu(menuText, fonts[1]);
-			SystemMain.GameSpriteBatch.DrawString(SystemMain.FontPackage["Main"], "% Done: " + _currentQuiz.GetPercentDone(), new Vector2(400, 400), Color.Black);
-			SystemMain.GameSpriteBatch.DrawString(SystemMain.FontPackage["Main"], "Questions Left: " + _currentQuiz.GetQuestionsLeft(), new Vector2(400, 450), Color.Black);
-			SystemMain.GameSpriteBatch.DrawString(SystemMain.FontPackage["Main"], "Total Questions: " + _currentQuiz.GetTotalQuestionCount(), new Vector2(400, 500), Color.Black);
-			SystemMain.GameSpriteBatch.DrawString(SystemMain.FontPackage["Main"], "Current Score: " + _currentQuizScore.Percentage, new Vector2(400, 550), Color.Black);
+			var horizontalOffset = 800;
+			SystemMain.GameSpriteBatch.DrawString(SystemMain.FontPackage["Main"], "% Done: " + _currentQuiz.GetPercentDone(), new Vector2(horizontalOffset, 400), Color.White);
+			SystemMain.GameSpriteBatch.DrawString(SystemMain.FontPackage["Main"], "Questions Left: " + _currentQuiz.GetQuestionsLeft(), new Vector2(horizontalOffset, 450), Color.White);
+			SystemMain.GameSpriteBatch.DrawString(SystemMain.FontPackage["Main"], "Total Questions: " + _currentQuiz.GetTotalQuestionCount(), new Vector2(horizontalOffset, 500), Color.White);
+			SystemMain.GameSpriteBatch.DrawString(SystemMain.FontPackage["Main"], "Current Score: " + _currentQuizScore.Percentage, new Vector2(horizontalOffset, 550), Color.White);
 			SystemMain.Drawing.DrawHelpers();
 			SystemMain.GameSpriteBatch.End();
 		}
